@@ -105,7 +105,7 @@ const Reservation = () => {
             htmlFor="country"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            Country
+            Pais
           </label>
           <div className="mt-2">
             <select
@@ -129,7 +129,7 @@ const Reservation = () => {
             htmlFor="street-address"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            Street address
+            Direccion
           </label>
           <div className="mt-2">
             <input
@@ -147,7 +147,7 @@ const Reservation = () => {
             htmlFor="city"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            City
+            Ciudad
           </label>
           <div className="mt-2">
             <input
@@ -165,7 +165,7 @@ const Reservation = () => {
             htmlFor="region"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            State / Province
+            Provincia / Estado
           </label>
           <div className="mt-2">
             <input
@@ -183,7 +183,7 @@ const Reservation = () => {
             htmlFor="postal-code"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            ZIP / Postal code
+            Codigo Postal / ZIP
           </label>
           <div className="mt-2">
             <input
@@ -203,7 +203,7 @@ const Reservation = () => {
           </div>
         </div>
         <div className=" sm:col-span-6 mt-2" style={{margin:'auto'}}>
-          <button className=" mx-auto rounded-lg w-60 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600" type="submit">Reservar</button>
+          <button className=" mx-auto rounded-lg w-60 bg-[#152430] text-white py-2 px-4 rounded-md " type="submit">Reservar</button>
         </div>
       </form>      
     </div>
