@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios'
 import { useState } from "react";
 import PersonInput from "./Personinpurt";
 
@@ -33,6 +34,17 @@ const Reservation = () => {
   const handleAdultsChange = (value) => {
     setAdults(value);
   };
+
+  const FetchData = async ()=>{
+    try {
+     await axios.post('')
+    } catch (error) {
+      
+    }
+  }
+
+
+
 
   const handleChildrenChange = (value) => {
     setChildren(value);
