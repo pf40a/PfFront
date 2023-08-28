@@ -78,7 +78,7 @@ const Home = () => {
               <p class="text-lg italic text-white mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                 Sumérgete en el máximo lujo con nuestro dormitorio Gold. Una
                 experiencia de descanso que redefine la comodidad y la
-                sofisticación a.
+                sofisticación.
               </p>
               <button className="rounded-full shadow shadow-white/60 bg-neutral-600 py-2 px-3.5 text-sm capitalize text-white">
                 See More
