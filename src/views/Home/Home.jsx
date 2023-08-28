@@ -103,7 +103,7 @@ const Home = () => {
             <p className="text-lg font-semibold">Piscina</p>
             <p className="mt-2 text-sm break-words">
               Disfruta de un refrescante baño junto a la piscina. El lugar
-              perfecto para relajarte.
+              perfecto para relajarte 10.
             </p>
           </div>
         </div>
