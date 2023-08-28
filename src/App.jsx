@@ -6,6 +6,7 @@ import Navbar from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
 import ErroPage from './views/Error404/Error404'
 import Reservation from './components/ReservationForm/Reservation'
+import AirbnbCard from './components/Map/Map'
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -21,6 +22,7 @@ function App() {
     <Routes>
       <Route path="/error" element={<ErroPage/>}/>
       <Route path='/reserve' element={<Reservation/>}/>
+      <Route path='/' element={<AirbnbCard/>}/>
     </Routes>
     {showLayout && <Footer />}
     </>
