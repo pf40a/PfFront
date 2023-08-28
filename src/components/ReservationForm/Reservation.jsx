@@ -29,6 +29,13 @@ const Reservation = () => {
 
     setReserve(newReserve);
   }
+  const fetchData = ()=>{
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
 
   const handleAdultsChange = (value) => {
     setAdults(value);
