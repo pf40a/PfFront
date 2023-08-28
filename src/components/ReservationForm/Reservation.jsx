@@ -2,6 +2,7 @@ import React from "react";
 import axios from 'axios'
 import { useState } from "react";
 import PersonInput from "./Personinpurt";
+import { log } from "console";
 
 const Reservation = () => {
   const [adults, setAdults] = useState(0);
@@ -39,7 +40,7 @@ const Reservation = () => {
     try {
      await axios.post('')
     } catch (error) {
-      
+      console.log(error);
     }
   }
 
