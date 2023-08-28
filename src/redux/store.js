@@ -12,3 +12,5 @@ const store = createStore(
 );
 
 export default store;
+
+/// config unica
