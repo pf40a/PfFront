@@ -1,16 +1,16 @@
-import { createStore, applyMiddleware, compose } from "redux";
-import { reducer } from "./reducer";
+import { applyMiddleware, compose, createStore } from "redux";
 
-import thunkMiddleware from "redux-thunk";
-// Permite utilizar "REACT-REDUX":
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+import rootReducer from "./reducer";
+import thunk from "redux-thunk";
+
+const composeEnhancers =
+  (typeof window !== "undefined" &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
 
 const store = createStore(
-	reducer,
-	// Permite hacer peticiones asíncronas:
-	composeEnhancer(applyMiddleware(thunkMiddleware))
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 export default store;
-
-/// config unica
