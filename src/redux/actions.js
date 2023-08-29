@@ -3,6 +3,7 @@ export const DETAIL_ROOM = "DETAIL_ROOM";
 export const FILTER_ROOMS = "FILTER_ROOMS";
 export const TYPES_ROOMS = "TYPES_ROOMS";
 export const FILTER_TYPES_ROOMS = "FILTER_TYPES_ROOMS";
+export const ORDER_ROOMS = "ORDER_ROOMS"
 
 
 import axios from "axios";

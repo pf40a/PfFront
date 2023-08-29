@@ -53,7 +53,7 @@ export default function rootReducer(state = initialState, action) {
     case ORDER_ROOMS:
       const roomsOrder = [...state.allRooms];
       const order = action.payload;
-      const newRoomsOrder = [];
+      let newRoomsOrder = [];
       if (order === "price") {
         newRoomsOrder = roomsOrder.slice().sort((a, b) => a.precio - b.precio);
       } else if (order === "name") {
