@@ -1,8 +1,11 @@
+import { all } from "axios";
 import {
   SEARCH_ROOMS,
   DETAIL_ROOM,
   FILTER_ROOMS,
   ORDER_ROOMS,
+  TYPES_ROOMS,
+  FILTER_TYPES_ROOMS
 } from "./actions";
 
 const initialState = {
@@ -12,6 +15,8 @@ const initialState = {
   filters: [],
   order: "",
   search: { fechaIn: "", fechaOut: "", adultos: 2, niños: 0, bebes: 0 },
+  typesRooms:[],
+  allTypesRooms:[],
 }
 
 export default function rootReducer(state = initialState, action) {
@@ -67,6 +72,28 @@ export default function rootReducer(state = initialState, action) {
         rooms: [...newRoomsOrder],
         order: action.payload,
       }
+
+case TYPES_ROOMS:
+      return {
+        ...state,
+        typesRooms: [...action.payload],
+        allTypesRooms: [...action.payload]
+      };
+
+      case FILTER_TYPES_ROOMS:
+        const typesRoomsFilter = [...state.allTypesRooms];
+        const filterTypes = action.payload;
+        
+//filtramos los tipos de habitaciones donde subTipo sea igual al filterTypes
+        const newTypesRooms = typesRoomsFilter.filter((room) => {
+          return room.subTipo === filterTypes
+        }
+        );
+
+        return {
+          ...state,
+          typesRooms: [...newTypesRooms],
+        }
 
 
     default:
