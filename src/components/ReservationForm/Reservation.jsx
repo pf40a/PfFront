@@ -1,20 +1,35 @@
 import React from "react";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import PersonInput from "./Personinpurt";
+import axios from 'axios'
+import { useNavigate } from "react-router-dom";
+
 
 const Reservation = () => {
+  const navigate = useNavigate();
   const [adults, setAdults] = useState(0);
   const [children, setChildren] = useState(0);
   const [reserve , setReserve] = useState({})
 
-  const handleSubmit = (event)=>{
+  const handleAdultsChange = (value) => {
+    setAdults(value);
+  };
+
+  const handleChildrenChange = (value) => {
+    setChildren(value);
+  };
+
+  const handleSubmit = async (event)=>{
     event.preventDefault(); // Evita que el formulario se envíe
     const formData = new FormData(event.target);
 
     const newReserve = {
       firstName: formData.get("first-name"),
       lastName: formData.get("last-name"),
-      dni: formData.get("dni"),
+      dni: formData.get("dni").toString(),
+      type: formData.get("DniOrPassaport"),
+      telephone:formData.get("telephone"),
+      nacimiento:formData.get("nacimiento"),
       email: formData.get("email"),
       country: formData.get("country"),
       streetAddress: formData.get("street-address"),
@@ -26,25 +41,59 @@ const Reservation = () => {
       adults,
       children,
     };
-
     setReserve(newReserve);
-  }
-  const fetchData = ()=>{
-    try {
-      
-    } catch (error) {
-      
-    }
-  }
 
-  const handleAdultsChange = (value) => {
-    setAdults(value);
-  };
+  }
+  
+  useEffect(() => {
+    const submitReserve = async () => {
+      if (!reserve.dni) return; // No hacer solicitudes si dni está vacío
 
-  const handleChildrenChange = (value) => {
-    setChildren(value);
-  };
-  console.log(reserve);
+      try {
+        await axios.get(`http://localhost:3001/hotel/clientes/${reserve.dni}`);
+        console.log("Cliente existente");
+      } catch (error) {
+        console.log("Cliente no encontrado. Creando cliente...");
+
+        try {
+          const createClientResponse = await axios.post('http://localhost:3001/hotel/clientes', {
+          "email": reserve.email,
+          "nombre": reserve. firstName,
+          "apellidos": reserve. lastName,
+          "tipo_Documento": reserve.type,
+          "doc_Identidad": reserve.dni,
+          "fechaNacimiento": reserve.nacimiento,
+          "pais": reserve.country,
+          "ciudad": reserve.city,
+          "nroCelular": reserve.telephone,
+          "direccion": reserve.streetAddress
+          });
+          console.log("Cliente creado:", createClientResponse.data);
+        } catch (error) {
+          console.log("Error al crear el cliente:", error.response);
+          navigate(`/error?message=${encodeURIComponent("Hubo un problema en tu formulario")}`);
+        }
+      }
+
+      try {
+        await axios.post('http://localhost:3001/hotel/reservas', {
+          "fechaIngreso": reserve.ingreso,
+          "fechaSalida": reserve.egreso,
+          "adultos": reserve.adults,
+          "ninos": reserve.children,
+          "pago_Estado": "Pending",
+          "UsuarioId": "95422ad2-5bb3-47c4-9670-e3033dbcfc47",
+          "ClienteDocIdentidad": reserve.dni
+        });
+        console.log("Reserva creada");
+      } catch (error) {
+        console.log("Error al crear la reserva:", error);
+      }
+    };
+
+    submitReserve();
+  }, [reserve]);
+  console.log(reserve.dni, reserve.lastName);
   return (
     <div className="border-b border-gray-900/10 p-10 pb-12">
       <h2 className="text-4xl text-base  font-semibold leading-7 text-gray-900">
@@ -91,6 +140,8 @@ const Reservation = () => {
             />
           </div>
         </div>
+
+        
         <div className="sm:col-span-3">
           <label
             htmlFor="first-name"
@@ -109,6 +160,44 @@ const Reservation = () => {
           </div>
         </div>
 
+        <div className="sm:col-span-3">
+          <label
+            htmlFor="country"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Selecciona tu tipo de documento
+          </label>
+          <div className="mt-2">
+            <select
+              id="DniOrPassaport"
+              name="DniOrPassaport"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+            >
+              <option>DNI</option>
+              <option>Pasaporte</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="sm:col-span-3">
+          <label
+            htmlFor="first-name"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Numero de telefono
+          </label>
+          <div className="mt-2">
+            <input
+              type="text"
+              name="telephone"
+              id="telephone"
+              autoComplete="number"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+        
+
         <div className="sm:col-span-4">
           <label
             htmlFor="email"
@@ -122,6 +211,22 @@ const Reservation = () => {
               name="email"
               type="email"
               autoComplete="email"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+        <div className="sm:col-span-2">
+          <label
+            htmlFor="region"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Fecha de nacimiento
+          </label>
+          <div className="mt-2">
+            <input
+              type="date"
+              name="nacimiento"
+              id="nacimiento"
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
