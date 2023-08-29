@@ -58,21 +58,21 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center  m-16">
-        <p className="text-center text-4xl font-semibold font-serif">
+      <div className=" flex flex-col items-center justify-center  m-16">
+        <p className="font-mono text-center text-5xl font-semibold font-serif">
           Nuestros Servicios
         </p>
-        <p className="mt-3 text-center text-lg font-serif text-gray-800">
+        <p className="font-sans md:system-ui mt-3 text-center text-lg font-serif text-gray-800">
           Oasis Hotel te ofrece todos los servicios que necesitas.
         </p>
       </div>
 
-      <div className="w-4/5 mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 place-content-center">
+      <div className="font-sans w-4/5 mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 place-content-center">
         <div className="flex flex-col items-center justify-center w-full h-full text-center">
           <img src={pool} alt="Piscina" className="w-15 h-15 mb-2 mx-auto" />
           <div className="flex flex-col items-center w-48">
             <p className="text-lg font-semibold">Piscina</p>
-            <p className="mt-2 text-sm break-words">
+            <p className="font-sans md:system-ui mt-2 text-sm break-words">
               Disfruta de un refrescante baño junto a la piscina. El lugar
               perfecto para relajarte.
             </p>

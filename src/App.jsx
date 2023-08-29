@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import ErroPage from "./views/Error404/Error404";
 import Reservation from "./components/ReservationForm/Reservation";
+import Sidebar from "./views/DashBoard/DashBoard";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -14,7 +15,7 @@ function App() {
   // Verificar la ruta actual y decidir si mostrar el diseño completo o no
   useEffect(() => {
     const currentPath = window.location.pathname;
-    setShowLayout(currentPath !== "/error" && currentPath !== "/reserve");
+    setShowLayout(currentPath !== "/error" && currentPath !== "/reserve" && currentPath !== "/Dashboard" );
   }, []);
   return (
     <>
@@ -23,6 +24,8 @@ function App() {
         <Route path="/error" element={<ErroPage />} />
         <Route exact path="/" element={<Home />} />
         <Route path="/reserve" element={<Reservation />} />
+        <Route path="/Dashboard" element={<Sidebar/>}/>
+        <Route path="*" element={<ErroPage/>}/>
       </Routes>
       {showLayout && <Footer />}
     </>
