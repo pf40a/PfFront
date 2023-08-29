@@ -46,11 +46,11 @@ export const orderRoom = (order) => {
   };
 };
 
-export const typesRooms = () => {
-  return async (dispatch) => {
+export const allTypesRooms = () => {
+    return async (dispatch) => {
     try {
-      let response = await axios.get("http://localhost:3001/hotel/habitaciones/detalle", search);
-      let data = response.data;
+      let response = await axios.get("http://localhost:3001/hotel/habitaciones/detalle");
+      let data = response.data.data;
       //console.log('data',data)
       return dispatch({
         type: "TYPES_ROOMS",
