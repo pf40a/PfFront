@@ -1,18 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import "./App.css";
+import { Route } from "react-router-dom";
+import { Routes } from "react-router-dom";
+import Home from "./views/Home/Home";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
+import ErroPage from "./views/Error404/Error404";
+import Reservation from "./components/ReservationForm/Reservation";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [showLayout, setShowLayout] = useState(true);
 
+  // Verificar la ruta actual y decidir si mostrar el diseño completo o no
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    setShowLayout(currentPath !== "/error" && currentPath !== "/reserve");
+  }, []);
   return (
     <>
-    <h1 className="text-3xl font-bold underline">
-      OASIS  HOTEL
-    </h1>
+      {showLayout && <Navbar />}
+      <Routes>
+        <Route path="/error" element={<ErroPage />} />
+        <Route exact path="/" element={<Home />} />
+        <Route path="/reserve" element={<Reservation />} />
+      </Routes>
+      {showLayout && <Footer />}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
