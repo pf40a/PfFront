@@ -1,15 +1,30 @@
 import React from "react";
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import PersonInput from "./Personinpurt";
-import axios from 'axios'
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { validate } from "./validation";
 
 const Reservation = () => {
   const navigate = useNavigate();
   const [adults, setAdults] = useState(0);
   const [children, setChildren] = useState(0);
-  const [reserve , setReserve] = useState({})
+  const [reserve, setReserve] = useState({});
+  const [formErrors, setFormErrors] = useState({});
+
+  const handleInputChange = (event, fieldName) => {
+    const newValue = event.target.value;
+    const formDataCopy = new FormData(event.target.form);
+    formDataCopy.set(fieldName, newValue);
+
+    const updatedInputs = Object.fromEntries(formDataCopy.entries());
+    const updatedErrors = validate(updatedInputs);
+
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [fieldName]: updatedErrors[fieldName],
+    }));
+  };
 
   const handleAdultsChange = (value) => {
     setAdults(value);
@@ -19,7 +34,7 @@ const Reservation = () => {
     setChildren(value);
   };
 
-  const handleSubmit = async (event)=>{
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Evita que el formulario se envíe
     const formData = new FormData(event.target);
 
@@ -28,8 +43,8 @@ const Reservation = () => {
       lastName: formData.get("last-name"),
       dni: formData.get("dni").toString(),
       type: formData.get("DniOrPassaport"),
-      telephone:formData.get("telephone"),
-      nacimiento:formData.get("nacimiento"),
+      telephone: formData.get("telephone"),
+      nacimiento: formData.get("nacimiento"),
       email: formData.get("email"),
       country: formData.get("country"),
       streetAddress: formData.get("street-address"),
@@ -37,14 +52,13 @@ const Reservation = () => {
       region: formData.get("region"),
       postalCode: formData.get("postal-code"),
       ingreso: formData.get("ingreso"),
-      egreso:formData.get("egreso"),
+      egreso: formData.get("egreso"),
       adults,
       children,
     };
     setReserve(newReserve);
+  };
 
-  }
-  
   useEffect(() => {
     const submitReserve = async () => {
       if (!reserve.dni) return; // No hacer solicitudes si dni está vacío
@@ -56,34 +70,41 @@ const Reservation = () => {
         console.log("Cliente no encontrado. Creando cliente...");
 
         try {
-          const createClientResponse = await axios.post('http://localhost:3001/hotel/clientes', {
-          "email": reserve.email,
-          "nombre": reserve. firstName,
-          "apellidos": reserve. lastName,
-          "tipo_Documento": reserve.type,
-          "doc_Identidad": reserve.dni,
-          "fechaNacimiento": reserve.nacimiento,
-          "pais": reserve.country,
-          "ciudad": reserve.city,
-          "nroCelular": reserve.telephone,
-          "direccion": reserve.streetAddress
-          });
+          const createClientResponse = await axios.post(
+            "http://localhost:3001/hotel/clientes",
+            {
+              email: reserve.email,
+              nombre: reserve.firstName,
+              apellidos: reserve.lastName,
+              tipo_Documento: reserve.type,
+              doc_Identidad: reserve.dni,
+              fechaNacimiento: reserve.nacimiento,
+              pais: reserve.country,
+              ciudad: reserve.city,
+              nroCelular: reserve.telephone,
+              direccion: reserve.streetAddress,
+            }
+          );
           console.log("Cliente creado:", createClientResponse.data);
         } catch (error) {
           console.log("Error al crear el cliente:", error.response);
-          navigate(`/error?message=${encodeURIComponent("Hubo un problema en tu formulario")}`);
+          navigate(
+            `/error?message=${encodeURIComponent(
+              "Hubo un problema en tu formulario"
+            )}`
+          );
         }
       }
 
       try {
-        await axios.post('http://localhost:3001/hotel/reservas', {
-          "fechaIngreso": reserve.ingreso,
-          "fechaSalida": reserve.egreso,
-          "adultos": reserve.adults,
-          "ninos": reserve.children,
-          "pago_Estado": "Pending",
-          "UsuarioId": "95422ad2-5bb3-47c4-9670-e3033dbcfc47",
-          "ClienteDocIdentidad": reserve.dni
+        await axios.post("http://localhost:3001/hotel/reservas", {
+          fechaIngreso: reserve.ingreso,
+          fechaSalida: reserve.egreso,
+          adultos: reserve.adults,
+          ninos: reserve.children,
+          pago_Estado: "Pending",
+          UsuarioId: "95422ad2-5bb3-47c4-9670-e3033dbcfc47",
+          ClienteDocIdentidad: reserve.dni,
         });
         console.log("Reserva creada");
       } catch (error) {
@@ -104,7 +125,10 @@ const Reservation = () => {
         Check-out
       </p>
 
-      <form onSubmit={handleSubmit} className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+      <form
+        onSubmit={handleSubmit}
+        className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
+      >
         <div className="sm:col-span-3">
           <label
             htmlFor="first-name"
@@ -117,10 +141,14 @@ const Reservation = () => {
               type="text"
               name="first-name"
               id="first-name"
+              onChange={(event) => handleInputChange(event, "first-name")}
               autoComplete="given-name"
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
+          {formErrors["first-name"] && (
+            <p className="text-red-500">{formErrors["first-name"]}</p>
+          )}
         </div>
 
         <div className="sm:col-span-3">
@@ -135,13 +163,16 @@ const Reservation = () => {
               type="text"
               name="last-name"
               id="last-name"
+              onChange={(event) => handleInputChange(event, "last-name")}
               autoComplete="family-name"
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
+          {formErrors["last-name"] && (
+            <p className="text-red-500">{formErrors["last-name"]}</p>
+          )}
         </div>
 
-        
         <div className="sm:col-span-3">
           <label
             htmlFor="first-name"
@@ -154,10 +185,14 @@ const Reservation = () => {
               type="text"
               name="dni"
               id="dni"
+              onChange={(event) => handleInputChange(event, "dni")}
               autoComplete="number"
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
+          {formErrors["dni"] && (
+            <p className="text-red-500">{formErrors["dni"]}</p>
+          )}
         </div>
 
         <div className="sm:col-span-3">
@@ -191,12 +226,15 @@ const Reservation = () => {
               type="text"
               name="telephone"
               id="telephone"
+              onChange={(event) => handleInputChange(event, "telephone")}
               autoComplete="number"
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
+          {formErrors["telephone"] && (
+            <p className="text-red-500">{formErrors["telephone"]}</p>
+          )}
         </div>
-        
 
         <div className="sm:col-span-4">
           <label
@@ -210,10 +248,14 @@ const Reservation = () => {
               id="email"
               name="email"
               type="email"
+              onChange={(event) => handleInputChange(event, "email")}
               autoComplete="email"
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
+          {formErrors["email"] && (
+            <p className="text-red-500">{formErrors["email"]}</p>
+          )}
         </div>
         <div className="sm:col-span-2">
           <label
@@ -230,6 +272,9 @@ const Reservation = () => {
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
+          {formErrors["nacimiento"] && (
+            <p className="text-red-500">{formErrors["nacimiento"]}</p>
+          )}
         </div>
 
         <div className="sm:col-span-3">
@@ -361,7 +406,7 @@ const Reservation = () => {
             />
           </div>
         </div>
-        
+
         <div>
           <h1 className="text-2xl font-semibold mb-4">Agrega personas</h1>
           <div className="flex gap-4">
@@ -369,10 +414,15 @@ const Reservation = () => {
             <PersonInput label="Niños" onChange={handleChildrenChange} />
           </div>
         </div>
-        <div className=" sm:col-span-6 mt-2" style={{margin:'auto'}}>
-          <button className=" mx-auto rounded-lg w-60 bg-[#152430] text-white py-2 px-4 rounded-md " type="submit">Reservar</button>
+        <div className=" sm:col-span-6 mt-2" style={{ margin: "auto" }}>
+          <button
+            className=" mx-auto rounded-lg w-60 bg-[#152430] text-white py-2 px-4 rounded-md "
+            type="submit"
+          >
+            Reservar
+          </button>
         </div>
-      </form>      
+      </form>
     </div>
   );
 };

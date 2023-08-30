@@ -6,13 +6,9 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const navegacionAdmin = [
-  { name: "Tablero", href: "/Dashboard", current: true },
+  { name: "Dashboard", href: "/Dashboard", current: true },
   { name: "Reservas", href: "/Reservations", current: false },
   { name: "Calendario", href: "/git", current: false },
-];
-const navegacionInvitado = [
-  { name: "Iniciar sesión", href: "/login", current: true },
-  { name: "Registrarse", href: "/register", current: false },
 ];
 
 const navegacionUsuario = [
@@ -24,9 +20,11 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Establece esto según el estado de inicio de sesión del usuario
-  const [isAdmin, setIsAdmin] = useState(true); // Establece esto según el rol del usuario
-  const [loggedOut, setloggedOut] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Establece esto según el estado de inicio de sesión del usuario
+  const [isAdmin, setIsAdmin] = useState(false); // Establece esto según el rol del usuario
+  const [loggedOut, setloggedOut] = useState(true); // si no hay nadie registrado en true
+
+
 
   const navegacion = isAdmin ? navegacionAdmin : navegacionUsuario;
   return (
@@ -59,8 +57,8 @@ const Navbar = () => {
                 </NavLink>
                 {isLoggedIn ? (
                   <div
-                    className="flex items-center justify-center hidden sm:ml-6 sm:block"
-                    style={{ display: "flex" }}
+                    className="hidden sm:ml-6 sm:block"
+                    style={{margin:"auto"}}
                   >
                     <div className="flex space-x-4">
                       {navegacion.map((item) => (

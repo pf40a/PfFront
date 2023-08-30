@@ -2,13 +2,13 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-neutral-100 text-center text-neutral-600 dark:bg-neutral-600 dark:text-neutral-200 lg:text-left">
+    <footer className="bg-[#152340] text-neutral-200 text-center dark:bg-gray-900 lg:text-left">
       <div className="flex items-center justify-center border-b-2 border-neutral-200 p-6 dark:border-neutral-500 lg:justify-between">
         <div className="mr-12 hidden lg:block">
           <span>Conéctate con nosotros en redes sociales:</span>
         </div>
         <div className="flex justify-center">
-          <a className="mr-6 text-neutral-600 dark:text-neutral-200">
+          <a className="mr-6 text-white dark:text-neutral-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -18,7 +18,7 @@ const Footer = () => {
               <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
             </svg>
           </a>
-          <a className="mr-6 text-neutral-600 dark:text-neutral-200">
+          <a className="mr-6 text-white dark:text-neutral-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -52,23 +52,23 @@ const Footer = () => {
               exquisitas experiencias gastronómicas, lo tenemos todo.
             </p>
           </div>
-          <div className="">
+          <div className="text-white">
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Alojamiento
             </h6>
             <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">
+              <a className="text-white dark:text-neutral-200">
                 Habitaciones
               </a>
             </p>
             <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">Suites</a>
+              <a className="text-white dark:text-neutral-200">Suites</a>
             </p>
             <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">Villas</a>
+              <a className="text-white dark:text-neutral-200">Villas</a>
             </p>
             <p>
-              <a className="text-neutral-600 dark:text-neutral-200">Reservas</a>
+              <a className="text-white dark:text-neutral-200">Reservas</a>
             </p>
           </div>
           <div className="">
@@ -76,20 +76,20 @@ const Footer = () => {
               Explora
             </h6>
             <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">
+              <a className="text-white dark:text-neutral-200">
                 Actividades
               </a>
             </p>
             <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">
+              <a className="text-white dark:text-neutral-200">
                 Restaurantes
               </a>
             </p>
             <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">Eventos</a>
+              <a className="text-white dark:text-neutral-200">Eventos</a>
             </p>
             <p>
-              <a className="text-neutral-600 dark:text-neutral-200">Galería</a>
+              <a className="text-white dark:text-neutral-200">Galería</a>
             </p>
           </div>
           <div>
