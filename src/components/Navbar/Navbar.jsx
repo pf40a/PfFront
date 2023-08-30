@@ -81,12 +81,13 @@ const Navbar = () => {
                 )}
               </div>
               <div
-                className={`flex sm:ml-6 ${
+                className={`flex items-center sm:ml-6 ${
                   loggedOut ? "visible" : "invisible"
                 }`}
                 style={{ gap: "10px" }}
               >
                 <h2 className="text-white">Registrarse</h2>
+                <div className="bg-white w-1 h-8 "></div>
                 <h2 className="text-white">Login</h2>
               </div>
               {isLoggedIn && (

@@ -12,6 +12,7 @@ import DetailsRooms from "./views/Details/Details";
 
 import RegistrationForm from "./views/Registrar/Registrar";
 import AboutUs from "./views/AboutUs/AboutUs";
+import PaymenView from "./components/Payment/PaymenView";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
