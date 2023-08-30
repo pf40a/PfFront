@@ -4,6 +4,7 @@ import wifi from "../../assets/imgHome/wifi.png";
 import taxi from "../../assets/imgHome/taxi.png";
 import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
+import SearchBox from "../../components/SearchBox/SearchBox";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -26,6 +27,10 @@ const Home = () => {
           className="w-full h-full object-cover"
         />
       </div>
+<div className="flex">
+  <SearchBox />
+</div>
+      
 
       <div className="flex mt-36 items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-40">
@@ -55,7 +60,10 @@ const Home = () => {
               </div>
             </div>
           ))}
+
+         
         </div>
+        
       </div>
 
       <div className=" flex flex-col items-center justify-center  m-16">

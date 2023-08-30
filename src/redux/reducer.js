@@ -15,7 +15,7 @@ const initialState = {
   filters: [],
   order: "",
   search: { fechaIn: "", fechaOut: "", adultos: 2, niños: 0, bebes: 0 },
-  typesRooms:[],
+  typesRooms:['uno','dos'],
   allTypesRooms:[],
 }
 

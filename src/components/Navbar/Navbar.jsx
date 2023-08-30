@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import { NavLink } from "react-router-dom";
 import { Fragment } from "react";
 import { useState } from "react";
@@ -22,9 +22,7 @@ function classNames(...classes) {
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Establece esto según el estado de inicio de sesión del usuario
   const [isAdmin, setIsAdmin] = useState(false); // Establece esto según el rol del usuario
-  const [loggedOut, setloggedOut] = useState(true); // si no hay nadie registrado en true
-
-
+  const [loggedOut, setloggedOut] = useState(true);
 
   const navegacion = isAdmin ? navegacionAdmin : navegacionUsuario;
   return (
