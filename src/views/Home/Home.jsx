@@ -6,6 +6,7 @@ import taxi from "../../assets/imgHome/taxi.png";
 import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
+import AboutUs from "../AboutUs/AboutUs";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -120,6 +121,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <AboutUs/>
     </div>
   );
 };

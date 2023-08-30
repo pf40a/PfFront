@@ -17,7 +17,7 @@ const AboutUs = () => {
   });
 
   return (
-    <div >
+    <div className="mt-20">
       {/* <h1 className={styles["heading"]}>About Us - Oasis Hotel</h1>
       <p className={styles["text"]}>
         Welcome to Oasis Hotel! We are dedicated to providing a memorable and
@@ -54,9 +54,9 @@ const AboutUs = () => {
           <Marker position={position} icon={markerIcon} />
         </MapContainer>
       </div> */}
-                    <h1 className="text-center text-2xl text-gray-900 font-bold md:text-4xl">
-                About Us - Oasis Hotel
-              </h1>
+      <h1 className="text-center text-2xl text-gray-900 font-bold md:text-4xl">
+        Oasis Hotel
+      </h1>
       <div className="py-16 bg-white">
         <div className="container m-auto px-6 text-gray-600 md:px-12 xl:px-6">
           <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
