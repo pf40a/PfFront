@@ -66,11 +66,11 @@ const Home = () => {
         
       </div>
 
-      <div className=" flex flex-col items-center justify-center  m-16">
-        <p className="font-mono text-center text-5xl font-semibold font-serif">
+      <div className="  flex flex-col items-center justify-center  m-16">
+        <p className="font-sans text-center text-6xl font-semibold ">
           Nuestros Servicios
         </p>
-        <p className="font-sans md:system-ui mt-3 text-center text-lg font-serif text-gray-800">
+        <p className="font-sans md:system-ui mt-3 text-center text-lg  text-gray-800">
           Oasis Hotel te ofrece todos los servicios que necesitas.
         </p>
       </div>

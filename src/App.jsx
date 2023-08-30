@@ -11,6 +11,7 @@ import Sidebar from "./views/DashBoard/DashBoard";
 
 import RegistrationForm from "./views/Registrar/Registrar";
 import AboutUs from "./views/AboutUs/AboutUs";
+import PaymenView from "./components/Payment/PaymenView";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -18,7 +19,7 @@ function App() {
   // Verificar la ruta actual y decidir si mostrar el diseño completo o no
   useEffect(() => {
     const currentPath = window.location.pathname;
-    setShowLayout(currentPath !== "/error" && currentPath !== "/reserve" && currentPath !== "/registrar" && currentPath !== "/Dashboard" );
+    setShowLayout(currentPath !== "/error" && currentPath !== "/reserve" && currentPath !== "/registrar" && currentPath !== "/Dashboard" && currentPath !== "/payment" );
   }, []);
   return (
     <>
@@ -30,6 +31,7 @@ function App() {
         <Route path="/Dashboard" element={<Sidebar/>}/>
         <Route path="/registrar" element={<RegistrationForm/>}/>
         <Route path="/about" element={<AboutUs/>}/>
+        <Route path="/payment" element={<PaymenView/>}/>
         <Route path="*" element={<ErroPage/>}/>
       </Routes>
       {showLayout && <Footer />}
