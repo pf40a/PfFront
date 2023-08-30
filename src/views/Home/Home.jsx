@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import pool from "../../assets/imgHome/pool.png";
 import wifi from "../../assets/imgHome/wifi.png";
 import taxi from "../../assets/imgHome/taxi.png";
@@ -27,10 +28,9 @@ const Home = () => {
           className="w-full h-full object-cover"
         />
       </div>
-<div className="flex">
-  <SearchBox />
-</div>
-      
+      <div className="flex">
+        <SearchBox />
+      </div>
 
       <div className="flex mt-36 items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-40">
@@ -55,32 +55,29 @@ const Home = () => {
                   {item.descripcion}
                 </p>
                 <button className="rounded-full shadow shadow-white/60 bg-neutral-500 py-2 px-3.5 text-sm capitalize text-white">
-                  ver más
+                  <Link to={`/details/${item.subTipo}`}>Ver más</Link>
                 </button>
               </div>
             </div>
           ))}
-
-         
         </div>
-        
       </div>
 
-      <div className=" flex flex-col items-center justify-center  m-16">
-        <p className="font-mono text-center text-5xl font-semibold font-serif">
+      <div className="flex flex-col items-center justify-center  m-16">
+        <p className="text-center text-4xl font-semibold font-serif">
           Nuestros Servicios
         </p>
-        <p className="font-sans md:system-ui mt-3 text-center text-lg font-serif text-gray-800">
+        <p className="mt-3 text-center text-lg font-serif text-gray-800">
           Oasis Hotel te ofrece todos los servicios que necesitas.
         </p>
       </div>
 
-      <div className="font-sans w-4/5 mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 place-content-center">
+      <div className="w-4/5 mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 place-content-center">
         <div className="flex flex-col items-center justify-center w-full h-full text-center">
           <img src={pool} alt="Piscina" className="w-15 h-15 mb-2 mx-auto" />
           <div className="flex flex-col items-center w-48">
             <p className="text-lg font-semibold">Piscina</p>
-            <p className="font-sans md:system-ui mt-2 text-sm break-words">
+            <p className="mt-2 text-sm break-words">
               Disfruta de un refrescante baño junto a la piscina. El lugar
               perfecto para relajarte.
             </p>
