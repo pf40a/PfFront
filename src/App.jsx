@@ -10,6 +10,7 @@ import Reservation from "./components/ReservationForm/Reservation";
 import Sidebar from "./views/DashBoard/DashBoard";
 
 import RegistrationForm from "./views/Registrar/Registrar";
+import AboutUs from "./views/AboutUs/AboutUs";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -28,6 +29,7 @@ function App() {
         <Route path="/reserve" element={<Reservation />} />
         <Route path="/Dashboard" element={<Sidebar/>}/>
         <Route path="/registrar" element={<RegistrationForm/>}/>
+        <Route path="/about" element={<AboutUs/>}/>
         <Route path="*" element={<ErroPage/>}/>
       </Routes>
       {showLayout && <Footer />}
