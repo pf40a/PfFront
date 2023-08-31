@@ -1,9 +1,10 @@
 import React, { useEffect , useState } from 'react'
 import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux';
 
 const PaymenView = () => {
     const [roomData, setRoomData] = useState({})
-
+    const typesRoom = useSelector((state) => state.typesRoom);  
     
     useEffect(() => {
         // Este código se ejecuta después de cada renderizado
@@ -31,6 +32,7 @@ const PaymenView = () => {
         reviewCount: 34,
         rating: 4,
       };
+      console.log(typesRoom);
   return (
     <div className=" mx-auto max-w-sm border border-gray-300 rounded-lg overflow-hidden">
       <img src={roomData.image} alt={property.imageAlt} />
