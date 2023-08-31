@@ -11,8 +11,10 @@ import ErroPage from "./views/Error404/Error404";
 import Reservation from "./components/ReservationForm/Reservation";
 import Sidebar from "./views/DashBoard/DashBoard";
 import DetailsRooms from "./views/Details/Details";
-import RegistrationForm from "./views/Registrar/Registrar";
+
+import RegistrationForm from "./views/Login/Registrar";
 import AboutUs from "./views/AboutUs/AboutUs";
+import LoginForm from "./views/Login/Login";
 import PaymenView from "./components/Payment/PaymenView";
 import { allTypesRooms } from "./redux/actions";
 import SearchRoom from "./components/SearchComponent/SearchRoom";
@@ -50,6 +52,7 @@ function App() {
       currentPath !== "/error" &&
         currentPath !== "/reserve" &&
         currentPath !== "/registrar" &&
+        currentPath !== "/login" &&
         currentPath !== "/dashboard" &&
         currentPath !== "/search"
 
@@ -73,6 +76,7 @@ function App() {
         <Route path="/registrar" element={<RegistrationForm />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/payment" element={<PaymenView/>}/>
+        <Route path="/login" element={<LoginForm/>}/>
         <Route path="*" element={<ErroPage />} />
         <Route path="/search" element={<SearchRoom/>}/>
       </Routes>

@@ -7,6 +7,8 @@ import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
+import Rooms from "../../components/Rooms/Rooms";
+import Room from "../../components/Room/Room";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -121,7 +123,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <AboutUs/>
+      <AboutUs />
     </div>
   );
 };
