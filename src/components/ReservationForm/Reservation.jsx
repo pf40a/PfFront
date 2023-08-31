@@ -118,10 +118,10 @@ const Reservation = () => {
   console.log(reserve.dni, reserve.lastName);
   return (
     <div className="border-b border-gray-900/10 p-10 pb-12">
-      <h2 className="text-4xl text-base  font-semibold leading-7 text-gray-900">
+      <h2 className="text-4xl   font-semibold leading-7 text-gray-900">
         Informacion del Titular de la reserva
       </h2>
-      <p className="mt-1 text-2xl text-sm leading-6 text-gray-600">
+      <p className="mt-1 text-2xl  leading-6 text-gray-600">
         Usar la informacion de la persona que vaya a hacer el Check - In y el
         Check-out
       </p>
@@ -417,7 +417,7 @@ const Reservation = () => {
         </div>
         <div className=" sm:col-span-6 mt-2" style={{ margin: "auto" }}>
           <button
-            className=" mx-auto rounded-lg w-60 bg-[#152430] text-white py-2 px-4 rounded-md "
+            className=" mx-auto rounded-lg w-60 bg-[#152430] text-white py-2 px-4  "
             type="submit"
           >
             Reservar
