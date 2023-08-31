@@ -10,7 +10,7 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
-import Cards from "../Map/Map";
+//import Cards from "../Map/Map";
 
 const sortOptions = [
   { name: "Jacuzzi", href: "#", current: true },
@@ -267,8 +267,8 @@ const SearchRoom = () => {
               <img src="https://images.unsplash.com/photo-1650967123062-3de70b7bf331?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="" />
               {/* Product grid */}
               <div className="lg:col-span-3">{/* Your content */}
-              <Cards/>
-              <img src="https://images.unsplash.com/photo-1535205148555-bcbbc2a78913?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="" />
+              {/* <Cards/>
+              <img src="https://images.unsplash.com/photo-1535205148555-bcbbc2a78913?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="" /> */}
               </div>
             </div>
           </section>
@@ -278,3 +278,5 @@ const SearchRoom = () => {
     </>
   );
 };
+
+export default SearchRoom
