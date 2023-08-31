@@ -107,6 +107,7 @@ const Reservation = () => {
           ClienteDocIdentidad: reserve.dni,
         });
         console.log("Reserva creada");
+        window.alert('reserva creada')
       } catch (error) {
         console.log("Error al crear la reserva:", error);
       }
