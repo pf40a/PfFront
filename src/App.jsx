@@ -10,9 +10,10 @@ import Reservation from "./components/ReservationForm/Reservation";
 import Sidebar from "./views/DashBoard/DashBoard";
 import DetailsRooms from "./views/Details/Details";
 
-import RegistrationForm from "./views/Registrar/Registrar";
+import RegistrationForm from "./views/Login/Registrar";
 import AboutUs from "./views/AboutUs/AboutUs";
 import PaymenView from "./components/Payment/PaymenView";
+import LoginForm from "./views/Login/Login";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -24,7 +25,8 @@ function App() {
       currentPath !== "/error" &&
         currentPath !== "/reserve" &&
         currentPath !== "/registrar" &&
-        currentPath !== "/Dashboard"
+        currentPath !== "/Dashboard" &&
+        currentPath !== "/login"
     );
   }, []);
   return (
@@ -39,6 +41,7 @@ function App() {
         <Route path="/Dashboard" element={<Sidebar />} />
         <Route path="/registrar" element={<RegistrationForm />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/login" element={<LoginForm />} />
         <Route path="*" element={<ErroPage />} />
       </Routes>
       {showLayout && <Footer />}
