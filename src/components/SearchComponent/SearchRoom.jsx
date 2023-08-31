@@ -278,5 +278,3 @@ const SearchRoom = () => {
     </>
   );
 };
-
-export default SearchRoom;
