@@ -10,6 +10,7 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
+import Cards from "../Map/Map";
 
 const sortOptions = [
   { name: "Jacuzzi", href: "#", current: true },
@@ -201,7 +202,7 @@ const SearchRoom = () => {
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                    Sort
+                    Filtros
                     <ChevronDownIcon
                       className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
@@ -266,6 +267,7 @@ const SearchRoom = () => {
               <img src="https://images.unsplash.com/photo-1650967123062-3de70b7bf331?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="" />
               {/* Product grid */}
               <div className="lg:col-span-3">{/* Your content */}
+              <Cards/>
               <img src="https://images.unsplash.com/photo-1535205148555-bcbbc2a78913?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="" />
               </div>
             </div>
@@ -276,5 +278,3 @@ const SearchRoom = () => {
     </>
   );
 };
-
-export default SearchRoom;
