@@ -4,6 +4,7 @@ export const FILTER_ROOMS = "FILTER_ROOMS";
 export const TYPES_ROOMS = "TYPES_ROOMS";
 export const FILTER_TYPES_ROOMS = "FILTER_TYPES_ROOMS";
 export const ORDER_ROOMS = "ORDER_ROOMS"
+export const SEARCH = "SEARCH"
 
 
 import axios from "axios";
@@ -16,8 +17,7 @@ export const searchRooms = (search) => {
       //console.log('data',data)
       return dispatch({
         type: "SEARCH_ROOMS",
-        payload: data,
-        search: search,
+        payload: data
       });
     } catch (error) {
       console.log(error);
@@ -69,3 +69,10 @@ export const filterTypesRooms = (filter) => {
     payload: filter,
   };
 }
+
+export const saveSearch = (search) => {
+  return {
+    type: "SEARCH",
+    payload: search,
+  };
+};

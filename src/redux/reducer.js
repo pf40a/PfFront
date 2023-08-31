@@ -5,7 +5,8 @@ import {
   FILTER_ROOMS,
   ORDER_ROOMS,
   TYPES_ROOMS,
-  FILTER_TYPES_ROOMS
+  FILTER_TYPES_ROOMS,
+  SEARCH
 } from "./actions";
 
 const initialState = {
@@ -26,8 +27,7 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         rooms: [...action.payload],
-        allRooms: [...action.payload],
-        search: { ...action.search },
+        allRooms: [...action.payload]
       };
 
     case DETAIL_ROOM:
@@ -94,6 +94,12 @@ case TYPES_ROOMS:
           ...state,
           typesRooms: [...newTypesRooms],
         }
+
+case SEARCH:
+      return {
+        ...state,
+        search: { ...action.payload },
+      };
 
 
     default:
