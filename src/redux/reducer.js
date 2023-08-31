@@ -5,8 +5,7 @@ import {
   FILTER_ROOMS,
   ORDER_ROOMS,
   TYPES_ROOMS,
-  FILTER_TYPES_ROOMS,
-  SEARCH
+  FILTER_TYPES_ROOMS
 } from "./actions";
 
 const initialState = {
@@ -15,8 +14,7 @@ const initialState = {
   room: {},
   filters: [],
   order: "",
-  search: { fechaIn: "", fechaOut: "", adultos: 2, niños: 0, bebes: 0 },
-  typesRooms:['uno','dos'],
+  typesRooms:[],
   allTypesRooms:[],
 }
 
@@ -95,11 +93,6 @@ case TYPES_ROOMS:
           typesRooms: [...newTypesRooms],
         }
 
-case SEARCH:
-      return {
-        ...state,
-        search: { ...action.payload },
-      };
 
 
     default:

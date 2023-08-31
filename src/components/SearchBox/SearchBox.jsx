@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useSelector } from "react-redux";
+
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { saveSearch } from "../../redux/actions";
+import { saveLocalStorage, getLocalStorage, removeLocalStorage } from "../../utilities/managerLocalStorage";
+import { searchRooms } from "../../redux/actions";
+
 
 export default function SearchBox() {
   let { pathname } = useLocation();
@@ -15,7 +17,18 @@ export default function SearchBox() {
   const [isCheckInCalendarOpen, setIsCheckInCalendarOpen] = useState(false);
   const [isCheckOutCalendarOpen, setIsCheckOutCalendarOpen] = useState(false);
 
-  let search = useSelector((state) => state.search);
+  let search = { fechaIn: "", fechaOut: "", adultos: 2, niños: 0, bebes: 0 } 
+  useEffect(() => {
+    
+    if(getLocalStorage('search')){
+search = getLocalStorage('search')
+    }
+    
+    setInputs(search)
+
+  },[pathname])
+
+ 
   
   //console.log('Form',diets)
   const validate = (inputs) => {
@@ -46,7 +59,7 @@ export default function SearchBox() {
   const handleChange = (event) => {
     let campo = event.target.name;
     let valor = event.target.value;
-    console.log('change',campo,valor)
+    //console.log('change',campo,valor)
 setInputs({ ...inputs, [campo]: valor });
 
     setErrors(validate({ ...inputs, [campo]: valor }));
@@ -55,11 +68,12 @@ setInputs({ ...inputs, [campo]: valor });
   const handleSubmit = (e) => {
     e.preventDefault();
     //
-    dispatch(saveSearch(inputs));
+    saveLocalStorage('search', inputs)
+    dispatch(searchRooms(inputs))
     //
   };
 
-  console.log('inp',inputs)
+  //console.log('inp',inputs)
 
   function formatDate(date) {
     return date.toISOString().slice(0, 10);
@@ -68,7 +82,7 @@ setInputs({ ...inputs, [campo]: valor });
   return (
     <div className="mx-auto -mt-4">
       <form onSubmit={handleSubmit}>
-        <div className="search-form bg-yellow-200 p-2 rounded-md shadow-md text-center md:text-left flex flex-col md:flex-row items-center justify-center gap-2 md:gap-8 md:items-end md:justify-between  align-bottom md:p-4">
+        <div className="search-form bg-Secondary p-2 rounded-md shadow-md text-center md:text-left flex flex-col md:flex-row items-center justify-center gap-2 md:gap-8 md:items-end md:justify-between  align-bottom md:p-4">
           <div className="flex flex-col">
             <label>Fecha de Ingreso:</label>
             <DatePicker
@@ -80,7 +94,7 @@ setInputs({ ...inputs, [campo]: valor });
               onClickOutside={() => setIsCheckInCalendarOpen(false)}
               onFocus={() => setIsCheckInCalendarOpen(true)}
               open={isCheckInCalendarOpen}
-              dateFormat="yyyy-MM-dd"
+              dateFormat="dd-MM-yyyy"
               minDate={new Date()}
               className="border rounded-md"
               placeholderText="Ingreso"
@@ -94,12 +108,12 @@ setInputs({ ...inputs, [campo]: valor });
               selected={checkOutDate}
               onChange={(date) => {
                 setCheckOutDate(date);
-                handleChange;
+                setInputs({ ...inputs, 'fechaOut': formatDate(date) })
               }}
               onClickOutside={() => setIsCheckOutCalendarOpen(false)}
               onFocus={() => setIsCheckOutCalendarOpen(true)}
               open={isCheckOutCalendarOpen}
-              dateFormat="yyyy-MM-dd"
+              dateFormat="dd-MM-yyyy"
               minDate={checkInDate ? new Date(checkInDate) : new Date()}
               className="border rounded-md"
               placeholderText="Salida"
@@ -132,7 +146,7 @@ setInputs({ ...inputs, [campo]: valor });
           <div>
             <button
               type="submit"
-              className="bg-orange-950 text-white px-10 py-2"
+              className="bg-customOrange text-white px-10 py-2"
             >
               Buscar
             </button>

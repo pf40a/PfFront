@@ -4,17 +4,22 @@ export const FILTER_ROOMS = "FILTER_ROOMS";
 export const TYPES_ROOMS = "TYPES_ROOMS";
 export const FILTER_TYPES_ROOMS = "FILTER_TYPES_ROOMS";
 export const ORDER_ROOMS = "ORDER_ROOMS"
-export const SEARCH = "SEARCH"
+
 
 
 import axios from "axios";
 
 export const searchRooms = (search) => {
+  ///console.log('buscar',search)
   return async (dispatch) => {
     try {
-      let response = await axios.get("http://localhost:3001/hotel/habitaciones/detalle", search);
-      let data = response.data;
-      //console.log('data',data)
+      let filtroFechas={
+        fechaIngreso: search.fechaIn,
+        fechaSalida: search.fechaOut
+      }
+      let response = await axios.get("http://localhost:3001/hotel/filtros", filtroFechas);
+      let data = response.data.data;
+    //console.log('dataxx',data)
       return dispatch({
         type: "SEARCH_ROOMS",
         payload: data
@@ -46,7 +51,7 @@ export const orderRoom = (order) => {
   };
 };
 
-export const allTypesRooms = () => {
+export const loadAllTypesRooms = () => {
     return async (dispatch) => {
     try {
       let response = await axios.get("http://localhost:3001/hotel/habitaciones/detalle");
@@ -69,10 +74,3 @@ export const filterTypesRooms = (filter) => {
     payload: filter,
   };
 }
-
-export const saveSearch = (search) => {
-  return {
-    type: "SEARCH",
-    payload: search,
-  };
-};
