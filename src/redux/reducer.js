@@ -14,8 +14,7 @@ const initialState = {
   room: {},
   filters: [],
   order: "",
-  search: { fechaIn: "", fechaOut: "", adultos: 2, niños: 0, bebes: 0 },
-  typesRooms:['uno','dos'],
+  typesRooms:[],
   allTypesRooms:[],
 }
 
@@ -26,8 +25,7 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         rooms: [...action.payload],
-        allRooms: [...action.payload],
-        search: { ...action.search },
+        allRooms: [...action.payload]
       };
 
     case DETAIL_ROOM:
@@ -94,6 +92,7 @@ case TYPES_ROOMS:
           ...state,
           typesRooms: [...newTypesRooms],
         }
+
 
 
     default:

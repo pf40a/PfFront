@@ -16,7 +16,7 @@ import RegistrationForm from "./views/Login/Registrar";
 import AboutUs from "./views/AboutUs/AboutUs";
 import LoginForm from "./views/Login/Login";
 import PaymenView from "./components/Payment/PaymenView";
-import { allTypesRooms } from "./redux/actions";
+import { loadAllTypesRooms } from "./redux/actions";
 import SearchRoom from "./components/SearchComponent/SearchRoom";
 import PopDetail from "./components/PopDetail/PopDetail";
 

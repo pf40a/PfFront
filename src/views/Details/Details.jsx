@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { allTypesRooms, filterTypesRooms } from "../../redux/actions";
+import { loadAllTypesRooms, filterTypesRooms } from "../../redux/actions";
 
 const DetailsRooms = () => {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ const DetailsRooms = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(allTypesRooms());
+      await dispatch(loadAllTypesRooms());
       await dispatch(filterTypesRooms(subtipo));
     };
     fetchData();
