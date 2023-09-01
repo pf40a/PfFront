@@ -18,6 +18,7 @@ import LoginForm from "./views/Login/Login";
 import PaymenView from "./components/Payment/PaymenView";
 import { loadAllTypesRooms } from "./redux/actions";
 import SearchRoom from "./components/SearchComponent/SearchRoom";
+import PopDetail from "./components/PopDetail/PopDetail";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -78,6 +79,7 @@ function App() {
         <Route path="/payment" element={<PaymenView/>}/>
         <Route path="/login" element={<LoginForm/>}/>
         <Route path="*" element={<ErroPage />} />
+        <Route path="/pop" element={<PopDetail/>}/>
         <Route path="/search" element={<SearchRoom/>}/>
       </Routes>
       {showLayout && <Footer />}

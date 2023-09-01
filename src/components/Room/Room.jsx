@@ -1,17 +1,20 @@
 import React from "react";
 
-function Room() {
+function Room({handleClick}) {
+
   return (
-    <div className="bg-gray-300 flex border rounded-lg mx-auto w-1/2 h-80 ml-10 self-end">
+    <div className="bg-gray-300 flex border rounded-lg mx-auto w-full h-80 ml-10 self-end">
       <div
-        className="w-1/3 bg-cover bg-center"
+        className="w-1/3 border rounded-lg bg-cover bg-center"
         style={{
           backgroundImage:
             "url(https://plus.unsplash.com/premium_photo-1676320514175-8a41932fcd46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aGFiaXRhY2lvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60)",
-          height: "100%",
+          height: "50%",
           minHeight: "300px",
           backgroundSize: "cover",
           backgroundPosition: "center",
+          marginLeft:"10px",
+          margin:"auto"
         }}
       ></div>
       <div className="w-2/3 p-4 flex flex-col justify-between">
@@ -26,7 +29,7 @@ function Room() {
           <span className="mr-1">USD 250</span>
         </div>
         <div className="mt-auto flex justify-center">
-          <button className="bg-yellow-700 text-white rounded-lg px-4 py-2 hover:bg-yellow-800">
+          <button onClick={handleClick} className="bg-yellow-700 text-white rounded-lg px-4 py-2 hover:bg-yellow-800">
             +Info
           </button>
           <button className="bg-yellow-700 text-white rounded-lg px-4 py-2 ml-2 hover:bg-yellow-800">

@@ -2,7 +2,7 @@ import React, { useEffect , useState } from 'react'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux';
 
-const PaymenView = () => {
+const PaymenView = ({close}) => {
     const [roomData, setRoomData] = useState({})
     const typesRoom = useSelector((state) => state.typesRoom);  
     
@@ -11,7 +11,11 @@ const PaymenView = () => {
         // Aquí puedes realizar operaciones como llamadas a API, suscripciones, etc.
         const fetchData = async ()=>{
             try {
+<<<<<<< HEAD
                 const roomRequest = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle/1`)
+=======
+                const roomRequest = await axios.get('http://localhost:3001/hotel/habitaciones/detalle/7')
+>>>>>>> 7dcc2e3e195f2bee21ebf3e80ee8bc3c26658371
                 const response = roomRequest.data.data
                 setRoomData(response)
             } catch (error) {
@@ -34,7 +38,8 @@ const PaymenView = () => {
       };
       console.log(typesRoom);
   return (
-    <div className=" mx-auto max-w-sm border border-gray-300 rounded-lg overflow-hidden">
+    <div className=" bg-white mx-auto max-w-sm border border-gray-300 rounded-lg overflow-hidden">
+      <button className="border-red right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8" onClick={close}>X</button>
       <img src={roomData.image} alt={property.imageAlt} />
 
       <div className="flex flex-col items-center p-6">
@@ -52,9 +57,9 @@ const PaymenView = () => {
         </h4>
 
         <div className="mt-1">
-          {roomData.precio}
+          {roomData.descripcion}
           <span className="text-gray-600 text-sm">
-            / Ars
+            
           </span>
         </div>
 
