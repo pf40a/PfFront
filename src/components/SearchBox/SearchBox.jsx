@@ -74,7 +74,7 @@ setInputs({ ...inputs, [campo]: valor });
     dispatch(searchRooms(inputs))
     if(pathname !== '/search'){
      navigate('/search');
-    }
+    }or 
     //
   };
 
