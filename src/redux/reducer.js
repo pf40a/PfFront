@@ -22,7 +22,7 @@ const initialState = {
 
   // Authentication
   auth: {
-    status: "not-authenticated", // authenticated, not-authenticated, checking
+    status: "checking", // authenticated, not-authenticated, checking
     uid: null,
     displayName: null,
     nombre: null,
