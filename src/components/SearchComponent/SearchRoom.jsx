@@ -15,6 +15,7 @@ import {
 import Room from "../Room/Room";
 import PaymenView from "../Payment/PaymenView";
 import { searchRooms } from "../../redux/actions";
+import SearchBox from "../SearchBox/SearchBox";
 
 const sortOptions = [
   { name: "Jacuzzi", href: "#", current: true },
@@ -75,7 +76,7 @@ function classNames(...classes) {
 const SearchRoom = () => {
   const [rooms, setRooms] = useState([]);
   const [detail, setDetail] = useState([]);
-  const [filtrado, setFiltrado] = useState([]);
+  const [infoStorage, setInfoStorage] = useState({})
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [localStorageRooms, setLocalStorageRooms] = useState([]); //localStorage
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
@@ -111,6 +112,7 @@ const SearchRoom = () => {
     detailReques();
     const searchDataFromLocalStorage = getLocalStorage('search');
     // Utiliza los datos como sea necesario en tu componente
+    setInfoStorage(searchDataFromLocalStorage)
     console.log('Data from localStorage:', searchDataFromLocalStorage);
     const savedRooms = localStorage.getItem("rooms");
     if (savedRooms) {
@@ -124,10 +126,15 @@ const SearchRoom = () => {
   }, [localStorageRooms]);
 
   //añadir habitacion
+
+
+
   const addToCart = (item) => {
     setSelectedRoom(item);
     setLocalStorageRooms([...localStorageRooms, item]);
   };
+
+
   // Cargar las vistas de pago existentes desde el almacenamiento local al cargar la página
   useEffect(() => {
     const storedPaymentViews =
@@ -150,6 +157,7 @@ const SearchRoom = () => {
     <>
       <div className="bg-white">
         <div>
+          
           {/* Mobile filter dialog */}
           <Transition.Root show={mobileFiltersOpen} as={Fragment}>
             <Dialog
@@ -275,7 +283,11 @@ const SearchRoom = () => {
           </Transition.Root>
 
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex mt-10">
+            <SearchBox/>
+            </div>
             <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+              
               <h1 className="text-4xl font-bold tracking-tight text-gray-900">
                 Habitaciones
               </h1>
@@ -364,9 +376,14 @@ const SearchRoom = () => {
                         subTipo={item.subTipo}
                         precio={item.precio}
                         image={item.image}
+                        fechaIn={infoStorage.fechaIn}
+                        FechaOut={infoStorage.fechaOut}
+                        Adultos={infoStorage.adultos}
+                        Niños={infoStorage.niños}
                       />
                     </div>
                   ))}
+
 
                   {selectedRoom && (
                     <div className=" backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto">
@@ -381,6 +398,10 @@ const SearchRoom = () => {
                       />
                     </div>
                   )}
+
+
+
+
                 </div>
               </div>
             </section>

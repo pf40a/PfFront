@@ -4,6 +4,7 @@ import PersonInput from "./Personinpurt";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { validate } from "./validation";
+import { getLocalStorage } from "../../utilities/managerLocalStorage";
 
 const Reservation = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Reservation = () => {
   const [children, setChildren] = useState(0);
   const [reserve, setReserve] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const [localStorageRoom, setLocalStorageRoom] = useState({})
 
   const handleInputChange = (event, fieldName) => {
     const newValue = event.target.value;
@@ -58,6 +60,12 @@ const Reservation = () => {
     };
     setReserve(newReserve);
   };
+  useEffect(()=>{
+    const searchDataFromLocalStorage = getLocalStorage('search');
+    // Utiliza los datos como sea necesario en tu componente
+    setLocalStorageRoom(searchDataFromLocalStorage)
+    console.log(localStorageRoom);
+  },[])
 
   useEffect(() => {
     const submitReserve = async () => {
@@ -86,6 +94,7 @@ const Reservation = () => {
             }
           );
           console.log("Cliente creado:", createClientResponse.data);
+          
         } catch (error) {
           console.log("Error al crear el cliente:", error.response);
           navigate(
@@ -386,6 +395,7 @@ const Reservation = () => {
               type="date"
               name="ingreso"
               id="ingreso"
+              value={localStorageRoom.fechaIn}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
@@ -403,6 +413,7 @@ const Reservation = () => {
               type="date"
               name="egreso"
               id="egreso"
+              value={localStorageRoom.fechaOut}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
@@ -411,8 +422,8 @@ const Reservation = () => {
         <div>
           <h1 className="text-2xl font-semibold mb-4">Agrega personas</h1>
           <div className="flex gap-4">
-            <PersonInput label="Adultos" onChange={handleAdultsChange} />
-            <PersonInput label="Niños" onChange={handleChildrenChange} />
+            <PersonInput label="Adultos" onChange={handleAdultsChange} value={localStorageRoom.adultos} />
+            <PersonInput label="Niños" onChange={handleChildrenChange} value={localStorageRoom.niños} />
           </div>
         </div>
         <div className=" sm:col-span-6 mt-2" style={{ margin: "auto" }}>

@@ -1,6 +1,6 @@
 import React from "react";
 
-function Room({handleClick, id ,tipo_Habitacion,subTipo,precio,image }) {
+function Room({handleClick, id ,tipo_Habitacion,subTipo,precio,image,fechaIn,FechaOut,Adultos,Niños }) {
 
   return (
     <div
@@ -14,9 +14,9 @@ function Room({handleClick, id ,tipo_Habitacion,subTipo,precio,image }) {
       <div className="text-xl sm:text-3xl font-bold mb-2 sm:mb-4">{tipo_Habitacion}</div>
       <div className="text-base sm:text-lg mb-4">{subTipo}</div>
       <div className="flex flex-col sm:flex-row items-center text-base sm:text-lg mb-4">
-        <span className="mr-1">2023-10-24 hasta 2023-10-27</span>
+        <span className="mr-1">{fechaIn} hasta {FechaOut}</span>
         <span className="mx-1 hidden sm:inline">|</span>
-        <span className="sm:ml-1">Adultos 2 - Niños 1</span>
+        <span className="sm:ml-1">Adultos {Adultos} - Niños {Niños}</span>
       </div>
       <div className="text-xl sm:text-3xl font-bold flex items-center justify-center mb-4">
         <span className="mr-1">${precio} USD</span>
