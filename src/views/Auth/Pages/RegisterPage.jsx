@@ -34,6 +34,10 @@ const formValidations = {
 
 const RegisterPage = () => {
 
+  const saveUserData = (userData) => {
+    localStorage.setItem('userData', JSON.stringify(userData));
+  };
+
   const dispatch = useDispatch();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -72,6 +76,8 @@ const RegisterPage = () => {
     };
 
     dispatch(startCreatingUserWithEmailPassword(updatedFormState));
+
+    saveUserData(status.user)
   };
 
   return (

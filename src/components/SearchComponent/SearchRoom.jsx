@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { getLocalStorage } from "../../utilities/managerLocalStorage";
 import { Fragment } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
@@ -79,35 +80,36 @@ const SearchRoom = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [localStorageRooms, setLocalStorageRooms] = useState([]); //localStorage
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [paymentViews, setPaymentViews] = useState([]); // Estado para las vistas de pago
+
+  const roomsRedux = useSelector(state => state.rooms)
   
 
   //Rooms LocalStorage :
   useEffect(() => {
     // Cargar datos del carrito desde localStorage al cargar la página
 
-    const dataRooms = async () => {
-      try {
-        const roomRequest = await axios.post(
-          "http://localhost:3001/hotel/filtros"
-        );
-        const response = roomRequest.data.data;
-        setRooms(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    dataRooms();
-    const detailReques = async () => {
-      try {
-        const detailReq = await axios.get(
-          "http://localhost:3001/hotel/habitaciones/detalle"
-        );
-        const response = detailReq.data.data;
-        setDetail(response);
-      } catch (error) {}
-    };
-    detailReques();
+    // const dataRooms = async () => {
+    //   try {
+    //     const roomRequest = await axios.post(
+    //       "http://localhost:3001/hotel/filtros"
+    //     );
+    //     const response = roomRequest.data.data;
+    //     setRooms(response);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // dataRooms();
+    // const detailReques = async () => {
+    //   try {
+    //     const detailReq = await axios.get(
+    //       "http://localhost:3001/hotel/habitaciones/detalle"
+    //     );
+    //     const response = detailReq.data.data;
+    //     setDetail(response);
+    //   } catch (error) {}
+    // };
+    // detailReques();
     const searchDataFromLocalStorage = getLocalStorage('search');
     // Utiliza los datos como sea necesario en tu componente
     setInfoStorage(searchDataFromLocalStorage)
@@ -264,7 +266,11 @@ const SearchRoom = () => {
 
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex mt-10">
+
+
             <SearchBox/>
+
+
             </div>
             <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
               
@@ -347,7 +353,7 @@ const SearchRoom = () => {
                 {/* Product grid */}
                 <div className="flex flex-col gap-10 lg:col-span-3">
                   {/* Your content */}
-                  {rooms.map((item) => (
+                  {roomsRedux.length>0 && roomsRedux.map((item) => (
                     <div key={item.id}>
                       <Room
                         handleClick={() => addToCart(item)}

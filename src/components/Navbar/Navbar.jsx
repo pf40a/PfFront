@@ -26,7 +26,20 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false); // Establece esto según el rol del usuario
   const [loggedOut, setloggedOut] = useState(true);
   const login = useSelector(state => state.auth.user)
-  console.log(login);
+  const loginAdmin = useSelector(state => state.auth.admin)
+
+  const getUserData = () => {
+    const userDataString = localStorage.getItem('userData');
+    return JSON.parse(userDataString);
+  };
+
+  console.log(getUserData());
+
+ const logOut = ()=>{
+  setIsLoggedIn(false)
+  setIsAdmin(false)
+  setloggedOut(true)
+ }
 
 useEffect(()=>{
   const setUser = ()=>{
@@ -34,8 +47,12 @@ useEffect(()=>{
       setIsLoggedIn(true)
       setloggedOut(false)
     }
-    else{
-      return
+    else if (login === false){
+      setloggedOut(true)
+      setIsLoggedIn(false)
+    }
+    if(loginAdmin === true){
+      setIsAdmin(true)
     }
   }
   setUser()
@@ -107,7 +124,7 @@ useEffect(()=>{
               >
                 <NavLink to="/register"><h2 className="text-white">Registrarse</h2></NavLink>
                 <div className="bg-white w-1 h-8 "></div>
-                <h2 className="text-white">Login</h2>
+                <NavLink to="/login"><h2 className="text-white">Login</h2></NavLink>
               </div>
               {isLoggedIn && (
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -171,15 +188,15 @@ useEffect(()=>{
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <a
-                              href="#"
+                            <button
+                              onClick={logOut}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
                               Sign out
-                            </a>
+                            </button>
                           )}
                         </Menu.Item>
                       </Menu.Items>
