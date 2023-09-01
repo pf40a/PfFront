@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import axios from 'axios'
-import { useSelector, useDispatch } from 'react-redux';
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import Home from "./views/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
@@ -26,29 +26,28 @@ import PopDetail from "./components/PopDetail/PopDetail";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
-//   const [localStorageRooms, setLocalStorageRooms] = useState(["hola"])
-//   const typesRoom = useSelector((state) => state.allTypesRooms);
-//   const dispatch = useDispatch()
+  //   const [localStorageRooms, setLocalStorageRooms] = useState(["hola"])
+  //   const typesRoom = useSelector((state) => state.allTypesRooms);
+  //   const dispatch = useDispatch()
 
+  // //Rooms LocalStorage :
+  // useEffect(() => {
+  //   // Cargar datos del carrito desde localStorage al cargar la página
+  //   const savedRooms = localStorage.getItem('rooms');
+  //   if (savedRooms) {
+  //     setLocalStorageRooms(JSON.parse(savedRooms));
+  //   }
+  // }, []);
 
-// //Rooms LocalStorage :
-// useEffect(() => {
-//   // Cargar datos del carrito desde localStorage al cargar la página
-//   const savedRooms = localStorage.getItem('rooms');
-//   if (savedRooms) {
-//     setLocalStorageRooms(JSON.parse(savedRooms));
-//   }
-// }, []);
+  // useEffect(() => {
+  //   // Guardar datos del carrito en localStorage cuando cambien
+  //   localStorage.setItem('rooms', JSON.stringify(localStorageRooms));
+  // }, [localStorageRooms]);
 
-// useEffect(() => {
-//   // Guardar datos del carrito en localStorage cuando cambien
-//   localStorage.setItem('rooms', JSON.stringify(localStorageRooms));
-// }, [localStorageRooms]);
-
-// //añadir habitacion
-// const addToCart = (item) => {
-//   setLocalStorageRooms([...localStorageRooms, item]);
-// };
+  // //añadir habitacion
+  // const addToCart = (item) => {
+  //   setLocalStorageRooms([...localStorageRooms, item]);
+  // };
 
   // Verificar la ruta actual y decidir si mostrar el diseño completo o no
   useEffect(() => {
@@ -56,25 +55,23 @@ function App() {
     setShowLayout(
       currentPath !== "/error" &&
         currentPath !== "/reserve" &&
-        currentPath !== "/registrar" &&
         currentPath !== "/login" &&
+        currentPath !== "/register" &&
         currentPath !== "/dashboard"
-
     );
     // const fetchDataRooms = async()=>{
     //   dispatch(allTypesRooms(typesRoom))
     // }
     // fetchDataRooms()
-
   }, []);
 
   // Authentication
 
-  // const status = useCheckAuth();
+  const status = useCheckAuth();
 
-  // if(status === "checking"){
-  //   return <CheckingAuth/>
-  // }
+  if (status === "checking") {
+    return <CheckingAuth />;
+  }
 
   return (
     <>
@@ -86,12 +83,12 @@ function App() {
         <Route path="/reserve" element={<Reservation />} />
         <Route path="/dashboard" element={<Sidebar />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/payment" element={<PaymenView/>}/>
+        <Route path="/payment" element={<PaymenView />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="*" element={<ErroPage />} />
-        <Route path="/pop" element={<PopDetail/>}/>
-        <Route path="/search" element={<SearchRoom/>}/>
+        <Route path="/pop" element={<PopDetail />} />
+        <Route path="/search" element={<SearchRoom />} />
       </Routes>
       {showLayout && <Footer />}
     </>
