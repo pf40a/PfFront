@@ -1,9 +1,10 @@
 // import React from "react";
 import { NavLink } from "react-router-dom";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
 
 const navegacionAdmin = [
   { name: "Dashboard", href: "/Dashboard", current: true },
@@ -19,10 +20,45 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Establece esto según el estado de inicio de sesión del usuario
   const [isAdmin, setIsAdmin] = useState(false); // Establece esto según el rol del usuario
   const [loggedOut, setloggedOut] = useState(true);
+  const login = useSelector(state => state.auth.user)
+  const loginAdmin = useSelector(state => state.auth.admin)
+
+  const getUserData = () => {
+    const userDataString = localStorage.getItem('userData');
+    return JSON.parse(userDataString);
+  };
+
+  console.log(getUserData());
+
+ const logOut = ()=>{
+  setIsLoggedIn(false)
+  setIsAdmin(false)
+  setloggedOut(true)
+ }
+
+useEffect(()=>{
+  const setUser = ()=>{
+    if(login === true){
+      setIsLoggedIn(true)
+      setloggedOut(false)
+    }
+    else if (login === false){
+      setloggedOut(true)
+      setIsLoggedIn(false)
+    }
+    if(loginAdmin === true){
+      setIsAdmin(true)
+    }
+  }
+  setUser()
+
+
+})
 
   const navegacion = isAdmin ? navegacionAdmin : navegacionUsuario;
   return (
@@ -86,9 +122,9 @@ const Navbar = () => {
                 }`}
                 style={{ gap: "10px" }}
               >
-                <h2 className="text-white">Registrarse</h2>
+                <NavLink to="/register"><h2 className="text-white">Registrarse</h2></NavLink>
                 <div className="bg-white w-1 h-8 "></div>
-                <h2 className="text-white">Login</h2>
+                <NavLink to="/login"><h2 className="text-white">Login</h2></NavLink>
               </div>
               {isLoggedIn && (
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -152,15 +188,15 @@ const Navbar = () => {
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <a
-                              href="#"
+                            <button
+                              onClick={logOut}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
                               Sign out
-                            </a>
+                            </button>
                           )}
                         </Menu.Item>
                       </Menu.Items>
