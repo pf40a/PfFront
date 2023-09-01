@@ -9,6 +9,14 @@ import { searchRooms } from "../../redux/actions";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
+
+function contarPropiedadesNoVacias(objeto) {
+  return Object.keys(objeto).reduce((contador, propiedad) => {
+    return objeto[propiedad] !== "" ? contador + 1 : contador;
+  }, 0);
+}
+
+
 export default function SearchBox() {
   let { pathname } = useLocation();
   const dispatch = useDispatch();
@@ -70,11 +78,18 @@ setInputs({ ...inputs, [campo]: valor });
   const handleSubmit = (e) => {
     e.preventDefault();
     //
+    
+    const arrayDePropiedades = contarPropiedadesNoVacias(errors);
+    if (arrayDePropiedades > 0) {
+      alert("Complete el formulario, por favor");
+      return;
+    }
+
     saveLocalStorage('search', inputs)
     dispatch(searchRooms(inputs))
     if(pathname !== '/search'){
      navigate('/search');
-    }or 
+    }
     //
   };
 
@@ -153,7 +168,7 @@ setInputs({ ...inputs, [campo]: valor });
               type="submit"
               className="bg-customOrange text-white px-10 py-2"
             >
-              <NavLink to="/search">Buscar</NavLink>
+              Buscar
             </button>
           </div>
         </div>
