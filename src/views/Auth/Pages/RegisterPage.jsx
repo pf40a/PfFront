@@ -53,6 +53,7 @@ const RegisterPage = () => {
       const displayName = `${nombre} ${apellido}`;
 
       const result = await registerUserWithEmailPassword({ email, password, displayName });
+      console.log(result);
       if (!result.ok) return dispatch(logout(result.errorMessage));
 
       dispatch(login(result));
@@ -69,7 +70,6 @@ const RegisterPage = () => {
       ...formState,
       displayName: `${formState.nombre} ${formState.apellido}`,
     };
-    // console.log(updatedFormState);
 
     dispatch(startCreatingUserWithEmailPassword(updatedFormState));
   };

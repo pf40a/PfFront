@@ -59,14 +59,12 @@ export const registerUserWithEmailPassword = async ({ email, password, displayNa
     );
     const { uid, photoURL } = resp.user;
 
-    await updateProfile(FirebaseAuth.currentUser, { displayName, nombre, apellido });
+    await updateProfile(FirebaseAuth.currentUser, { displayName });
 
     return {
       ok: true,
       uid,
       displayName,
-      nombre,
-      apellido,
       email,
       photoURL,
     };
