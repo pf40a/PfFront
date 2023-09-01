@@ -2,19 +2,23 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux';
-import { Route } from "react-router-dom";
-import { Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./views/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import ErroPage from "./views/Error404/Error404";
 import Reservation from "./components/ReservationForm/Reservation";
 import Sidebar from "./views/DashBoard/DashBoard";
+import LoginPage from "./views/Auth/Pages/LoginPage";
+import RegisterPage from "./views/Auth/Pages/RegisterPage";
+
+import "./App.css";
+import { CheckingAuth } from "./components/Login/CheckingAuth";
+import { useCheckAuth } from "./Hooks/useCheckAuth";
 import DetailsRooms from "./views/Details/Details";
 
-import RegistrationForm from "./views/Login/Registrar";
 import AboutUs from "./views/AboutUs/AboutUs";
-import LoginForm from "./views/Login/Login";
+
 import PaymenView from "./components/Payment/PaymenView";
 import { loadAllTypesRooms } from "./redux/actions";
 import SearchRoom from "./components/SearchComponent/SearchRoom";
@@ -64,6 +68,14 @@ function App() {
 
   }, []);
 
+  // Authentication
+
+  // const status = useCheckAuth();
+
+  // if(status === "checking"){
+  //   return <CheckingAuth/>
+  // }
+
   return (
     <>
       {showLayout && <Navbar />}
@@ -73,10 +85,10 @@ function App() {
         <Route exact path="/details/:subtipo" element={<DetailsRooms />} />
         <Route path="/reserve" element={<Reservation />} />
         <Route path="/dashboard" element={<Sidebar />} />
-        <Route path="/registrar" element={<RegistrationForm />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/payment" element={<PaymenView/>}/>
-        <Route path="/login" element={<LoginForm/>}/>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="*" element={<ErroPage />} />
         <Route path="/pop" element={<PopDetail/>}/>
         <Route path="/search" element={<SearchRoom/>}/>
