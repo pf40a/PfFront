@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getLocalStorage } from "../../utilities/managerLocalStorage";
 
-const PersonInput = ({ label, onChange }) => {
+const PersonInput = ({ label, onChange,value }) => {
   const [count, setCount] = useState(0);
+  const [infoStorage, setInfoStorage] = useState({})
+  useEffect(()=>{
+    const searchDataFromLocalStorage = getLocalStorage('search');
+    setInfoStorage(searchDataFromLocalStorage)
+  })
 
   const handleIncrement = () => {
     setCount(count + 1);
@@ -27,7 +33,7 @@ const PersonInput = ({ label, onChange }) => {
           -
         </button>
         <span className="px-4 py-2 border-t border-b">
-          {count}
+          {value}
         </span>
         <button
         type='button'
