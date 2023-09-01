@@ -21,14 +21,9 @@ export default function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    console.log(formData);
-    
+
     try {
-      const response = await axios.get('http://localhost:3001/hotel/users/login', {
-        "email": "juan1234@gmail.com",
-        "password": "juan123"
-      });
+      const response = await axios.post('http://localhost:3001/hotel/users/login', formData);
       if (response.data) {
         window.alert('Inicio de sesión exitoso');
         setFormData({
@@ -40,7 +35,7 @@ export default function LoginForm() {
       document.getElementById('password').value = '';
     
       }
-      console.log(response.data);
+      
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       setError('Credenciales inválidas');
