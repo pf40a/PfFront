@@ -11,11 +11,9 @@ const PaymenView = ({close}) => {
         // Aquí puedes realizar operaciones como llamadas a API, suscripciones, etc.
         const fetchData = async ()=>{
             try {
-<<<<<<< HEAD
-                const roomRequest = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle/1`)
-=======
-                const roomRequest = await axios.get('http://localhost:3001/hotel/habitaciones/detalle/7')
->>>>>>> 7dcc2e3e195f2bee21ebf3e80ee8bc3c26658371
+
+                const roomRequest = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle/7`)
+
                 const response = roomRequest.data.data
                 setRoomData(response)
             } catch (error) {

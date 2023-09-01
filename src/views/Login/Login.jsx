@@ -23,14 +23,9 @@ export default function LoginForm() {
     e.preventDefault();
 
     try {
-<<<<<<< HEAD
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/users/login`, {
-        "email": "juan1234@gmail.com",
-        "password": "juan123"
-      });
-=======
-      const response = await axios.post('http://localhost:3001/hotel/users/login', formData);
->>>>>>> 7dcc2e3e195f2bee21ebf3e80ee8bc3c26658371
+
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/users/login`, formData);
+
       if (response.data) {
         window.alert('Inicio de sesión exitoso');
         setFormData({
