@@ -7,7 +7,7 @@ const PersonInput = ({ label, onChange,value }) => {
   useEffect(()=>{
     const searchDataFromLocalStorage = getLocalStorage('search');
     setInfoStorage(searchDataFromLocalStorage)
-  })
+  },[])
 
   const handleIncrement = () => {
     setCount(count + 1);

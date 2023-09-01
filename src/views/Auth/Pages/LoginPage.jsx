@@ -51,6 +51,9 @@ const LoginPage = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     dispatch(startLoginWithEmailPassword({ email, password }));
+    if (status === "authenticated"){
+      window.location.href = '/'
+    }
     navigate("/")
   };
 
@@ -85,15 +88,11 @@ const LoginPage = () => {
             />
           </Grid>
 
-          <Grid 
-            container
-            display={!!errorMessage ? "" : "none"}
-            sx={{ mt: 1 }}
-          >
-            <Grid item xs={12} >
-              <Alert severity="error">{errorMessage}</Alert>
-            </Grid>
-          </Grid>
+          <Grid container display={!!errorMessage ? "" : "none"} sx={{ mt: 1 }}>
+  <Grid item xs={12}>
+    {/* {errorMessage && <Alert severity="error">{errorMessage}</Alert>} */}
+  </Grid>
+</Grid>
 
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             {/* Normal Login */}

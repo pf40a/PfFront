@@ -106,13 +106,16 @@ const Reservation = () => {
       }
 
       try {
+        const userRequest = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/users`)
+        const response = userRequest.data.data
+
         await axios.post(`${import.meta.env.VITE_API_URL}/hotel/reservas`, {
           fechaIngreso: reserve.ingreso,
           fechaSalida: reserve.egreso,
           adultos: reserve.adults,
           ninos: reserve.children,
           pago_Estado: "Pending",
-          UsuarioId: "95422ad2-5bb3-47c4-9670-e3033dbcfc47",
+          UsuarioId: response.id,
           ClienteDocIdentidad: reserve.dni,
         });
         console.log("Reserva creada");
