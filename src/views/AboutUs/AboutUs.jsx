@@ -2,7 +2,7 @@ import styles from "./AboutUs.module.css";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import mapIcon from "/logo.jpeg";
+import mapIcon from "/logo.jpg";
 
 const AboutUs = () => {
   const latitude = 7.098899;
