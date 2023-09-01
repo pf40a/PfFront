@@ -6,6 +6,8 @@ import AuthLayout from "../Layout/AuthLayout";
 import { useForm } from "../../../Hooks/useForm";
 import { checkingCredentials, login, logout } from "../../../redux/actions";
 import { registerUserWithEmailPassword } from "../../../Firebase/Providers";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 const formData = {
   nombre: "",
@@ -33,6 +35,8 @@ const formValidations = {
 };
 
 const RegisterPage = () => {
+
+  const navigate = useNavigate()
 
   const saveUserData = (userData) => {
     localStorage.setItem('userData', JSON.stringify(userData));
@@ -64,10 +68,9 @@ const RegisterPage = () => {
     };
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitted(true);
-
     if (!isFormValid) return;
 
     const updatedFormState = {
@@ -76,6 +79,21 @@ const RegisterPage = () => {
     };
 
     dispatch(startCreatingUserWithEmailPassword(updatedFormState));
+    try {
+      const response = await axios.post('http://localhost:3001/hotel/users', formState);
+      console.log(formState)
+      if (response.data) {
+       console.log("Usuario creado", response.data)
+      }
+    } catch (error) {
+      console.error('Error sending data to backend:', error);
+    }
+
+
+    if (status === "authenticated"){
+      window.location.href = '/'
+    }
+    navigate("/")
 
     saveUserData(status.user)
   };
@@ -162,7 +180,7 @@ const RegisterPage = () => {
                 variant="contained"
                 fullWidth
               >
-                <NavLink to="/">Crear Cuenta</NavLink>
+                Crear Cuenta
               </Button>
             </Grid>
           </Grid>

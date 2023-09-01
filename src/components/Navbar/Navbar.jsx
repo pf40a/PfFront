@@ -4,7 +4,8 @@ import { Fragment, useEffect } from "react";
 import { useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/actions";
 
 const navegacionAdmin = [
   { name: "Dashboard", href: "/Dashboard", current: true },
@@ -25,6 +26,7 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Establece esto según el estado de inicio de sesión del usuario
   const [isAdmin, setIsAdmin] = useState(false); // Establece esto según el rol del usuario
   const [loggedOut, setloggedOut] = useState(true);
+  const loginGeneral = useSelector(state => state.auth)
   const login = useSelector(state => state.auth.user)
   const loginAdmin = useSelector(state => state.auth.admin)
 
@@ -33,13 +35,12 @@ const Navbar = () => {
     return JSON.parse(userDataString);
   };
 
-  console.log(getUserData());
 
- const logOut = ()=>{
-  setIsLoggedIn(false)
-  setIsAdmin(false)
-  setloggedOut(true)
- }
+const dispatch = useDispatch()
+const logOut = ()=>{
+  dispatch(logout(loginGeneral))
+}
+
 
 useEffect(()=>{
   const setUser = ()=>{

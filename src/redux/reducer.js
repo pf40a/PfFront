@@ -142,6 +142,7 @@ export default function rootReducer(state = initialState, action) {
           photoURL: null,
           errorMessage: action.payload,
           admin: false,
+          user:false,
         },
       };
 
