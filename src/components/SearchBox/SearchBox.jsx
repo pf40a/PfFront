@@ -7,11 +7,12 @@ import { useDispatch } from "react-redux";
 import { saveLocalStorage, getLocalStorage, removeLocalStorage } from "../../utilities/managerLocalStorage";
 import { searchRooms } from "../../redux/actions";
 import { NavLink } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 
 export default function SearchBox() {
   let { pathname } = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
@@ -71,6 +72,9 @@ setInputs({ ...inputs, [campo]: valor });
     //
     saveLocalStorage('search', inputs)
     dispatch(searchRooms(inputs))
+    if(pathname !== '/search'){
+     navigate('/search');
+    }
     //
   };
 
