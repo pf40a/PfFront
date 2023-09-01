@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
+import { NavLink, Link as RouterLink } from "react-router-dom";
 import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import AuthLayout from "../Layout/AuthLayout";
 import { useForm } from "../../../Hooks/useForm";
@@ -156,7 +156,7 @@ const RegisterPage = () => {
                 variant="contained"
                 fullWidth
               >
-                Crear Cuenta
+                <NavLink to="/">Crear Cuenta</NavLink>
               </Button>
             </Grid>
           </Grid>

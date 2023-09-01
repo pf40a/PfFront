@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { Grid, Typography, TextField, Button, Link, Alert } from "@mui/material";
 import { Google } from "@mui/icons-material";
+import { NavLink } from "react-router-dom";
 
 import AuthLayout from "../Layout/AuthLayout";
 import { useForm } from "../../../Hooks/useForm";
@@ -105,7 +106,7 @@ const LoginPage = () => {
                 variant="contained"
                 fullWidth
               >
-                Login
+                <NavLink to="/">Login</NavLink>
               </Button>
             </Grid>
 

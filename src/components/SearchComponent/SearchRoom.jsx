@@ -14,7 +14,6 @@ import {
 } from "@heroicons/react/20/solid";
 import Room from "../Room/Room";
 import PaymenView from "../Payment/PaymenView";
-import { searchRooms } from "../../redux/actions";
 import SearchBox from "../SearchBox/SearchBox";
 
 const sortOptions = [
@@ -80,7 +79,6 @@ const SearchRoom = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [localStorageRooms, setLocalStorageRooms] = useState([]); //localStorage
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [pop, setPop] = useState(false);
   const [paymentViews, setPaymentViews] = useState([]); // Estado para las vistas de pago
   
 
@@ -119,7 +117,6 @@ const SearchRoom = () => {
       setLocalStorageRooms(JSON.parse(savedRooms));
     }
   }, []);
-  console.log(rooms);
   useEffect(() => {
     // Guardar datos del carrito en localStorage cuando cambien
     localStorage.setItem("rooms", JSON.stringify(localStorageRooms));
@@ -128,30 +125,13 @@ const SearchRoom = () => {
   //añadir habitacion
 
 
-
   const addToCart = (item) => {
     setSelectedRoom(item);
     setLocalStorageRooms([...localStorageRooms, item]);
   };
 
 
-  // Cargar las vistas de pago existentes desde el almacenamiento local al cargar la página
-  useEffect(() => {
-    const storedPaymentViews =
-      JSON.parse(localStorage.getItem("paymentViews")) || [];
-    setPaymentViews(storedPaymentViews);
-  }, []);
 
-  // Función para agregar una nueva vista de pago
-  const addPaymentView = () => {
-    // Asegúrate de que PaymentView se importe correctamente
-    const updatedPaymentViews = [...paymentViews, <PaymenView />];
-    setPaymentViews(updatedPaymentViews);
-    localStorage.setItem("paymentViews", JSON.stringify(updatedPaymentViews));
-  };
-
-  const roomIds = rooms.map((room) => room.id);
-  console.log(roomIds);
 
   return (
     <>
@@ -363,7 +343,7 @@ const SearchRoom = () => {
 
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 {/* Filters */}
-                <button onClick={addPaymentView}>AGREGAR AL CARRITO</button>
+                <button>AGREGAR AL CARRITO</button>
                 {/* Product grid */}
                 <div className="flex flex-col gap-10 lg:col-span-3">
                   {/* Your content */}

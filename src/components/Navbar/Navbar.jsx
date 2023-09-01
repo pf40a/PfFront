@@ -1,9 +1,10 @@
 // import React from "react";
 import { NavLink } from "react-router-dom";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
 
 const navegacionAdmin = [
   { name: "Dashboard", href: "/Dashboard", current: true },
@@ -19,10 +20,28 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Establece esto según el estado de inicio de sesión del usuario
   const [isAdmin, setIsAdmin] = useState(false); // Establece esto según el rol del usuario
   const [loggedOut, setloggedOut] = useState(true);
+  const login = useSelector(state => state.auth.user)
+  console.log(login);
+
+useEffect(()=>{
+  const setUser = ()=>{
+    if(login === true){
+      setIsLoggedIn(true)
+      setloggedOut(false)
+    }
+    else{
+      return
+    }
+  }
+  setUser()
+
+
+})
 
   const navegacion = isAdmin ? navegacionAdmin : navegacionUsuario;
   return (
@@ -86,7 +105,7 @@ const Navbar = () => {
                 }`}
                 style={{ gap: "10px" }}
               >
-                <h2 className="text-white">Registrarse</h2>
+                <NavLink to="/register"><h2 className="text-white">Registrarse</h2></NavLink>
                 <div className="bg-white w-1 h-8 "></div>
                 <h2 className="text-white">Login</h2>
               </div>
