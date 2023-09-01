@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveLocalStorage, getLocalStorage, removeLocalStorage } from "../../utilities/managerLocalStorage";
 import { searchRooms } from "../../redux/actions";
+import { NavLink } from "react-router-dom";
 
 
 export default function SearchBox() {
@@ -148,7 +149,7 @@ setInputs({ ...inputs, [campo]: valor });
               type="submit"
               className="bg-customOrange text-white px-10 py-2"
             >
-              Buscar
+              <NavLink to="/search">Buscar</NavLink>
             </button>
           </div>
         </div>
