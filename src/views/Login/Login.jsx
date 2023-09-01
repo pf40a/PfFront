@@ -25,7 +25,7 @@ export default function LoginForm() {
     console.log(formData);
     
     try {
-      const response = await axios.get('http://localhost:3001/hotel/users/login', {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/users/login`, {
         "email": "juan1234@gmail.com",
         "password": "juan123"
       });
