@@ -1,5 +1,7 @@
 import React from "react";
+import axios from "axios";
 import { useEffect, useState } from "react";
+import { getLocalStorage } from "../../utilities/managerLocalStorage";
 import { Fragment } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -11,8 +13,8 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 import Room from "../Room/Room";
-import PopDetail from "../PopDetail/PopDetail";
 import PaymenView from "../Payment/PaymenView";
+import { searchRooms } from "../../redux/actions";
 
 const sortOptions = [
   { name: "Jacuzzi", href: "#", current: true },
@@ -71,26 +73,51 @@ function classNames(...classes) {
 }
 
 const SearchRoom = () => {
+  const [rooms, setRooms] = useState([]);
+  const [detail, setDetail] = useState([]);
+  const [filtrado, setFiltrado] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState(null);
   const [localStorageRooms, setLocalStorageRooms] = useState([]); //localStorage
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [pop, setPop] = useState(false);
   const [paymentViews, setPaymentViews] = useState([]); // Estado para las vistas de pago
+  
 
-  const handleInfo = () => {
-    setPop(true);
-  };
-  const handleClose = () => {
-    setPop(false);
-  };
   //Rooms LocalStorage :
   useEffect(() => {
     // Cargar datos del carrito desde localStorage al cargar la página
+
+    const dataRooms = async () => {
+      try {
+        const roomRequest = await axios.post(
+          "http://localhost:3001/hotel/filtros"
+        );
+        const response = roomRequest.data.data;
+        setRooms(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    dataRooms();
+    const detailReques = async () => {
+      try {
+        const detailReq = await axios.get(
+          "http://localhost:3001/hotel/habitaciones/detalle"
+        );
+        const response = detailReq.data.data;
+        setDetail(response);
+      } catch (error) {}
+    };
+    detailReques();
+    const searchDataFromLocalStorage = getLocalStorage('search');
+    // Utiliza los datos como sea necesario en tu componente
+    console.log('Data from localStorage:', searchDataFromLocalStorage);
     const savedRooms = localStorage.getItem("rooms");
     if (savedRooms) {
       setLocalStorageRooms(JSON.parse(savedRooms));
     }
   }, []);
-
+  console.log(rooms);
   useEffect(() => {
     // Guardar datos del carrito en localStorage cuando cambien
     localStorage.setItem("rooms", JSON.stringify(localStorageRooms));
@@ -98,6 +125,7 @@ const SearchRoom = () => {
 
   //añadir habitacion
   const addToCart = (item) => {
+    setSelectedRoom(item);
     setLocalStorageRooms([...localStorageRooms, item]);
   };
   // Cargar las vistas de pago existentes desde el almacenamiento local al cargar la página
@@ -109,12 +137,15 @@ const SearchRoom = () => {
 
   // Función para agregar una nueva vista de pago
   const addPaymentView = () => {
-     // Asegúrate de que PaymentView se importe correctamente
-    const updatedPaymentViews = [...paymentViews, <PaymenView/>];
+    // Asegúrate de que PaymentView se importe correctamente
+    const updatedPaymentViews = [...paymentViews, <PaymenView />];
     setPaymentViews(updatedPaymentViews);
     localStorage.setItem("paymentViews", JSON.stringify(updatedPaymentViews));
   };
-console.log(paymentViews);
+
+  const roomIds = rooms.map((room) => room.id);
+  console.log(roomIds);
+
   return (
     <>
       <div className="bg-white">
@@ -320,17 +351,35 @@ console.log(paymentViews);
 
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 {/* Filters */}
-                <button onClick={addPaymentView}>AGREGAR AL CARRITO</button>     
+                <button onClick={addPaymentView}>AGREGAR AL CARRITO</button>
                 {/* Product grid */}
-                <div className="lg:col-span-3">
+                <div className="flex flex-col gap-10 lg:col-span-3">
                   {/* Your content */}
-                  <Room handleClick={handleInfo} />
-                  {pop ? (
-                    <div className=" backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto">
-                      <PaymenView close={handleClose} />
+                  {rooms.map((item) => (
+                    <div key={item.id}>
+                      <Room
+                        handleClick={() => addToCart(item)}
+                        id={item.id}
+                        tipo_Habitacion={item.tipo_Habitacion}
+                        subTipo={item.subTipo}
+                        precio={item.precio}
+                        image={item.image}
+                      />
                     </div>
-                  ) : (
-                    ""
+                  ))}
+
+                  {selectedRoom && (
+                    <div className=" backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto">
+                      <PaymenView
+                        close={() => setSelectedRoom(null)} // Cierra el componente PaymenView
+                        id={selectedRoom.id}
+                        tipo_Habitacion={selectedRoom.tipo_Habitacion}
+                        subTipo={selectedRoom.subTipo}
+                        descripcion={selectedRoom.descripcion} // Asegúrate de pasar los detalles correctos
+                        capacidad={selectedRoom.capacidad}
+                        image={selectedRoom.image}
+                      />
+                    </div>
                   )}
                 </div>
               </div>

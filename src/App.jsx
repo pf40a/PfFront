@@ -54,8 +54,7 @@ function App() {
         currentPath !== "/reserve" &&
         currentPath !== "/registrar" &&
         currentPath !== "/login" &&
-        currentPath !== "/dashboard" &&
-        currentPath !== "/search"
+        currentPath !== "/dashboard"
 
     );
     // const fetchDataRooms = async()=>{
