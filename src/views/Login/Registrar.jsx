@@ -58,7 +58,7 @@ export default function RegistrationForm() {
     }
 
     try {
-      const response = await axios.post('http://localhost:3001/hotel/users', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/users`, formData);
       console.log(formData)
       if (response.data) {
         window.alert('Usuario creado!');

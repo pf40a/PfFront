@@ -64,14 +64,14 @@ const Reservation = () => {
       if (!reserve.dni) return; // No hacer solicitudes si dni está vacío
 
       try {
-        await axios.get(`http://localhost:3001/hotel/clientes/${reserve.dni}`);
+        await axios.get(`${import.meta.env.VITE_API_URL}/hotel/clientes/${reserve.dni}`);
         console.log("Cliente existente");
       } catch (error) {
         console.log("Cliente no encontrado. Creando cliente...");
 
         try {
           const createClientResponse = await axios.post(
-            "http://localhost:3001/hotel/clientes",
+            `${import.meta.env.VITE_API_URL}/hotel/clientes`,
             {
               email: reserve.email,
               nombre: reserve.firstName,
@@ -97,7 +97,7 @@ const Reservation = () => {
       }
 
       try {
-        await axios.post("http://localhost:3001/hotel/reservas", {
+        await axios.post(`${import.meta.env.VITE_API_URL}/hotel/reservas`, {
           fechaIngreso: reserve.ingreso,
           fechaSalida: reserve.egreso,
           adultos: reserve.adults,

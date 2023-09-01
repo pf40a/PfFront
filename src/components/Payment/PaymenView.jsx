@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacidad, image }) => {
   const [roomData, setRoomData] = useState({});
 
+
   return (
     <div id={id} className="bg-white mx-auto max-w-sm border border-gray-300 rounded-lg overflow-hidden">
       <button className="border-red right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8" onClick={close}>X</button>
