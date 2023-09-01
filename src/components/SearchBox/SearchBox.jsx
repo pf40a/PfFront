@@ -153,7 +153,7 @@ setInputs({ ...inputs, [campo]: valor });
               type="submit"
               className="bg-customOrange text-white px-10 py-2"
             >
-              <NavLink to="/search">Buscar</NavLink>
+             Buscar
             </button>
           </div>
         </div>
