@@ -6,13 +6,9 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const navegacionAdmin = [
-  { name: "Tablero", href: "/Dashboard", current: true },
+  { name: "Dashboard", href: "/Dashboard", current: true },
   { name: "Reservas", href: "/Reservations", current: false },
   { name: "Calendario", href: "/git", current: false },
-];
-const navegacionInvitado = [
-  { name: "Iniciar sesión", href: "/login", current: true },
-  { name: "Registrarse", href: "/register", current: false },
 ];
 
 const navegacionUsuario = [
@@ -24,13 +20,13 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Establece esto según el estado de inicio de sesión del usuario
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Establece esto según el estado de inicio de sesión del usuario
   const [isAdmin, setIsAdmin] = useState(false); // Establece esto según el rol del usuario
-  const [loggedOut, setloggedOut] = useState(true);
+  const [loggedOut, setloggedOut] = useState(false);
 
   const navegacion = isAdmin ? navegacionAdmin : navegacionUsuario;
   return (
-    <Disclosure as="nav" className="bg-[#152340]">
+    <Disclosure as="nav" className="bg-[#16242f]">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -46,21 +42,21 @@ const Navbar = () => {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+              <div className="flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start" >
                 <NavLink
                   to="/"
                   className="flex flex-shrink-0 items-center h-16"
                 >
                   <img
                     className="h-full max-w-full"
-                    src="./logo.jpeg"
+                    src="./logo.jpg"
                     alt="Your Company"
                   />
                 </NavLink>
                 {isLoggedIn ? (
                   <div
-                    className="flex items-center justify-center hidden sm:ml-6 sm:block"
-                    style={{ display: "flex" }}
+                    className="hidden sm:ml-6 sm:block"
+                    style={{margin:"auto"}}
                   >
                     <div className="flex space-x-4">
                       {navegacion.map((item) => (
@@ -85,12 +81,13 @@ const Navbar = () => {
                 )}
               </div>
               <div
-                className={`flex sm:ml-6 ${
+                className={`flex items-center sm:ml-6 ${
                   loggedOut ? "visible" : "invisible"
                 }`}
                 style={{ gap: "10px" }}
               >
                 <h2 className="text-white">Registrarse</h2>
+                <div className="bg-white w-1 h-8 "></div>
                 <h2 className="text-white">Login</h2>
               </div>
               {isLoggedIn && (

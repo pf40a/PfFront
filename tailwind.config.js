@@ -5,7 +5,18 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        Primary: '#152430',
+        Secondary: '#FCCF8D',
+        customLightBlue: '#299FFF',
+        customDarkBlue: '#0F8CF2',
+        customOrange: '#A66500',
+      }
+    },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio')
+  ],
 }

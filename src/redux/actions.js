@@ -10,21 +10,23 @@ export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const CHECKING_CREDENTIALS = "CHECKING_CREDENTIALS";
 
+
 import axios from "axios";
 
 export const searchRooms = (search) => {
+  ///console.log('buscar',search)
   return async (dispatch) => {
     try {
-      let response = await axios.get(
-        "http://localhost:3001/hotel/habitaciones/detalle",
-        search
-      );
-      let data = response.data;
-      //console.log('data',data)
+      let filtroFechas={
+        fechaIngreso: search.fechaIn,
+        fechaSalida: search.fechaOut
+      }
+      let response = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/filtros`, filtroFechas);
+      let data = response.data.data;
+    //console.log('dataxx',data)
       return dispatch({
         type: "SEARCH_ROOMS",
-        payload: data,
-        search: search,
+        payload: data
       });
     } catch (error) {
       console.log(error);
@@ -53,12 +55,10 @@ export const orderRoom = (order) => {
   };
 };
 
-export const allTypesRooms = () => {
-  return async (dispatch) => {
+export const loadAllTypesRooms = () => {
+    return async (dispatch) => {
     try {
-      let response = await axios.get(
-        "http://localhost:3001/hotel/habitaciones/detalle"
-      );
+      let response = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle`);
       let data = response.data.data;
       //console.log('data',data)
       return dispatch({

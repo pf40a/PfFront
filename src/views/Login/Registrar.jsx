@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './Registrar.module.css';
+import { Link } from 'react-router-dom';
 
 export default function RegistrationForm() {
   const [formData, setFormData] = useState({
@@ -57,31 +58,42 @@ export default function RegistrationForm() {
     }
 
     try {
-      const response = await axios.post('http://localhost:3001/hotel/users', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/users`, formData);
+      console.log(formData)
       if (response.data) {
         window.alert('Usuario creado!');
         setFormData({
-          nombre: '',
-          apellido: '',
-          email: '',
-          password: '',
-          confirmPassword: '',
-          admin: false,
-        });
+        nombre: '',
+        apellido: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        admin: false,
+      });
+
+      document.getElementById('nombre').value = '';
+      document.getElementById('apellido').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('confirmPassword').value = '';
       }
     } catch (error) {
       console.error('Error sending data to backend:', error);
-      if (error.response.status === 400){
+      if (error.response.status === 400) {
         window.alert("Correo electronico ya existe")
       }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="hidden" name="admin" value="false" />
 
-      <div className={`space-y-6 ${styles.registrationForm}`}> 
+    <div className={styles.container}>
+      
+    <form onSubmit={handleSubmit} className={styles.registrationForm}>
+      <input type="hidden" name="admin" value="false" />
+      <h2 className={styles.titleCreate}>Crear cuenta</h2>
+
+      <div>
         <div>
           <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">
             Nombres
@@ -147,7 +159,7 @@ export default function RegistrationForm() {
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+          <label >
             Confirmar Contraseña
           </label>
           <input
@@ -170,7 +182,15 @@ export default function RegistrationForm() {
         >
           Registrar
         </button>
+        <p className={styles.pcreate}>Si no tienes cuenta aún</p>
+        <div className={styles.Loginlinkdiv}>
+              
+              <Link to="/login" className={styles.loginLink}>
+                Iniciar sesión
+              </Link>
+            </div>
       </div>
     </form>
+    </div>
   );
 }

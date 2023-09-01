@@ -17,9 +17,8 @@ const initialState = {
   room: {},
   filters: [],
   order: "",
-  search: { fechaIn: "", fechaOut: "", adultos: 2, niños: 0, bebes: 0 },
-  typesRooms: ["uno", "dos"],
-  allTypesRooms: [],
+  typesRooms:[],
+  allTypesRooms:[],
 
   // Authentication
   auth: {
@@ -41,8 +40,7 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         rooms: [...action.payload],
-        allRooms: [...action.payload],
-        search: { ...action.search },
+        allRooms: [...action.payload]
       };
 
     case DETAIL_ROOM:
@@ -150,6 +148,7 @@ export default function rootReducer(state = initialState, action) {
           status: "checking",
         },
       };
+
 
     default:
       return { ...state };
