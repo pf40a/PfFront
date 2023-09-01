@@ -10,10 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
+    "@mui/icons-material": "^5.14.7",
+    "@mui/material": "^5.14.7",
     "@tabler/icons-react": "^2.31.0",
     "axios": "^1.4.0",
+    "firebase": "^10.3.0",
     "i": "^0.3.7",
     "npm": "^9.8.1",
     "react": "^18.2.0",
