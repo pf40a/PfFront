@@ -73,6 +73,21 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+function diasEntreFechas(fecha1, fecha2) {
+  // Convierte las fechas de texto a objetos Date
+  const date1 = new Date(fecha1);
+  const date2 = new Date(fecha2);
+
+  // Calcula la diferencia en milisegundos
+  const diferenciaEnMilisegundos = Math.abs(date2 - date1);
+
+  // Convierte la diferencia a días
+  const diasDiferencia = diferenciaEnMilisegundos / (1000 * 60 * 60 * 24);
+
+  return diasDiferencia;
+}
+
+
 const SearchRoom = () => {
   const [rooms, setRooms] = useState([]);
   const [detail, setDetail] = useState([]);
@@ -368,6 +383,8 @@ const SearchRoom = () => {
                         subTipo={item.subTipo}
                         precio={item.precio}
                         image={item.image}
+                        capacidad={item.capacidad}
+                        dias={diasEntreFechas(search.fechaIn, search.fechaOut)}
                         fechaIn={search.fechaIn}
                         FechaOut={search.fechaOut}
                         Adultos={search.adultos}

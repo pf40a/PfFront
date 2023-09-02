@@ -21,10 +21,10 @@ export const searchRooms = (search) => {
         fechaIngreso: search.fechaIn,
         fechaSalida: search.fechaOut
       }
-      console.log('filtro',filtroFechas)
+      //console.log('filtro',filtroFechas)
       let response = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/filtros`, filtroFechas);
       let data = response.data.data;
-  console.log('dataxx',data)
+  //console.log('dataxx',data)
       return dispatch({
         type: "SEARCH_ROOMS",
         payload: data
