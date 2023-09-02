@@ -110,10 +110,13 @@ const SearchRoom = () => {
     //   } catch (error) {}
     // };
     // detailReques();
-    const searchDataFromLocalStorage = getLocalStorage('search');
+
+    /* const searchDataFromLocalStorage = getLocalStorage('search');
     // Utiliza los datos como sea necesario en tu componente
     setInfoStorage(searchDataFromLocalStorage)
-    console.log('Data from localStorage:', searchDataFromLocalStorage);
+    console.log('Data from localStorage:', searchDataFromLocalStorage); */
+
+
     const savedRooms = localStorage.getItem("rooms");
     if (savedRooms) {
       setLocalStorageRooms(JSON.parse(savedRooms));
@@ -133,7 +136,10 @@ const SearchRoom = () => {
   };
 
 
-
+  let search
+  if(getLocalStorage('search')){
+    search = getLocalStorage('search')
+     }
 
   return (
     <>
@@ -362,10 +368,10 @@ const SearchRoom = () => {
                         subTipo={item.subTipo}
                         precio={item.precio}
                         image={item.image}
-                        fechaIn={infoStorage.fechaIn}
-                        FechaOut={infoStorage.fechaOut}
-                        Adultos={infoStorage.adultos}
-                        Niños={infoStorage.niños}
+                        fechaIn={search.fechaIn}
+                        FechaOut={search.fechaOut}
+                        Adultos={search.adultos}
+                        Niños={search.niños}
                       />
                     </div>
                   ))}
