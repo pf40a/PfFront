@@ -7,8 +7,6 @@ import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
-import Rooms from "../../components/Rooms/Rooms";
-import Room from "../../components/Room/Room";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -35,7 +33,7 @@ const Home = () => {
         <SearchBox />
       </div>
 
-      <div className="flex mt-36 items-center justify-center">
+      <div className="flex mt-16 items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-40">
           {data.map((item) => (
             <div
