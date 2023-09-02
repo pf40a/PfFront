@@ -181,11 +181,7 @@ validate({ ...inputs, [campo]: valor });
               type="submit"
               className="bg-customOrange text-white px-10 py-2"
             >
-<<<<<<< HEAD
-             Buscar
-=======
               Buscar
->>>>>>> dev
             </button>
           </div>
         </div>
