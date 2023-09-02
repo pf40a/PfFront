@@ -10,11 +10,7 @@ import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 
-function contarPropiedadesNoVacias(objeto) {
-  return Object.keys(objeto).reduce((contador, propiedad) => {
-    return objeto[propiedad] !== "" ? contador + 1 : contador;
-  }, 0);
-}
+
 
 
 export default function SearchBox() {
@@ -22,40 +18,39 @@ export default function SearchBox() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [checkInDate, setCheckInDate] = useState(null);
-  const [checkOutDate, setCheckOutDate] = useState(null);
-  const [isCheckInCalendarOpen, setIsCheckInCalendarOpen] = useState(false);
-  const [isCheckOutCalendarOpen, setIsCheckOutCalendarOpen] = useState(false);
+const validate = (inputs) => {
+  let today=new Date()
+let totalError=0
+  let err = {};
+
+  if (!inputs.fechaIn || inputs.fechaIn.length < 10) {
+    err.fechaIn = "Falta la Fecha de Ingreso";
+    totalError++
+  }
+  if (!inputs.fechaOut || inputs.fechaOut.length < 10) {
+    err.fechaOut = "Falta la Fecha de Salida";
+    totalError++
+  }
+  if (inputs.fechaIn < today) {
+    err.fechaIn = "Fecha de Ingreso incorrecta";
+    totalError++
+  }
+  if (inputs.fechaIn >= inputs.fechaOut) {
+    err.fechaOut = "Fecha de Salida incorrecta";
+    totalError++
+  }
+  if (inputs.adultos < 1) {
+    err.adultos = "Falta el número de adultos";
+    totalError++
+  }
+  
+  //
+console.log('Errores::',err)
+setErrors(err)
+  return totalError;
+};
 
   let search = { fechaIn: "", fechaOut: "", adultos: 2, niños: 0, bebes: 0 } 
-  useEffect(() => {
-    
-    if(getLocalStorage('search')){
-search = getLocalStorage('search')
-    }
-    
-    setInputs(search)
-
-  },[pathname])
-
- 
-  
-  //console.log('Form',diets)
-  const validate = (inputs) => {
-    let err = {};
-
-    if (!inputs.fechaIn || inputs.fechaIn.length < 10) {
-      err.fechaIn = "Falta la Fecha de Ingreso";
-    }
-    if (!inputs.fechaOut || inputs.fechaOut.length < 10) {
-      err.fechaOut = "Falta la Fecha de Salida";
-    }
-    if (inputs.adultos < 1) {
-      err.adultos = "Falta el número de adultos";
-    }
-
-    return err;
-  };
 
   const [inputs, setInputs] = useState(search);
   //console.log('IN',inputs)
@@ -63,34 +58,52 @@ search = getLocalStorage('search')
     fechaIn: "",
     fechaOut: "",
     adultos: "",
-    niños: "",
+    niños: ""
   });
+
+  const [checkInDate, setCheckInDate] = useState(null);
+  const [checkOutDate, setCheckOutDate] = useState(null);
+  const [isCheckInCalendarOpen, setIsCheckInCalendarOpen] = useState(false);
+  const [isCheckOutCalendarOpen, setIsCheckOutCalendarOpen] = useState(false);
+
+  
+  useEffect(() => {
+    
+    if(getLocalStorage('search')){
+setInputs(getLocalStorage('search'))
+validate(getLocalStorage('search'));
+    }  
+
+  },[pathname])
+
+ 
+  
+  //console.log('Form',diets)
+  
+
+  
 
   const handleChange = (event) => {
     let campo = event.target.name;
     let valor = event.target.value;
     //console.log('change',campo,valor)
 setInputs({ ...inputs, [campo]: valor });
-
-    setErrors(validate({ ...inputs, [campo]: valor }));
+validate({ ...inputs, [campo]: valor });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     //
-    
-    const arrayDePropiedades = contarPropiedadesNoVacias(errors);
-    if (arrayDePropiedades > 0) {
-      alert("Complete el formulario, por favor");
-      return;
-    }
-
+     let total=validate(inputs) 
+     if (total!== 0) return
+     
     saveLocalStorage('search', inputs)
     dispatch(searchRooms(inputs))
     if(pathname !== '/search'){
      navigate('/search');
     }
-    //
+   
+  
   };
 
   //console.log('inp',inputs)
@@ -172,9 +185,9 @@ setInputs({ ...inputs, [campo]: valor });
             </button>
           </div>
         </div>
-        {errors.fechaIn && <div className="danger">{errors.fechaIn}</div>}
-        {errors.fechaOut && <div className="danger">{errors.fechaOut}</div>}
-        {errors.adultos && <div className="danger">{errors.adultos}</div>}
+        {errors.fechaIn && <div className="text-sm text-red-800">{errors.fechaIn}</div>}
+        {errors.fechaOut && <div className="text-sm text-red-800">{errors.fechaOut}</div>}
+        {errors.adultos && <div className="text-sm text-red-800">{errors.adultos}</div>}
       </form>
     </div>
   );
