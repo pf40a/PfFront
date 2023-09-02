@@ -14,16 +14,17 @@ export const CHECKING_CREDENTIALS = "CHECKING_CREDENTIALS";
 import axios from "axios";
 
 export const searchRooms = (search) => {
-  ///console.log('buscar',search)
+  //console.log('buscar',search)
   return async (dispatch) => {
     try {
       let filtroFechas={
         fechaIngreso: search.fechaIn,
         fechaSalida: search.fechaOut
       }
-      let response = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/filtros`, filtroFechas);
+      //console.log('filtro',filtroFechas)
+      let response = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/filtros`, filtroFechas);
       let data = response.data.data;
-    //console.log('dataxx',data)
+  //console.log('dataxx',data)
       return dispatch({
         type: "SEARCH_ROOMS",
         payload: data

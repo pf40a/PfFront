@@ -1,11 +1,13 @@
 import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
+import { NavLink, Link as RouterLink } from "react-router-dom";
 import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import AuthLayout from "../Layout/AuthLayout";
 import { useForm } from "../../../Hooks/useForm";
 import { checkingCredentials, login, logout } from "../../../redux/actions";
 import { registerUserWithEmailPassword } from "../../../Firebase/Providers";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 const formData = {
   nombre: "",
@@ -34,6 +36,12 @@ const formValidations = {
 
 const RegisterPage = () => {
 
+  const navigate = useNavigate()
+
+  const saveUserData = (userData) => {
+    localStorage.setItem('userData', JSON.stringify(userData));
+  };
+
   const dispatch = useDispatch();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -60,10 +68,9 @@ const RegisterPage = () => {
     };
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitted(true);
-
     if (!isFormValid) return;
 
     const updatedFormState = {
@@ -72,6 +79,23 @@ const RegisterPage = () => {
     };
 
     dispatch(startCreatingUserWithEmailPassword(updatedFormState));
+    try {
+      const response = await axios.post('http://localhost:3001/hotel/users', formState);
+      console.log(formState)
+      if (response.data) {
+       console.log("Usuario creado", response.data)
+      }
+    } catch (error) {
+      console.error('Error sending data to backend:', error);
+    }
+
+
+    if (status === "authenticated"){
+      window.location.href = '/'
+    }
+    navigate("/")
+
+    saveUserData(status.user)
   };
 
   return (
@@ -142,7 +166,7 @@ const RegisterPage = () => {
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
 
             <Grid item xs={12} display={!!errorMessage ? "" : "none"}>
-              <Alert severity="error">{errorMessage}</Alert>
+              {/* <Alert severity="error">{errorMessage}</Alert> */}
             </Grid>
 
             <Grid item xs={12}>

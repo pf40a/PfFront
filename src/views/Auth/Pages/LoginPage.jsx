@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { Grid, Typography, TextField, Button, Link, Alert } from "@mui/material";
 import { Google } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 import AuthLayout from "../Layout/AuthLayout";
 import { useForm } from "../../../Hooks/useForm";
@@ -12,6 +13,7 @@ import { loginWithEmailPassword, singInWithGoogle } from "../../../Firebase/Prov
 const LoginPage = () => {
   const { status, errorMessage } = useSelector((state) => state.auth);
 
+  const navigate = useNavigate()
   const dispatch = useDispatch();
 
   const { email, password, onInputChange } = useForm({
@@ -49,6 +51,10 @@ const LoginPage = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     dispatch(startLoginWithEmailPassword({ email, password }));
+    if (status === "authenticated"){
+      window.location.href = '/'
+    }
+    navigate("/")
   };
 
   return (
@@ -82,15 +88,11 @@ const LoginPage = () => {
             />
           </Grid>
 
-          <Grid 
-            container
-            display={!!errorMessage ? "" : "none"}
-            sx={{ mt: 1 }}
-          >
-            <Grid item xs={12} >
-              <Alert severity="error">{errorMessage}</Alert>
-            </Grid>
-          </Grid>
+          <Grid container display={!!errorMessage ? "" : "none"} sx={{ mt: 1 }}>
+  <Grid item xs={12}>
+    {/* {errorMessage && <Alert severity="error">{errorMessage}</Alert>} */}
+  </Grid>
+</Grid>
 
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             {/* Normal Login */}
@@ -105,7 +107,7 @@ const LoginPage = () => {
                 variant="contained"
                 fullWidth
               >
-                Login
+              Login
               </Button>
             </Grid>
 

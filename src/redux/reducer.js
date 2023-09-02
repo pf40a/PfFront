@@ -31,6 +31,7 @@ const initialState = {
     photoURL: null,
     errorMessage: null,
     admin: false,
+    user:false,
   },
 };
 
@@ -124,6 +125,7 @@ export default function rootReducer(state = initialState, action) {
           photoURL: action.payload.photoURL,
           errorMessage: null,
           admin: false,
+          user:true,
         },
       };
 
@@ -140,6 +142,7 @@ export default function rootReducer(state = initialState, action) {
           photoURL: null,
           errorMessage: action.payload,
           admin: false,
+          user:false,
         },
       };
 

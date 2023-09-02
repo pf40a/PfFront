@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { getLocalStorage } from "../../utilities/managerLocalStorage";
 import { Fragment } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
@@ -14,7 +15,6 @@ import {
 } from "@heroicons/react/20/solid";
 import Room from "../Room/Room";
 import PaymenView from "../Payment/PaymenView";
-import { searchRooms } from "../../redux/actions";
 import SearchBox from "../SearchBox/SearchBox";
 
 const sortOptions = [
@@ -73,6 +73,21 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+function diasEntreFechas(fecha1, fecha2) {
+  // Convierte las fechas de texto a objetos Date
+  const date1 = new Date(fecha1);
+  const date2 = new Date(fecha2);
+
+  // Calcula la diferencia en milisegundos
+  const diferenciaEnMilisegundos = Math.abs(date2 - date1);
+
+  // Convierte la diferencia a días
+  const diasDiferencia = diferenciaEnMilisegundos / (1000 * 60 * 60 * 24);
+
+  return diasDiferencia;
+}
+
+
 const SearchRoom = () => {
   const [rooms, setRooms] = useState([]);
   const [detail, setDetail] = useState([]);
@@ -80,46 +95,48 @@ const SearchRoom = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [localStorageRooms, setLocalStorageRooms] = useState([]); //localStorage
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [pop, setPop] = useState(false);
-  const [paymentViews, setPaymentViews] = useState([]); // Estado para las vistas de pago
+
+  const roomsRedux = useSelector(state => state.rooms)
   
 
   //Rooms LocalStorage :
   useEffect(() => {
     // Cargar datos del carrito desde localStorage al cargar la página
 
-    const dataRooms = async () => {
-      try {
-        const roomRequest = await axios.post(
-          "http://localhost:3001/hotel/filtros"
-        );
-        const response = roomRequest.data.data;
-        setRooms(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    dataRooms();
-    const detailReques = async () => {
-      try {
-        const detailReq = await axios.get(
-          "http://localhost:3001/hotel/habitaciones/detalle"
-        );
-        const response = detailReq.data.data;
-        setDetail(response);
-      } catch (error) {}
-    };
-    detailReques();
-    const searchDataFromLocalStorage = getLocalStorage('search');
+    // const dataRooms = async () => {
+    //   try {
+    //     const roomRequest = await axios.post(
+    //       "http://localhost:3001/hotel/filtros"
+    //     );
+    //     const response = roomRequest.data.data;
+    //     setRooms(response);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // dataRooms();
+    // const detailReques = async () => {
+    //   try {
+    //     const detailReq = await axios.get(
+    //       "http://localhost:3001/hotel/habitaciones/detalle"
+    //     );
+    //     const response = detailReq.data.data;
+    //     setDetail(response);
+    //   } catch (error) {}
+    // };
+    // detailReques();
+
+    /* const searchDataFromLocalStorage = getLocalStorage('search');
     // Utiliza los datos como sea necesario en tu componente
     setInfoStorage(searchDataFromLocalStorage)
-    console.log('Data from localStorage:', searchDataFromLocalStorage);
+    console.log('Data from localStorage:', searchDataFromLocalStorage); */
+
+
     const savedRooms = localStorage.getItem("rooms");
     if (savedRooms) {
       setLocalStorageRooms(JSON.parse(savedRooms));
     }
   }, []);
-  console.log(rooms);
   useEffect(() => {
     // Guardar datos del carrito en localStorage cuando cambien
     localStorage.setItem("rooms", JSON.stringify(localStorageRooms));
@@ -128,30 +145,16 @@ const SearchRoom = () => {
   //añadir habitacion
 
 
-
   const addToCart = (item) => {
     setSelectedRoom(item);
     setLocalStorageRooms([...localStorageRooms, item]);
   };
 
 
-  // Cargar las vistas de pago existentes desde el almacenamiento local al cargar la página
-  useEffect(() => {
-    const storedPaymentViews =
-      JSON.parse(localStorage.getItem("paymentViews")) || [];
-    setPaymentViews(storedPaymentViews);
-  }, []);
-
-  // Función para agregar una nueva vista de pago
-  const addPaymentView = () => {
-    // Asegúrate de que PaymentView se importe correctamente
-    const updatedPaymentViews = [...paymentViews, <PaymenView />];
-    setPaymentViews(updatedPaymentViews);
-    localStorage.setItem("paymentViews", JSON.stringify(updatedPaymentViews));
-  };
-
-  const roomIds = rooms.map((room) => room.id);
-  console.log(roomIds);
+  let search
+  if(getLocalStorage('search')){
+    search = getLocalStorage('search')
+     }
 
   return (
     <>
@@ -284,7 +287,11 @@ const SearchRoom = () => {
 
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex mt-10">
+
+
             <SearchBox/>
+
+
             </div>
             <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
               
@@ -363,11 +370,11 @@ const SearchRoom = () => {
 
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 {/* Filters */}
-                <button onClick={addPaymentView}>AGREGAR AL CARRITO</button>
+                <button>AGREGAR AL CARRITO</button>
                 {/* Product grid */}
                 <div className="flex flex-col gap-10 lg:col-span-3">
                   {/* Your content */}
-                  {rooms.map((item) => (
+                  {roomsRedux.length>0 && roomsRedux.map((item) => (
                     <div key={item.id}>
                       <Room
                         handleClick={() => addToCart(item)}
@@ -376,10 +383,12 @@ const SearchRoom = () => {
                         subTipo={item.subTipo}
                         precio={item.precio}
                         image={item.image}
-                        fechaIn={infoStorage.fechaIn}
-                        FechaOut={infoStorage.fechaOut}
-                        Adultos={infoStorage.adultos}
-                        Niños={infoStorage.niños}
+                        capacidad={item.capacidad}
+                        dias={diasEntreFechas(search.fechaIn, search.fechaOut)}
+                        fechaIn={search.fechaIn}
+                        FechaOut={search.fechaOut}
+                        Adultos={search.adultos}
+                        Niños={search.niños}
                       />
                     </div>
                   ))}
