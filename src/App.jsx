@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./views/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
@@ -77,7 +77,6 @@ function App() {
     <>
       {showLayout && <Navbar />}
       <Routes>
-        <Route path="/error" element={<ErroPage />} />
         <Route exact path="/" element={<Home />} />
         <Route exact path="/details/:subtipo" element={<DetailsRooms />} />
         <Route path="/reserve" element={<Reservation />} />
@@ -86,6 +85,7 @@ function App() {
         <Route path="/payment" element={<PaymenView />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        {/* <Route path="/error" element={<ErroPage />} /> */}
         <Route path="*" element={<ErroPage />} />
         <Route path="/pop" element={<PopDetail />} />
         <Route path="/search" element={<SearchRoom />} />
