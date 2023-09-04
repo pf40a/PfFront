@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './Registrar.module.css';
 import { Link } from 'react-router-dom';
@@ -21,16 +21,16 @@ export default function RegistrationForm() {
     confirmPassword: '',
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (event) => {
+    const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     // Validar campos obligatorios
     const newErrors = {};
@@ -58,7 +58,7 @@ export default function RegistrationForm() {
     }
 
     try {
-      const response = await axios.post('http://localhost:3001/hotel/users', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/users`, formData);
       console.log(formData)
       if (response.data) {
         window.alert('Usuario creado!');

@@ -1,9 +1,12 @@
 // import React from "react";
-import { NavLink } from "react-router-dom";
-import { Fragment } from "react";
+import { NavLink , useNavigate } from "react-router-dom";
+import { Fragment, useEffect } from "react";
 import { useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/actions";
+
 
 const navegacionAdmin = [
   { name: "Dashboard", href: "/Dashboard", current: true },
@@ -19,14 +22,49 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Establece esto según el estado de inicio de sesión del usuario
   const [isAdmin, setIsAdmin] = useState(false); // Establece esto según el rol del usuario
   const [loggedOut, setloggedOut] = useState(true);
+  const loginGeneral = useSelector(state => state.auth)
+  const login = useSelector(state => state.auth.user)
+  const loginAdmin = useSelector(state => state.auth.admin)
+
+  const getUserData = () => {
+    const userDataString = localStorage.getItem('userData');
+    return JSON.parse(userDataString);
+  };
+
+
+const dispatch = useDispatch()
+const logOut = ()=>{
+  dispatch(logout(loginGeneral))
+}
+
+
+useEffect(()=>{
+  const setUser = ()=>{
+    if(login === true){
+      setIsLoggedIn(true)
+      setloggedOut(false)
+    }
+    else if (login === false){
+      setloggedOut(true)
+      setIsLoggedIn(false)
+    }
+    if(loginAdmin === true){
+      setIsAdmin(true)
+    }
+  }
+  setUser()
+
+
+})
 
   const navegacion = isAdmin ? navegacionAdmin : navegacionUsuario;
   return (
-    <Disclosure as="nav" className="bg-[#152340]">
+    <Disclosure as="nav" className="bg-[#16242f]">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -42,14 +80,14 @@ const Navbar = () => {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+              <div className="flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start" >
                 <NavLink
                   to="/"
                   className="flex flex-shrink-0 items-center h-16"
                 >
                   <img
                     className="h-full max-w-full"
-                    src="./logo.jpeg"
+                    src="./logo.jpg"
                     alt="Your Company"
                   />
                 </NavLink>
@@ -86,9 +124,9 @@ const Navbar = () => {
                 }`}
                 style={{ gap: "10px" }}
               >
-                <h2 className="text-white">Registrarse</h2>
+                <NavLink to="/register"><h2 className="text-white">Registrarse</h2></NavLink>
                 <div className="bg-white w-1 h-8 "></div>
-                <h2 className="text-white">Login</h2>
+                <NavLink to="/login"><h2 className="text-white">Login</h2></NavLink>
               </div>
               {isLoggedIn && (
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -152,15 +190,15 @@ const Navbar = () => {
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <a
-                              href="#"
+                            <button
+                              onClick={logOut}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
                               Sign out
-                            </a>
+                            </button>
                           )}
                         </Menu.Item>
                       </Menu.Items>
