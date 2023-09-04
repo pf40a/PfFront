@@ -13,9 +13,11 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
+
 import Room from "../Room/Room";
 import PaymenView from "../Payment/PaymenView";
 import SearchBox from "../SearchBox/SearchBox";
+import CartRooms from "../CartRooms/CartRooms";
 
 const sortOptions = [
   { name: "Jacuzzi", href: "#", current: true },
@@ -87,80 +89,66 @@ function diasEntreFechas(fecha1, fecha2) {
   return diasDiferencia;
 }
 
-
 const SearchRoom = () => {
-  const [rooms, setRooms] = useState([]);
-  const [detail, setDetail] = useState([]);
-  const [infoStorage, setInfoStorage] = useState({})
+  const [cartShow, setCartShow] = useState(false);
+  const [roomReserve, setRoomReserve] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const [localStorageRooms, setLocalStorageRooms] = useState([]); //localStorage
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  const roomsRedux = useSelector(state => state.rooms)
-  
+  const roomsRedux = useSelector((state) => state.rooms);
 
   //Rooms LocalStorage :
-  useEffect(() => {
-    // Cargar datos del carrito desde localStorage al cargar la página
-
-    // const dataRooms = async () => {
-    //   try {
-    //     const roomRequest = await axios.post(
-    //       "http://localhost:3001/hotel/filtros"
-    //     );
-    //     const response = roomRequest.data.data;
-    //     setRooms(response);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // dataRooms();
-    // const detailReques = async () => {
-    //   try {
-    //     const detailReq = await axios.get(
-    //       "http://localhost:3001/hotel/habitaciones/detalle"
-    //     );
-    //     const response = detailReq.data.data;
-    //     setDetail(response);
-    //   } catch (error) {}
-    // };
-    // detailReques();
-
-    /* const searchDataFromLocalStorage = getLocalStorage('search');
-    // Utiliza los datos como sea necesario en tu componente
-    setInfoStorage(searchDataFromLocalStorage)
-    console.log('Data from localStorage:', searchDataFromLocalStorage); */
-
-
-    const savedRooms = localStorage.getItem("rooms");
-    if (savedRooms) {
-      setLocalStorageRooms(JSON.parse(savedRooms));
-    }
-  }, []);
-  useEffect(() => {
-    // Guardar datos del carrito en localStorage cuando cambien
-    localStorage.setItem("rooms", JSON.stringify(localStorageRooms));
-  }, [localStorageRooms]);
-
   //añadir habitacion
+  useEffect(() => {
+    const storedRooms = JSON.parse(localStorage.getItem("rooms")) || [];
+    setRoomReserve(storedRooms);
+  }, []);
 
+  const addReserve = (item) => {
+    const updatedLocalStorageRooms = [...roomReserve, item];
+    setRoomReserve(updatedLocalStorageRooms);
+    localStorage.setItem("rooms", JSON.stringify(updatedLocalStorageRooms));
+  };
+  const removeRoom = (roomId) => {
+    // Filtra las habitaciones en el carrito y elimina la que coincida con el ID
+    const updatedRoomReserve = roomReserve.filter((room) => room.id !== roomId);
+
+    // Actualiza el estado del carrito
+    setRoomReserve(updatedRoomReserve);
+
+    // Actualiza el almacenamiento local
+    localStorage.setItem("rooms", JSON.stringify(updatedRoomReserve));
+  };
 
   const addToCart = (item) => {
     setSelectedRoom(item);
     setLocalStorageRooms([...localStorageRooms, item]);
   };
 
+  const showCart = () => {
+    setCartShow(true);
+  };
+  const closeCart = () => {
+    setCartShow(false);
+  };
 
-  let search
-  if(getLocalStorage('search')){
-    search = getLocalStorage('search')
-     }
+  let search;
+  if (getLocalStorage("search")) {
+    search = getLocalStorage("search");
+  }
+  let roomsLocal;
+  if (getLocalStorage("rooms")) {
+    roomsLocal = getLocalStorage("rooms");
+  }
+
+  const roomsData = localStorage.getItem("rooms");
+  console.log(JSON.parse(roomsData));
+  console.log(cartShow);
 
   return (
     <>
       <div className="bg-white">
         <div>
-          
           {/* Mobile filter dialog */}
           <Transition.Root show={mobileFiltersOpen} as={Fragment}>
             <Dialog
@@ -287,14 +275,9 @@ const SearchRoom = () => {
 
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex mt-10">
-
-
-            <SearchBox/>
-
-
+              <SearchBox />
             </div>
             <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-              
               <h1 className="text-4xl font-bold tracking-tight text-gray-900">
                 Habitaciones
               </h1>
@@ -344,7 +327,22 @@ const SearchRoom = () => {
                     </Menu.Items>
                   </Transition>
                 </Menu>
-
+                <button className="ml-10" onClick={showCart}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                    />
+                  </svg>
+                </button>
                 <button
                   type="button"
                   className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
@@ -368,31 +366,43 @@ const SearchRoom = () => {
                 Products
               </h2>
 
-              <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-                {/* Filters */}
-                <button>AGREGAR AL CARRITO</button>
+              {/* Filters */}
+              <div>
+                {cartShow && (
+                  <div>
+                    <CartRooms
+                      state={cartShow}
+                      close={closeCart}
+                      arrayRooms={roomsLocal}
+                      remove={removeRoom}
+                    />
+                  </div>
+                )}
+
                 {/* Product grid */}
                 <div className="flex flex-col gap-10 lg:col-span-3">
                   {/* Your content */}
-                  {roomsRedux.length>0 && roomsRedux.map((item) => (
-                    <div key={item.id}>
-                      <Room
-                        handleClick={() => addToCart(item)}
-                        id={item.id}
-                        tipo_Habitacion={item.tipo_Habitacion}
-                        subTipo={item.subTipo}
-                        precio={item.precio}
-                        image={item.image}
-                        capacidad={item.capacidad}
-                        dias={diasEntreFechas(search.fechaIn, search.fechaOut)}
-                        fechaIn={search.fechaIn}
-                        FechaOut={search.fechaOut}
-                        Adultos={search.adultos}
-                        Niños={search.niños}
-                      />
-                    </div>
-                  ))}
-
+                  {roomsRedux.length > 0 &&
+                    roomsRedux.map((item) => (
+                      <div key={item.id}>
+                        <Room
+                          handleClick={() => addToCart(item)}
+                          id={item.id}
+                          tipo_Habitacion={item.tipo_Habitacion}
+                          subTipo={item.subTipo}
+                          precio={item.precio}
+                          image={item.image}
+                          capacidad={item.capacidad}
+                          dias={diasEntreFechas(
+                            search.fechaIn,
+                            search.fechaOut
+                          )}
+                          fechaIn={search.fechaIn}
+                          FechaOut={search.fechaOut}
+                          handleClickReserve={() => addReserve(item)}
+                        />
+                      </div>
+                    ))}
 
                   {selectedRoom && (
                     <div className=" backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto">
@@ -407,10 +417,6 @@ const SearchRoom = () => {
                       />
                     </div>
                   )}
-
-
-
-
                 </div>
               </div>
             </section>
