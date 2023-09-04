@@ -1,12 +1,11 @@
-// import React from "react";
-import { NavLink , useNavigate } from "react-router-dom";
-import { Fragment, useEffect } from "react";
-import { useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../redux/actions";
 
+import { logout } from "../../redux/actions";
+import { logoutFirebase } from "../../Firebase/Providers";
 
 const navegacionAdmin = [
   { name: "Dashboard", href: "/Dashboard", current: true },
@@ -22,45 +21,50 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-
 const Navbar = () => {
+
+  const dispatch = useDispatch();
+
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Establece esto según el estado de inicio de sesión del usuario
   const [isAdmin, setIsAdmin] = useState(false); // Establece esto según el rol del usuario
   const [loggedOut, setloggedOut] = useState(true);
-  const loginGeneral = useSelector(state => state.auth)
-  const login = useSelector(state => state.auth.user)
-  const loginAdmin = useSelector(state => state.auth.admin)
+
+  const { status, photoURL } = useSelector((state) => state.auth);
+  const loginAdmin = useSelector((state) => state.auth.admin);
+
 
   const getUserData = () => {
-    const userDataString = localStorage.getItem('userData');
+    const userDataString = localStorage.getItem("userData");
     return JSON.parse(userDataString);
   };
 
-
-const dispatch = useDispatch()
-const logOut = ()=>{
-  dispatch(logout(loginGeneral))
-}
-
-
-useEffect(()=>{
-  const setUser = ()=>{
-    if(login === true){
-      setIsLoggedIn(true)
-      setloggedOut(false)
+  // Cambiar de entre invitado, usuario o admin
+  useEffect(() => {
+    if (status === "authenticated") {
+      setIsLoggedIn(true);
+      setloggedOut(false);
     }
-    else if (login === false){
-      setloggedOut(true)
-      setIsLoggedIn(false)
+    else if (status === "not-authenticated") {
+      setloggedOut(true);
+      setIsLoggedIn(false);
     }
-    if(loginAdmin === true){
-      setIsAdmin(true)
+    if (loginAdmin === true) {
+      setIsAdmin(true);
     }
-  }
-  setUser()
+  }, [status, loginAdmin]);
 
+  // ------ Logout ------
 
-})
+  const startLogout = () => {
+    return async (dispatch) => {
+      await logoutFirebase();
+      dispatch(logout());
+    };
+  };
+
+  const logOut = () => {
+    dispatch(startLogout());
+  };
 
   const navegacion = isAdmin ? navegacionAdmin : navegacionUsuario;
   return (
@@ -80,7 +84,7 @@ useEffect(()=>{
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start" >
+              <div className="flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start">
                 <NavLink
                   to="/"
                   className="flex flex-shrink-0 items-center h-16"
@@ -94,7 +98,7 @@ useEffect(()=>{
                 {isLoggedIn ? (
                   <div
                     className="hidden sm:ml-6 sm:block"
-                    style={{margin:"auto"}}
+                    style={{ margin: "auto" }}
                   >
                     <div className="flex space-x-4">
                       {navegacion.map((item) => (
@@ -124,9 +128,13 @@ useEffect(()=>{
                 }`}
                 style={{ gap: "10px" }}
               >
-                <NavLink to="/register"><h2 className="text-white">Registrarse</h2></NavLink>
+                <NavLink to="/register">
+                  <h2 className="text-white">Registrarse</h2>
+                </NavLink>
                 <div className="bg-white w-1 h-8 "></div>
-                <NavLink to="/login"><h2 className="text-white">Login</h2></NavLink>
+                <NavLink to="/login">
+                  <h2 className="text-white">Login</h2>
+                </NavLink>
               </div>
               {isLoggedIn && (
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -147,7 +155,7 @@ useEffect(()=>{
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          src={photoURL}
                           alt=""
                         />
                       </Menu.Button>
