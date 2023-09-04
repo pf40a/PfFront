@@ -1,20 +1,19 @@
-import { useMemo, useState } from "react";
+import axios from "axios";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material";
+
 import AuthLayout from "../Layout/AuthLayout";
 import { useForm } from "../../../Hooks/useForm";
 import { checkingCredentials, login, logout } from "../../../redux/actions";
 import { registerUserWithEmailPassword } from "../../../Firebase/Providers";
-import { useNavigate } from "react-router-dom";
-import axios from 'axios'
 
 const formData = {
   nombre: "",
   apellido: "",
   email: "",
   password: "",
-  // rePassword: "",
 };
 
 const formValidations = {
@@ -27,32 +26,38 @@ const formValidations = {
   password: [
     (value) =>
       value.trim() !== "" &&
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/.test(
-        value
-      ),
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/.test( value ),
     "La contraseña debe tener al menos 6 caracteres y contener al menos una letra mayúscula, una minúscula, un número y un carácter especial",
   ],
 };
 
 const RegisterPage = () => {
 
-  const navigate = useNavigate()
-
-  const saveUserData = (userData) => {
-    localStorage.setItem('userData', JSON.stringify(userData));
-  };
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const { status, errorMessage } = useSelector(state => state.auth);
-  const isCheckingAuthentication = useMemo(() => status === "checking",[status]);
+  const { status, errorMessage } = useSelector((state) => state.auth);
 
-  const { 
+  const isCheckingAuthentication = useMemo( () => status === "checking", [status] );
+
+  const {
     nombre, nombreValid, apellido, apellidoValid,
     email, emailValid, password, passwordValid,
     onInputChange, isFormValid, formState,
   } = useForm(formData, formValidations);
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      navigate("/");
+    }
+  }, [status]);
+
+  const saveUserData = (userData) => {
+    localStorage.setItem("userData", JSON.stringify(userData));
+  };
 
   const startCreatingUserWithEmailPassword = ({ email, password, nombre, apellido }) => {
     return async (dispatch) => {
@@ -61,7 +66,6 @@ const RegisterPage = () => {
       const displayName = `${nombre} ${apellido}`;
 
       const result = await registerUserWithEmailPassword({ email, password, displayName });
-      console.log(result);
       if (!result.ok) return dispatch(logout(result.errorMessage));
 
       dispatch(login(result));
@@ -80,22 +84,19 @@ const RegisterPage = () => {
 
     dispatch(startCreatingUserWithEmailPassword(updatedFormState));
     try {
-      const response = await axios.post('http://localhost:3001/hotel/users', formState);
-      console.log(formState)
+      const response = await axios.post(
+        "http://localhost:3001/hotel/users",
+        formState
+      );
+      console.log(formState);
       if (response.data) {
-       console.log("Usuario creado", response.data)
+        console.log("Usuario creado", response.data);
       }
     } catch (error) {
-      console.error('Error sending data to backend:', error);
+      console.error("Error sending data to backend:", error);
     }
 
-
-    if (status === "authenticated"){
-      window.location.href = '/'
-    }
-    navigate("/")
-
-    saveUserData(status.user)
+    saveUserData(status.user);
   };
 
   return (
@@ -113,7 +114,7 @@ const RegisterPage = () => {
               value={nombre}
               onChange={onInputChange}
               error={!!nombreValid && formSubmitted}
-              helperText={nombreValid}
+              helperText={!!nombreValid && formSubmitted ? nombreValid : ""}
             />
           </Grid>
 
@@ -128,7 +129,7 @@ const RegisterPage = () => {
               value={apellido}
               onChange={onInputChange}
               error={!!apellidoValid && formSubmitted}
-              helperText={apellidoValid}
+              helperText={apellidoValid && formSubmitted ? apellidoValid : ""}
             />
           </Grid>
 
@@ -143,7 +144,7 @@ const RegisterPage = () => {
               value={email}
               onChange={onInputChange}
               error={!!emailValid && formSubmitted}
-              helperText={emailValid}
+              helperText={emailValid && formSubmitted ? emailValid : ""}
             />
           </Grid>
 
@@ -158,15 +159,14 @@ const RegisterPage = () => {
               value={password}
               onChange={onInputChange}
               error={!!passwordValid && formSubmitted}
-              helperText={passwordValid}
+              helperText={passwordValid && formSubmitted ? passwordValid : ""}
             />
           </Grid>
 
           {/* Crear Cuenta */}
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
-
             <Grid item xs={12} display={!!errorMessage ? "" : "none"}>
-              {/* <Alert severity="error">{errorMessage}</Alert> */}
+              <Alert severity="error">{errorMessage}</Alert>
             </Grid>
 
             <Grid item xs={12}>

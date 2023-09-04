@@ -112,7 +112,7 @@ export default function rootReducer(state = initialState, action) {
     // ----- Authentication -----
 
     case LOGIN:
-      const { displayName, nombre, apellido } = action.payload;
+      const { displayName, nombre, apellido, photoURL } = action.payload;
       return {
         ...state,
         auth: {
@@ -122,7 +122,7 @@ export default function rootReducer(state = initialState, action) {
           nombre: action.payload.nombre,
           apellido: action.payload.apellido,
           email: action.payload.email,
-          photoURL: action.payload.photoURL,
+          photoURL: photoURL || "https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png",
           errorMessage: null,
           admin: false,
           user:true,
@@ -140,7 +140,7 @@ export default function rootReducer(state = initialState, action) {
           apellido: null,
           email: null,
           photoURL: null,
-          errorMessage: action.payload,
+          errorMessage: action.payload ? action.payload : null ,
           admin: false,
           user:false,
         },
