@@ -1,6 +1,6 @@
 import React from "react";
 
-function Room({handleClick, id ,tipo_Habitacion,subTipo,precio,image,capacidad,dias,fechaIn,FechaOut,Adultos,Niños }) {
+function Room({handleClick, id ,tipo_Habitacion,subTipo,precio,image,capacidad,dias,fechaIn,FechaOut,handleClickReserve}) {
 
   return (
     <div
@@ -30,7 +30,7 @@ function Room({handleClick, id ,tipo_Habitacion,subTipo,precio,image,capacidad,d
         >
           +Info
         </button>
-        <button className="bg-yellow-700 text-white rounded-lg px-4 py-2 hover:bg-yellow-800">
+        <button onClick={handleClickReserve} className="bg-yellow-700 text-white rounded-lg px-4 py-2 hover:bg-yellow-800">
           Seleccionar
         </button>
       </div>

@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
+    "@mercadopago/sdk-react": "^0.0.14",
     "@mui/icons-material": "^5.14.7",
     "@mui/material": "^5.14.7",
     "@tabler/icons-react": "^2.31.0",

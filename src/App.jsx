@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { Routes, Route,  } from "react-router-dom";
 
+// ----- Actions -----
+
+import { loadAllTypesRooms } from "./redux/actions";
+
+// ----- Vistas -----
+
 import RegisterPage from "./views/Auth/Pages/RegisterPage";
 import LoginPage from "./views/Auth/Pages/LoginPage";
 import DetailsRooms from "./views/Details/Details";
@@ -9,17 +15,25 @@ import ErroPage from "./views/Error404/Error404";
 import AboutUs from "./views/AboutUs/AboutUs";
 import Home from "./views/Home/Home";
 
+// ----- Componentes -----
+
 import Reservation from "./components/ReservationForm/Reservation";
 import SearchRoom from "./components/SearchComponent/SearchRoom";
+import MercadoPago from "./components/MercadoPago/MercadoPago";
 import { CheckingAuth } from "./components/Login/CheckingAuth";
 import PaymenView from "./components/Payment/PaymenView";
 import PopDetail from "./components/PopDetail/PopDetail";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 
+// ----- Hooks -----
+
 import { useCheckAuth } from "./Hooks/useCheckAuth";
 
+// ----- Estilos -----
+
 import "./App.css";
+
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -54,7 +68,9 @@ function App() {
         currentPath !== "/reserve" &&
         currentPath !== "/login" &&
         currentPath !== "/register" &&
-        currentPath !== "/dashboard"
+        currentPath !== "/dashboard" &&
+        currentPath !== "/mercadopago"
+
     );
     // const fetchDataRooms = async()=>{
     //   dispatch(allTypesRooms(typesRoom))
@@ -62,30 +78,13 @@ function App() {
     // fetchDataRooms()
   }, []);
 
-  // Authentication
+  // ------ Authentication ------
 
   const status = useCheckAuth();
 
   if (status === "checking") {
     return <CheckingAuth />;
   }
-
-  // getAuth()
-  // .getUsers([ { email: 'user2@example.com' } ])
-  // .then((getUsersResult) => {
-  //   console.log('Successfully fetched user data:');
-  //   getUsersResult.users.forEach((userRecord) => {
-  //     console.log(userRecord);
-  //   });
-
-  //   console.log('Unable to find users corresponding to these identifiers:');
-  //   getUsersResult.notFound.forEach((userIdentifier) => {
-  //     console.log(userIdentifier);
-  //   });
-  // })
-  // .catch((error) => {
-  //   console.log('Error fetching user data:', error);
-  // });
 
   return (
     <>
@@ -103,6 +102,7 @@ function App() {
         <Route path="*" element={<ErroPage />} />
         <Route path="/pop" element={<PopDetail />} />
         <Route path="/search" element={<SearchRoom />} />
+        <Route path="/mercadopago" element={<MercadoPago/>}/>
       </Routes>
       {showLayout && <Footer />}
     </>
