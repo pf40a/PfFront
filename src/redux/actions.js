@@ -4,6 +4,7 @@ export const FILTER_ROOMS = "FILTER_ROOMS";
 export const TYPES_ROOMS = "TYPES_ROOMS";
 export const FILTER_TYPES_ROOMS = "FILTER_TYPES_ROOMS";
 export const ORDER_ROOMS = "ORDER_ROOMS";
+export const SAVE_PAGE = "SAVE_PAGE";
 
 //  Authentication
 export const LOGIN = "LOGIN";
@@ -24,10 +25,17 @@ export const searchRooms = (search) => {
       //console.log('filtro',filtroFechas)
       let response = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/filtros`, filtroFechas);
       let data = response.data.data;
+      ///se filtra dependiendo del total de pax
+      let pax=Number(search.adultos)+Number(search.niños)
+      console.log('pax',pax )
+      var dataNew = data.filter(function(habitacion) {
+        return habitacion.capacidad <= pax;
+      });
+
   //console.log('dataxx',data)
       return dispatch({
         type: "SEARCH_ROOMS",
-        payload: data
+        payload: dataNew
       });
     } catch (error) {
       console.log(error);
@@ -76,6 +84,13 @@ export const filterTypesRooms = (filter) => {
   return {
     type: "FILTER_TYPES_ROOMS",
     payload: filter,
+  };
+};
+
+export const savePage = (page) => {
+  return {
+    type: "SAVE_PAGE",
+    payload: page,
   };
 };
 

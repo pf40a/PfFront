@@ -70,7 +70,6 @@ export default function SearchBox() {
     if (getLocalStorage("search")) {
       setInputs(getLocalStorage("search"));
       validate(getLocalStorage("search"));
-
       dispatch(searchRooms(getLocalStorage("search")));
     }
   }, [pathname]);
