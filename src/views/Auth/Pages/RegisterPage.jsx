@@ -33,9 +33,9 @@ const formValidations = {
 
 const RegisterPage = () => {
 
-  const navigate = useNavigate();
-
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -50,14 +50,10 @@ const RegisterPage = () => {
   } = useForm(formData, formValidations);
 
   useEffect(() => {
-    if (status === "authenticated") {
+    if(status === "authenticated"){
       navigate("/");
     }
-  }, [status]);
-
-  const saveUserData = (userData) => {
-    localStorage.setItem("userData", JSON.stringify(userData));
-  };
+  }, [ status ]);
 
   const startCreatingUserWithEmailPassword = ({ email, password, nombre, apellido }) => {
     return async (dispatch) => {
@@ -69,6 +65,7 @@ const RegisterPage = () => {
       if (!result.ok) return dispatch(logout(result.errorMessage));
 
       dispatch(login(result));
+      return result;
     };
   };
 
@@ -82,21 +79,31 @@ const RegisterPage = () => {
       displayName: `${formState.nombre} ${formState.apellido}`,
     };
 
-    dispatch(startCreatingUserWithEmailPassword(updatedFormState));
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/hotel/users",
-        formState
-      );
-      console.log(formState);
-      if (response.data) {
-        console.log("Usuario creado", response.data);
-      }
-    } catch (error) {
-      console.error("Error sending data to backend:", error);
-    }
+    dispatch(startCreatingUserWithEmailPassword(updatedFormState))
+    .then(async (result) => {
 
-    saveUserData(status.user);
+      if (result.ok) {
+
+        // Creando una copia de updatedFormState
+        const updatedFormStateCopia = { ...updatedFormState };
+
+        // Registro exitoso, actualiza el updatedFormStateCopia con el uid
+        updatedFormStateCopia.id = result.uid;
+
+        // Eliminando el displayName de updatedFormStateCopia
+        delete updatedFormStateCopia.displayName;
+
+        try {
+          const response = await axios.post( "http://localhost:3001/hotel/users", updatedFormStateCopia );
+          if (response.data) {
+            console.log("Usuario creado", response.data);
+          }
+        }
+        catch (error) {
+          console.error("Error sending data to backend:", error);
+        }
+      }
+    });
   };
 
   return (

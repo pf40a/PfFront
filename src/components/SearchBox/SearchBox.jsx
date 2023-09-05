@@ -4,24 +4,24 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { saveLocalStorage, getLocalStorage, removeLocalStorage } from "../../utilities/managerLocalStorage";
+import {
+  saveLocalStorage,
+  getLocalStorage,
+  removeLocalStorage,
+} from "../../utilities/managerLocalStorage";
 import { searchRooms } from "../../redux/actions";
 import { NavLink } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
-
-
-
-
+import { useNavigate } from "react-router-dom";
 
 export default function SearchBox() {
   let { pathname } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-const validate = (inputs) => {
-  let today=new Date()
-let totalError=0
-  let err = {};
+  const validate = (inputs) => {
+    let today = new Date();
+    let totalError = 0;
+    let err = {};
 
   if (!inputs.fechaIn || inputs.fechaIn.length < 10) {
     err.fechaIn = "Falta la Fecha de Ingreso";
@@ -44,13 +44,12 @@ let totalError=0
     totalError++
   }
   
-  //
-console.log('Errores::',err)
+// console.log('Errores::',err)
 setErrors(err)
   return totalError;
 };
 
-  let search = { fechaIn: "", fechaOut: "", adultos: 2, niños: 0, bebes: 0 } 
+  let search = { fechaIn: "", fechaOut: "", adultos: 2, niños: 0, bebes: 0 };
 
   const [inputs, setInputs] = useState(search);
   //console.log('IN',inputs)
@@ -58,7 +57,7 @@ setErrors(err)
     fechaIn: "",
     fechaOut: "",
     adultos: "",
-    niños: ""
+    niños: "",
   });
 
   const [checkInDate, setCheckInDate] = useState(null);
@@ -66,47 +65,36 @@ setErrors(err)
   const [isCheckInCalendarOpen, setIsCheckInCalendarOpen] = useState(false);
   const [isCheckOutCalendarOpen, setIsCheckOutCalendarOpen] = useState(false);
 
-  
   useEffect(() => {
-    
-    if(getLocalStorage('search')){
-setInputs(getLocalStorage('search'))
-validate(getLocalStorage('search'));
-    }  
+    if (getLocalStorage("search")) {
+      setInputs(getLocalStorage("search"));
+      validate(getLocalStorage("search"));
+      dispatch(searchRooms(getLocalStorage("search")));
+    }
+  }, [pathname]);
 
-  },[pathname])
-
- 
-  
   //console.log('Form',diets)
-  
-
-  
 
   const handleChange = (event) => {
     let campo = event.target.name;
     let valor = event.target.value;
     //console.log('change',campo,valor)
-setInputs({ ...inputs, [campo]: valor });
-validate({ ...inputs, [campo]: valor });
+    setInputs({ ...inputs, [campo]: valor });
+    validate({ ...inputs, [campo]: valor });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     //
-     let total=validate(inputs) 
-     if (total!== 0) return
-     
-    saveLocalStorage('search', inputs)
-    dispatch(searchRooms(inputs))
-    if(pathname !== '/search'){
-     navigate('/search');
-    }
-   
-  
-  };
+    let total = validate(inputs);
+    if (total !== 0) return;
 
-  //console.log('inp',inputs)
+    saveLocalStorage("search", inputs);
+    dispatch(searchRooms(inputs));
+    if (pathname !== "/search") {
+      navigate("/search");
+    }
+  };
 
   function formatDate(date) {
     return date.toISOString().slice(0, 10);
@@ -122,7 +110,7 @@ validate({ ...inputs, [campo]: valor });
               selected={checkInDate}
               onChange={(date) => {
                 setCheckInDate(date);
-                setInputs({ ...inputs, 'fechaIn': formatDate(date) })
+                setInputs({ ...inputs, fechaIn: formatDate(date) });
               }}
               onClickOutside={() => setIsCheckInCalendarOpen(false)}
               onFocus={() => setIsCheckInCalendarOpen(true)}
@@ -141,7 +129,7 @@ validate({ ...inputs, [campo]: valor });
               selected={checkOutDate}
               onChange={(date) => {
                 setCheckOutDate(date);
-                setInputs({ ...inputs, 'fechaOut': formatDate(date) })
+                setInputs({ ...inputs, fechaOut: formatDate(date) });
               }}
               onClickOutside={() => setIsCheckOutCalendarOpen(false)}
               onFocus={() => setIsCheckOutCalendarOpen(true)}
@@ -185,9 +173,15 @@ validate({ ...inputs, [campo]: valor });
             </button>
           </div>
         </div>
-        {errors.fechaIn && <div className="text-sm text-red-800">{errors.fechaIn}</div>}
-        {errors.fechaOut && <div className="text-sm text-red-800">{errors.fechaOut}</div>}
-        {errors.adultos && <div className="text-sm text-red-800">{errors.adultos}</div>}
+        {errors.fechaIn && (
+          <div className="text-sm text-red-800">{errors.fechaIn}</div>
+        )}
+        {errors.fechaOut && (
+          <div className="text-sm text-red-800">{errors.fechaOut}</div>
+        )}
+        {errors.adultos && (
+          <div className="text-sm text-red-800">{errors.adultos}</div>
+        )}
       </form>
     </div>
   );

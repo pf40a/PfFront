@@ -1,10 +1,12 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { orderRoom, savePage } from "../../redux/actions";
 import { getLocalStorage } from "../../utilities/managerLocalStorage";
 import { Fragment } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
+import styles from "./SearchRoom.module.css";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
@@ -23,7 +25,7 @@ const sortOptions = [
   { name: "Jacuzzi", href: "#", current: true },
   { name: "Sala de estar", href: "#", current: false },
   { name: "Mini Heladera", href: "#", current: false },
-  { name: "Television: Low to High", href: "#", current: false },
+  { name: "Television", href: "#", current: false },
   { name: "Precio: High to Low", href: "#", current: false },
 ];
 const subCategories = [
@@ -90,13 +92,15 @@ function diasEntreFechas(fecha1, fecha2) {
 }
 
 const SearchRoom = () => {
+  const dispatch = useDispatch();
+
   const [cartShow, setCartShow] = useState(false);
   const [roomReserve, setRoomReserve] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const roomsRedux = useSelector((state) => state.rooms);
-
+  const allRoomsRedux = useSelector((state) => state.allRooms);
   //Rooms LocalStorage :
   //añadir habitacion
   useEffect(() => {
@@ -109,13 +113,12 @@ const SearchRoom = () => {
     setRoomReserve(updatedLocalStorageRooms);
     localStorage.setItem("rooms", JSON.stringify(updatedLocalStorageRooms));
   };
+
   const removeRoom = (roomId) => {
     // Filtra las habitaciones en el carrito y elimina la que coincida con el ID
     const updatedRoomReserve = roomReserve.filter((room) => room.id !== roomId);
-
     // Actualiza el estado del carrito
     setRoomReserve(updatedRoomReserve);
-
     // Actualiza el almacenamiento local
     localStorage.setItem("rooms", JSON.stringify(updatedRoomReserve));
   };
@@ -128,14 +131,18 @@ const SearchRoom = () => {
   const showCart = () => {
     setCartShow(true);
   };
+
   const closeCart = () => {
     setCartShow(false);
   };
 
+  ///datos del SearchBox:
   let search;
   if (getLocalStorage("search")) {
     search = getLocalStorage("search");
   }
+  //
+
   let roomsLocal;
   if (getLocalStorage("rooms")) {
     roomsLocal = getLocalStorage("rooms");
@@ -143,8 +150,105 @@ const SearchRoom = () => {
 
   const roomsData = localStorage.getItem("rooms");
   console.log(JSON.parse(roomsData));
-  console.log(cartShow);
+  console.log(roomsRedux);
 
+  ///Paginado - Filtros - Orden
+  const roomsPerPage = 4;
+  let totalPages = 1;
+  //
+  let nowPage = useSelector((store) => store.page);
+  const [roomsPage, setRoomsPage] = useState([]);//listado-paginado
+  const [actualPage, setActualPage] = useState(1);
+  //
+  const [filter, setFilter] = useState("");
+  const [filterOrder, setFilterOrder] = useState("");
+  //
+  let [btnPaginator, setBtnPaginator] = useState(null);///botones paginado
+  
+  function paginator(pag) {
+    setActualPage(pag);
+    const init = (pag - 1) * roomsPerPage;
+    const end = init + roomsPerPage;
+    setRoomsPage(roomsRedux?.slice(init, end));
+    console.log("paginado:" + pag, init, end);
+    console.log(roomsPage);
+    console.log('SinPaginar',roomsRedux)
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Hace que el desplazamiento sea suave
+    });
+    dispatch(savePage(pag));
+  }
+
+  useEffect(() => {
+    paginator(nowPage)
+
+    if (roomsRedux?.length > 0) {
+      totalPages = Math.ceil(roomsRedux.length / roomsPerPage);
+// Genera un arreglo con la cantidad de botones que necesitas
+      let new_btnPaginator = Array.from(
+        { length: totalPages },
+        (_, index) => index + 1
+      );
+      setBtnPaginator(new_btnPaginator);
+      paginator(nowPage);
+      //console.log("qq", nowPage);
+    }
+
+  },[roomsRedux])
+
+/*
+  
+  
+
+  useEffect(() => {
+    if (roomsRedux?.length > 0) {
+      totalPages = Math.ceil(roomsRedux.length / roomsPerPage);
+
+      // Genera un arreglo con la cantidad de botones que necesitas
+      let new_btnPaginator = Array.from(
+        { length: totalPages },
+        (_, index) => index + 1
+      );
+      setBtnPaginator(new_btnPaginator);
+      paginator(nowPage);
+      //console.log("qq", nowPage);
+    }
+  }, [roomsRedux]);
+
+  function handleFilter(event) {
+    dispatch(filterRooms(event.target.value));
+    setFilter(event.target.value);
+    setFilterOrigin("all");
+    setActualPage(1);
+    setFilterOrder("");
+  }
+
+  function handleFilter(filtro) {
+    setActualPage(1);
+    dispatch(filterRooms(filtro));
+    setFilterDiet(filtro);
+    setFilterOrigin("all");
+    setFilterOrder("");
+  }
+
+  function handleFilterOrigin(e) {
+    setActualPage(1);
+    dispatch(filterRooms(e.target.value));
+    setFilterOrigin(e.target.value);
+    setFilterDiet("all");
+    setFilterOrder("");
+  }
+
+  function handleOrder(e) {
+    setActualPage(1);
+    dispatch(orderRoom(e.target.value));
+    setFilterOrder(e.target.value);
+    setFilterDiet("all");
+    setFilterOrigin("all");
+  }
+ */
   return (
     <>
       <div className="bg-white">
@@ -277,7 +381,7 @@ const SearchRoom = () => {
             <div className="flex mt-10">
               <SearchBox />
             </div>
-            <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+            <div className="flex flex-col md:flex-row items-center md:items-baseline justify-between border-b border-gray-200 pb-6 pt-8 md:pt-24 ">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900">
                 Habitaciones
               </h1>
@@ -359,9 +463,31 @@ const SearchRoom = () => {
                   <FunnelIcon className="h-5 w-5" aria-hidden="true" />
                 </button>
               </div>
+              
+
             </div>
 
-            <section aria-labelledby="products-heading" className="pb-24 pt-6">
+            {/* paginado */}
+<div className={styles.paginado}>
+        {actualPage > 1 && (
+          <button onClick={() => paginator(actualPage - 1)}> prev </button>
+        )}
+
+        {btnPaginator?.map((numeroPag, i) => (
+          <button
+            className={actualPage === numeroPag ? styles.active : null}
+            key={i}
+            onClick={() => paginator(numeroPag)}
+          >{`${numeroPag}`}</button>
+        ))}
+
+        {btnPaginator?.length > 1 && actualPage < btnPaginator.length && (
+          <button onClick={() => paginator(actualPage + 1)}> next </button>
+        )}
+      </div>
+{/* Fin paginado */}
+
+            <section aria-labelledby="products-heading" className="pb-24 pt-6 ">
               <h2 id="products-heading" className="sr-only">
                 Products
               </h2>
@@ -381,9 +507,9 @@ const SearchRoom = () => {
 
                 {/* Product grid */}
                 <div className="flex flex-col gap-10 lg:col-span-3">
-                  {/* Your content */}
-                  {roomsRedux.length > 0 &&
-                    roomsRedux.map((item) => (
+                  {/* Your content roomsRedux*/}
+                  {roomsPage?.length > 0 &&
+                    roomsPage.map((item) => (
                       <div key={item.id}>
                         <Room
                           handleClick={() => addToCart(item)}
@@ -419,10 +545,37 @@ const SearchRoom = () => {
                   )}
                 </div>
               </div>
+
+              {/* paginado */}
+<div className={`${styles.paginado} mt-4`}>
+        {actualPage > 1 && (
+          <button onClick={() => paginator(actualPage - 1)}> prev </button>
+        )}
+
+        {btnPaginator?.map((numeroPag, i) => (
+          <button
+            className={actualPage === numeroPag ? styles.active : null}
+            key={i}
+            onClick={() => paginator(numeroPag)}
+          >{`${numeroPag}`}</button>
+        ))}
+
+        {btnPaginator?.length > 1 && actualPage < btnPaginator.length && (
+          <button onClick={() => paginator(actualPage + 1)}> next </button>
+        )}
+      </div>
+{/* Fin paginado */}
+
             </section>
           </main>
+
+          
         </div>
+        
       </div>
+
+      
+
     </>
   );
 };
