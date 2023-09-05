@@ -23,7 +23,7 @@ const sortOptions = [
   { name: "Jacuzzi", href: "#", current: true },
   { name: "Sala de estar", href: "#", current: false },
   { name: "Mini Heladera", href: "#", current: false },
-  { name: "Television: Low to High", href: "#", current: false },
+  { name: "Television", href: "#", current: false },
   { name: "Precio: High to Low", href: "#", current: false },
 ];
 const subCategories = [
@@ -143,7 +143,7 @@ const SearchRoom = () => {
 
   const roomsData = localStorage.getItem("rooms");
   console.log(JSON.parse(roomsData));
-  console.log(cartShow);
+  console.log(roomsRedux);
 
   return (
     <>
@@ -277,7 +277,7 @@ const SearchRoom = () => {
             <div className="flex mt-10">
               <SearchBox />
             </div>
-            <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+            <div className="flex flex-col md:flex-row items-center md:items-baseline justify-between border-b border-gray-200 pb-6 pt-8 md:pt-24 ">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900">
                 Habitaciones
               </h1>
