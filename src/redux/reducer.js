@@ -17,8 +17,8 @@ const initialState = {
   room: {},
   filters: [],
   order: "",
-  typesRooms:[],
-  allTypesRooms:[],
+  typesRooms: [],
+  allTypesRooms: [],
 
   // Authentication
   auth: {
@@ -31,7 +31,7 @@ const initialState = {
     photoURL: null,
     errorMessage: null,
     admin: false,
-    user:false,
+    user: false,
   },
 };
 
@@ -42,7 +42,7 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         rooms: [...action.payload],
-        allRooms: [...action.payload]
+        allRooms: [...action.payload],
       };
 
     case DETAIL_ROOM:
@@ -122,10 +122,12 @@ export default function rootReducer(state = initialState, action) {
           nombre: action.payload.nombre,
           apellido: action.payload.apellido,
           email: action.payload.email,
-          photoURL: photoURL || "https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png",
+          photoURL:
+            photoURL ||
+            "https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png",
           errorMessage: null,
           admin: false,
-          user:true,
+          user: true,
         },
       };
 
@@ -140,9 +142,9 @@ export default function rootReducer(state = initialState, action) {
           apellido: null,
           email: null,
           photoURL: null,
-          errorMessage: action.payload ? action.payload : null ,
+          errorMessage: action.payload ? action.payload : null,
           admin: false,
-          user:false,
+          user: false,
         },
       };
 
@@ -154,7 +156,6 @@ export default function rootReducer(state = initialState, action) {
           status: "checking",
         },
       };
-
 
     default:
       return { ...state };

@@ -11,6 +11,7 @@ import Reservation from "./components/ReservationForm/Reservation";
 import Sidebar from "./views/DashBoard/DashBoard";
 import LoginPage from "./views/Auth/Pages/LoginPage";
 import RegisterPage from "./views/Auth/Pages/RegisterPage";
+import Review from "./components/Reviews/Reviews";
 
 import "./App.css";
 import { CheckingAuth } from "./components/Login/CheckingAuth";
@@ -89,6 +90,7 @@ function App() {
         <Route path="*" element={<ErroPage />} />
         <Route path="/pop" element={<PopDetail />} />
         <Route path="/search" element={<SearchRoom />} />
+        <Route path="/review" element={<Review />} />
       </Routes>
       {showLayout && <Footer />}
     </>
