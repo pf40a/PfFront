@@ -12,7 +12,7 @@ import Room from "../../components/Room/Room";
 
 const Home = () => {
   const [data, setData] = useState([]);
-console.log('env',import.meta.env.VITE_API_URL)
+// console.log('env',import.meta.env.VITE_API_URL)
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/hotel/subtipo`)

@@ -44,8 +44,7 @@ let totalError=0
     totalError++
   }
   
-  //
-console.log('Errores::',err)
+// console.log('Errores::',err)
 setErrors(err)
   return totalError;
 };

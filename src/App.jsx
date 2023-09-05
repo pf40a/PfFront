@@ -1,28 +1,25 @@
 import { useState, useEffect } from "react";
-import "./App.css";
-import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route,  } from "react-router-dom";
+
+import RegisterPage from "./views/Auth/Pages/RegisterPage";
+import LoginPage from "./views/Auth/Pages/LoginPage";
+import DetailsRooms from "./views/Details/Details";
+import Sidebar from "./views/DashBoard/DashBoard";
+import ErroPage from "./views/Error404/Error404";
+import AboutUs from "./views/AboutUs/AboutUs";
 import Home from "./views/Home/Home";
+
+import Reservation from "./components/ReservationForm/Reservation";
+import SearchRoom from "./components/SearchComponent/SearchRoom";
+import { CheckingAuth } from "./components/Login/CheckingAuth";
+import PaymenView from "./components/Payment/PaymenView";
+import PopDetail from "./components/PopDetail/PopDetail";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import ErroPage from "./views/Error404/Error404";
-import Reservation from "./components/ReservationForm/Reservation";
-import Sidebar from "./views/DashBoard/DashBoard";
-import LoginPage from "./views/Auth/Pages/LoginPage";
-import RegisterPage from "./views/Auth/Pages/RegisterPage";
+
+import { useCheckAuth } from "./Hooks/useCheckAuth";
 
 import "./App.css";
-import { CheckingAuth } from "./components/Login/CheckingAuth";
-import { useCheckAuth } from "./Hooks/useCheckAuth";
-import DetailsRooms from "./views/Details/Details";
-
-import AboutUs from "./views/AboutUs/AboutUs";
-
-import PaymenView from "./components/Payment/PaymenView";
-import { loadAllTypesRooms } from "./redux/actions";
-import SearchRoom from "./components/SearchComponent/SearchRoom";
-import PopDetail from "./components/PopDetail/PopDetail";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -72,6 +69,23 @@ function App() {
   if (status === "checking") {
     return <CheckingAuth />;
   }
+
+  // getAuth()
+  // .getUsers([ { email: 'user2@example.com' } ])
+  // .then((getUsersResult) => {
+  //   console.log('Successfully fetched user data:');
+  //   getUsersResult.users.forEach((userRecord) => {
+  //     console.log(userRecord);
+  //   });
+
+  //   console.log('Unable to find users corresponding to these identifiers:');
+  //   getUsersResult.notFound.forEach((userIdentifier) => {
+  //     console.log(userIdentifier);
+  //   });
+  // })
+  // .catch((error) => {
+  //   console.log('Error fetching user data:', error);
+  // });
 
   return (
     <>
