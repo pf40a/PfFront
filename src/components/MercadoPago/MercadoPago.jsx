@@ -15,12 +15,12 @@ const MercadoPago = () => {
             const response = await axios.post('http://localhost:3001/hotel/mercadoPago/create_preference',{
                 "items": [
                 {
-                  "title": "Habitacion 1223",
+                  "title": "Habitacion 11223",
                   "unit_price": 30.00,
                   "quantity": 1
                 },
                 {
-                  "title": "Habitacion 4122",
+                  "title": "Habitacion 41122",
                   "unit_price": 45.00,
                   "quantity": 1
                 }

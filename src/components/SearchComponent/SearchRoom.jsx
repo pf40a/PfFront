@@ -92,6 +92,7 @@ function diasEntreFechas(fecha1, fecha2) {
 const SearchRoom = () => {
   const [cartShow, setCartShow] = useState(false);
   const [roomReserve, setRoomReserve] = useState([]);
+  const [first, setfirst] = useState(second)
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
