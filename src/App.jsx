@@ -23,6 +23,7 @@ import PaymenView from "./components/Payment/PaymenView";
 import { loadAllTypesRooms } from "./redux/actions";
 import SearchRoom from "./components/SearchComponent/SearchRoom";
 import PopDetail from "./components/PopDetail/PopDetail";
+import CorreoForm from "./components/ContactForm/CorreoForm";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -57,7 +58,8 @@ function App() {
         currentPath !== "/reserve" &&
         currentPath !== "/login" &&
         currentPath !== "/register" &&
-        currentPath !== "/dashboard"
+        currentPath !== "/dashboard" &&
+        currentPath !== "/contact"
     );
     // const fetchDataRooms = async()=>{
     //   dispatch(allTypesRooms(typesRoom))
@@ -89,6 +91,7 @@ function App() {
         <Route path="*" element={<ErroPage />} />
         <Route path="/pop" element={<PopDetail />} />
         <Route path="/search" element={<SearchRoom />} />
+        <Route path="/contact" element={<CorreoForm />} />
       </Routes>
       {showLayout && <Footer />}
     </>
