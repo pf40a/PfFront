@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { validate } from "./validation";
 import { getLocalStorage } from "../../utilities/managerLocalStorage";
 import MercadoPago from "../MercadoPago/MercadoPago";
+import { useSelector } from "react-redux";
 
 const Reservation = () => {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ const Reservation = () => {
   const [localStorageRoom, setLocalStorageRoom] = useState({})
   const [showMercadoPago, setShowMercadoPago] = useState(false)
   const [showReserveForm, setshowReserveForm] = useState(true)
+  const dataId = useSelector(state => state.auth.uid)
+
 
   const handleInputChange = (event, fieldName) => {
     const newValue = event.target.value;
@@ -67,7 +70,6 @@ const Reservation = () => {
     const searchDataFromLocalStorage = getLocalStorage('search');
     // Utiliza los datos como sea necesario en tu componente
     setLocalStorageRoom(searchDataFromLocalStorage)
-    console.log(localStorageRoom);
   },[])
 
   useEffect(() => {
@@ -111,18 +113,20 @@ const Reservation = () => {
       try {
         const userRequest = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/users`)
         const response = userRequest.data.data
+        console.log(response.email);
 
         await axios.post(`${import.meta.env.VITE_API_URL}/hotel/reservas`, {
           fechaIngreso: reserve.ingreso,
           fechaSalida: reserve.egreso,
-          adultos: reserve.adults,
-          ninos: reserve.children,
+          adultos: localStorageRoom.adultos,
+          ninos: localStorageRoom.niños,
           pago_Estado: "Pending",
-          UsuarioId: response.id,
+          UsuarioId: dataId,
           ClienteDocIdentidad: reserve.dni,
         });
         console.log("Reserva creada");
-        window.alert('reserva creada')
+        setshowReserveForm(false)
+        setShowMercadoPago(true)
       } catch (error) {
         console.log("Error al crear la reserva:", error);
       }
@@ -130,7 +134,7 @@ const Reservation = () => {
 
     submitReserve();
   }, [reserve]);
-  console.log(reserve.dni, reserve.lastName);
+
   return (
     <>
     <div>
@@ -450,7 +454,17 @@ const Reservation = () => {
     
     <div>
         {showMercadoPago && (
-          <MercadoPago/>
+
+          <MercadoPago
+          nombre={reserve.firstName}
+          apellido={reserve.lastName}
+          dni={reserve.dni}
+          fechaIn={reserve.ingreso}
+          fechaOut={reserve.egreso}
+          adultos={localStorageRoom.adultos}
+          niños={localStorageRoom.niños}
+          
+          />
         )}
       </div>
     </>

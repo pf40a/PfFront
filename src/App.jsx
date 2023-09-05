@@ -3,7 +3,7 @@ import { Routes, Route,  } from "react-router-dom";
 
 // ----- Actions -----
 
-import { loadAllTypesRooms } from "./redux/actions";
+// import { loadAllTypesRooms } from "./redux/actions";
 
 // ----- Vistas -----
 
@@ -34,12 +34,12 @@ import { useCheckAuth } from "./Hooks/useCheckAuth";
 
 import "./App.css";
 
-import AboutUs from "./views/AboutUs/AboutUs";
+// import AboutUs from "./views/AboutUs/AboutUs";
 
-import PaymenView from "./components/Payment/PaymenView";
-import { loadAllTypesRooms } from "./redux/actions";
-import SearchRoom from "./components/SearchComponent/SearchRoom";
-import PopDetail from "./components/PopDetail/PopDetail";
+// import PaymenView from "./components/Payment/PaymenView";
+// import { loadAllTypesRooms } from "./redux/actions";
+// import SearchRoom from "./components/SearchComponent/SearchRoom";
+// import PopDetail from "./components/PopDetail/PopDetail";
 import CorreoForm from "./components/ContactForm/CorreoForm";
 
 function App() {

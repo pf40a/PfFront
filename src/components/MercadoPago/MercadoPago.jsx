@@ -2,29 +2,49 @@ import React from 'react'
 import axios from 'axios'
 import { useState } from 'react';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+import { CheckIcon } from '@heroicons/react/20/solid'
+import { getLocalStorage } from "../../utilities/managerLocalStorage";
 
 
+const includedFeatures = [
+    'Traslado al Aeropuerto',
+    'Desayuno',
+    'Piscina',
+    '1 dia de spa',
+  ]
 
-
-const MercadoPago = () => {
+const MercadoPago = ({nombre,apellido,dni,fechaIn,fechaOut,adultos,niños}) => {
     const [preferenceId, setPreferenceId] = useState(null)
     initMercadoPago('TEST-3aa1ff4a-f517-4dcf-8fb3-15640d67a3d3');
+    let roomsLocal;
+    if (getLocalStorage("rooms")) {
+      roomsLocal = getLocalStorage("rooms");
+    }
+    console.log(roomsLocal); 
+
+    const arrayMapeado = roomsLocal.map((item)=>({
+        title:item.tipo_Habitacion,
+        unit_price:item.precio,
+        quantity:item.capacidad
+    }))
+console.log(arrayMapeado);
+
+let total = 0
+
+for (let i = 0; i < arrayMapeado.length; i++) {
+    total += arrayMapeado[i].unit_price;
+}
+console.log(total);
+
+
+
+
+
 
     const createPreference = async ()=>{
         try {
             const response = await axios.post('http://localhost:3001/hotel/mercadoPago/create_preference',{
-                "items": [
-                {
-                  "title": "Habitacion 11223",
-                  "unit_price": 30.00,
-                  "quantity": 1
-                },
-                {
-                  "title": "Habitacion 41122",
-                  "unit_price": 45.00,
-                  "quantity": 1
-                }
-              ], 
+                "items":arrayMapeado, 
                 "reservaId":"ddd620aa-f62a-476c-ab5c-17c72f5e4b71"    
             })
             const initPoint = response.data.init_point;
@@ -44,36 +64,78 @@ const MercadoPago = () => {
     }
   return (
     <div>
-            <div className="flex flex-col bg-white rounded-3xl">
-      <div className="px-6 py-8 sm:p-10 sm:pb-6">
-        <div className="grid items-center justify-center w-full grid-cols-1 text-left">
-          <div>
-            <h2 className="text-lg font-medium tracking-tighter text-gray-600 lg:text-3xl">
-              Habitacion simple
-            </h2>
-            <p className="mt-2 text-sm text-gray-500">
-              Suitable to grow steadily.
+    <div className="bg-white py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl sm:text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Mi Reserva</h2>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+          Confirma los datos de tu reserva para proceder con el pago
+          </p>
+        </div>
+        <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
+          <div className="p-8 sm:p-10 lg:flex-auto">
+            <h3 className="text-2xl font-bold tracking-tight text-gray-900">Titular de la reseva</h3>
+            <p className="mt-6 text-base leading-7 text-gray-600">
+                Nombre y apellido: {nombre} {apellido}
             </p>
+            <p className="mt-6 text-base leading-7 text-gray-600">
+                Dni/Pasaporte : {dni}
+            </p>
+            <p className="mt-6 text-base leading-7 text-gray-600">
+                Fecha de ingreso: {fechaIn}
+            </p>
+            <p className="mt-6 text-base leading-7 text-gray-600">
+                Fecha de egreso : {fechaOut}
+            </p>
+            <p className="mt-6 text-base leading-7 text-gray-600">
+                cantidad de adultos : {adultos}
+            </p>
+            <p className="mt-6 text-base leading-7 text-gray-600">
+                cantidad de niños : {niños}
+            </p>
+            <p className="mt-6 text-base leading-7 text-gray-600">
+                Cantidad de habitaciones :
+            </p>
+            <p className="mt-6 text-base leading-7 text-gray-600">
+                Tipo de habitaciones :
+            </p>
+            <div className="mt-10 flex items-center gap-x-4">
+              <h4 className="flex-none text-sm font-semibold leading-6 text-indigo-600">Tu reserva incluye</h4>
+              <div className="h-px flex-auto bg-gray-100" />
+            </div>
+            <ul
+              role="list"
+              className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 sm:grid-cols-2 sm:gap-6"
+            >
+              {includedFeatures.map((feature) => (
+                <li key={feature} className="flex gap-x-3">
+                  <CheckIcon className="h-6 w-5 flex-none text-indigo-600" aria-hidden="true" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="mt-6">
-            <p>
-              <span className="text-5xl font-light tracking-tight text-black">
-                $250
-              </span>
-              <span className="text-base font-medium text-gray-500"> /mo </span>
-            </p>
+          <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
+            <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
+              <div className="mx-auto max-w-xs px-8">
+                <p className="text-base font-semibold text-gray-600">Total a pagar</p>
+                <p className="mt-6 flex items-baseline justify-center gap-x-2">
+                  <span className="text-5xl font-bold tracking-tight text-gray-900">${total}</span>
+                  <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">USD</span>
+                </p>
+                <button
+                  onClick={handleBuy}
+                  className="mt-10 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Pagar
+                </button>
+                <p className="mt-6 text-xs leading-5 text-gray-600">
+                  Icluye impuestos y demas persepciones dependiendo de tu pais
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex px-6 pb-8 sm:px-8">
-        <button
-        onClick={handleBuy}
-          aria-describedby="tier-company"
-          className="items-center justify-center w-full px-6 py-2.5 text-center text-white duration-200 bg-black border-2 border-black rounded-full inline-flex hover:bg-transparent hover:border-black hover:text-black focus:outline-none focus-visible:outline-black text-sm focus-visible:ring-black"
-        >
-          Pagar
-        </button>
-        {preferenceId && <Wallet initialization={{ preferenceId}} />}
       </div>
     </div>
     </div>
