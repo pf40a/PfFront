@@ -23,6 +23,7 @@ export default function SearchBox() {
     let totalError = 0;
     let err = {};
 
+<<<<<<< HEAD
     if (!inputs.fechaIn || inputs.fechaIn.length < 10) {
       err.fechaIn = "Falta la Fecha de Ingreso";
       totalError++;
@@ -49,6 +50,33 @@ export default function SearchBox() {
     setErrors(err);
     return totalError;
   };
+=======
+  if (!inputs.fechaIn || inputs.fechaIn.length < 10) {
+    err.fechaIn = "Falta la Fecha de Ingreso";
+    totalError++
+  }
+  if (!inputs.fechaOut || inputs.fechaOut.length < 10) {
+    err.fechaOut = "Falta la Fecha de Salida";
+    totalError++
+  }
+  if (inputs.fechaIn < today) {
+    err.fechaIn = "Fecha de Ingreso incorrecta";
+    totalError++
+  }
+  if (inputs.fechaIn >= inputs.fechaOut) {
+    err.fechaOut = "Fecha de Salida incorrecta";
+    totalError++
+  }
+  if (inputs.adultos < 1) {
+    err.adultos = "Falta el número de adultos";
+    totalError++
+  }
+  
+// console.log('Errores::',err)
+setErrors(err)
+  return totalError;
+};
+>>>>>>> 6c8e54678881c9bbb21c64f8cdc67a731fc23d69
 
   let search = { fechaIn: "", fechaOut: "", adultos: 2, niños: 0, bebes: 0 };
 
