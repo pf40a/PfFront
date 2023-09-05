@@ -1,21 +1,38 @@
 import { useState, useEffect } from "react";
-import "./App.css";
-import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route,  } from "react-router-dom";
+
+// ----- Actions -----
+
+import { loadAllTypesRooms } from "./redux/actions";
+
+// ----- Vistas -----
+
+import RegisterPage from "./views/Auth/Pages/RegisterPage";
+import LoginPage from "./views/Auth/Pages/LoginPage";
+import DetailsRooms from "./views/Details/Details";
+import Sidebar from "./views/DashBoard/DashBoard";
+import ErroPage from "./views/Error404/Error404";
+import AboutUs from "./views/AboutUs/AboutUs";
 import Home from "./views/Home/Home";
+
+// ----- Componentes -----
+
+import Reservation from "./components/ReservationForm/Reservation";
+import SearchRoom from "./components/SearchComponent/SearchRoom";
+import MercadoPago from "./components/MercadoPago/MercadoPago";
+import { CheckingAuth } from "./components/Login/CheckingAuth";
+import PaymenView from "./components/Payment/PaymenView";
+import PopDetail from "./components/PopDetail/PopDetail";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import ErroPage from "./views/Error404/Error404";
-import Reservation from "./components/ReservationForm/Reservation";
-import Sidebar from "./views/DashBoard/DashBoard";
-import LoginPage from "./views/Auth/Pages/LoginPage";
-import RegisterPage from "./views/Auth/Pages/RegisterPage";
+
+// ----- Hooks -----
+
+import { useCheckAuth } from "./Hooks/useCheckAuth";
+
+// ----- Estilos -----
 
 import "./App.css";
-import { CheckingAuth } from "./components/Login/CheckingAuth";
-import { useCheckAuth } from "./Hooks/useCheckAuth";
-import DetailsRooms from "./views/Details/Details";
 
 import AboutUs from "./views/AboutUs/AboutUs";
 
@@ -23,7 +40,7 @@ import PaymenView from "./components/Payment/PaymenView";
 import { loadAllTypesRooms } from "./redux/actions";
 import SearchRoom from "./components/SearchComponent/SearchRoom";
 import PopDetail from "./components/PopDetail/PopDetail";
-import MercadoPago from "./components/MercadoPago/MercadoPago";
+import CorreoForm from "./components/ContactForm/CorreoForm";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -59,6 +76,7 @@ function App() {
         currentPath !== "/login" &&
         currentPath !== "/register" &&
         currentPath !== "/dashboard" &&
+        currentPath !== "/contact" &&
         currentPath !== "/mercadopago"
 
     );
@@ -68,7 +86,7 @@ function App() {
     // fetchDataRooms()
   }, []);
 
-  // Authentication
+  // ------ Authentication ------
 
   const status = useCheckAuth();
 
@@ -92,6 +110,7 @@ function App() {
         <Route path="*" element={<ErroPage />} />
         <Route path="/pop" element={<PopDetail />} />
         <Route path="/search" element={<SearchRoom />} />
+        <Route path="/contact" element={<CorreoForm />} />
         <Route path="/mercadopago" element={<MercadoPago/>}/>
       </Routes>
       {showLayout && <Footer />}
