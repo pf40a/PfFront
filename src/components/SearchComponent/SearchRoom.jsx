@@ -107,14 +107,17 @@ const SearchRoom = () => {
   // Función para manejar la selección/deselección de una opción
     const handleFiltros = (opcion) => {
       //alert(opcion)
+      let newFiltros = [];
       if (filtros.includes(opcion)) {
         // Si la opción ya está seleccionada, la eliminamos
-        setFiltros(filtros.filter(item => item !== opcion));
-        dispatch(filterRoom(filtros.filter(item => item !== opcion)))
+        newFiltros=filtros.filter(item => item !== opcion)
+        setFiltros(newFiltros);
+        dispatch(filterRoom(newFiltros))
       } else {
         // Si la opción no está seleccionada, la agregamos
-        setFiltros([...filtros, opcion]);
-        dispatch(filterRoom([...filtros, opcion]))
+newFiltros=[...filtros, opcion];
+        setFiltros(newFiltros);
+        dispatch(filterRoom(newFiltros))
       }
     };
   //console.log('filtros:',filtros)
