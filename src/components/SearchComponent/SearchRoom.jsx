@@ -1,10 +1,12 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { orderRoom, savePage } from "../../redux/actions";
 import { getLocalStorage } from "../../utilities/managerLocalStorage";
 import { Fragment } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
+import styles from "./SearchRoom.module.css";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
@@ -13,15 +15,17 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
+
 import Room from "../Room/Room";
 import PaymenView from "../Payment/PaymenView";
 import SearchBox from "../SearchBox/SearchBox";
+import CartRooms from "../CartRooms/CartRooms";
 
 const sortOptions = [
   { name: "Jacuzzi", href: "#", current: true },
   { name: "Sala de estar", href: "#", current: false },
   { name: "Mini Heladera", href: "#", current: false },
-  { name: "Television: Low to High", href: "#", current: false },
+  { name: "Television", href: "#", current: false },
   { name: "Precio: High to Low", href: "#", current: false },
 ];
 const subCategories = [
@@ -87,80 +91,169 @@ function diasEntreFechas(fecha1, fecha2) {
   return diasDiferencia;
 }
 
-
 const SearchRoom = () => {
-  const [rooms, setRooms] = useState([]);
-  const [detail, setDetail] = useState([]);
-  const [infoStorage, setInfoStorage] = useState({})
+  const dispatch = useDispatch();
+
+  const [cartShow, setCartShow] = useState(false);
+  const [roomReserve, setRoomReserve] = useState([]);
+  const [first, setfirst] = useState(second)
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const [localStorageRooms, setLocalStorageRooms] = useState([]); //localStorage
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  const roomsRedux = useSelector(state => state.rooms)
-  
-
+  const roomsRedux = useSelector((state) => state.rooms);
+  const allRoomsRedux = useSelector((state) => state.allRooms);
   //Rooms LocalStorage :
-  useEffect(() => {
-    // Cargar datos del carrito desde localStorage al cargar la página
-
-    // const dataRooms = async () => {
-    //   try {
-    //     const roomRequest = await axios.post(
-    //       "http://localhost:3001/hotel/filtros"
-    //     );
-    //     const response = roomRequest.data.data;
-    //     setRooms(response);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // dataRooms();
-    // const detailReques = async () => {
-    //   try {
-    //     const detailReq = await axios.get(
-    //       "http://localhost:3001/hotel/habitaciones/detalle"
-    //     );
-    //     const response = detailReq.data.data;
-    //     setDetail(response);
-    //   } catch (error) {}
-    // };
-    // detailReques();
-
-    /* const searchDataFromLocalStorage = getLocalStorage('search');
-    // Utiliza los datos como sea necesario en tu componente
-    setInfoStorage(searchDataFromLocalStorage)
-    console.log('Data from localStorage:', searchDataFromLocalStorage); */
-
-
-    const savedRooms = localStorage.getItem("rooms");
-    if (savedRooms) {
-      setLocalStorageRooms(JSON.parse(savedRooms));
-    }
-  }, []);
-  useEffect(() => {
-    // Guardar datos del carrito en localStorage cuando cambien
-    localStorage.setItem("rooms", JSON.stringify(localStorageRooms));
-  }, [localStorageRooms]);
-
   //añadir habitacion
+  useEffect(() => {
+    const storedRooms = JSON.parse(localStorage.getItem("rooms")) || [];
+    setRoomReserve(storedRooms);
+  }, []);
 
+  const addReserve = (item) => {
+    const updatedLocalStorageRooms = [...roomReserve, item];
+    setRoomReserve(updatedLocalStorageRooms);
+    localStorage.setItem("rooms", JSON.stringify(updatedLocalStorageRooms));
+  };
+
+  const removeRoom = (roomId) => {
+    // Filtra las habitaciones en el carrito y elimina la que coincida con el ID
+    const updatedRoomReserve = roomReserve.filter((room) => room.id !== roomId);
+    // Actualiza el estado del carrito
+    setRoomReserve(updatedRoomReserve);
+    // Actualiza el almacenamiento local
+    localStorage.setItem("rooms", JSON.stringify(updatedRoomReserve));
+  };
 
   const addToCart = (item) => {
     setSelectedRoom(item);
     setLocalStorageRooms([...localStorageRooms, item]);
   };
 
+  const showCart = () => {
+    setCartShow(true);
+  };
 
-  let search
-  if(getLocalStorage('search')){
-    search = getLocalStorage('search')
-     }
+  const closeCart = () => {
+    setCartShow(false);
+  };
 
+  ///datos del SearchBox:
+  let search;
+  if (getLocalStorage("search")) {
+    search = getLocalStorage("search");
+  }
+  //
+
+  let roomsLocal;
+  if (getLocalStorage("rooms")) {
+    roomsLocal = getLocalStorage("rooms");
+  }
+
+  const roomsData = localStorage.getItem("rooms");
+  console.log(JSON.parse(roomsData));
+  console.log(roomsRedux);
+
+  ///Paginado - Filtros - Orden
+  const roomsPerPage = 4;
+  let totalPages = 1;
+  //
+  let nowPage = useSelector((store) => store.page);
+  const [roomsPage, setRoomsPage] = useState([]);//listado-paginado
+  const [actualPage, setActualPage] = useState(1);
+  //
+  const [filter, setFilter] = useState("");
+  const [filterOrder, setFilterOrder] = useState("");
+  //
+  let [btnPaginator, setBtnPaginator] = useState(null);///botones paginado
+  
+  function paginator(pag) {
+    setActualPage(pag);
+    const init = (pag - 1) * roomsPerPage;
+    const end = init + roomsPerPage;
+    setRoomsPage(roomsRedux?.slice(init, end));
+    console.log("paginado:" + pag, init, end);
+    console.log(roomsPage);
+    console.log('SinPaginar',roomsRedux)
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Hace que el desplazamiento sea suave
+    });
+    dispatch(savePage(pag));
+  }
+
+  useEffect(() => {
+    paginator(nowPage)
+
+    if (roomsRedux?.length > 0) {
+      totalPages = Math.ceil(roomsRedux.length / roomsPerPage);
+// Genera un arreglo con la cantidad de botones que necesitas
+      let new_btnPaginator = Array.from(
+        { length: totalPages },
+        (_, index) => index + 1
+      );
+      setBtnPaginator(new_btnPaginator);
+      paginator(nowPage);
+      //console.log("qq", nowPage);
+    }
+
+  },[roomsRedux])
+
+/*
+  
+  
+
+  useEffect(() => {
+    if (roomsRedux?.length > 0) {
+      totalPages = Math.ceil(roomsRedux.length / roomsPerPage);
+
+      // Genera un arreglo con la cantidad de botones que necesitas
+      let new_btnPaginator = Array.from(
+        { length: totalPages },
+        (_, index) => index + 1
+      );
+      setBtnPaginator(new_btnPaginator);
+      paginator(nowPage);
+      //console.log("qq", nowPage);
+    }
+  }, [roomsRedux]);
+
+  function handleFilter(event) {
+    dispatch(filterRooms(event.target.value));
+    setFilter(event.target.value);
+    setFilterOrigin("all");
+    setActualPage(1);
+    setFilterOrder("");
+  }
+
+  function handleFilter(filtro) {
+    setActualPage(1);
+    dispatch(filterRooms(filtro));
+    setFilterDiet(filtro);
+    setFilterOrigin("all");
+    setFilterOrder("");
+  }
+
+  function handleFilterOrigin(e) {
+    setActualPage(1);
+    dispatch(filterRooms(e.target.value));
+    setFilterOrigin(e.target.value);
+    setFilterDiet("all");
+    setFilterOrder("");
+  }
+
+  function handleOrder(e) {
+    setActualPage(1);
+    dispatch(orderRoom(e.target.value));
+    setFilterOrder(e.target.value);
+    setFilterDiet("all");
+    setFilterOrigin("all");
+  }
+ */
   return (
     <>
       <div className="bg-white">
         <div>
-          
           {/* Mobile filter dialog */}
           <Transition.Root show={mobileFiltersOpen} as={Fragment}>
             <Dialog
@@ -287,14 +380,9 @@ const SearchRoom = () => {
 
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex mt-10">
-
-
-            <SearchBox/>
-
-
+              <SearchBox />
             </div>
-            <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-              
+            <div className="flex flex-col md:flex-row items-center md:items-baseline justify-between border-b border-gray-200 pb-6 pt-8 md:pt-24 ">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900">
                 Habitaciones
               </h1>
@@ -344,7 +432,22 @@ const SearchRoom = () => {
                     </Menu.Items>
                   </Transition>
                 </Menu>
-
+                <button className="ml-10" onClick={showCart}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                    />
+                  </svg>
+                </button>
                 <button
                   type="button"
                   className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
@@ -361,38 +464,72 @@ const SearchRoom = () => {
                   <FunnelIcon className="h-5 w-5" aria-hidden="true" />
                 </button>
               </div>
+              
+
             </div>
 
-            <section aria-labelledby="products-heading" className="pb-24 pt-6">
+            {/* paginado */}
+<div className={styles.paginado}>
+        {actualPage > 1 && (
+          <button onClick={() => paginator(actualPage - 1)}> prev </button>
+        )}
+
+        {btnPaginator?.map((numeroPag, i) => (
+          <button
+            className={actualPage === numeroPag ? styles.active : null}
+            key={i}
+            onClick={() => paginator(numeroPag)}
+          >{`${numeroPag}`}</button>
+        ))}
+
+        {btnPaginator?.length > 1 && actualPage < btnPaginator.length && (
+          <button onClick={() => paginator(actualPage + 1)}> next </button>
+        )}
+      </div>
+{/* Fin paginado */}
+
+            <section aria-labelledby="products-heading" className="pb-24 pt-6 ">
               <h2 id="products-heading" className="sr-only">
                 Products
               </h2>
 
-              <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-                {/* Filters */}
-                <button>AGREGAR AL CARRITO</button>
+              {/* Filters */}
+              <div>
+                {cartShow && (
+                  <div>
+                    <CartRooms
+                      state={cartShow}
+                      close={closeCart}
+                      arrayRooms={roomsLocal}
+                      remove={removeRoom}
+                    />
+                  </div>
+                )}
+
                 {/* Product grid */}
                 <div className="flex flex-col gap-10 lg:col-span-3">
-                  {/* Your content */}
-                  {roomsRedux.length>0 && roomsRedux.map((item) => (
-                    <div key={item.id}>
-                      <Room
-                        handleClick={() => addToCart(item)}
-                        id={item.id}
-                        tipo_Habitacion={item.tipo_Habitacion}
-                        subTipo={item.subTipo}
-                        precio={item.precio}
-                        image={item.image}
-                        capacidad={item.capacidad}
-                        dias={diasEntreFechas(search.fechaIn, search.fechaOut)}
-                        fechaIn={search.fechaIn}
-                        FechaOut={search.fechaOut}
-                        Adultos={search.adultos}
-                        Niños={search.niños}
-                      />
-                    </div>
-                  ))}
-
+                  {/* Your content roomsRedux*/}
+                  {roomsPage?.length > 0 &&
+                    roomsPage.map((item) => (
+                      <div key={item.id}>
+                        <Room
+                          handleClick={() => addToCart(item)}
+                          id={item.id}
+                          tipo_Habitacion={item.tipo_Habitacion}
+                          subTipo={item.subTipo}
+                          precio={item.precio}
+                          image={item.image}
+                          capacidad={item.capacidad}
+                          dias={diasEntreFechas(
+                            search.fechaIn,
+                            search.fechaOut
+                          )}
+                          fechaIn={search.fechaIn}
+                          FechaOut={search.fechaOut}
+                          handleClickReserve={() => addReserve(item)}
+                        />
+                      </div>
+                    ))}
 
                   {selectedRoom && (
                     <div className=" backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto">
@@ -407,16 +544,39 @@ const SearchRoom = () => {
                       />
                     </div>
                   )}
-
-
-
-
                 </div>
               </div>
+
+              {/* paginado */}
+<div className={`${styles.paginado} mt-4`}>
+        {actualPage > 1 && (
+          <button onClick={() => paginator(actualPage - 1)}> prev </button>
+        )}
+
+        {btnPaginator?.map((numeroPag, i) => (
+          <button
+            className={actualPage === numeroPag ? styles.active : null}
+            key={i}
+            onClick={() => paginator(numeroPag)}
+          >{`${numeroPag}`}</button>
+        ))}
+
+        {btnPaginator?.length > 1 && actualPage < btnPaginator.length && (
+          <button onClick={() => paginator(actualPage + 1)}> next </button>
+        )}
+      </div>
+{/* Fin paginado */}
+
             </section>
           </main>
+
+          
         </div>
+        
       </div>
+
+      
+
     </>
   );
 };

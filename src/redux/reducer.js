@@ -6,6 +6,7 @@ import {
   ORDER_ROOMS,
   TYPES_ROOMS,
   FILTER_TYPES_ROOMS,
+  SAVE_PAGE,
   LOGIN,
   LOGOUT,
   CHECKING_CREDENTIALS,
@@ -19,6 +20,7 @@ const initialState = {
   order: "",
   typesRooms: [],
   allTypesRooms: [],
+  page: 1,
 
   // Authentication
   auth: {
@@ -107,6 +109,12 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         typesRooms: [...newTypesRooms],
+      };
+
+    case SAVE_PAGE:
+      return {
+        ...state,
+        page: action.payload,
       };
 
     // ----- Authentication -----

@@ -7,19 +7,45 @@ const Review = () => {
   const [comment, setComment] = useState("");
   const [usersList, setUsersList] = useState([]);
   const [showReviewForm, setShowReviewForm] = useState(false); // Estado para mostrar el formulario
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(true); // Estado para mostrar el formulario
+  const [reviews, setReviews] = useState([]);
 
   const user = useSelector((state) => state.auth);
   console.log(user);
   const authenticatedEmail = user.email;
 
   useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/hotel/reviews/"
+        );
+        const reviewsData = response.data.data;
+        console.log(reviewsData);
+        setReviews(reviewsData);
+      } catch (error) {
+        console.error("Error al obtener las revisiones:", error);
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
+  useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/hotel/users");
+        const response = await axios.get("http://localhost:3001/hotel/users/");
 
         const users = response.data.data;
-        // console.log(users[0].id);
-        // setUsersList(users);
+
+        setUsersList(users);
+        const caca = usersList.some(
+          (user) => user.email === authenticatedEmail
+        );
+
+        if (!caca) {
+          setIsUserAuthenticated(false);
+        }
       } catch (error) {
         console.error("Error al obtener la información del usuario:", error);
       }
@@ -27,10 +53,6 @@ const Review = () => {
 
     fetchUserData();
   }, []);
-
-  const isUserAuthenticated = usersList.some(
-    (user) => user.email === authenticatedEmail
-  );
 
   const handleRatingChange = (value) => {
     setRating(value);
@@ -41,39 +63,50 @@ const Review = () => {
   };
 
   const handleSubmit = () => {
-    console.log("Calificación:", rating);
-    console.log("Comentario:", comment);
     const data = {
       UsuarioId: user.uid,
       rating: rating,
       comentario: comment,
       deleted: false,
-      Usuario: {
-        nombre: user.nombre,
-        apellido: user.apellido,
-        email: user.email,
-      },
     };
     axios
       .post("http://localhost:3001/hotel/reviews/", data)
       .then((response) => {
         console.log("Solicitud POST exitosa:", response.data);
-        // Realiza acciones adicionales después de enviar los datos, si es necesario.
-        // Por ejemplo, podrías ocultar el formulario aquí
-        setShowReviewForm(false);
+
+        setShowReviewForm(false); //ocultar form review
       })
       .catch((error) => {
         console.error("Error al enviar la solicitud POST:", error);
-        // Maneja errores aquí si es necesario.
       });
   };
 
+  const renderStars = (numStars) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <span
+          key={i}
+          className={`text-3xl ${
+            i <= numStars ? "text-yellow-500" : "text-gray-400"
+          }`}
+        >
+          ★
+        </span>
+      );
+    }
+    return stars;
+  };
+  console.log(isUserAuthenticated);
   return (
     <div className="rating">
       {isUserAuthenticated && (
         <div>
-          <button onClick={() => setShowReviewForm(true)}>
-            Completar Revisión
+          <button
+            className="mt-4 bg-green-300 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => setShowReviewForm(true)}
+          >
+            DANOS TU OPINIÓN ACERCA DE LA ESTADÍA EN OASIS HOTEL
           </button>
           {showReviewForm && (
             <div>
@@ -122,6 +155,24 @@ const Review = () => {
           )}
         </div>
       )}
+      <div>
+        <h2>Review:</h2>
+        <ul>
+          {reviews.map((review) => (
+            <li key={review.id}>
+              <p>
+                {" "}
+                {review.Usuario.nombre}{" "}
+                {review.Usuario.apellido !== "Sin apellido" &&
+                  review.Usuario.apellido}
+              </p>
+
+              <div>{renderStars(review.rating)}</div>
+              <p> {review.comentario}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

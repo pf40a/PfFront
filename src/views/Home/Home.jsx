@@ -7,10 +7,11 @@ import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
+import Review from "../../components/Reviews/Reviews";
 
 const Home = () => {
   const [data, setData] = useState([]);
-console.log('env',import.meta.env.VITE_API_URL)
+  // console.log('env',import.meta.env.VITE_API_URL)
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/hotel/subtipo`)
@@ -122,6 +123,7 @@ console.log('env',import.meta.env.VITE_API_URL)
         </div>
       </div>
       <AboutUs />
+      <Review />
     </div>
   );
 };
