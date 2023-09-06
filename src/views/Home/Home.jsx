@@ -9,6 +9,7 @@ import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
 import Rooms from "../../components/Rooms/Rooms";
 import Room from "../../components/Room/Room";
+import ReviewStars from "../../components/pruebas/pruebas";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -124,6 +125,7 @@ const Home = () => {
         </div>
       </div>
       <AboutUs />
+
     </div>
   );
 };

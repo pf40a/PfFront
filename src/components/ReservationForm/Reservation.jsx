@@ -127,7 +127,7 @@ const Reservation = () => {
       }
 
       try {
-        
+//ACA TENGO QUE HACER PARA QUE SE CREE EL USUARIO
         const userRequest = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/users`)
         const response = userRequest.data.data
         const mapeado = response.some((item)=>{return item.email === reserve.email})
@@ -146,9 +146,7 @@ const Reservation = () => {
               "password": reserve.dni,
               "admin": false,
               "deleted": false
-            
           })
-
           console.log("Usuario creado");
           } catch (error) {
             console.log("hubo un error");

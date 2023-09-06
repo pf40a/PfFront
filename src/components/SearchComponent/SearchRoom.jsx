@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { orderRoom, savePage,filterRoom } from "../../redux/actions";
+import { orderRoom, savePage, filterRoom } from "../../redux/actions";
 import { getLocalStorage } from "../../utilities/managerLocalStorage";
 import { Fragment } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
@@ -20,9 +20,6 @@ import Room from "../Room/Room";
 import PaymenView from "../Payment/PaymenView";
 import SearchBox from "../SearchBox/SearchBox";
 import CartRooms from "../CartRooms/CartRooms";
-
-
-
 
 const subCategories = [
   { name: "Totes", href: "#" },
@@ -97,32 +94,32 @@ const SearchRoom = () => {
   const [quantityTotal, setQuantityTotal] = useState(1);
 
   const sortOptions = [
-    'Jacuzzi',
-    'Sala de estar',
-    'Cocina privada',
-    'Suite',
-    'Sala de reunión'
+    "Jacuzzi",
+    "Sala de estar",
+    "Cocina privada",
+    "Suite",
+    "Sala de reunión",
   ];
   const [filtros, setFiltros] = useState([]);
   // Función para manejar la selección/deselección de una opción
-    const handleFiltros = (opcion) => {
-      if (filtros.includes(opcion)) {
-        // Si la opción ya está seleccionada, la eliminamos
-        setFiltros(filtros.filter(item => item !== opcion));
-        dispatch(filterRoom(filtros.filter(item => item !== opcion)))
-      } else {
-        // Si la opción no está seleccionada, la agregamos
-        setFiltros([...filtros, opcion]);
-        dispatch(filterRoom([...filtros, opcion]))
-      }
-    };
-  console.log('filtros:',filtros)
+  const handleFiltros = (opcion) => {
+    if (filtros.includes(opcion)) {
+      // Si la opción ya está seleccionada, la eliminamos
+      setFiltros(filtros.filter((item) => item !== opcion));
+      dispatch(filterRoom(filtros.filter((item) => item !== opcion)));
+    } else {
+      // Si la opción no está seleccionada, la agregamos
+      setFiltros([...filtros, opcion]);
+      dispatch(filterRoom([...filtros, opcion]));
+    }
+  };
+  console.log("filtros:", filtros);
 
-  const [order,setOrder] = useState('Capacidad')
+  const [order, setOrder] = useState("Capacidad");
   const handleOrder = (type) => {
-    dispatch(orderRoom(type))
-    setOrder(type)  
-  }
+    dispatch(orderRoom(type));
+    setOrder(type);
+  };
 
   const roomsRedux = useSelector((state) => state.rooms);
   const allRoomsRedux = useSelector((state) => state.allRooms);
@@ -171,15 +168,14 @@ const SearchRoom = () => {
   };
 
   function increaseQuantity(productId) {
-
     // Asegúrate de que el producto existe antes de incrementar la cantidad
     if (productId) {
-      setQuantityTotal(quantityTotal + 1);}
-    
+      setQuantityTotal(quantityTotal + 1);
+    }
   }
 
   function decreaseQuantity() {
-    if(quantityTotal> 1){
+    if (quantityTotal > 1) {
       setQuantityTotal(quantityTotal - 1);
     }
   }
@@ -189,17 +185,12 @@ const SearchRoom = () => {
       setRoomReserve([...roomReserve, item]);
       localStorage.setItem("rooms", JSON.stringify([...roomReserve, item]));
     } else {
-      increaseQuantity(item.id)
+      increaseQuantity(item.id);
       // Producto ya en el carrito, puedes mostrar un mensaje de error o realizar otra acción.
     }
   };
 
-
-
-
-
-
-    //---------PARA QUE NO SE AGREGUE UNA CARD REPETIDO-------------//
+  //---------PARA QUE NO SE AGREGUE UNA CARD REPETIDO-------------//
 
   const roomsData = localStorage.getItem("rooms");
 
@@ -208,14 +199,14 @@ const SearchRoom = () => {
   let totalPages = 1;
   //
   let nowPage = useSelector((store) => store.page);
-  const [roomsPage, setRoomsPage] = useState([]);//listado-paginado
+  const [roomsPage, setRoomsPage] = useState([]); //listado-paginado
   const [actualPage, setActualPage] = useState(1);
   //
   const [filter, setFilter] = useState("");
   const [filterOrder, setFilterOrder] = useState("");
   //
-  let [btnPaginator, setBtnPaginator] = useState([]);///botones paginado
-  
+  let [btnPaginator, setBtnPaginator] = useState([]); ///botones paginado
+
   function paginator(pag) {
     setActualPage(pag);
     const init = (pag - 1) * roomsPerPage;
@@ -223,7 +214,7 @@ const SearchRoom = () => {
     setRoomsPage(roomsRedux?.slice(init, end));
     console.log("paginado:" + pag, init, end);
     console.log(roomsPage);
-    console.log('SinPaginar',roomsRedux)
+    console.log("SinPaginar", roomsRedux);
 
     window.scrollTo({
       top: 0,
@@ -233,11 +224,11 @@ const SearchRoom = () => {
   }
 
   useEffect(() => {
-    paginator(nowPage)
+    paginator(nowPage);
 
     if (roomsRedux?.length >= 0) {
       totalPages = Math.ceil(roomsRedux.length / roomsPerPage);
-// Genera un arreglo con la cantidad de botones que necesitas
+      // Genera un arreglo con la cantidad de botones que necesitas
       let new_btnPaginator = Array.from(
         { length: totalPages },
         (_, index) => index + 1
@@ -246,9 +237,7 @@ const SearchRoom = () => {
       paginator(nowPage);
       //console.log("qq", nowPage);
     }
-
-  },[roomsRedux])
-
+  }, [roomsRedux]);
 
   return (
     <>
@@ -410,63 +399,61 @@ const SearchRoom = () => {
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="p-2">
-                        
-                      <ul>
-        {sortOptions.map((opcion, index) => (
-          <li key={index}>
-            <label>
-              <input
-                type="checkbox"
-                checked={filtros.includes(opcion)}
-                onChange={() => handleFiltros(opcion)}
-                className="mr-2"
-              />
-              {opcion}
-            </label>
-          </li>
-        ))}
-      </ul>
+                        <ul>
+                          {sortOptions.map((opcion, index) => (
+                            <li key={index}>
+                              <label>
+                                <input
+                                  type="checkbox"
+                                  checked={filtros.includes(opcion)}
+                                  onChange={() => handleFiltros(opcion)}
+                                  className="mr-2"
+                                />
+                                {opcion}
+                              </label>
+                            </li>
+                          ))}
+                        </ul>
 
-      <ul className="border-t border-t-gray-200">
-        Orden:
-        <li>
-        <label>
-              <input
-                type="radio"
-                onChange={() => handleOrder('Precio Menor')}
-                className="mr-2"
-                name="orden"
-                checked={order === 'Precio Menor'}
-              />
-              Precio Menor
-            </label>
-        </li>
-        <li>
-        <label>
-              <input
-                type="radio"
-                onChange={() => handleOrder('Precio Mayor')}
-                className="mr-2"
-                name="orden"
-                checked={order === 'Precio Mayor'}
-              />
-              Precio Mayor
-            </label>
-        </li>
-        <li>
-          <label>
-              <input
-                type="radio"
-                onChange={() => handleOrder('Capacidad')}
-                className="mr-2"
-                name="orden"
-                checked={order === 'Capacidad'}
-              />
-              Capacidad
-            </label>
-        </li>
-      </ul>
-
+                        <ul className="border-t border-t-gray-200">
+                          Orden:
+                          <li>
+                            <label>
+                              <input
+                                type="radio"
+                                onChange={() => handleOrder("Precio Menor")}
+                                className="mr-2"
+                                name="orden"
+                                checked={order === "Precio Menor"}
+                              />
+                              Precio Menor
+                            </label>
+                          </li>
+                          <li>
+                            <label>
+                              <input
+                                type="radio"
+                                onChange={() => handleOrder("Precio Mayor")}
+                                className="mr-2"
+                                name="orden"
+                                checked={order === "Precio Mayor"}
+                              />
+                              Precio Mayor
+                            </label>
+                          </li>
+                          <li>
+                            <label>
+                              <input
+                                type="radio"
+                                onChange={() => handleOrder("Capacidad")}
+                                className="mr-2"
+                                name="orden"
+                                checked={order === "Capacidad"}
+                              />
+                              Capacidad
+                            </label>
+                          </li>
+                        </ul>
                       </div>
                     </Menu.Items>
                   </Transition>
@@ -503,29 +490,34 @@ const SearchRoom = () => {
                   <FunnelIcon className="h-5 w-5" aria-hidden="true" />
                 </button>
               </div>
-              
-
             </div>
 
             {/* paginado */}
-<div className={styles.paginado}>
-        {actualPage > 1 && (
-          <button onClick={() => paginator(actualPage - 1)}> prev </button>
-        )}
+            <div className={styles.paginado}>
+              {actualPage > 1 && (
+                <button onClick={() => paginator(actualPage - 1)}>
+                  {" "}
+                  prev{" "}
+                </button>
+              )}
 
-        {btnPaginator?.length>1 && btnPaginator?.map((numeroPag, i) => (
-          <button
-            className={actualPage === numeroPag ? styles.active : null}
-            key={i}
-            onClick={() => paginator(numeroPag)}
-          >{`${numeroPag}`}</button>
-        ))}
+              {btnPaginator?.length > 1 &&
+                btnPaginator?.map((numeroPag, i) => (
+                  <button
+                    className={actualPage === numeroPag ? styles.active : null}
+                    key={i}
+                    onClick={() => paginator(numeroPag)}
+                  >{`${numeroPag}`}</button>
+                ))}
 
-        {btnPaginator?.length > 1 && actualPage < btnPaginator.length && (
-          <button onClick={() => paginator(actualPage + 1)}> next </button>
-        )}
-      </div>
-{/* Fin paginado */}
+              {btnPaginator?.length > 1 && actualPage < btnPaginator.length && (
+                <button onClick={() => paginator(actualPage + 1)}>
+                  {" "}
+                  next{" "}
+                </button>
+              )}
+            </div>
+            {/* Fin paginado */}
 
             <section aria-labelledby="products-heading" className="pb-24 pt-6 ">
               <h2 id="products-heading" className="sr-only">
@@ -541,10 +533,7 @@ const SearchRoom = () => {
                       close={closeCart}
                       arrayRooms={roomsLocal}
                       remove={removeRoom}
-                      dias={diasEntreFechas(
-                        search.fechaIn,
-                        search.fechaOut
-                      )}
+                      dias={diasEntreFechas(search.fechaIn, search.fechaOut)}
                       quantityTotal={quantityTotal}
                       increaseQuantity={increaseQuantity}
                       decreaseQuantity={decreaseQuantity}
@@ -576,9 +565,7 @@ const SearchRoom = () => {
                         />
                       </div>
                     ))}
-                    {roomsPage?.length == 0 && (
-                      <div>Sin Resultados</div>
-                    )}
+                  {roomsPage?.length == 0 && <div>Sin Resultados</div>}
 
                   {selectedRoom && (
                     <div className=" backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto">
@@ -597,34 +584,37 @@ const SearchRoom = () => {
               </div>
 
               {/* paginado */}
-<div className={`${styles.paginado} mt-4`}>
-        {actualPage > 1 && (
-          <button onClick={() => paginator(actualPage - 1)}> prev </button>
-        )}
-        {btnPaginator?.length>1 && btnPaginator?.map((numeroPag, i) => (
-          <button
-            className={actualPage === numeroPag ? styles.active : null}
-            key={i}
-            onClick={() => paginator(numeroPag)}
-          >{`${numeroPag}`}</button>
-        ))}
+              <div className={`${styles.paginado} mt-4`}>
+                {actualPage > 1 && (
+                  <button onClick={() => paginator(actualPage - 1)}>
+                    {" "}
+                    prev{" "}
+                  </button>
+                )}
+                {btnPaginator?.length > 1 &&
+                  btnPaginator?.map((numeroPag, i) => (
+                    <button
+                      className={
+                        actualPage === numeroPag ? styles.active : null
+                      }
+                      key={i}
+                      onClick={() => paginator(numeroPag)}
+                    >{`${numeroPag}`}</button>
+                  ))}
 
-        {btnPaginator?.length > 1 && actualPage < btnPaginator.length && (
-          <button onClick={() => paginator(actualPage + 1)}> next </button>
-        )}
-      </div>
-{/* Fin paginado */}
-
+                {btnPaginator?.length > 1 &&
+                  actualPage < btnPaginator.length && (
+                    <button onClick={() => paginator(actualPage + 1)}>
+                      {" "}
+                      next{" "}
+                    </button>
+                  )}
+              </div>
+              {/* Fin paginado */}
             </section>
           </main>
-
-          
         </div>
-        
       </div>
-
-      
-
     </>
   );
 };
