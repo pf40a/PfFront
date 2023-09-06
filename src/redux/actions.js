@@ -32,6 +32,10 @@ export const searchRooms = (search) => {
         return habitacion.capacidad <= pax;
       });
 
+      dataNew = dataNew.sort(function(a, b) {
+        return b.capacidad - a.capacidad;
+      })
+
   //console.log('dataxx',data)
       return dispatch({
         type: "SEARCH_ROOMS",

@@ -71,9 +71,25 @@ export default function rootReducer(state = initialState, action) {
       const roomsOrder = [...state.allRooms];
       const order = action.payload;
       let newRoomsOrder = [];
-      if (order === "price") {
-        newRoomsOrder = roomsOrder.slice().sort((a, b) => a.precio - b.precio);
-      } else if (order === "name") {
+      if (order === "Precio Menor") {
+        
+        newRoomsOrder = roomsOrder.sort(function(a, b) {
+  return a.precio - b.precio;
+});
+
+      }else if (order === "Precio Mayor") {
+        
+        newRoomsOrder = roomsOrder.sort(function(a, b) {
+  return b.precio - a.precio;
+});
+
+      }else if (order === "Capacidad") {
+        
+        newRoomsOrder = roomsOrder.sort(function(a, b) {
+  return b.capacidad - a.capacidad;
+});
+
+      } else if (order === "Name") {
         newRoomsOrder = roomsOrder.sort((a, b) => {
           if (a[order] < b[order]) {
             return -1;

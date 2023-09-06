@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { orderRoom, savePage } from "../../redux/actions";
+import { orderRoom, savePage,filterRoom } from "../../redux/actions";
 import { getLocalStorage } from "../../utilities/managerLocalStorage";
 import { Fragment } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
@@ -21,13 +21,8 @@ import PaymenView from "../Payment/PaymenView";
 import SearchBox from "../SearchBox/SearchBox";
 import CartRooms from "../CartRooms/CartRooms";
 
-const sortOptions = [
-  { name: "Jacuzzi", href: "#", current: true },
-  { name: "Sala de estar", href: "#", current: false },
-  { name: "Cocina privada", href: "#", current: false },
-  { name: "Sala de reunión", href: "#", current: false },
-  { name: "Suite", href: "#", current: false },
-];
+
+
 
 const subCategories = [
   { name: "Totes", href: "#" },
@@ -100,6 +95,34 @@ const SearchRoom = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
+  const sortOptions = [
+    'Jacuzzi',
+    'Sala de estar',
+    'Cocina privada',
+    'Suite',
+    'Sala de reunión'
+  ];
+  const [filtros, setFiltros] = useState([]);
+  // Función para manejar la selección/deselección de una opción
+    const handleFiltros = (opcion) => {
+      if (filtros.includes(opcion)) {
+        // Si la opción ya está seleccionada, la eliminamos
+        setFiltros(filtros.filter(item => item !== opcion));
+        dispatch(filterRoom(filtros.filter(item => item !== opcion)))
+      } else {
+        // Si la opción no está seleccionada, la agregamos
+        setFiltros([...filtros, opcion]);
+        dispatch(filterRoom([...filtros, opcion]))
+      }
+    };
+  console.log('filtros:',filtros)
+
+  const [order,setOrder] = useState('Capacidad')
+  const handleOrder = (type) => {
+    dispatch(orderRoom(type))
+    setOrder(type)  
+  }
+
   const roomsRedux = useSelector((state) => state.rooms);
   const allRoomsRedux = useSelector((state) => state.allRooms);
   //Rooms LocalStorage :
@@ -164,7 +187,7 @@ const SearchRoom = () => {
   const [filter, setFilter] = useState("");
   const [filterOrder, setFilterOrder] = useState("");
   //
-  let [btnPaginator, setBtnPaginator] = useState(null);///botones paginado
+  let [btnPaginator, setBtnPaginator] = useState([]);///botones paginado
   
   function paginator(pag) {
     setActualPage(pag);
@@ -185,7 +208,7 @@ const SearchRoom = () => {
   useEffect(() => {
     paginator(nowPage)
 
-    if (roomsRedux?.length > 0) {
+    if (roomsRedux?.length >= 0) {
       totalPages = Math.ceil(roomsRedux.length / roomsPerPage);
 // Genera un arreglo con la cantidad de botones que necesitas
       let new_btnPaginator = Array.from(
@@ -199,57 +222,7 @@ const SearchRoom = () => {
 
   },[roomsRedux])
 
-/*
-  
-  
 
-  useEffect(() => {
-    if (roomsRedux?.length > 0) {
-      totalPages = Math.ceil(roomsRedux.length / roomsPerPage);
-
-      // Genera un arreglo con la cantidad de botones que necesitas
-      let new_btnPaginator = Array.from(
-        { length: totalPages },
-        (_, index) => index + 1
-      );
-      setBtnPaginator(new_btnPaginator);
-      paginator(nowPage);
-      //console.log("qq", nowPage);
-    }
-  }, [roomsRedux]);
-
-  function handleFilter(event) {
-    dispatch(filterRooms(event.target.value));
-    setFilter(event.target.value);
-    setFilterOrigin("all");
-    setActualPage(1);
-    setFilterOrder("");
-  }
-
-  function handleFilter(filtro) {
-    setActualPage(1);
-    dispatch(filterRooms(filtro));
-    setFilterDiet(filtro);
-    setFilterOrigin("all");
-    setFilterOrder("");
-  }
-
-  function handleFilterOrigin(e) {
-    setActualPage(1);
-    dispatch(filterRooms(e.target.value));
-    setFilterOrigin(e.target.value);
-    setFilterDiet("all");
-    setFilterOrder("");
-  }
-
-  function handleOrder(e) {
-    setActualPage(1);
-    dispatch(orderRoom(e.target.value));
-    setFilterOrder(e.target.value);
-    setFilterDiet("all");
-    setFilterOrigin("all");
-  }
- */
   return (
     <>
       <div className="bg-white">
@@ -409,25 +382,64 @@ const SearchRoom = () => {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <div className="py-1">
-                        {sortOptions.map((option) => (
-                          <Menu.Item key={option.name}>
-                            {({ active }) => (
-                              <a
-                                href={option.href}
-                                className={classNames(
-                                  option.current
-                                    ? "font-medium text-gray-900"
-                                    : "text-gray-500",
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm"
-                                )}
-                              >
-                                {option.name}
-                              </a>
-                            )}
-                          </Menu.Item>
-                        ))}
+                      <div className="p-2">
+                        
+                      <ul>
+        {sortOptions.map((opcion, index) => (
+          <li key={index}>
+            <label>
+              <input
+                type="checkbox"
+                checked={filtros.includes(opcion)}
+                onChange={() => handleFiltros(opcion)}
+                className="mr-2"
+              />
+              {opcion}
+            </label>
+          </li>
+        ))}
+      </ul>
+
+      <ul className="border-t border-t-gray-200">
+        Orden:
+        <li>
+        <label>
+              <input
+                type="radio"
+                onChange={() => handleOrder('Precio Menor')}
+                className="mr-2"
+                name="orden"
+                checked={order === 'Precio Menor'}
+              />
+              Precio Menor
+            </label>
+        </li>
+        <li>
+        <label>
+              <input
+                type="radio"
+                onChange={() => handleOrder('Precio Mayor')}
+                className="mr-2"
+                name="orden"
+                checked={order === 'Precio Mayor'}
+              />
+              Precio Mayor
+            </label>
+        </li>
+        <li>
+          <label>
+              <input
+                type="radio"
+                onChange={() => handleOrder('Capacidad')}
+                className="mr-2"
+                name="orden"
+                checked={order === 'Capacidad'}
+              />
+              Capacidad
+            </label>
+        </li>
+      </ul>
+
                       </div>
                     </Menu.Items>
                   </Transition>
@@ -474,7 +486,7 @@ const SearchRoom = () => {
           <button onClick={() => paginator(actualPage - 1)}> prev </button>
         )}
 
-        {btnPaginator?.map((numeroPag, i) => (
+        {btnPaginator?.length>1 && btnPaginator?.map((numeroPag, i) => (
           <button
             className={actualPage === numeroPag ? styles.active : null}
             key={i}
@@ -530,6 +542,9 @@ const SearchRoom = () => {
                         />
                       </div>
                     ))}
+                    {roomsPage?.length == 0 && (
+                      <div>Sin Resultados</div>
+                    )}
 
                   {selectedRoom && (
                     <div className=" backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto">
@@ -552,8 +567,7 @@ const SearchRoom = () => {
         {actualPage > 1 && (
           <button onClick={() => paginator(actualPage - 1)}> prev </button>
         )}
-
-        {btnPaginator?.map((numeroPag, i) => (
+        {btnPaginator?.length>1 && btnPaginator?.map((numeroPag, i) => (
           <button
             className={actualPage === numeroPag ? styles.active : null}
             key={i}
