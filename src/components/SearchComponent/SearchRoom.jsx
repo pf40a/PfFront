@@ -98,6 +98,7 @@ const SearchRoom = () => {
   const [roomReserve, setRoomReserve] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [quantityTotal, setQuantityTotal] = useState(1);
 
   const roomsRedux = useSelector((state) => state.rooms);
   const allRoomsRedux = useSelector((state) => state.allRooms);
@@ -107,12 +108,6 @@ const SearchRoom = () => {
     const storedRooms = JSON.parse(localStorage.getItem("rooms")) || [];
     setRoomReserve(storedRooms);
   }, []);
-
-  const addReserve = (item) => {
-    const updatedLocalStorageRooms = [...roomReserve, item];
-    setRoomReserve(updatedLocalStorageRooms);
-    localStorage.setItem("rooms", JSON.stringify(updatedLocalStorageRooms));
-  };
 
   const removeRoom = (roomId) => {
     // Filtra las habitaciones en el carrito y elimina la que coincida con el ID
@@ -125,7 +120,6 @@ const SearchRoom = () => {
 
   const addToCart = (item) => {
     setSelectedRoom(item);
-    setLocalStorageRooms([...localStorageRooms, item]);
   };
 
   const showCart = () => {
@@ -147,10 +141,43 @@ const SearchRoom = () => {
   if (getLocalStorage("rooms")) {
     roomsLocal = getLocalStorage("rooms");
   }
+  //---------MANEJO DE CARRITO-------------//
+  const isProductInCart = (productId) => {
+    return roomsLocal.some((item) => item.id === productId);
+  };
+
+  function increaseQuantity(productId) {
+
+    // Asegúrate de que el producto existe antes de incrementar la cantidad
+    if (productId) {
+      setQuantityTotal(quantityTotal + 1);}
+    
+  }
+
+  function decreaseQuantity() {
+    if(quantityTotal> 1){
+      setQuantityTotal(quantityTotal - 1);
+    }
+  }
+  const addReserve = (item) => {
+    if (!isProductInCart(item.id)) {
+      // Si el producto no está en el carrito, agrégalo
+      setRoomReserve([...roomReserve, item]);
+      localStorage.setItem("rooms", JSON.stringify([...roomReserve, item]));
+    } else {
+      increaseQuantity(item.id)
+      // Producto ya en el carrito, puedes mostrar un mensaje de error o realizar otra acción.
+    }
+  };
+
+
+
+
+
+
+    //---------PARA QUE NO SE AGREGUE UNA CARD REPETIDO-------------//
 
   const roomsData = localStorage.getItem("rooms");
-  console.log(JSON.parse(roomsData));
-  console.log(roomsLocal);
 
   ///Paginado - Filtros - Orden
   const roomsPerPage = 4;
@@ -501,6 +528,13 @@ const SearchRoom = () => {
                       close={closeCart}
                       arrayRooms={roomsLocal}
                       remove={removeRoom}
+                      dias={diasEntreFechas(
+                        search.fechaIn,
+                        search.fechaOut
+                      )}
+                      quantityTotal={quantityTotal}
+                      increaseQuantity={increaseQuantity}
+                      decreaseQuantity={decreaseQuantity}
                     />
                   </div>
                 )}

@@ -1,28 +1,23 @@
 import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { NavLink } from "react-router-dom";
 
-export default function CartRooms({ state, close, arrayRooms, remove }) {
+export default function CartRooms({ state, close, arrayRooms, remove,dias,quantityTotal,increaseQuantity,decreaseQuantity }) {
   const [open, setOpen] = useState(state);
-  const [quantityTotal, setQuantityTotal] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
   const products = arrayRooms;
 
-  function increaseQuantity() {
-    setQuantityTotal(quantityTotal + 1);
-  }
-
-  function decreaseQuantity() {
-    setQuantityTotal(quantityTotal - 1);
-  }
 
   useEffect(() => {
     let total = 0;
+    let totalDay = 0
     products.forEach((product) => {
       const quantity = quantityTotal;
       total += quantity * product.precio;
+      totalDay = total * dias
     });
-    setTotalPrice(total);
+    setTotalPrice(totalDay);
   }, [quantityTotal, products]);
 
   return (
@@ -95,7 +90,7 @@ export default function CartRooms({ state, close, arrayRooms, remove }) {
                                           {product.subTipo}
                                         </a>
                                       </h3>
-                                      <p className="ml-4">{product.precio}</p>
+                                      <p className="ml-4">{product.precio * dias}</p>
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">
                                       {product.tipo_Habitacion}
@@ -117,7 +112,7 @@ export default function CartRooms({ state, close, arrayRooms, remove }) {
                                       </button>
                                       <button
                                         onClick={() =>
-                                          decreaseQuantity(product.id)
+                                          decreaseQuantity()
                                         } // Disminuir quantity
                                         type="button"
                                         className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -152,12 +147,12 @@ export default function CartRooms({ state, close, arrayRooms, remove }) {
                         Shipping and taxes calculated at checkout.
                       </p>
                       <div className="mt-6">
-                        <a
-                          href="#"
+                        <NavLink 
+                          to="/reserve"
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                         >
                           Reserver
-                        </a>
+                        </NavLink>
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
@@ -167,7 +162,7 @@ export default function CartRooms({ state, close, arrayRooms, remove }) {
                             className="font-medium text-indigo-600 hover:text-indigo-500"
                             onClick={() => setOpen(false)}
                           >
-                            Continue Shopping
+                            Continuar Reservando
                             <span aria-hidden="true"> &rarr;</span>
                           </button>
                         </p>
