@@ -1,7 +1,131 @@
+import { AreaChart, Card, Flex, Grid, Metric, ProgressBar, Tab, TabGroup, TabList, TabPanel, TabPanels, Table, TableHead, Text, Title, TableRow, TableHeaderCell, TableBody, TableCell, Badge, Button, MultiSelect, MultiSelectItem, Select, SelectItem } from '@tremor/react';
 import React, { useState } from 'react';
-
+import Detalle from './DashDetalle';
+import Form from './DashForm';
+import Usuarios from './DashUsuarios';
+import Habitaciones from './DashHabitaciones';
 const Sidebar = () => {
+
   const [sidenav, setSidenav] = useState(true);
+  const [section, setSection] = useState('dashboard');
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const[selectedRole, setSelectedRole] = useState([])
+  const [menuState, setMenuState] = useState({});
+
+  const [doc, setDoc] = useState("")//esto deberia guardar el documento
+  const toggleMenuForItem = (item) => {
+    setMenuState((prevState) => ({
+      ...prevState,
+      [item.name]: !prevState[item.name],
+    }));
+  };
+  const changeSection = (newSection) => {
+    setSection(newSection);
+  };
+  const handlerSelect = (select) => {
+    return (
+      (select.status === selectedStatus || selectedStatus === "all") &&
+      (selectedRole.length === 0 || selectedRole.includes(select.Role))
+    );
+  }; 
+  const changeStatus = (status)=>{
+    //deberia hacer un borrado logico
+   
+  }
+  const [isOpenForm, setIsOpenForm] = useState(false);
+  const [isOpenDetalle, setIsOpenDetalle] = useState(false);
+  const toggleMenuDetalle = (document) => {
+    setIsOpenDetalle(!isOpenDetalle);
+    setDoc(document)
+  };
+  const toggleMenuForm = (document) => {
+    setIsOpenForm(!isOpenForm);
+    setDoc(document)
+  };
+  const handleClose = ()=>{
+    setIsOpenForm(false);
+    setIsOpenDetalle(false);
+  }
+  //data deberian ser los clientes de las BD
+  const data = [
+    {
+      name: "Viola Amherd",
+      Role: "Federal Councillor",
+      departement: "The Federal Department of Defence, Civil Protection and Sport (DDPS)",
+      status: "active",
+    },
+    {
+      name: "Simonetta Sommaruga",
+      Role: "Federal Councillor",
+      departement:
+        "The Federal Department of the Environment, Transport, Energy and Communications (DETEC)",
+      status: "active",
+    },
+    {
+      name: "Alain Berset",
+      Role: "Federal Councillor",
+      departement: "The Federal Department of Home Affairs (FDHA)",
+      status: "active",
+    },
+    {
+      name: "Ignazio Cassis",
+      Role: "Federal Councillor",
+      departement: "The Federal Department of Foreign Affairs (FDFA)",
+      status: "active",
+    },
+    {
+      name: "Ueli Maurer",
+      Role: "cocinero",
+      departement: "The Federal Department of Finance (FDF)",
+      status: "active",
+    },
+    {
+      name: "Guy Parmelin",
+      Role: "Federal Councillor",
+      departement: "The Federal Department of Economic Affairs, Education and Research (EAER)",
+      status: "inactive",
+    },
+    {
+      name: "Karin Keller-Sutter",
+      Role: "Federal Councillor",
+      departement: "The Federal Department of Justice and Police (FDJP)",
+      status: "active",
+    },
+  ];
+const roles = new Set(data.filter(r => r.Role))
+
+  const chartdata = [
+    {
+      date: "Jan 22",
+      ingresos: 2890,
+      "clientes": 2338,
+    },
+    {
+      date: "Feb 22",
+      ingresos: 2756,
+      "clientes": 2103,
+    },
+    {
+      date: "Mar 22",
+      ingresos: 3322,
+      "clientes": 2194,
+    },
+    {
+      date: "Apr 22",
+      ingresos: 3470,
+      "clientes": 2108,
+    },
+    {
+      date: "May 22",
+      ingresos: 3475,
+      "clientes": 1812,
+    },
+    {
+      date: "Jun 22",
+      ingresos: 3129,
+      "clientes": 1726,
+    },
+  ];
 
   return (
     <div id="view" className="h-full w-screen flex flex-row">
@@ -31,7 +155,7 @@ const Sidebar = () => {
             D<span className="text-teal-600">.</span>
           </h1>
           <h1 className="hidden md:block font-bold text-sm md:text-xl text-center">
-            Dashwind<span className="text-teal-600">.</span>
+            Oasis<span className="text-teal-600">.</span>
           </h1>
           <div id="profile" className="space-y-3">
             <img
@@ -69,7 +193,8 @@ const Sidebar = () => {
           </div>
           <div id="menu" className="flex flex-col space-y-2">
             <a
-              href=""
+            onClick={() => changeSection('dashboard')}
+              href="#"
               className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out"
             >
               <svg
@@ -85,7 +210,8 @@ const Sidebar = () => {
               <span>Dashboard</span>
             </a>
             <a
-              href=""
+              href="#"
+              onClick={() => changeSection('clientes')}
               className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
             >
               <svg
@@ -98,11 +224,12 @@ const Sidebar = () => {
                   d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z"
                 ></path>
               </svg>
-              <span>Products</span>
+              <span>Clientes</span>
             </a>
             {/* Add the rest of the menu items here */}
             <a
         href="#"
+        onClick={() => changeSection('usuarios')}
         className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
       >
         <svg
@@ -118,10 +245,11 @@ const Sidebar = () => {
             clipRule="evenodd"
           ></path>
         </svg>
-        <span>Reports</span>
+        <span>Usuarios</span>
       </a>
       <a
         href="#"
+        onClick={() => changeSection('habitaciones')}
         className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
       >
         <svg
@@ -137,10 +265,11 @@ const Sidebar = () => {
             d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"
           ></path>
         </svg>
-        <span>Messages</span>
+        <span>Habitaciones</span>
       </a>
       <a
         href="#"
+        onClick={() => changeSection('reservas')}
         className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
       >
         <svg
@@ -155,10 +284,11 @@ const Sidebar = () => {
             clipRule="evenodd"
           ></path>
         </svg>
-        <span>Calendar</span>
+        <span>Reservas</span>
       </a>
       <a
         href="#"
+        onClick={() => changeSection('')}
         className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
       >
         <svg
@@ -173,7 +303,7 @@ const Sidebar = () => {
             clipRule="evenodd"
           ></path>
         </svg>
-        <span>Table</span>
+        <span>Usuarios</span>
       </a>
       <a
         href="#"
@@ -213,13 +343,216 @@ const Sidebar = () => {
       
  {/* INFORMACION PARA EL TABLERO */}
 
-      <div className='flex-1'> 
-      <img className='w-full h-screen object-cover' src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1106&q=80" alt="" />
+ <div className='flex-1 bg-gray-100' >
+  
+     {//DASHBOARD
+     section === "dashboard" && (
+    <main className="p-12">
+    <Title>Dashboard</Title>
+
+    <TabGroup className="mt-6">
+      <TabList>
+        <Tab>Vista general</Tab>
+        
+      </TabList>
+      <TabPanels>
+        <TabPanel>
+          <Grid numItemsMd={2} numItemsLg={3} className="gap-6 mt-6">
+            <Card>
+            
+            <Text>Sales</Text>
+    <Metric>$ 71,465</Metric>
+    <Flex className="mt-4">
+      <Text>32% of annual target</Text>
+      <Text>$ 225,000</Text>
+    </Flex>
+    <ProgressBar value={32} className="mt-2" />
+    <div className="h-2" />    
+            </Card>
+            <Card>
+            
+            <Text>Sales</Text>
+    <Metric>$ 71,465</Metric>
+    <Flex className="mt-4">
+      <Text>32% of annual target</Text>
+      <Text>$ 225,000</Text>
+    </Flex>
+    <ProgressBar value={32} className="mt-2" />
+    <div className="h-2" />
+            </Card>
+            <Card>
+            <Text>Sales</Text>
+    <Metric>$ 71,465</Metric>
+    <Flex className="mt-4">
+      <Text>32% of annual target</Text>
+      <Text>$ 225,000</Text>
+    </Flex>
+    <ProgressBar value={32} className="mt-2" />
+              <div className="h-2" />
+            </Card>
+
+            
+
+          </Grid>
+      <Grid className="gap-6 mt-6">
+      <Card>
+            <Title>Ingresos</Title>
+            <AreaChart 
+            data={chartdata}
+            index="date"
+      categories={["ingresos", "clientes"]}
+      colors={["indigo", "cyan"]}
+      
+      />  
+      <div className="h-2 w-96" />
+            </Card>
+      </Grid>
+         
+        </TabPanel>
+      </TabPanels>
+    </TabGroup>
+  </main>
+  
+     )}
+{
+section === "usuarios" && ( 
+
+<Usuarios data = {data}/>
+)
+}
+{
+section === "habitaciones" && ( 
+
+<Habitaciones data={data}/>
+)
+}
+{//CLIENTES
+section === "clientes" && ( 
+  <main className=""> 
+
+{isOpenForm && (
+    <div className=" z-50 bg-white p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto"> 
+    
+      <Form estado={isOpenForm} cambiarEstado={setIsOpenForm} documento={doc}/>
       </div>
+  )}
+  {isOpenDetalle && (
+    <div className=" z-50 bg-white p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto"> 
+      
+      <Detalle estado={isOpenDetalle} cambiarEstado={setIsOpenDetalle} documento={doc}/>
+      </div>
+  )}
+  <TabGroup className="mt-6 ">
+  <TabList>
+        <Tab>Clientes</Tab>
+      </TabList>
+      <TabPanels> 
+      <TabPanel> 
+  <Grid className="gap-6 m-6"> 
+  <div className="flex space-x-2">
+ <MultiSelect
+ className="max-w-full sm:max-w-xs"
+ onValueChange={setSelectedRole}
+ placeholder="Select Role..."
+ >
+  {
+    data.map((item)=>{
+      return(
+      <MultiSelectItem key={item.Role} value={item.Role}>
+      {item.Role}
+      </MultiSelectItem>)
+    })
+  }
+ </MultiSelect>
+ <Select
+          className="max-w-full sm:max-w-xs"
+          defaultValue="all"
+          onValueChange={setSelectedStatus}
+        >
+<SelectItem value="all">All</SelectItem>
+<SelectItem value="active">Active</SelectItem>
+<SelectItem value="inactive">Inactive</SelectItem>
+
+</Select>          
+  </div>
+<Card >
+<Title>Lista de clientes</Title>
+<Table>
+<TableHead>
+<TableRow>
+          <TableHeaderCell>Name</TableHeaderCell>
+          <TableHeaderCell>Position</TableHeaderCell>
+          <TableHeaderCell>Department</TableHeaderCell>
+          <TableHeaderCell>Status</TableHeaderCell>
+</TableRow>
+</TableHead>
+<TableBody >
+  
+{data.filter((item)=> handlerSelect(item))
+         .map((item) => (
+          <TableRow key={item.name}>
+            <TableCell>{item.name}</TableCell>
+            <TableCell>
+              <Text>{item.Role}</Text>
+            </TableCell>
+            <TableCell>
+              <Text>{item.departement}</Text>
+            </TableCell>
+            <TableCell>
+          <Button /*BORRADO LOGICO*/  color={item.status === 'active' ? 'emerald' : 'red'} className='flex-row'> 
+  <div className="flex items-center">
+    <div className="mr-2">{item.status}</div>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+    </svg>
+  </div>
+</Button>
+
+            </TableCell>
+ <TableCell >
+ <div className='flex inline-flex'>
+  <span onClick={() => toggleMenuForItem(item)}>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+</svg>
+  </span>
+ 
+
+
+</div>
+  </TableCell>           
+  {menuState[item.name] &&(
+  <TableCell> 
+  <div className='bg-zinc-300 mt-2 -ml-10 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col h-13 w-13'
+  >
+  <span onClick={() =>toggleMenuDetalle(item.name)} className='m-1'>Detalle</span>
+  <span onClick={() =>toggleMenuForm(item.name)} className='m-1'>Modificar</span>
+  </div>
+  </TableCell>
+  )
+}
+          </TableRow>
+          
+        ))}
+      
+</TableBody>
+</Table>
+</Card>
+
+</Grid>
+</TabPanel>
+
+</TabPanels>
+</TabGroup>   
+</main>
+)}
+     
+    </div>
 
 {/* INFORMACION PARA EL TABLERO */}
 
     </div>
+    
   );
 };
 export default Sidebar
