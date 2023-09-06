@@ -63,8 +63,10 @@ const RegisterPage = () => {
 
       const result = await registerUserWithEmailPassword({ email, password, displayName });
       if (!result.ok) return dispatch(logout(result.errorMessage));
-
-      dispatch(login(result));
+      const resultCopia = {...result, nombre: nombre, apellido: apellido};
+      console.log(resultCopia);
+      
+      dispatch(login(resultCopia));
       return result;
     };
   };
