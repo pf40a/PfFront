@@ -24,10 +24,11 @@ import CartRooms from "../CartRooms/CartRooms";
 const sortOptions = [
   { name: "Jacuzzi", href: "#", current: true },
   { name: "Sala de estar", href: "#", current: false },
-  { name: "Mini Heladera", href: "#", current: false },
-  { name: "Television", href: "#", current: false },
-  { name: "Precio: High to Low", href: "#", current: false },
+  { name: "Cocina privada", href: "#", current: false },
+  { name: "Sala de reunión", href: "#", current: false },
+  { name: "Suite", href: "#", current: false },
 ];
+
 const subCategories = [
   { name: "Totes", href: "#" },
   { name: "Backpacks", href: "#" },
