@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 // ----- Actions -----
 
-import { loadAllTypesRooms } from "./redux/actions";
+// import { loadAllTypesRooms } from "./redux/actions";
 
 // ----- Vistas -----
 

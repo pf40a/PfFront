@@ -96,7 +96,6 @@ const SearchRoom = () => {
 
   const [cartShow, setCartShow] = useState(false);
   const [roomReserve, setRoomReserve] = useState([]);
-  const [first, setfirst] = useState(second)
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
@@ -151,7 +150,7 @@ const SearchRoom = () => {
 
   const roomsData = localStorage.getItem("rooms");
   console.log(JSON.parse(roomsData));
-  console.log(roomsRedux);
+  console.log(roomsLocal);
 
   ///Paginado - Filtros - Orden
   const roomsPerPage = 4;
