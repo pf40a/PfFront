@@ -102,20 +102,6 @@ const SearchRoom = () => {
   ];
   const [filtros, setFiltros] = useState([]);
   // Función para manejar la selección/deselección de una opción
-<<<<<<< HEAD
-  const handleFiltros = (opcion) => {
-    if (filtros.includes(opcion)) {
-      // Si la opción ya está seleccionada, la eliminamos
-      setFiltros(filtros.filter((item) => item !== opcion));
-      dispatch(filterRoom(filtros.filter((item) => item !== opcion)));
-    } else {
-      // Si la opción no está seleccionada, la agregamos
-      setFiltros([...filtros, opcion]);
-      dispatch(filterRoom([...filtros, opcion]));
-    }
-  };
-  console.log("filtros:", filtros);
-=======
     const handleFiltros = (opcion) => {
       //alert(opcion)
       let newFiltros = [];
@@ -132,7 +118,6 @@ newFiltros=[...filtros, opcion];
       }
     };
   //console.log('filtros:',filtros)
->>>>>>> 4fafa1c99d4c66950ae2b6f8488dcd23bb1ed58f
 
   const [order, setOrder] = useState("Capacidad");
   const handleOrder = (type) => {
@@ -256,9 +241,6 @@ newFiltros=[...filtros, opcion];
       paginator(nowPage);
       //console.log("qq", nowPage);
     }
-<<<<<<< HEAD
-  }, [roomsRedux]);
-=======
 
     // if (filtros.length > 0) dispatch(filterRoom(filtros));
     // if (filterOrder != "") dispatch(orderRoom(filterOrder));
@@ -266,7 +248,6 @@ newFiltros=[...filtros, opcion];
 
   },[roomsRedux])
 
->>>>>>> 4fafa1c99d4c66950ae2b6f8488dcd23bb1ed58f
 
   return (
     <>
