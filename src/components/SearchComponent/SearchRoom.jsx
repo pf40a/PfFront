@@ -105,6 +105,7 @@ const SearchRoom = () => {
   const [filtros, setFiltros] = useState([]);
   // Función para manejar la selección/deselección de una opción
     const handleFiltros = (opcion) => {
+      //alert(opcion)
       if (filtros.includes(opcion)) {
         // Si la opción ya está seleccionada, la eliminamos
         setFiltros(filtros.filter(item => item !== opcion));
@@ -115,7 +116,7 @@ const SearchRoom = () => {
         dispatch(filterRoom([...filtros, opcion]))
       }
     };
-  console.log('filtros:',filtros)
+  //console.log('filtros:',filtros)
 
   const [order,setOrder] = useState('Capacidad')
   const handleOrder = (type) => {
@@ -219,6 +220,10 @@ const SearchRoom = () => {
       paginator(nowPage);
       //console.log("qq", nowPage);
     }
+
+    // if (filtros.length > 0) dispatch(filterRoom(filtros));
+    // if (filterOrder != "") dispatch(orderRoom(filterOrder));
+  //alert('x')
 
   },[roomsRedux])
 
