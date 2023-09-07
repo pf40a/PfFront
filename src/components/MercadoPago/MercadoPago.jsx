@@ -31,14 +31,9 @@ for (let i = 0; i < roomsLocal.length; i++) {
 const arrayMapeado = roomsLocal.map((item)=>({
     title:item.tipo_Habitacion,
     unit_price:item.precio * dias,
-    quantity:item.capacidad
+    quantity:item.quantity
 }))
-console.log(arrayMapeado);
-
-
-
-
-
+console.log(arrayMapeado.unit_price);
 
 
 

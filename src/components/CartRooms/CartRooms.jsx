@@ -11,17 +11,19 @@ export default function CartRooms({ state, close, arrayRooms, remove,dias,quanti
   useEffect(() => {
     setProducts(arrayRooms);
   }, [arrayRooms]);
+
   useEffect(() => {
-    let total = 0;
-    let totalDay = 0
-    products.forEach((product) => {
-      const quantity = product.quantity;
-      total += quantity * product.precio;
-      totalDay = total * dias
-    });
-    setTotalPrice(totalDay);
+    let sumaPrecios = 0;
+    
+    if (products.length > 0) {
+      products.forEach(item => {
+        sumaPrecios += item.precio;
+      });
+    }
+    
+    setTotalPrice(sumaPrecios);
   }, [quantityTotal, products]);
-  console.log(products);
+
 
   const handleIncreaseQuantity = (itemId) => {
     increseQuantity(itemId);
@@ -104,7 +106,7 @@ export default function CartRooms({ state, close, arrayRooms, remove,dias,quanti
                                           {product.subTipo}
                                         </a>
                                       </h3>
-                                      <p className="ml-4">{product.precio * dias}</p>
+                                      <p className="ml-4">{product.precio}</p>
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">
                                       {product.tipo_Habitacion}

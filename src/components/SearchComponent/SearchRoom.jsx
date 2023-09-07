@@ -158,7 +158,7 @@ const SearchRoom = () => {
   const addReserve = (item) => {
     if (!isProductInCart(item.id)) {
       // Si el producto no está en el carrito, agrégalo
-      const newItem = { ...item, quantity: 1 };
+      const newItem = { ...item,precio:item.precio * diasEntreFechas(search.fechaIn,search.fechaOut) ,quantity: 1 };
       setRoomReserve([...roomReserve, newItem]);
       localStorage.setItem("rooms", JSON.stringify([...roomReserve, newItem]));
 
@@ -180,12 +180,14 @@ const SearchRoom = () => {
     // Actualiza el almacenamiento local
     localStorage.setItem("rooms", JSON.stringify(updatedRoomReserve));
   };
+
   const increaseQuantity = (itemId) => {
-    
     const updatedReserve = roomReserve.map((item) => {
-      if (item.id === itemId) {
-        // Si el ID del elemento coincide, incrementa la propiedad "quantity"
-        return { ...item, quantity: item.quantity + 1 };
+      if (item.id === itemId && item.quantity < 5) {
+        // Si el ID del elemento coincide y la cantidad es menor que 5, incrementa la cantidad y actualiza el precio.
+        const newQuantity = item.quantity + 1;
+        const newPrice = item.precio + item.precio / item.quantity; // Incrementa el precio original dividido por la cantidad original.
+        return { ...item, precio: newPrice, quantity: newQuantity };
       }
       return item;
     });
@@ -193,12 +195,15 @@ const SearchRoom = () => {
     setRoomReserve(updatedReserve);
     localStorage.setItem("rooms", JSON.stringify(updatedReserve));
   };
+
+  
   const decreaseQuantity = (itemId) => {
     const updatedReserve = roomReserve.map((item) => {
-      if (item.id === itemId) {
-        // Si el ID del elemento coincide, disminuye la propiedad "quantity" (si es mayor que 1)
-        const newQuantity = item.quantity > 1 ? item.quantity - 1 : item.quantity;
-        return { ...item, quantity: newQuantity };
+      if (item.id === itemId && item.quantity > 1) {
+        // Si el ID del elemento coincide y la cantidad es mayor que 1, decrementa la cantidad y actualiza el precio.
+        const newQuantity = item.quantity - 1;
+        const newPrice = item.precio - item.precio / item.quantity; // Resta el precio original dividido por la cantidad original.
+        return { ...item, precio: newPrice, quantity: newQuantity };
       }
       return item;
     });
