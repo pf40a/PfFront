@@ -41,6 +41,7 @@ import "./App.css";
 // import SearchRoom from "./components/SearchComponent/SearchRoom";
 // import PopDetail from "./components/PopDetail/PopDetail";
 import CorreoForm from "./components/ContactForm/CorreoForm";
+import ReviewStars from "./components/pruebas/pruebas";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -112,6 +113,7 @@ function App() {
         <Route path="/search" element={<SearchRoom />} />
         <Route path="/contact" element={<CorreoForm />} />
         <Route path="/mercadopago" element={<MercadoPago/>}/>
+        <Route path="/pruebas" element={<ReviewStars/>}/>
       </Routes>
       {showLayout && <Footer />}
     </>

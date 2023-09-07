@@ -15,7 +15,7 @@ export const CHECKING_CREDENTIALS = "CHECKING_CREDENTIALS";
 import axios from "axios";
 
 export const searchRooms = (search) => {
-  //console.log('buscar',search)
+  console.log('buscar',search)
   return async (dispatch) => {
     try {
       let filtroFechas={
@@ -35,8 +35,7 @@ export const searchRooms = (search) => {
       dataNew = dataNew.sort(function(a, b) {
         return b.capacidad - a.capacidad;
       })
-
-  //console.log('dataxx',data)
+  console.log('dataFinal',dataNew)
       return dispatch({
         type: "SEARCH_ROOMS",
         payload: dataNew
@@ -55,6 +54,7 @@ export const detailRoom = (id) => {
 };
 
 export const filterRoom = (filter) => {
+
   return {
     type: "FILTER_ROOMS",
     payload: filter,
