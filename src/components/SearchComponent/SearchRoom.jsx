@@ -181,6 +181,7 @@ const SearchRoom = () => {
     localStorage.setItem("rooms", JSON.stringify(updatedRoomReserve));
   };
   const increaseQuantity = (itemId) => {
+    
     const updatedReserve = roomReserve.map((item) => {
       if (item.id === itemId) {
         // Si el ID del elemento coincide, incrementa la propiedad "quantity"
