@@ -72,23 +72,17 @@ export default function rootReducer(state = initialState, action) {
       const order = action.payload;
       let newRoomsOrder = [];
       if (order === "Precio Menor") {
-        
-        newRoomsOrder = roomsOrder.sort(function(a, b) {
-  return a.precio - b.precio;
-});
-
-      }else if (order === "Precio Mayor") {
-        
-        newRoomsOrder = roomsOrder.sort(function(a, b) {
-  return b.precio - a.precio;
-});
-
-      }else if (order === "Capacidad") {
-        
-        newRoomsOrder = roomsOrder.sort(function(a, b) {
-  return b.capacidad - a.capacidad;
-});
-
+        newRoomsOrder = roomsOrder.sort(function (a, b) {
+          return a.precio - b.precio;
+        });
+      } else if (order === "Precio Mayor") {
+        newRoomsOrder = roomsOrder.sort(function (a, b) {
+          return b.precio - a.precio;
+        });
+      } else if (order === "Capacidad") {
+        newRoomsOrder = roomsOrder.sort(function (a, b) {
+          return b.capacidad - a.capacidad;
+        });
       } else if (order === "Name") {
         newRoomsOrder = roomsOrder.sort((a, b) => {
           if (a[order] < b[order]) {
@@ -146,13 +140,9 @@ export default function rootReducer(state = initialState, action) {
           nombre: action.payload.nombre,
           apellido: action.payload.apellido,
           email: action.payload.email,
-<<<<<<< HEAD
           photoURL:
             photoURL ||
-            "https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png",
-=======
-          photoURL: photoURL || "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
->>>>>>> 45f052ebe057a7671cd64a0bb976e8dd7e48424a
+            "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
           errorMessage: null,
           admin: false,
           user: true,

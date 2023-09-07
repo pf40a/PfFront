@@ -7,16 +7,13 @@ import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
-<<<<<<< HEAD
 import Review from "../../components/Reviews/Reviews";
 import ReviewsCarrousel from "../ReviewsCarrousel/ReviewsCarrousel";
-=======
 import Rooms from "../../components/Rooms/Rooms";
 import Room from "../../components/Room/Room";
 import CorreoForm from "../../components/ContactForm/CorreoForm";
 
 import ReviewStars from "../../components/pruebas/pruebas";
->>>>>>> 45f052ebe057a7671cd64a0bb976e8dd7e48424a
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -32,8 +29,13 @@ const Home = () => {
 
   return (
     <div>
-      <div className="w-full h-96 flex items-center justify-center" style={{height:"47rem"}}>
-        <h2 className="absolute text-7xl bg-gradient-to-r from-blue-500 via-orange-500 to-green-500 text-transparent bg-clip-text stroke-black-500 ">Oasis Hotel</h2>
+      <div
+        className="w-full h-96 flex items-center justify-center"
+        style={{ height: "47rem" }}
+      >
+        <h2 className="absolute text-7xl bg-gradient-to-r from-blue-500 via-orange-500 to-green-500 text-transparent bg-clip-text stroke-black-500 ">
+          Oasis Hotel
+        </h2>
         <img
           src="https://images.unsplash.com/photo-1587213811864-46e59f6873b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
           alt=""
@@ -133,15 +135,11 @@ const Home = () => {
         </div>
       </div>
       <AboutUs />
-<<<<<<< HEAD
       <Review />
       <ReviewsCarrousel />
-=======
       <div>
-      <CorreoForm/>
+        <CorreoForm />
       </div>
-
->>>>>>> 45f052ebe057a7671cd64a0bb976e8dd7e48424a
     </div>
   );
 };
