@@ -64,7 +64,7 @@ const RegisterPage = () => {
       const result = await registerUserWithEmailPassword({ email, password, displayName });
       if (!result.ok) return dispatch(logout(result.errorMessage));
       const resultCopia = {...result, nombre: nombre, apellido: apellido};
-      console.log(resultCopia);
+
       
       dispatch(login(resultCopia));
       return result;
@@ -94,7 +94,20 @@ const RegisterPage = () => {
 
         // Eliminando el displayName de updatedFormStateCopia
         delete updatedFormStateCopia.displayName;
+        //envio correo
+        const sendEmail = {
+          email: updatedFormStateCopia.email,
+          asunto: "Usuario creado Oasis Hotel",
+          mensaje: `${result.displayName}, su cuenta en Oasis Hotel ha sido creada`
+        };
 
+        try {
+          const response = await axios.post( "http://localhost:3001/hotel/email", sendEmail );
+          if(response.data){window.alert("Correo electronico enviado con la confirmacion")}
+        } catch (error) {
+          console.error("Error sending email:", error);
+        }
+        //post BD usuario nuevo
         try {
           const response = await axios.post( "http://localhost:3001/hotel/users", updatedFormStateCopia );
           if (response.data) {

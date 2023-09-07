@@ -13,7 +13,7 @@ const includedFeatures = [
     '1 dia de spa',
   ]
 
-const MercadoPago = ({nombre,apellido,dni,fechaIn,fechaOut,adultos,niños}) => {
+const MercadoPago = ({nombre,apellido,dni,fechaIn,fechaOut,adultos,niños,dias}) => {
     const [preferenceId, setPreferenceId] = useState(null)
     initMercadoPago('TEST-3aa1ff4a-f517-4dcf-8fb3-15640d67a3d3');
     let roomsLocal;
@@ -22,22 +22,18 @@ const MercadoPago = ({nombre,apellido,dni,fechaIn,fechaOut,adultos,niños}) => {
     }
     console.log(roomsLocal); 
 
-    const arrayMapeado = roomsLocal.map((item)=>({
-        title:item.tipo_Habitacion,
-        unit_price:item.precio,
-        quantity:item.capacidad
-    }))
-console.log(arrayMapeado);
 
 let total = 0
 
-for (let i = 0; i < arrayMapeado.length; i++) {
-    total += arrayMapeado[i].unit_price;
+for (let i = 0; i < roomsLocal.length; i++) {
+    total += roomsLocal[i].precio;
 }
-console.log(total);
-
-
-
+const arrayMapeado = roomsLocal.map((item)=>({
+    title:item.tipo_Habitacion,
+    unit_price:item.precio * dias,
+    quantity:item.quantity
+}))
+console.log(arrayMapeado.unit_price);
 
 
 
@@ -55,6 +51,18 @@ console.log(total);
         }
     }
     const handleBuy = async ()=>{
+      try {
+        await axios.post('http://localhost:3001/hotel/email',{
+          
+            "email": "nicovillagra123@gmail.com",
+            "asunto": "Oasis Hotel",
+            "mensaje": "Reservacion hecha y pago completado",
+            "nombre": "Nicolas"
+          
+        })
+      } catch (error) {
+        console.log(error);
+      }
         const initPoint = await createPreference();
         if (initPoint) {
           setPreferenceId(initPoint);
@@ -120,7 +128,7 @@ console.log(total);
               <div className="mx-auto max-w-xs px-8">
                 <p className="text-base font-semibold text-gray-600">Total a pagar</p>
                 <p className="mt-6 flex items-baseline justify-center gap-x-2">
-                  <span className="text-5xl font-bold tracking-tight text-gray-900">${total}</span>
+                  <span className="text-5xl font-bold tracking-tight text-gray-900">${total * dias}</span>
                   <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">USD</span>
                 </p>
                 <button

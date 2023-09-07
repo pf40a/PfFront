@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { validate } from "./validation";
 import { getLocalStorage } from "../../utilities/managerLocalStorage";
 import MercadoPago from "../MercadoPago/MercadoPago";
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch } from "react-redux";
+import { login } from "../../redux/actions";
 
 const Reservation = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Reservation = () => {
   const [showReserveForm, setshowReserveForm] = useState(true)
   const dataId = useSelector(state => state.auth.uid)
 
-
+  
   const handleInputChange = (event, fieldName) => {
     const newValue = event.target.value;
     const formDataCopy = new FormData(event.target.form);
@@ -66,6 +67,19 @@ const Reservation = () => {
     };
     setReserve(newReserve);
   };
+  function diasEntreFechas(fecha1, fecha2) {
+    // Convierte las fechas de texto a objetos Date
+    const date1 = new Date(fecha1);
+    const date2 = new Date(fecha2);
+  
+    // Calcula la diferencia en milisegundos
+    const diferenciaEnMilisegundos = Math.abs(date2 - date1);
+  
+    // Convierte la diferencia a días
+    const diasDiferencia = diferenciaEnMilisegundos / (1000 * 60 * 60 * 24);
+  
+    return diasDiferencia;
+  }
   useEffect(()=>{
     const searchDataFromLocalStorage = getLocalStorage('search');
     // Utiliza los datos como sea necesario en tu componente
@@ -75,7 +89,6 @@ const Reservation = () => {
   useEffect(() => {
     const submitReserve = async () => {
       if (!reserve.dni) return; // No hacer solicitudes si dni está vacío
-
       try {
         await axios.get(`${import.meta.env.VITE_API_URL}/hotel/clientes/${reserve.dni}`);
         console.log("Cliente existente");
@@ -111,9 +124,9 @@ const Reservation = () => {
       }
 
       try {
+//ACA TENGO QUE HACER PARA QUE SE CREE EL USUARIO
         const userRequest = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/users`)
         const response = userRequest.data.data
-        console.log(response.email);
 
         await axios.post(`${import.meta.env.VITE_API_URL}/hotel/reservas`, {
           fechaIngreso: reserve.ingreso,
@@ -135,6 +148,10 @@ const Reservation = () => {
     submitReserve();
   }, [reserve]);
 
+  const toBackReserve = ()=>{
+    setshowReserveForm(true)
+    setShowMercadoPago(false)
+  }
   return (
     <>
     <div>
@@ -453,20 +470,26 @@ const Reservation = () => {
     </div>
     
     <div>
-        {showMercadoPago && (
-
-          <MercadoPago
-          nombre={reserve.firstName}
-          apellido={reserve.lastName}
-          dni={reserve.dni}
-          fechaIn={reserve.ingreso}
-          fechaOut={reserve.egreso}
-          adultos={localStorageRoom.adultos}
-          niños={localStorageRoom.niños}
-          
-          />
-        )}
-      </div>
+  {showMercadoPago && (
+    <div>
+      <button onClick={toBackReserve} className="bg-blue-500  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+      </button>
+      <MercadoPago
+        nombre={reserve.firstName}
+        apellido={reserve.lastName}
+        dni={reserve.dni}
+        fechaIn={reserve.ingreso}
+        fechaOut={reserve.egreso}
+        adultos={localStorageRoom.adultos}
+        niños={localStorageRoom.niños}
+        dias={diasEntreFechas(reserve.ingreso , reserve.egreso)}
+      />
+    </div>
+  )}
+</div>
     </>
   );
 };

@@ -9,7 +9,7 @@ import {
   getLocalStorage,
   removeLocalStorage,
 } from "../../utilities/managerLocalStorage";
-import { searchRooms } from "../../redux/actions";
+import { searchRooms,savePage } from "../../redux/actions";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -91,6 +91,7 @@ setErrors(err)
 
     saveLocalStorage("search", inputs);
     dispatch(searchRooms(inputs));
+    dispatch(savePage(1))
     if (pathname !== "/search") {
       navigate("/search");
     }
