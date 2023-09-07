@@ -215,7 +215,7 @@ newFiltros=[...filtros, opcion];
     localStorage.setItem("rooms", JSON.stringify(updatedReserve));
   };
   
-  console.log(roomsLocal);
+
   //---------PARA QUE NO SE AGREGUE UNA CARD REPETIDO-------------//
 
 
@@ -237,10 +237,7 @@ newFiltros=[...filtros, opcion];
     const init = (pag - 1) * roomsPerPage;
     const end = init + roomsPerPage;
     setRoomsPage(roomsRedux?.slice(init, end));
-    console.log("paginado:" + pag, init, end);
-    console.log(roomsPage);
-    console.log("SinPaginar", roomsRedux);
-
+    
     window.scrollTo({
       top: 0,
       behavior: "smooth", // Hace que el desplazamiento sea suave
