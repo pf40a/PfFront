@@ -9,6 +9,8 @@ import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
 import Rooms from "../../components/Rooms/Rooms";
 import Room from "../../components/Room/Room";
+import CorreoForm from "../../components/ContactForm/CorreoForm";
+
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -124,6 +126,9 @@ const Home = () => {
         </div>
       </div>
       <AboutUs />
+      <div>
+      <CorreoForm/>
+      </div>
     </div>
   );
 };
