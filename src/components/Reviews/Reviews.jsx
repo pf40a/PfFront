@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import ReviewsCarrousel from "../../views/ReviewsCarrousel/ReviewsCarrousel";
 
 const Review = () => {
   const reviewId = useSelector((state) => state.auth.uid);
@@ -72,7 +73,6 @@ const Review = () => {
       alert("El comentario no puede exceder los 200 caracteres.");
       return;
     }
-    // Guardar la revisión actual en el array de revisiones
     try {
       await axios.post("http://localhost:3001/hotel/reviews", {
         UsuarioId: reviewId,
@@ -80,18 +80,27 @@ const Review = () => {
         comentario: review.comment,
         deleted: false,
       });
-      setReviews([...reviews, review]);
-      // setReviews([...reviews, review]);
       console.log("REVIEW CREADA");
-    } catch (error) {}
-    try {
-      const request = await axios.get("http://localhost:3001/hotel/reviews");
-      const response = request.data.data;
-      setReviewsDb(response);
       setCharCount(200);
       setReview({ rating: 0, comment: "" });
-    } catch (error) {}
+    } catch (error) {
+      // Manejar errores
+    }
+    const pedido = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/hotel/reviews/"
+        );
+        const reviewsData = response.data.data;
+        setReviews(reviewsData);
+      } catch (error) {
+        console.error("Error al obtener las revisiones:", error);
+      }
+    };
+    pedido();
   };
+
+  console.log(reviews);
 
   return (
     <div className="space-y-4">
@@ -159,6 +168,9 @@ const Review = () => {
           )}
         </div>
       )}
+      <div>
+        <ReviewsCarrousel state={reviews} />
+      </div>
     </div>
   );
 };
