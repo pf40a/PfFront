@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const ReviewsCarrousel = () => {
-  const [reviews, setReviews] = useState([]);
+const ReviewsCarrousel = ({state}) => {
+  const [reviews, setReviews] = useState(state);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [isIntervalRunning, setIsIntervalRunning] = useState(true);
   const intervalDuration = 1500;
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/hotel/reviews")
-      .then((response) => {
-        setReviews(response.data.data);
-      })
-      .catch((error) => {
-        console.error("Error al obtener las reseñas:", error);
-      });
-  }, []);
+    setReviews(state)
+  }, [state])
+  
 
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/hotel/reviews");
+        // setReviews(response.data.data);
+      } catch (error) {
+        console.error("Error al obtener las reseñas:", error);
+      }
+    };
+
+    fetchReviews(); // Llamar a la función para obtener las revisiones inicialmente
+  }, []);
   useEffect(() => {
     const interval = setInterval(() => {
       if (isIntervalRunning) {
@@ -43,7 +49,6 @@ const ReviewsCarrousel = () => {
   if (!currentReview) {
     return null;
   }
-
   return (
     <div className="mx-auto max-w-2xl lg:max-w-4xl mb-16">
       <div

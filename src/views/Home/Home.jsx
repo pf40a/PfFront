@@ -7,6 +7,8 @@ import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
+import Review from "../../components/Reviews/Reviews";
+import ReviewsCarrousel from "../ReviewsCarrousel/ReviewsCarrousel";
 import Rooms from "../../components/Rooms/Rooms";
 import Room from "../../components/Room/Room";
 import CorreoForm from "../../components/ContactForm/CorreoForm";
@@ -128,6 +130,7 @@ const Home = () => {
         </div>
       </div>
       <AboutUs />
+      <Review />
       <div>
       <CorreoForm/>
       </div>
