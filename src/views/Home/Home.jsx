@@ -9,7 +9,12 @@ import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
 import Rooms from "../../components/Rooms/Rooms";
 import Room from "../../components/Room/Room";
+<<<<<<< HEAD
+import CorreoForm from "../../components/ContactForm/CorreoForm";
+
+=======
 import ReviewStars from "../../components/pruebas/pruebas";
+>>>>>>> 5d2d66a1b54e0a8f30de99c28246d2e1fceb9229
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -126,7 +131,13 @@ const Home = () => {
         </div>
       </div>
       <AboutUs />
+<<<<<<< HEAD
+      <div>
+      <CorreoForm/>
+      </div>
+=======
 
+>>>>>>> 5d2d66a1b54e0a8f30de99c28246d2e1fceb9229
     </div>
   );
 };
