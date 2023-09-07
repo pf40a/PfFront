@@ -7,16 +7,11 @@ import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
-<<<<<<< HEAD
-import Review from "../../components/Reviews/Reviews";
-import ReviewsCarrousel from "../ReviewsCarrousel/ReviewsCarrousel";
-=======
 import Rooms from "../../components/Rooms/Rooms";
 import Room from "../../components/Room/Room";
 import CorreoForm from "../../components/ContactForm/CorreoForm";
 
 import ReviewStars from "../../components/pruebas/pruebas";
->>>>>>> 45f052ebe057a7671cd64a0bb976e8dd7e48424a
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -133,15 +128,10 @@ const Home = () => {
         </div>
       </div>
       <AboutUs />
-<<<<<<< HEAD
-      <Review />
-      <ReviewsCarrousel />
-=======
       <div>
       <CorreoForm/>
       </div>
 
->>>>>>> 45f052ebe057a7671cd64a0bb976e8dd7e48424a
     </div>
   );
 };
