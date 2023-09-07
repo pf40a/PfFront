@@ -126,14 +126,14 @@ const RegisterPage = () => {
         };
 
         try {
-          const response = await axios.post( "http://localhost:3001/hotel/email", sendEmail );
+          const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/email`, sendEmail );
           if(response.data){window.alert("Correo electronico enviado con la confirmacion")}
         } catch (error) {
           console.error("Error sending email:", error);
         }
         //post BD usuario nuevo
         try {
-          const response = await axios.post( "http://localhost:3001/hotel/users", updatedFormStateCopia );
+          const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/users`, updatedFormStateCopia );
           if (response.data) {
             console.log("Usuario creado", response.data);
           }

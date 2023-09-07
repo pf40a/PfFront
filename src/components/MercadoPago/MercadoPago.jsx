@@ -42,7 +42,7 @@ console.log(nameDb);
 
     const createPreference = async ()=>{
         try {
-            const response = await axios.post('http://localhost:3001/hotel/mercadoPago/create_preference',{
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/mercadoPago/create_preference`,{
                 "items":arrayMapeado, 
                 "reservaId":"ddd620aa-f62a-476c-ab5c-17c72f5e4b71"    
             })
@@ -55,7 +55,7 @@ console.log(nameDb);
     }
     const handleBuy = async ()=>{
       try {
-        await axios.post('http://localhost:3001/hotel/email',{
+        await axios.post(`${import.meta.env.VITE_API_URL}/hotel/email`,{
           
             "email": "nicovillagra123@gmail.com",
             "asunto": "Oasis Hotel",

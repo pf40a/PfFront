@@ -166,7 +166,7 @@ newFiltros=[...filtros, opcion];
       localStorage.setItem("rooms", JSON.stringify([...roomReserve, newItem]));
 
     } else {
-      // increaseQuantity(item.id);
+      increaseQuantity(item.id)
       // Producto ya en el carrito, puedes mostrar un mensaje de error o realizar otra acción.
     }
   };
