@@ -8,6 +8,7 @@ import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
 import Review from "../../components/Reviews/Reviews";
+import ReviewsCarrousel from "../ReviewsCarrousel/ReviewsCarrousel";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -124,6 +125,7 @@ const Home = () => {
       </div>
       <AboutUs />
       <Review />
+      <ReviewsCarrousel />
     </div>
   );
 };
