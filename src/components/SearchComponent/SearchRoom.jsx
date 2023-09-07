@@ -126,22 +126,9 @@ newFiltros=[...filtros, opcion];
   };
 
   const roomsRedux = useSelector((state) => state.rooms);
-  const allRoomsRedux = useSelector((state) => state.allRooms);
   //Rooms LocalStorage :
   //añadir habitacion
-  useEffect(() => {
-    const storedRooms = JSON.parse(localStorage.getItem("rooms")) || [];
-    setRoomReserve(storedRooms);
-  }, []);
 
-  const removeRoom = (roomId) => {
-    // Filtra las habitaciones en el carrito y elimina la que coincida con el ID
-    const updatedRoomReserve = roomReserve.filter((room) => room.id !== roomId);
-    // Actualiza el estado del carrito
-    setRoomReserve(updatedRoomReserve);
-    // Actualiza el almacenamiento local
-    localStorage.setItem("rooms", JSON.stringify(updatedRoomReserve));
-  };
 
   const addToCart = (item) => {
     setSelectedRoom(item);
@@ -171,32 +158,61 @@ newFiltros=[...filtros, opcion];
     return roomsLocal.some((item) => item.id === productId);
   };
 
-  function increaseQuantity(productId) {
-    // Asegúrate de que el producto existe antes de incrementar la cantidad
-    if (productId) {
-      setQuantityTotal(quantityTotal + 1);
-    }
-  }
-
-  function decreaseQuantity() {
-    if (quantityTotal > 1) {
-      setQuantityTotal(quantityTotal - 1);
-    }
-  }
   const addReserve = (item) => {
     if (!isProductInCart(item.id)) {
       // Si el producto no está en el carrito, agrégalo
-      setRoomReserve([...roomReserve, item]);
-      localStorage.setItem("rooms", JSON.stringify([...roomReserve, item]));
+      const newItem = { ...item, quantity: 1 };
+      setRoomReserve([...roomReserve, newItem]);
+      localStorage.setItem("rooms", JSON.stringify([...roomReserve, newItem]));
+
     } else {
-      increaseQuantity(item.id);
+      // increaseQuantity(item.id);
       // Producto ya en el carrito, puedes mostrar un mensaje de error o realizar otra acción.
     }
   };
+  useEffect(() => {
+    const storedRooms = JSON.parse(localStorage.getItem("rooms")) || [];
+    setRoomReserve(storedRooms);
+  }, []);
 
+  const removeRoom = (roomId) => {
+    // Filtra las habitaciones en el carrito y elimina la que coincida con el ID
+    const updatedRoomReserve = roomReserve.filter((room) => room.id !== roomId);
+    // Actualiza el estado del carrito
+    setRoomReserve(updatedRoomReserve);
+    // Actualiza el almacenamiento local
+    localStorage.setItem("rooms", JSON.stringify(updatedRoomReserve));
+  };
+  const increaseQuantity = (itemId) => {
+    
+    const updatedReserve = roomReserve.map((item) => {
+      if (item.id === itemId) {
+        // Si el ID del elemento coincide, incrementa la propiedad "quantity"
+        return { ...item, quantity: item.quantity + 1 };
+      }
+      return item;
+    });
+  
+    setRoomReserve(updatedReserve);
+    localStorage.setItem("rooms", JSON.stringify(updatedReserve));
+  };
+  const decreaseQuantity = (itemId) => {
+    const updatedReserve = roomReserve.map((item) => {
+      if (item.id === itemId) {
+        // Si el ID del elemento coincide, disminuye la propiedad "quantity" (si es mayor que 1)
+        const newQuantity = item.quantity > 1 ? item.quantity - 1 : item.quantity;
+        return { ...item, quantity: newQuantity };
+      }
+      return item;
+    });
+  
+    setRoomReserve(updatedReserve);
+    localStorage.setItem("rooms", JSON.stringify(updatedReserve));
+  };
+  
+  console.log(roomsLocal);
   //---------PARA QUE NO SE AGREGUE UNA CARD REPETIDO-------------//
 
-  const roomsData = localStorage.getItem("rooms");
 
   ///Paginado - Filtros - Orden
   const roomsPerPage = 4;
@@ -245,8 +261,7 @@ newFiltros=[...filtros, opcion];
     // if (filtros.length > 0) dispatch(filterRoom(filtros));
     // if (filterOrder != "") dispatch(orderRoom(filterOrder));
   //alert('x')
-
-  },[roomsRedux])
+  })
 
 
   return (
@@ -545,7 +560,7 @@ newFiltros=[...filtros, opcion];
                       remove={removeRoom}
                       dias={diasEntreFechas(search.fechaIn, search.fechaOut)}
                       quantityTotal={quantityTotal}
-                      increaseQuantity={increaseQuantity}
+                      increseQuantity={increaseQuantity}
                       decreaseQuantity={decreaseQuantity}
                     />
                   </div>
@@ -627,5 +642,6 @@ newFiltros=[...filtros, opcion];
       </div>
     </>
   );
+ 
 };
 export default SearchRoom;
