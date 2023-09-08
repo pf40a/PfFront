@@ -1,12 +1,25 @@
 import { FirebaseAuth } from "../Firebase/Config";
 
 import {
-  SEARCH_ROOMS, DETAIL_ROOM, FILTER_ROOMS, ORDER_ROOMS,
-  TYPES_ROOMS, FILTER_TYPES_ROOMS, SAVE_PAGE, LOGIN,
-  LOGOUT, CHECKING_CREDENTIALS,
+  PUT_CLIENTES,
+  GET_CLIENTES,
+  SEARCH_ROOMS,
+  DETAIL_ROOM,
+  FILTER_ROOMS,
+  ORDER_ROOMS,
+  TYPES_ROOMS,
+  FILTER_TYPES_ROOMS,
+  SAVE_PAGE,
+  LOGIN,
+  LOGOUT,
+  CHECKING_CREDENTIALS,
+  PUT_USERS,
+  GET_USERS
 } from "./actions";
 
 const initialState = {
+  users:[],
+  clientes: [],
   rooms: [],
   allRooms: [],
   room: {},
@@ -70,7 +83,36 @@ return b.capacidad - a.capacidad;
 
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
-    ///
+    
+    
+    case PUT_USERS:
+  const updatedUserIndex = state.users.findIndex((u) => u.id === action.payload.id);
+  const updatedUsers = [...state.users];
+  updatedUsers[updatedUserIndex] = action.payload;
+  return {
+    ...state,
+    users: updatedUsers,
+  };
+    case GET_USERS:
+      return {
+        ...state,
+        users: [...action.payload]
+      };
+
+    case PUT_CLIENTES:
+     const updatedClientIndex = state.clientes.findIndex((client) => client.doc_Identidad === action.payload.doc_Identidad);
+  // Crea una copia del array de clientes actual y reemplaza el cliente modificado en el índice correspondiente
+  const updatedClientes = [...state.clientes];
+  updatedClientes[updatedClientIndex] = action.payload;
+  return {
+    ...state,
+    clientes: updatedClientes,
+  };
+    case GET_CLIENTES:
+      return {
+        ...state,
+        clientes: [...action.payload]
+      };
     case SEARCH_ROOMS:
      let newRoomsSearch = [...action.payload ]
       //se aplican los filtros
