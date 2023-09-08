@@ -3,23 +3,39 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 
-export default function CartRooms({ state, close, arrayRooms, remove,dias,quantityTotal,increaseQuantity,decreaseQuantity }) {
+export default function CartRooms({ state, close, arrayRooms, remove,dias,quantityTotal,increseQuantity,decreaseQuantity }) {
   const [open, setOpen] = useState(state);
   const [totalPrice, setTotalPrice] = useState(0);
-  const products = arrayRooms;
-
+  const [products, setProducts] = useState(arrayRooms);
 
   useEffect(() => {
-    let total = 0;
-    let totalDay = 0
-    products.forEach((product) => {
-      const quantity = quantityTotal;
-      total += quantity * product.precio;
-      totalDay = total * dias
-    });
-    setTotalPrice(totalDay);
+    setProducts(arrayRooms);
+  }, [arrayRooms]);
+
+  useEffect(() => {
+    let sumaPrecios = 0;
+    
+    if (products.length > 0) {
+      products.forEach(item => {
+        sumaPrecios += item.precio;
+      });
+    }
+    
+    setTotalPrice(sumaPrecios);
   }, [quantityTotal, products]);
 
+
+  const handleIncreaseQuantity = (itemId) => {
+    increseQuantity(itemId);
+    // Actualiza el estado local de products aquí si es necesario
+  };
+
+  const handleDecreaseQuantity = (itemId) => {
+    decreaseQuantity(itemId);
+    // Actualiza el estado local de products aquí si es necesario
+  };
+
+  
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={close}>
@@ -90,7 +106,7 @@ export default function CartRooms({ state, close, arrayRooms, remove,dias,quanti
                                           {product.subTipo}
                                         </a>
                                       </h3>
-                                      <p className="ml-4">{product.precio * dias}</p>
+                                      <p className="ml-4">{product.precio}</p>
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">
                                       {product.tipo_Habitacion}
@@ -98,12 +114,12 @@ export default function CartRooms({ state, close, arrayRooms, remove,dias,quanti
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
                                     <p className="text-gray-500">
-                                      Cnt {quantityTotal}
+                                      Cnt {product.quantity}
                                     </p>
                                     <div className="flex">
                                       <button
                                         onClick={() =>
-                                          increaseQuantity(product.id)
+                                          handleIncreaseQuantity(product.id)
                                         } // Aumentar quantity
                                         type="button"
                                         className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -112,7 +128,7 @@ export default function CartRooms({ state, close, arrayRooms, remove,dias,quanti
                                       </button>
                                       <button
                                         onClick={() =>
-                                          decreaseQuantity()
+                                          decreaseQuantity(product.id)
                                         } // Disminuir quantity
                                         type="button"
                                         className="font-medium text-indigo-600 hover:text-indigo-500"

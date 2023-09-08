@@ -49,8 +49,11 @@ export const singInWithGoogle = async () => {
 
 // -------- Registro del Usuario --------
 
-export const registerUserWithEmailPassword = async ({ email, password, displayName }) => {
-
+export const registerUserWithEmailPassword = async ({
+  email,
+  password,
+  displayName,
+}) => {
   try {
     const resp = await createUserWithEmailAndPassword(
       FirebaseAuth,
@@ -68,8 +71,7 @@ export const registerUserWithEmailPassword = async ({ email, password, displayNa
       email,
       photoURL,
     };
-  }
-  catch (error) {
+  } catch (error) {
     // console.log(error);
     const errorMessage = "Este usuario ya se encuentra registrado.";
     return { ok: false, errorMessage };
@@ -80,7 +82,11 @@ export const registerUserWithEmailPassword = async ({ email, password, displayNa
 
 export const loginWithEmailPassword = async ({ email, password }) => {
   try {
-    const resp = await signInWithEmailAndPassword( FirebaseAuth, email, password );
+    const resp = await signInWithEmailAndPassword(
+      FirebaseAuth,
+      email,
+      password
+    );
 
     const { uid, photoURL, displayName } = resp.user;
 
@@ -89,6 +95,7 @@ export const loginWithEmailPassword = async ({ email, password }) => {
       uid,
       photoURL,
       displayName,
+      email,
     };
   } catch (error) {
     const errorMessage = "Este usuario no existe.";

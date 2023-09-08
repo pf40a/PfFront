@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route,  } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // ----- Actions -----
 
@@ -25,6 +25,12 @@ import PaymenView from "./components/Payment/PaymenView";
 import PopDetail from "./components/PopDetail/PopDetail";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+// import ErroPage from "./views/Error404/Error404";
+// import Reservation from "./components/ReservationForm/Reservation";
+// import Sidebar from "./views/DashBoard/DashBoard";
+// import LoginPage from "./views/Auth/Pages/LoginPage";
+// import RegisterPage from "./views/Auth/Pages/RegisterPage";
+import Review from "./components/Reviews/Reviews";
 
 // ----- Hooks -----
 
@@ -41,6 +47,7 @@ import "./App.css";
 // import SearchRoom from "./components/SearchComponent/SearchRoom";
 // import PopDetail from "./components/PopDetail/PopDetail";
 import CorreoForm from "./components/ContactForm/CorreoForm";
+import ReviewStars from "./components/pruebas/pruebas";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -78,7 +85,6 @@ function App() {
         currentPath !== "/dashboard" &&
         currentPath !== "/contact" &&
         currentPath !== "/mercadopago"
-
     );
     // const fetchDataRooms = async()=>{
     //   dispatch(allTypesRooms(typesRoom))
@@ -110,8 +116,11 @@ function App() {
         <Route path="*" element={<ErroPage />} />
         <Route path="/pop" element={<PopDetail />} />
         <Route path="/search" element={<SearchRoom />} />
+        <Route path="/review" element={<Review />} />
         <Route path="/contact" element={<CorreoForm />} />
-        <Route path="/mercadopago" element={<MercadoPago/>}/>
+        <Route path="/mercadopago" element={<MercadoPago />} />
+        {/* <Route path="/mercadopago" element={<MercadoPago/>}/> */}
+        <Route path="/pruebas" element={<ReviewStars />} />
       </Routes>
       {showLayout && <Footer />}
     </>

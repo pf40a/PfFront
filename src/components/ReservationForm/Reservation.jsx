@@ -19,11 +19,8 @@ const Reservation = () => {
   const [showMercadoPago, setShowMercadoPago] = useState(false)
   const [showReserveForm, setshowReserveForm] = useState(true)
   const dataId = useSelector(state => state.auth.uid)
-  const email = useSelector(state => state.auth.email)
-  const userLogin = useSelector(state => state.auth)
-  const dispatch = useDispatch()
 
-
+  
   const handleInputChange = (event, fieldName) => {
     const newValue = event.target.value;
     const formDataCopy = new FormData(event.target.form);
@@ -127,33 +124,10 @@ const Reservation = () => {
       }
 
       try {
-        
+//ACA TENGO QUE HACER PARA QUE SE CREE EL USUARIO
         const userRequest = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/users`)
         const response = userRequest.data.data
-        const mapeado = response.some((item)=>{return item.email === reserve.email})
-        const mapeadoTwo = response.some((item)=>{return item.email === email})
 
-
-        if(mapeado && mapeadoTwo){
-          console.log("Existe el cliente y esta logeado");
-        }else{
-          try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/hotel/users`,{
-            
-              "nombre": reserve.firstName,
-              "apellido": reserve.lastName,
-              "email": reserve.email,
-              "password": reserve.dni,
-              "admin": false,
-              "deleted": false
-            
-          })
-
-          console.log("Usuario creado");
-          } catch (error) {
-            console.log("hubo un error");
-          }
-        }
         await axios.post(`${import.meta.env.VITE_API_URL}/hotel/reservas`, {
           fechaIngreso: reserve.ingreso,
           fechaSalida: reserve.egreso,

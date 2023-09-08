@@ -23,10 +23,10 @@ const initialState = {
   allRooms: [],
   room: {},
   filters: [],
-  order: "",
-  typesRooms:[],
-  allTypesRooms:[],
-  page:1,
+  order: "Capacidad",
+  typesRooms: [],
+  allTypesRooms: [],
+  page: 1,
 
   // Authentication
   auth: {
@@ -39,9 +39,46 @@ const initialState = {
     photoURL: null,
     errorMessage: null,
     admin: false,
-    user:false,
+    user: false,
   },
 };
+
+
+function ordenar(array,order){
+  let roomsOrder = array
+  let newRoomsOrder = []
+  if (order === "Precio Menor") {
+        
+    newRoomsOrder = roomsOrder.sort(function(a, b) {
+return a.precio - b.precio;
+});
+
+  }else if (order === "Precio Mayor") {
+    
+    newRoomsOrder = roomsOrder.sort(function(a, b) {
+return b.precio - a.precio;
+});
+
+  }else if (order === "Capacidad") {
+    
+    newRoomsOrder = roomsOrder.sort(function(a, b) {
+return b.capacidad - a.capacidad;
+});
+
+  } else if (order === "Name") {
+    newRoomsOrder = roomsOrder.sort((a, b) => {
+      if (a[order] < b[order]) {
+        return -1;
+      }
+      if (a[order] > b[order]) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+  //
+  return newRoomsOrder;
+}
 
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
@@ -76,10 +113,17 @@ export default function rootReducer(state = initialState, action) {
         clientes: [...action.payload]
       };
     case SEARCH_ROOMS:
+     let newRoomsSearch = [...action.payload ]
+      //se aplican los filtros
+     newRoomsSearch = action.payload.filter((room) =>
+     state.filters.every((filtroItem) => room.caracteristica.includes(filtroItem))
+      ); 
+      let newRoomsSearchOrder = ordenar(newRoomsSearch,state.order)  
+           
       return {
         ...state,
-        rooms: [...action.payload],
-        allRooms: [...action.payload]
+        rooms: [...newRoomsSearchOrder],
+        allRooms: [...action.payload],
       };
 
     case DETAIL_ROOM:
@@ -96,6 +140,8 @@ export default function rootReducer(state = initialState, action) {
       const newRooms = roomsFilter.filter((room) =>
         filter.every((filtroItem) => room.caracteristica.includes(filtroItem))
       );
+      console.log('filtro:',filter);
+      console.log('Resultado:',newRooms);
       return {
         ...state,
         rooms: [...newRooms],
@@ -105,36 +151,7 @@ export default function rootReducer(state = initialState, action) {
     case ORDER_ROOMS:
       const roomsOrder = [...state.allRooms];
       const order = action.payload;
-      let newRoomsOrder = [];
-      if (order === "Precio Menor") {
-        
-        newRoomsOrder = roomsOrder.sort(function(a, b) {
-  return a.precio - b.precio;
-});
-
-      }else if (order === "Precio Mayor") {
-        
-        newRoomsOrder = roomsOrder.sort(function(a, b) {
-  return b.precio - a.precio;
-});
-
-      }else if (order === "Capacidad") {
-        
-        newRoomsOrder = roomsOrder.sort(function(a, b) {
-  return b.capacidad - a.capacidad;
-});
-
-      } else if (order === "Name") {
-        newRoomsOrder = roomsOrder.sort((a, b) => {
-          if (a[order] < b[order]) {
-            return -1;
-          }
-          if (a[order] > b[order]) {
-            return 1;
-          }
-          return 0;
-        });
-      }
+      let newRoomsOrder = ordenar(roomsOrder,order)
       return {
         ...state,
         rooms: [...newRoomsOrder],
@@ -162,10 +179,10 @@ export default function rootReducer(state = initialState, action) {
         typesRooms: [...newTypesRooms],
       };
 
-      case SAVE_PAGE:
+    case SAVE_PAGE:
       return {
         ...state,
-        page: action.payload
+        page: action.payload,
       };
 
     // ----- Authentication -----
@@ -181,10 +198,10 @@ export default function rootReducer(state = initialState, action) {
           nombre: action.payload.nombre,
           apellido: action.payload.apellido,
           email: action.payload.email,
-          photoURL: photoURL || "https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png",
+          photoURL: photoURL || "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
           errorMessage: null,
           admin: false,
-          user:true,
+          user: true,
         },
       };
 
@@ -199,9 +216,9 @@ export default function rootReducer(state = initialState, action) {
           apellido: null,
           email: null,
           photoURL: null,
-          errorMessage: action.payload ? action.payload : null ,
+          errorMessage: action.payload ? action.payload : null,
           admin: false,
-          user:false,
+          user: false,
         },
       };
 
@@ -213,7 +230,6 @@ export default function rootReducer(state = initialState, action) {
           status: "checking",
         },
       };
-
 
     default:
       return { ...state };

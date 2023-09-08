@@ -28,7 +28,7 @@ const dispatch = useDispatch()
   const handlerSelect = (select) => {
     return (
       (select.deleted === selectedStatus || selectedStatus === "all") &&
-      (selectedRole.length === 0 || selectedRole.includes(select.nombre))
+      (selectedRole.length === 0 || selectedRole.includes(select.doc_Identidad))
     );
   }; 
   const changeStatus = (status)=>{
@@ -195,27 +195,7 @@ const roles = new Set(data.filter(r => r.Role))
               <p className="text-xs text-gray-500 text-center">Administrator</p>
             </div>
           </div>
-          <div className="flex border-2 border-gray-200 rounded-md focus-within:ring-2 ring-teal-500">
-            <input
-              type="text"
-              className="w-full rounded-tl-md rounded-bl-md px-2 py-3 text-sm text-gray-600 focus:outline-none"
-              placeholder="Search"
-            />
-            <button className="rounded-tr-md rounded-br-md px-2 py-3 hidden md:block">
-              <svg
-                className="w-4 h-4 fill-current"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div>
+          
           <div id="menu" className="flex flex-col space-y-2">
             <a
             onClick={() => changeSection('dashboard')}
@@ -478,13 +458,13 @@ section === "clientes" && (
  <MultiSelect
  className="max-w-full sm:max-w-xs"
  onValueChange={setSelectedRole}
- placeholder="Select Role..."
+ placeholder="Buscar DNI..."
  >
   {
     clientes.map((item)=>{
       return(
-      <MultiSelectItem key={item.nombre} value={item.nombre}>
-      {item.nombre}
+      <MultiSelectItem key={item.doc_Identidad} value={item.doc_Identidad}>
+      {item.doc_Identidad}
       </MultiSelectItem>)
     })
   }
@@ -515,7 +495,7 @@ section === "clientes" && (
   
 {clientes.filter((item)=> handlerSelect(item))
          .map((item) => (
-          <TableRow key={item.nombre}>
+          <TableRow key={item.doc_Identidad}>
             <TableCell>{item.nombre}</TableCell>
             <TableCell>
               <Text>{item.doc_Identidad}</Text>

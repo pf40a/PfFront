@@ -26,13 +26,18 @@ function Usuarios(params) {
     const handlerSelect = (select) => {
       return (
         (select.deleted === selectedStatus || selectedStatus === "all") &&
-        (selectedRole.length === 0 || selectedRole.includes(select.nombre))
+        (selectedRole.length === 0 || selectedRole.includes(select.email)) 
+        
       );
+      
     }; 
-    const changeStatus = (status)=>{
-      //deberia hacer un borrado logico
-     
-    }
+    const changeSelect = (values) => {
+      // Filtra solo los valores seleccionados
+      const newSelectedRoles = values.filter((value) => value !== null);
+    
+      // Actualiza el estado con los valores seleccionados
+      setSelectedRole(newSelectedRoles);
+    };
     const [isOpenForm, setIsOpenForm] = useState(false);
     const [isOpenDetalle, setIsOpenDetalle] = useState(false);
     const toggleMenuDetalle = (id) => {
@@ -96,16 +101,18 @@ return(
   <div className="flex space-x-2">
  <MultiSelect
  className="max-w-full sm:max-w-xs"
- onValueChange={setSelectedRole}
- placeholder="Buscar nombre"
+ onValueChange={changeSelect}
+ placeholder="Buscar email"
+ value={selectedRole}
  >
   {
     users.map((item)=>{
       return(
-      <MultiSelectItem key={item.nombre} value={item.nombre}>
-      {item.nombre}
+      <MultiSelectItem key={item.email} value={item.email}>
+      {item.email}
       </MultiSelectItem>)
     })
+    
   }
  </MultiSelect>
  <Select
@@ -134,7 +141,7 @@ return(
   
 {users.filter((item)=> handlerSelect(item))
          .map((item) => (
-          <TableRow key={item.nombre}>
+          <TableRow key={item.email}>
             <TableCell>{item.nombre}</TableCell>
             <TableCell>
               <Text>{item.apellido}</Text>
