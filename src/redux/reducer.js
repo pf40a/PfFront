@@ -17,7 +17,7 @@ const initialState = {
   allRooms: [],
   room: {},
   filters: [],
-  order: "",
+  order: "Capacidad",
   typesRooms: [],
   allTypesRooms: [],
   page: 1,
@@ -37,13 +37,57 @@ const initialState = {
   },
 };
 
+
+function ordenar(array,order){
+  let roomsOrder = array
+  let newRoomsOrder = []
+  if (order === "Precio Menor") {
+        
+    newRoomsOrder = roomsOrder.sort(function(a, b) {
+return a.precio - b.precio;
+});
+
+  }else if (order === "Precio Mayor") {
+    
+    newRoomsOrder = roomsOrder.sort(function(a, b) {
+return b.precio - a.precio;
+});
+
+  }else if (order === "Capacidad") {
+    
+    newRoomsOrder = roomsOrder.sort(function(a, b) {
+return b.capacidad - a.capacidad;
+});
+
+  } else if (order === "Name") {
+    newRoomsOrder = roomsOrder.sort((a, b) => {
+      if (a[order] < b[order]) {
+        return -1;
+      }
+      if (a[order] > b[order]) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+  //
+  return newRoomsOrder;
+}
+
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     ///
     case SEARCH_ROOMS:
+     let newRoomsSearch = [...action.payload ]
+      //se aplican los filtros
+     newRoomsSearch = action.payload.filter((room) =>
+     state.filters.every((filtroItem) => room.caracteristica.includes(filtroItem))
+      ); 
+      let newRoomsSearchOrder = ordenar(newRoomsSearch,state.order)  
+           
       return {
         ...state,
-        rooms: [...action.payload],
+        rooms: [...newRoomsSearchOrder],
         allRooms: [...action.payload],
       };
 
@@ -61,6 +105,8 @@ export default function rootReducer(state = initialState, action) {
       const newRooms = roomsFilter.filter((room) =>
         filter.every((filtroItem) => room.caracteristica.includes(filtroItem))
       );
+      console.log('filtro:',filter);
+      console.log('Resultado:',newRooms);
       return {
         ...state,
         rooms: [...newRooms],
@@ -70,36 +116,7 @@ export default function rootReducer(state = initialState, action) {
     case ORDER_ROOMS:
       const roomsOrder = [...state.allRooms];
       const order = action.payload;
-      let newRoomsOrder = [];
-      if (order === "Precio Menor") {
-        
-        newRoomsOrder = roomsOrder.sort(function(a, b) {
-  return a.precio - b.precio;
-});
-
-      }else if (order === "Precio Mayor") {
-        
-        newRoomsOrder = roomsOrder.sort(function(a, b) {
-  return b.precio - a.precio;
-});
-
-      }else if (order === "Capacidad") {
-        
-        newRoomsOrder = roomsOrder.sort(function(a, b) {
-  return b.capacidad - a.capacidad;
-});
-
-      } else if (order === "Name") {
-        newRoomsOrder = roomsOrder.sort((a, b) => {
-          if (a[order] < b[order]) {
-            return -1;
-          }
-          if (a[order] > b[order]) {
-            return 1;
-          }
-          return 0;
-        });
-      }
+      let newRoomsOrder = ordenar(roomsOrder,order)
       return {
         ...state,
         rooms: [...newRoomsOrder],
