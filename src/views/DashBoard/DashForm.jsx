@@ -15,7 +15,7 @@ const {cambiarEstado} = params
 const handleSubmit = async(e)=>{
     e.preventDefault()
     try{  
-        await axios.put("localhost:3001/hotel/clientes/"+ id, cliente)
+        await axios.put(`${import.meta.env.VITE_API_URL}/hotel/clientes/${id}`, cliente)
     }catch(error){
 
     } 

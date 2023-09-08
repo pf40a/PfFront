@@ -6,7 +6,7 @@ function UserDetail({ userId, onClose }) {
 
   useEffect(() => {
     // Realizar la solicitud Axios para obtener los detalles del usuario
-    axios.get(`http://localhost:3001/api/usuario/${userId}`)
+    axios.get(`${import.meta.env.VITE_API_URL}/api/usuario/${userId}`)
       .then((response) => {
         setUser(response.data);
       })

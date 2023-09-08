@@ -17,7 +17,7 @@ function CorreoForm() {
     try {
       let mensaje = mensajeCompleto;
       const response = await axios.post(
-        "http://localhost:3001/hotel/email",
+        `${import.meta.env.VITE_API_URL}/hotel/email`,
         { email, asunto, mensaje }
       );
 
