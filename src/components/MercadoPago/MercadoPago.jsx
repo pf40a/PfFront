@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { getLocalStorage } from "../../utilities/managerLocalStorage";
+import { useSelector } from 'react-redux';
 
 
 const includedFeatures = [
@@ -13,7 +14,9 @@ const includedFeatures = [
     '1 dia de spa',
   ]
 
-const MercadoPago = ({nombre,apellido,dni,fechaIn,fechaOut,adultos,niños}) => {
+const MercadoPago = ({nombre,apellido,dni,fechaIn,fechaOut,adultos,niños,dias}) => {
+
+  const nameDb = useSelector(state => state.auth.displayName)
     const [preferenceId, setPreferenceId] = useState(null)
     initMercadoPago('TEST-3aa1ff4a-f517-4dcf-8fb3-15640d67a3d3');
     let roomsLocal;
@@ -22,28 +25,24 @@ const MercadoPago = ({nombre,apellido,dni,fechaIn,fechaOut,adultos,niños}) => {
     }
     console.log(roomsLocal); 
 
-    const arrayMapeado = roomsLocal.map((item)=>({
-        title:item.tipo_Habitacion,
-        unit_price:item.precio,
-        quantity:item.capacidad
-    }))
-console.log(arrayMapeado);
 
 let total = 0
 
-for (let i = 0; i < arrayMapeado.length; i++) {
-    total += arrayMapeado[i].unit_price;
+for (let i = 0; i < roomsLocal.length; i++) {
+    total += roomsLocal[i].precio;
 }
-console.log(total);
-
-
-
+const arrayMapeado = roomsLocal.map((item)=>({
+    title:"habitacion "+item.tipo_Habitacion,
+    unit_price:item.precio,
+    quantity:1,
+}))
+console.log(nameDb);
 
 
 
     const createPreference = async ()=>{
         try {
-            const response = await axios.post('http://localhost:3001/hotel/mercadoPago/create_preference',{
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/mercadoPago/create_preference`,{
                 "items":arrayMapeado, 
                 "reservaId":"ddd620aa-f62a-476c-ab5c-17c72f5e4b71"    
             })
@@ -55,6 +54,18 @@ console.log(total);
         }
     }
     const handleBuy = async ()=>{
+      try {
+        await axios.post(`${import.meta.env.VITE_API_URL}/hotel/email`,{
+          
+            "email": "nicovillagra123@gmail.com",
+            "asunto": "Oasis Hotel",
+            "mensaje": "Reservacion hecha y pago completado",
+            "nombre": nameDb
+          
+        })
+      } catch (error) {
+        console.log(error);
+      }
         const initPoint = await createPreference();
         if (initPoint) {
           setPreferenceId(initPoint);

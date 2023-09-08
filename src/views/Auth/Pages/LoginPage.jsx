@@ -60,10 +60,7 @@ const LoginPage = () => {
         };
 
         try {
-          const response = await axios.post(
-            "http://localhost:3001/hotel/users",
-            newResult
-          );
+          const response = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/users`, newResult );
           if (response.data) {
             console.log("Usuario creado", response.data);
           }

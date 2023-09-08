@@ -7,12 +7,13 @@ import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
-import Rooms from "../../components/Rooms/Rooms";
-import Room from "../../components/Room/Room";
+import Review from "../../components/Reviews/Reviews";
+import CorreoForm from "../../components/ContactForm/CorreoForm";
+
 
 const Home = () => {
   const [data, setData] = useState([]);
-// console.log('env',import.meta.env.VITE_API_URL)
+  // console.log('env',import.meta.env.VITE_API_URL)
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/hotel/subtipo`)
@@ -24,9 +25,10 @@ const Home = () => {
 
   return (
     <div>
-      <div className="w-full h-96">
+      <div className="w-full h-96 flex items-center justify-center" style={{height:"40rem"}}>
+        <h2 className="absolute text-7xl bg-gradient-to-r from-blue-500 via-orange-500 to-green-500 text-transparent bg-clip-text stroke-black-500 ">Oasis Hotel</h2>
         <img
-          src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+          src="https://images.unsplash.com/photo-1587213811864-46e59f6873b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
           alt=""
           className="w-full h-full object-cover"
         />
@@ -35,7 +37,7 @@ const Home = () => {
         <SearchBox />
       </div>
 
-      <div className="flex mt-36 items-center justify-center">
+      <div className="flex mt-16 items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-40">
           {data.map((item) => (
             <div
@@ -124,6 +126,11 @@ const Home = () => {
         </div>
       </div>
       <AboutUs />
+      <Review />
+      <div>
+      <CorreoForm/>
+      </div>
+
     </div>
   );
 };

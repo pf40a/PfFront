@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
+// ----- Actions -----
+
+// import { loadAllTypesRooms } from "./redux/actions";
+
 // ----- Vistas -----
 
 import PassRecoverPage from "./views/Auth/Pages/PassRecoverPage";
@@ -21,8 +25,10 @@ import { CheckingAuth } from "./components/Login/CheckingAuth";
 import CorreoForm from "./components/ContactForm/CorreoForm";
 import PaymenView from "./components/Payment/PaymenView";
 import PopDetail from "./components/PopDetail/PopDetail";
+import ReviewStars from "./components/pruebas/pruebas";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+import Review from "./components/Reviews/Reviews";
 
 // ----- Hooks -----
 
@@ -65,6 +71,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="*" element={<ErroPage />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/review" element={<Review />} />
         <Route path="/pop" element={<PopDetail />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/search" element={<SearchRoom />} />
@@ -72,6 +79,7 @@ function App() {
         <Route path="/payment" element={<PaymenView />} />
         <Route path="/contact" element={<CorreoForm />} />
         <Route path="/reserve" element={<Reservation />} />
+        <Route path="/pruebas" element={<ReviewStars />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/recover" element={<PassRecoverPage />} />
         <Route path="/mercadopago" element={<MercadoPago />} />

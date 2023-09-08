@@ -50,8 +50,11 @@ export const singInWithGoogle = async () => {
 
 // -------- Registro del Usuario --------
 
-export const registerUserWithEmailPassword = async ({ email, password, displayName }) => {
-
+export const registerUserWithEmailPassword = async ({
+  email,
+  password,
+  displayName,
+}) => {
   try {
     const resp = await createUserWithEmailAndPassword(
       FirebaseAuth,
@@ -71,8 +74,7 @@ export const registerUserWithEmailPassword = async ({ email, password, displayNa
       email,
       photoURL: user.photoURL,
     };
-  }
-  catch (error) {
+  } catch (error) {
     const errorMessage = "Este usuario ya se encuentra registrado.";
     return { ok: false, errorMessage };
   }
