@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 
-export default function CartRooms({ state, close, arrayRooms, remove,dias,quantityTotal,increseQuantity,decreaseQuantity,showBooking }) {
+export default function CartRooms({ state, close, arrayRooms=[], remove,dias,quantityTotal,increseQuantity,decreaseQuantity,showBooking }) {
   const [open, setOpen] = useState(state);
   const [totalPrice, setTotalPrice] = useState(0);
   const [products, setProducts] = useState(arrayRooms);
