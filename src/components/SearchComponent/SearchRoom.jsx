@@ -21,6 +21,8 @@ import PaymenView from "../Payment/PaymenView";
 import SearchBox from "../SearchBox/SearchBox";
 import CartRooms from "../CartRooms/CartRooms";
 
+import StepsBooking from "../StepsBooking/StepsBooking";
+
 const subCategories = [
   { name: "Totes", href: "#" },
   { name: "Backpacks", href: "#" },
@@ -267,6 +269,11 @@ const SearchRoom = () => {
     //alert('x')
   }, [allRoomsRedux]); */
 
+  const [showBookingSteps, setShowBookingSteps] = useState(true); //cambiar
+
+  function showBooking(){
+   setShowBookingSteps(true)
+  }
   return (
     <>
       <div className="bg-white">
@@ -565,7 +572,15 @@ const SearchRoom = () => {
                       quantityTotal={quantityTotal}
                       increseQuantity={increaseQuantity}
                       decreaseQuantity={decreaseQuantity}
+                      showBooking={showBooking}
                     />
+                  </div>
+                )}
+
+
+                {showBookingSteps && (
+                  <div>
+                    <StepsBooking />
                   </div>
                 )}
 
