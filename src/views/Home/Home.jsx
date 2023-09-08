@@ -8,12 +8,7 @@ import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
 import Review from "../../components/Reviews/Reviews";
-import ReviewsCarrousel from "../ReviewsCarrousel/ReviewsCarrousel";
-import Rooms from "../../components/Rooms/Rooms";
-import Room from "../../components/Room/Room";
 import CorreoForm from "../../components/ContactForm/CorreoForm";
-
-import ReviewStars from "../../components/pruebas/pruebas";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -31,7 +26,7 @@ const Home = () => {
     <div>
       <div
         className="w-full h-96 flex items-center justify-center"
-        style={{ height: "47rem" }}
+        style={{ height: "40rem" }}
       >
         <h2 className="absolute text-7xl bg-gradient-to-r from-blue-500 via-orange-500 to-green-500 text-transparent bg-clip-text stroke-black-500 ">
           Oasis Hotel

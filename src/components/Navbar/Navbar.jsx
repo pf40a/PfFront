@@ -7,6 +7,8 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { logout } from "../../redux/actions";
 import { logoutFirebase } from "../../Firebase/Providers";
 
+import Tooltip from '@mui/material/Tooltip';
+
 const navegacionAdmin = [
   { name: "Dashboard", href: "/Dashboard", current: true },
   { name: "Reservas", href: "/Reservations", current: false },
@@ -84,16 +86,19 @@ const Navbar = () => {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center  sm:items-stretch sm:justify-start">
+              <div className="flex flex-1 items-center justify-center relative sm:items-stretch sm:justify-start">
                 <NavLink
                   to="/"
-                  className="flex flex-shrink-0 items-center h-16"
+                  className="flex flex-shrink-0 items-center h-20 md:h-32 absolute -top-4 border"
                 >
-                  <img
+                  <Tooltip title="Ir al Home" arrow>
+      <img
                     className="h-full max-w-full"
-                    src="./logo.jpg"
-                    alt="Your Company"
+                    src="/logo.jpg"
+                    alt="Hotel Oasis"
                   />
+    </Tooltip>
+                  
                 </NavLink>
                 {isLoggedIn ? (
                   <div

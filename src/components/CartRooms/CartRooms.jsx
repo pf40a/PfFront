@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 
-export default function CartRooms({ state, close, arrayRooms, remove,dias,quantityTotal,increseQuantity,decreaseQuantity }) {
+export default function CartRooms({ state, close, arrayRooms=[], remove,dias,quantityTotal,increseQuantity,decreaseQuantity,showBooking }) {
   const [open, setOpen] = useState(state);
   const [totalPrice, setTotalPrice] = useState(0);
   const [products, setProducts] = useState(arrayRooms);
@@ -89,7 +89,7 @@ export default function CartRooms({ state, close, arrayRooms, remove,dias,quanti
                             role="list"
                             className="-my-6 divide-y divide-gray-200"
                           >
-                            {products.map((product) => (
+                            {products?.length > 0 && products?.map((product) => (
                               <li key={product.id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
@@ -163,12 +163,12 @@ export default function CartRooms({ state, close, arrayRooms, remove,dias,quanti
                         Shipping and taxes calculated at checkout.
                       </p>
                       <div className="mt-6">
-                        <NavLink 
-                          to="/reserve"
-                          className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                        <button onClick={showBooking} 
+                          
+                          className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 w-full"
                         >
                           Reserver
-                        </NavLink>
+                        </button>
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>

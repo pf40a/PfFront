@@ -25,7 +25,7 @@ const ReviewStars = () => {
     // Guardar la revisión actual en el array de revisiones
     try {
     setReviews([...reviews, review]);
-       await axios.post('http://localhost:3001/hotel/reviews',{
+       await axios.post(`${import.meta.env.VITE_API_URL}/hotel/reviews`,{
             usuarioId:reviewId,
             rating:review.rating,
             comentario:review.comment,
@@ -36,7 +36,7 @@ const ReviewStars = () => {
         
     }
     try {
-        const request = await axios.get('http://localhost:3001/hotel/reviews')
+        const request = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/reviews`)
         const response = request.data.data
         setReviewsDb(response)
         setReviewsDb([...reviewsDb, review]);
