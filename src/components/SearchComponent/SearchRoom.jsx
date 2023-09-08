@@ -169,8 +169,10 @@ const SearchRoom = () => {
         precio: item.precio * diasEntreFechas(search?.fechaIn, search?.fechaOut),
         quantity: 1,
       };
-      setRoomReserve([...roomReserve, newItem]);
-      localStorage.setItem("rooms", JSON.stringify([...roomReserve, newItem]));
+      let listReserve=[...roomReserve, newItem]
+      console.log('newList:',listReserve)
+      setRoomReserve(listReserve);
+      localStorage.setItem("rooms", JSON.stringify(listReserve));
     } else {
       increaseQuantity(item.id);
       // Producto ya en el carrito, puedes mostrar un mensaje de error o realizar otra acción.
