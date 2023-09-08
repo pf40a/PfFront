@@ -126,6 +126,7 @@ newFiltros=[...filtros, opcion];
   };
 
   const roomsRedux = useSelector((state) => state.rooms);
+  const allRoomsRedux = useSelector((state) => state.allRooms);
   //Rooms LocalStorage :
   //añadir habitacion
 
@@ -260,10 +261,8 @@ newFiltros=[...filtros, opcion];
       //console.log("qq", nowPage);
     }
 
-    // if (filtros.length > 0) dispatch(filterRoom(filtros));
-    // if (filterOrder != "") dispatch(orderRoom(filterOrder));
-  //alert('x')
-  })
+    
+  },[roomsRedux])
 
 
   return (
@@ -521,10 +520,13 @@ newFiltros=[...filtros, opcion];
 
             {/* paginado */}
             <div className={styles.paginado}>
-              {actualPage > 1 && (
+              {actualPage > 1? (
                 <button onClick={() => paginator(actualPage - 1)}>
-                  {" "}
-                  prev{" "}
+                  prev
+                </button>
+              ) : (btnPaginator?.length > 1 && 
+                <button className="text-gray-400">
+                  prev
                 </button>
               )}
 
@@ -537,10 +539,13 @@ newFiltros=[...filtros, opcion];
                   >{`${numeroPag}`}</button>
                 ))}
 
-              {btnPaginator?.length > 1 && actualPage < btnPaginator.length && (
+              {actualPage < btnPaginator.length? (
                 <button onClick={() => paginator(actualPage + 1)}>
-                  {" "}
-                  next{" "}
+                  next
+                </button>
+              ) : (btnPaginator?.length > 1 && 
+                <button className="text-gray-400" >
+                  next
                 </button>
               )}
             </div>
@@ -612,31 +617,35 @@ newFiltros=[...filtros, opcion];
 
               {/* paginado */}
               <div className={`${styles.paginado} mt-4`}>
-                {actualPage > 1 && (
-                  <button onClick={() => paginator(actualPage - 1)}>
-                    {" "}
-                    prev{" "}
-                  </button>
-                )}
-                {btnPaginator?.length > 1 &&
-                  btnPaginator?.map((numeroPag, i) => (
-                    <button
-                      className={
-                        actualPage === numeroPag ? styles.active : null
-                      }
-                      key={i}
-                      onClick={() => paginator(numeroPag)}
-                    >{`${numeroPag}`}</button>
-                  ))}
+              {actualPage > 1? (
+                <button onClick={() => paginator(actualPage - 1)}>
+                  prev
+                </button>
+              ) : (btnPaginator?.length > 1 && 
+                <button className="text-gray-400">
+                  prev
+                </button>
+              )}
 
-                {btnPaginator?.length > 1 &&
-                  actualPage < btnPaginator.length && (
-                    <button onClick={() => paginator(actualPage + 1)}>
-                      {" "}
-                      next{" "}
-                    </button>
-                  )}
-              </div>
+              {btnPaginator?.length > 1 &&
+                btnPaginator?.map((numeroPag, i) => (
+                  <button
+                    className={actualPage === numeroPag ? styles.active : null}
+                    key={i}
+                    onClick={() => paginator(numeroPag)}
+                  >{`${numeroPag}`}</button>
+                ))}
+
+              {actualPage < btnPaginator.length? (
+                <button onClick={() => paginator(actualPage + 1)}>
+                  next
+                </button>
+              ) : (btnPaginator?.length > 1 && 
+                <button className="text-gray-400" >
+                  next
+                </button>
+              )}
+            </div>
               {/* Fin paginado */}
             </section>
           </main>
