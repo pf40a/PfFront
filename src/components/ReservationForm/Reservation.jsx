@@ -157,7 +157,7 @@ const Reservation = () => {
     <>
     <div>
       {showReserveForm && (
-        <div className="border-b border-gray-900/10 p-10 pb-12">
+        <div className="border-b border-gray-900/10 p-10 pb-12 mt-10">
         <h2 className="text-4xl   font-semibold leading-7 text-gray-900">
           Informacion del Titular de la reserva
         </h2>
@@ -474,11 +474,6 @@ const Reservation = () => {
     <div>
   {showMercadoPago && (
     <div>
-      <button onClick={toBackReserve} className="bg-blue-500  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-        </svg>
-      </button>
       <MercadoPago
         nombre={reserve.firstName}
         apellido={reserve.lastName}
