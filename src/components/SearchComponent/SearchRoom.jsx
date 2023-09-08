@@ -162,6 +162,7 @@ const SearchRoom = () => {
 
   const addReserve = (item) => {
     console.log('agregando:',item)
+    console.log('a',isProductInCart(item.id))
     if (!isProductInCart(item.id)) {
       // Si el producto no está en el carrito, agrégalo
       const newItem = {
