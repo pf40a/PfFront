@@ -269,7 +269,7 @@ const SearchRoom = () => {
     //alert('x')
   }, [allRoomsRedux]); */
 
-  const [showBookingSteps, setShowBookingSteps] = useState(true); //cambiar
+  const [showBookingSteps, setShowBookingSteps] = useState(false); //cambiar
 
   function showBooking(){
    setShowBookingSteps(true)
