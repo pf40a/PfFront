@@ -37,7 +37,7 @@ export const searchRooms = (search) => {
       dataNew = dataNew.sort(function (a, b) {
         return b.capacidad - a.capacidad;
       });
-      console.log("dataFinal", dataNew);
+
       return dispatch({
         type: "SEARCH_ROOMS",
         payload: dataNew,

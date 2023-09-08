@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { getLocalStorage } from "../../utilities/managerLocalStorage";
+import { useSelector } from 'react-redux';
 
 
 const includedFeatures = [
@@ -14,6 +15,8 @@ const includedFeatures = [
   ]
 
 const MercadoPago = ({nombre,apellido,dni,fechaIn,fechaOut,adultos,niños,dias}) => {
+
+  const nameDb = useSelector(state => state.auth.displayName)
     const [preferenceId, setPreferenceId] = useState(null)
     initMercadoPago('TEST-3aa1ff4a-f517-4dcf-8fb3-15640d67a3d3');
     let roomsLocal;
@@ -29,11 +32,11 @@ for (let i = 0; i < roomsLocal.length; i++) {
     total += roomsLocal[i].precio;
 }
 const arrayMapeado = roomsLocal.map((item)=>({
-    title:item.tipo_Habitacion,
-    unit_price:item.precio * dias,
-    quantity:item.quantity
+    title:"habitacion "+item.tipo_Habitacion,
+    unit_price:item.precio,
+    quantity:1,
 }))
-console.log(arrayMapeado.unit_price);
+console.log(nameDb);
 
 
 
@@ -57,7 +60,7 @@ console.log(arrayMapeado.unit_price);
             "email": "nicovillagra123@gmail.com",
             "asunto": "Oasis Hotel",
             "mensaje": "Reservacion hecha y pago completado",
-            "nombre": "Nicolas"
+            "nombre": nameDb
           
         })
       } catch (error) {
@@ -128,7 +131,7 @@ console.log(arrayMapeado.unit_price);
               <div className="mx-auto max-w-xs px-8">
                 <p className="text-base font-semibold text-gray-600">Total a pagar</p>
                 <p className="mt-6 flex items-baseline justify-center gap-x-2">
-                  <span className="text-5xl font-bold tracking-tight text-gray-900">${total * dias}</span>
+                  <span className="text-5xl font-bold tracking-tight text-gray-900">${total}</span>
                   <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">USD</span>
                 </p>
                 <button

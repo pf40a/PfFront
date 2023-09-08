@@ -136,7 +136,6 @@ const Home = () => {
       </div>
       <AboutUs />
       <Review />
-      <ReviewsCarrousel />
       <div>
         <CorreoForm />
       </div>
