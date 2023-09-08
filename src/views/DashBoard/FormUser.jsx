@@ -1,19 +1,25 @@
-import { AreaChart, Card, Flex, Grid, Metric, ProgressBar, Tab, TabGroup, TabList, TabPanel, TabPanels, Table, TableHead, Text, Title, TableRow, TableHeaderCell, TableBody, TableCell, Badge, Button, MultiSelect, MultiSelectItem, Select, SelectItem } from '@tremor/react';
+
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { Switch } from '@headlessui/react'
-import { PutClientes } from '../../redux/actions';
-import axios from 'axios';
- function Form(params) {
+ function FormUser(params) {
 //const {id} = params
-const {cambiarEstado, documento, setDoc, PutForm} = params
+const {cambiarEstado, documento, setDoc, PutForm, admin} = params
 const dispatch = useDispatch()
-    const [cliente, setCliente] = useState({nombre:"", apellidos:"", direccion:"", nroCelular:"", ciudad: "", pais:"", email:""})
-    const handleChange = (e)=>{
-   e.preventDefault();
-   setCliente({...cliente, [e.target.name]: e.target.value})
+    const [cliente, setCliente] = useState({nombre:"", apellido:"",  admin: admin, email:""})
+    const handleClick = ()=>{
+        if(cliente.admin === true){
+            cliente.admin = false
+           }else{
+            cliente.admin = true
+           }
     }
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        // Si el elemento es un checkbox, manejar el cambio de estado adecuadamente
+        const newValue = type === 'checkbox' ? checked : value;
+    
+        setCliente({ ...cliente, [name]: newValue });
+      };
 const handleSubmit = async(e)=>{
     e.preventDefault()
     PutForm(documento, cliente)
@@ -66,65 +72,21 @@ const handleClose = ()=>{
               </div>
             </div>
             <div>
-              <label htmlFor="apellidos" className="block text-sm font-semibold leading-6 text-gray-900">
-              Apellidos
+              <label htmlFor="apellido" className="block text-sm font-semibold leading-6 text-gray-900">
+              Apellido
               </label>
               <div className="mt-2.5">
                 <input
                 onChange={handleChange}
                   type="text"
-                  name="apellidos"
-                  id="apellidos"
+                  name="apellido"
+                  id="apellido"
                   autoComplete="family-name"
                   className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
             
-            <div className="sm:col-span-2">
-              <label htmlFor="direccion" className="block text-sm font-semibold leading-6 text-gray-900">
-                Direccion
-              </label>
-              <div className="mt-2.5">
-                <input
-                onChange={handleChange}
-                  type="text"
-                  name="direccion"
-                  id="direccion"
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="pais" className="block text-sm font-semibold leading-6 text-gray-900">
-                Pais
-              </label>
-              <div className="mt-2.5">
-                <input
-                onChange={handleChange}
-                  type="text"
-                  name="pais"
-                  id="pais"
-                  autoComplete="given-name"
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="ciudad" className="block text-sm font-semibold leading-6 text-gray-900">
-                Ciudad
-              </label>
-              <div className="mt-2.5">
-                <input
-                onChange={handleChange}
-                  type="text"
-                  name="ciudad"
-                  id="ciudad"
-                  autoComplete="given-name"
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
             <div className="sm:col-span-2">
               <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-900">
                 Email
@@ -141,18 +103,19 @@ const handleClose = ()=>{
               </div>
             </div>
             <div className="sm:col-span-2">
-              <label htmlFor="nroCelular" className="block text-sm font-semibold leading-6 text-gray-900">
-                Numero de celular
+              <label htmlFor="admin" className="block text-sm font-semibold leading-6 text-gray-900">
+                Admin
               </label>
+              
               <div className="relative mt-2.5">
-                <input
-                onChange={handleChange}
-                  type="tel"
-                  name="nroCelular"
-                  id="nroCelular"
-                  autoComplete="tel"
-                  className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+              <input
+          onChange={handleChange}
+          type="checkbox"
+          name="admin"
+          checked={cliente.admin}
+          className={`block rounded-md border-0 px-3.5 py-3 pl-8 text-gray-900 shadow-sm ring-1 focus:ring-0 w-4 h-4 ${!cliente.admin ? 'bg-red-100' : ''}`} 
+        />
+                <span className="text-sm">Activa o desactiva la casilla para otorgar o quitar los permisos de administrador</span>
               </div>
             </div>
           </div>
@@ -172,4 +135,4 @@ const handleClose = ()=>{
 
 
 }
-export default Form
+export default FormUser
