@@ -161,11 +161,12 @@ const SearchRoom = () => {
   };
 
   const addReserve = (item) => {
+    console.log('agregando:',item)
     if (!isProductInCart(item.id)) {
       // Si el producto no está en el carrito, agrégalo
       const newItem = {
         ...item,
-        precio: item.precio * diasEntreFechas(search.fechaIn, search.fechaOut),
+        precio: item.precio * diasEntreFechas(search?.fechaIn, search?.fechaOut),
         quantity: 1,
       };
       setRoomReserve([...roomReserve, newItem]);
