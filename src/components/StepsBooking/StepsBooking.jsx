@@ -3,7 +3,7 @@ import Reservation from "../ReservationForm/Reservation"
 import LoginPage from "../../views/Auth/Pages/LoginPage"
 import RegisterPage from "../../views/Auth/Pages/RegisterPage"
 
-export default function StepsBooking(){
+export default function StepsBooking({setShowBookingSteps}){
 
  const [paso, setPaso] = useState(1)
  
@@ -11,8 +11,8 @@ export default function StepsBooking(){
   <>
   <div className="fixed inset-0 bg-black bg-opacity-50 flex align-middle items-center">
   
-  <div class="w-11/12 md:w-8/12 bg-white rounded-md p-2 mx-auto">
-   <ul class="flex justify-between w-10/12 mx-auto">
+  <div className="w-11/12 md:w-8/12 bg-white rounded-md p-2 mx-auto max-h-full" ><button onClick={()=>setShowBookingSteps(false)}>cerrar</button>
+   <ul className="flex justify-between w-10/12 mx-auto">
     <li onClick={()=>setPaso(1)}>Paso 1: Registro</li>
     <li onClick={()=>setPaso(2)}>Paso 2: Datos</li>
     <li onClick={()=>setPaso(3)}>Paso 3: Pago</li>
@@ -23,8 +23,7 @@ export default function StepsBooking(){
      <LoginPage/>
     </div>
    )}  
-   {paso===2 && <Reservation setPaso={setPaso}/>} 
-   
+   {paso===2 && <Reservation setPaso={setPaso}/>}    
 
    </div> 
 

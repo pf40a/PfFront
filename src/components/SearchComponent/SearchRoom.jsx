@@ -278,6 +278,7 @@ const SearchRoom = () => {
 
   function showBooking(){
    setShowBookingSteps(true)
+   closeCart()
   }
   return (
     <>
@@ -585,7 +586,7 @@ const SearchRoom = () => {
 
                 {showBookingSteps && (
                   <div>
-                    <StepsBooking />
+                    <StepsBooking setShowBookingSteps={setShowBookingSteps} />
                   </div>
                 )}
 
