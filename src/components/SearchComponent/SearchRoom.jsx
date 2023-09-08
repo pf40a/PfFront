@@ -151,7 +151,7 @@ const SearchRoom = () => {
   }
   //
 
-  let roomsLocal;
+  let roomsLocal=[];
   if (getLocalStorage("rooms")) {
     roomsLocal = getLocalStorage("rooms");
   }
