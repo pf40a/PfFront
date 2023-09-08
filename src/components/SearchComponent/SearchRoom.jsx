@@ -21,8 +21,6 @@ import PaymenView from "../Payment/PaymenView";
 import SearchBox from "../SearchBox/SearchBox";
 import CartRooms from "../CartRooms/CartRooms";
 
-import StepsBooking from "../StepsBooking/StepsBooking";
-
 const subCategories = [
   { name: "Totes", href: "#" },
   { name: "Backpacks", href: "#" },
@@ -104,21 +102,21 @@ const SearchRoom = () => {
   ];
   const [filtros, setFiltros] = useState([]);
   // Función para manejar la selección/deselección de una opción
-  const handleFiltros = (opcion) => {
-    //alert(opcion)
-    let newFiltros = [];
-    if (filtros.includes(opcion)) {
-      // Si la opción ya está seleccionada, la eliminamos
-      newFiltros = filtros.filter((item) => item !== opcion);
-      setFiltros(newFiltros);
-      dispatch(filterRoom(newFiltros));
-    } else {
-      // Si la opción no está seleccionada, la agregamos
-      newFiltros = [...filtros, opcion];
-      setFiltros(newFiltros);
-      dispatch(filterRoom(newFiltros));
-    }
-  };
+    const handleFiltros = (opcion) => {
+      //alert(opcion)
+      let newFiltros = [];
+      if (filtros.includes(opcion)) {
+        // Si la opción ya está seleccionada, la eliminamos
+        newFiltros=filtros.filter(item => item !== opcion)
+        setFiltros(newFiltros);
+        dispatch(filterRoom(newFiltros))
+      } else {
+        // Si la opción no está seleccionada, la agregamos
+newFiltros=[...filtros, opcion];
+        setFiltros(newFiltros);
+        dispatch(filterRoom(newFiltros))
+      }
+    };
   //console.log('filtros:',filtros)
 
   const [order, setOrder] = useState("Capacidad");
@@ -128,9 +126,9 @@ const SearchRoom = () => {
   };
 
   const roomsRedux = useSelector((state) => state.rooms);
-  const allRoomsRedux = useSelector((state) => state.allRooms);
   //Rooms LocalStorage :
   //añadir habitacion
+
 
   const addToCart = (item) => {
     setSelectedRoom(item);
@@ -151,37 +149,27 @@ const SearchRoom = () => {
   }
   //
 
-  let roomsLocal=[];
+  let roomsLocal;
   if (getLocalStorage("rooms")) {
     roomsLocal = getLocalStorage("rooms");
   }
   //---------MANEJO DE CARRITO-------------//
   const isProductInCart = (productId) => {
-    //return roomsLocal.some((item) => item.id === productId);
-    return roomsLocal.find(room => room.id === productId);
+    return roomsLocal.some((item) => item.id === productId);
   };
 
   const addReserve = (item) => {
-    console.log('agregando:',item)
-    console.log('a',isProductInCart(item.id))
     if (!isProductInCart(item.id)) {
       // Si el producto no está en el carrito, agrégalo
-      const newItem = {
-        ...item,
-        precio: item.precio * diasEntreFechas(search?.fechaIn, search?.fechaOut),
-        quantity: 1,
-      };
-      let listReserve=[...roomReserve, newItem]
-      console.log('newList:',listReserve)
-      setRoomReserve(listReserve);
-      localStorage.setItem("rooms", JSON.stringify(listReserve));
+      const newItem = { ...item,precio:item.precio * diasEntreFechas(search.fechaIn,search.fechaOut) ,quantity: 1 };
+      setRoomReserve([...roomReserve, newItem]);
+      localStorage.setItem("rooms", JSON.stringify([...roomReserve, newItem]));
+
     } else {
-      increaseQuantity(item.id);
+      increaseQuantity(item.id)
       // Producto ya en el carrito, puedes mostrar un mensaje de error o realizar otra acción.
     }
-    showCart()
   };
-
   useEffect(() => {
     const storedRooms = JSON.parse(localStorage.getItem("rooms")) || [];
     setRoomReserve(storedRooms);
@@ -206,11 +194,12 @@ const SearchRoom = () => {
       }
       return item;
     });
-
+  
     setRoomReserve(updatedReserve);
     localStorage.setItem("rooms", JSON.stringify(updatedReserve));
   };
 
+  
   const decreaseQuantity = (itemId) => {
     const updatedReserve = roomReserve.map((item) => {
       if (item.id === itemId && item.quantity > 1) {
@@ -221,12 +210,14 @@ const SearchRoom = () => {
       }
       return item;
     });
-
+  
     setRoomReserve(updatedReserve);
     localStorage.setItem("rooms", JSON.stringify(updatedReserve));
   };
-
+  
+  console.log(roomsLocal);
   //---------PARA QUE NO SE AGREGUE UNA CARD REPETIDO-------------//
+
 
   ///Paginado - Filtros - Orden
   const roomsPerPage = 4;
@@ -234,7 +225,10 @@ const SearchRoom = () => {
   //
   let nowPage = useSelector((store) => store.page);
   const [roomsPage, setRoomsPage] = useState([]); //listado-paginado
-  const [actualPage, setActualPage] = useState(nowPage);
+  const [actualPage, setActualPage] = useState(1);
+  //
+  const [filter, setFilter] = useState("");
+  const [filterOrder, setFilterOrder] = useState("");
   //
   let [btnPaginator, setBtnPaginator] = useState([]); ///botones paginado
 
@@ -243,7 +237,7 @@ const SearchRoom = () => {
     const init = (pag - 1) * roomsPerPage;
     const end = init + roomsPerPage;
     setRoomsPage(roomsRedux?.slice(init, end));
-
+    
     window.scrollTo({
       top: 0,
       behavior: "smooth", // Hace que el desplazamiento sea suave
@@ -265,21 +259,13 @@ const SearchRoom = () => {
       paginator(nowPage);
       //console.log("qq", nowPage);
     }
-  }, [roomsRedux]);
 
-  /* useEffect(() => {
-    paginator(1);
-    if (filtros?.length > 0) dispatch(filterRoom(filtros));
-    if (filterOrder != "") dispatch(orderRoom(filterOrder));
-    //alert('x')
-  }, [allRoomsRedux]); */
+    // if (filtros.length > 0) dispatch(filterRoom(filtros));
+    // if (filterOrder != "") dispatch(orderRoom(filterOrder));
+  //alert('x')
+  })
 
-  const [showBookingSteps, setShowBookingSteps] = useState(false); //cambiar
 
-  function showBooking(){
-   setShowBookingSteps(true)
-   closeCart()
-  }
   return (
     <>
       <div className="bg-white">
@@ -536,7 +522,7 @@ const SearchRoom = () => {
             {/* paginado */}
             <div className={styles.paginado}>
               {actualPage > 1 && (
-                <button className="" onClick={() => paginator(actualPage - 1)}>
+                <button onClick={() => paginator(actualPage - 1)}>
                   {" "}
                   prev{" "}
                 </button>
@@ -578,15 +564,7 @@ const SearchRoom = () => {
                       quantityTotal={quantityTotal}
                       increseQuantity={increaseQuantity}
                       decreaseQuantity={decreaseQuantity}
-                      showBooking={showBooking}
                     />
-                  </div>
-                )}
-
-
-                {showBookingSteps && (
-                  <div>
-                    <StepsBooking setShowBookingSteps={setShowBookingSteps} />
                   </div>
                 )}
 
@@ -666,5 +644,6 @@ const SearchRoom = () => {
       </div>
     </>
   );
+ 
 };
 export default SearchRoom;

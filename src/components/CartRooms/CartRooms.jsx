@@ -38,7 +38,7 @@ export default function CartRooms({ state, close, arrayRooms=[], remove,dias,qua
   
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={close}>
+      <Dialog as="div" className="z-50 relative z-10" onClose={close}>
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-500"
@@ -163,12 +163,12 @@ export default function CartRooms({ state, close, arrayRooms=[], remove,dias,qua
                         Shipping and taxes calculated at checkout.
                       </p>
                       <div className="mt-6">
-                        <button onClick={showBooking} 
+                        <NavLink to="/reserve" 
                           
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 w-full"
                         >
                           Reserver
-                        </button>
+                        </NavLink>
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>

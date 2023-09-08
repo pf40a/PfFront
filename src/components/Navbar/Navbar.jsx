@@ -91,7 +91,7 @@ const Navbar = () => {
                 >
                   <Tooltip title="Ir al Home" arrow>
       <img
-                    className="h-full max-w-full"
+                    className="z-50 h-full max-w-full"
                     src="/logo.jpg"
                     alt="Hotel Oasis"
                   />
