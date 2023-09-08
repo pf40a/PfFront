@@ -42,7 +42,7 @@ const handleClose = ()=>{
         </div>
         <div className="mx-auto max-w-2xl text-center">
             <div className='flex items-center justify-between'> 
-             <button onClick={handleClose} className='bg-red-300 hover:bg-red-400 text-gray-950 text-black font-bold py-1 px-3 rounded'>X</button> 
+             <button onClick={handleClose} className='bg-red-300 hover:bg-red-400 text-gray-900 font-bold py-1 px-3 rounded'>X</button> 
                </div>
         
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Modificar informacion</h2>
