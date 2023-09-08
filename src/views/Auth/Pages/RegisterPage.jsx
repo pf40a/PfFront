@@ -6,27 +6,28 @@ import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material"
 
 import AuthLayout from "../Layout/AuthLayout";
 import { useForm } from "../../../Hooks/useForm";
-import { checkingCredentials, login, logout } from "../../../redux/actions";
+import { login, logout } from "../../../redux/actions";
 import { registerUserWithEmailPassword } from "../../../Firebase/Providers";
 
-const formData = {
-  nombre: "",
-  apellido: "",
-  email: "",
-  password: "",
-};
+const formData = { nombre: "", apellido: "", email: "", password: "" };
 
 const formValidations = {
+
   nombre: [(value) => value.trim() !== "", "Este campo es obligatorio"],
+
   apellido: [(value) => value.trim() !== "", "Este campo es obligatorio"],
+
   email: [
     (value) => value.trim() !== "" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
     "El correo debe ser válido (debe ser un correo electrónico)",
   ],
+
   password: [
     (value) =>
       value.trim() !== "" &&
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/.test( value ),
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/.test(
+        value
+      ),
     "La contraseña debe tener al menos 6 caracteres y contener al menos una letra mayúscula, una minúscula, un número y un carácter especial",
   ],
 };
@@ -36,6 +37,10 @@ const RegisterPage = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  const [showMessage, setShowMessage] = useState(false);
+
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -50,23 +55,29 @@ const RegisterPage = () => {
   } = useForm(formData, formValidations);
 
   useEffect(() => {
-    if(status === "authenticated"){
+    if (status === "authenticated") {
       navigate("/");
     }
-  }, [ status ]);
+  }, [status]);
+
+  const handleClick = () => {
+    window.location.reload();
+  };
 
   const startCreatingUserWithEmailPassword = ({ email, password, nombre, apellido }) => {
+
     return async (dispatch) => {
-      dispatch(checkingCredentials());
 
       const displayName = `${nombre} ${apellido}`;
 
       const result = await registerUserWithEmailPassword({ email, password, displayName });
-      if (!result.ok) return dispatch(logout(result.errorMessage));
-      const resultCopia = {...result, nombre: nombre, apellido: apellido};
 
-      
+      if (!result.ok) return dispatch(logout(result.errorMessage));
+
+      const resultCopia = { ...result, nombre: nombre, apellido: apellido };
+
       dispatch(login(resultCopia));
+
       return result;
     };
   };
@@ -74,6 +85,7 @@ const RegisterPage = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitted(true);
+
     if (!isFormValid) return;
 
     const updatedFormState = {
@@ -82,24 +94,42 @@ const RegisterPage = () => {
     };
 
     dispatch(startCreatingUserWithEmailPassword(updatedFormState))
-    .then(async (result) => {
+    .then( async (result) => {
 
-      if (result.ok) {
+        if (result.ok) {
 
-        // Creando una copia de updatedFormState
-        const updatedFormStateCopia = { ...updatedFormState };
+          // Creando una copia de updatedFormState
+          const updatedFormStateCopia = { ...updatedFormState };
 
-        // Registro exitoso, actualiza el updatedFormStateCopia con el uid
-        updatedFormStateCopia.id = result.uid;
+          // Registro exitoso, actualiza el updatedFormStateCopia con el uid
+          updatedFormStateCopia.id = result.uid;
 
-        // Eliminando el displayName de updatedFormStateCopia
-        delete updatedFormStateCopia.displayName;
-        //envio correo
-        const sendEmail = {
-          email: updatedFormStateCopia.email,
-          asunto: "¡Bienvenido a Oasis Hotel - Tu hogar lejos de casa!",
-          nombre: result.displayName,
-          mensaje: `Estimado ${result.displayName},
+          // Eliminando el displayName de updatedFormStateCopia
+          delete updatedFormStateCopia.displayName;
+          delete updatedFormStateCopia.password;
+
+          //post BD usuario nuevo
+          try {
+            const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/users`, updatedFormStateCopia );
+            if (response.data) {
+              console.log("Usuario creado", response.data);
+              setShowMessage(true);
+              setShowConfirm(true);
+            }
+          } catch (error) {
+            console.error("Error sending data to backend:", error);
+            setShowMessage(false);
+            setShowConfirm(false);
+          }
+
+          //// -------------------------------------------------------------
+
+          //envio correo
+          const sendEmail = {
+            email: updatedFormStateCopia.email,
+            asunto: "¡Bienvenido a Oasis Hotel - Tu hogar lejos de casa!",
+            nombre: result.displayName,
+            mensaje: `Estimado ${result.displayName},
 
           En nombre de todo el equipo de Oasis Hotel, quiero darte la más cordial bienvenida a nuestra familia. Nos complace enormemente que hayas elegido Oasis Hotel como tu destino para alojarte y esperamos que tu experiencia aquí sea inolvidable.
           
@@ -122,27 +152,20 @@ const RegisterPage = () => {
           Oasis Hotel
           +54 9 343 344 6601
           hotel.oasis.adm@gmail.com
-          https://pffront40.onrender.com/`
-        };
+          https://pffront40.onrender.com/`,
+          };
 
-        try {
-          const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/email`, sendEmail );
-          if(response.data){window.alert("Correo electronico enviado con la confirmacion")}
-        } catch (error) {
-          console.error("Error sending email:", error);
-        }
-        //post BD usuario nuevo
-        try {
-          const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/users`, updatedFormStateCopia );
-          if (response.data) {
-            console.log("Usuario creado", response.data);
+          try {
+            const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/email`, sendEmail );
+            if (response.data) {
+              window.alert("Correo electronico enviado con la confirmacion");
+            }
+          } catch (error) {
+            console.error("Error sending email:", error);
           }
         }
-        catch (error) {
-          console.error("Error sending data to backend:", error);
-        }
       }
-    });
+    );
   };
 
   return (
@@ -215,6 +238,18 @@ const RegisterPage = () => {
               <Alert severity="error">{errorMessage}</Alert>
             </Grid>
 
+            <Grid
+              item
+              xs={12}
+              sx={{ mt: 0 }}
+              display={showMessage ? "" : "none"}
+            >
+              <Alert severity="info">
+                Se ha enviado un email de confirmación. Por favor confirma para
+                poder acceder.
+              </Alert>
+            </Grid>
+
             <Grid item xs={12}>
               <Button
                 sx={{
@@ -231,13 +266,29 @@ const RegisterPage = () => {
             </Grid>
           </Grid>
 
-          <Grid container direction="row" justifyContent="end">
-            <Typography color="#111E26" sx={{ mr: 1 }}>
-              ¿Ya tienes cuenta?
-            </Typography>
-            <Link component={RouterLink} color="#111E26" to="/login">
-              Ingresar
-            </Link>
+          <Grid container justifyContent="space-between" alignItems="center">
+
+            <Grid item>
+              <Typography color="#111E26">
+                ¿Ya tienes cuenta?{" "}
+                <Link component={RouterLink} color="#111E26" to="/login">
+                  Ingresar
+                </Link>
+              </Typography>
+            </Grid>
+
+            {showConfirm && (
+              <Grid item>
+                <Link
+                  component={RouterLink}
+                  color="#111E26"
+                  onClick={handleClick}
+                >
+                  He confirmado mi cuenta.
+                </Link>
+              </Grid>
+            )}
+
           </Grid>
         </Grid>
       </form>
