@@ -157,7 +157,8 @@ const SearchRoom = () => {
   }
   //---------MANEJO DE CARRITO-------------//
   const isProductInCart = (productId) => {
-    return roomsLocal.some((item) => item.id === productId);
+    //return roomsLocal.some((item) => item.id === productId);
+    return roomsLocal.find(room => room.id === productId);
   };
 
   const addReserve = (item) => {
