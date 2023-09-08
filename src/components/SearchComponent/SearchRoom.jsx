@@ -536,7 +536,7 @@ const SearchRoom = () => {
             {/* paginado */}
             <div className={styles.paginado}>
               {actualPage > 1 && (
-                <button onClick={() => paginator(actualPage - 1)}>
+                <button className="" onClick={() => paginator(actualPage - 1)}>
                   {" "}
                   prev{" "}
                 </button>

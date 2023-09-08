@@ -67,6 +67,7 @@ const Reservation = () => {
     };
     setReserve(newReserve);
   };
+  console.log("hola");
   function diasEntreFechas(fecha1, fecha2) {
     // Convierte las fechas de texto a objetos Date
     const date1 = new Date(fecha1);
