@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   updateProfile,
+  sendEmailVerification,
 } from "firebase/auth";
 import { FirebaseAuth } from "./Config";
 
@@ -57,20 +58,21 @@ export const registerUserWithEmailPassword = async ({ email, password, displayNa
       email,
       password
     );
-    const { uid, photoURL } = resp.user;
+    const user = resp.user;
+
+    await sendEmailVerification(user);
 
     await updateProfile(FirebaseAuth.currentUser, { displayName });
 
     return {
       ok: true,
-      uid,
+      uid: user.uid,
       displayName,
       email,
-      photoURL,
+      photoURL: user.photoURL,
     };
   }
   catch (error) {
-    // console.log(error);
     const errorMessage = "Este usuario ya se encuentra registrado.";
     return { ok: false, errorMessage };
   }
@@ -81,14 +83,13 @@ export const registerUserWithEmailPassword = async ({ email, password, displayNa
 export const loginWithEmailPassword = async ({ email, password }) => {
   try {
     const resp = await signInWithEmailAndPassword( FirebaseAuth, email, password );
-
-    const { uid, photoURL, displayName } = resp.user;
-
+    const { uid, photoURL, displayName, } = resp.user;
     return {
       ok: true,
       uid,
       photoURL,
       displayName,
+      email,
     };
   } catch (error) {
     const errorMessage = "Este usuario no existe.";

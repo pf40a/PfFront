@@ -6,7 +6,7 @@ import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material"
 
 import AuthLayout from "../Layout/AuthLayout";
 import { useForm } from "../../../Hooks/useForm";
-import { checkingCredentials, login, logout } from "../../../redux/actions";
+import { login, logout } from "../../../redux/actions";
 import { registerUserWithEmailPassword } from "../../../Firebase/Providers";
 
 const formData = {
@@ -26,46 +26,55 @@ const formValidations = {
   password: [
     (value) =>
       value.trim() !== "" &&
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/.test( value ),
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/.test(
+        value
+      ),
     "La contraseña debe tener al menos 6 caracteres y contener al menos una letra mayúscula, una minúscula, un número y un carácter especial",
   ],
 };
 
 const RegisterPage = () => {
-
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  const [showMessage, setShowMessage] = useState(false);
+
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const { status, errorMessage } = useSelector((state) => state.auth);
 
-  const isCheckingAuthentication = useMemo( () => status === "checking", [status] );
+  const isCheckingAuthentication = useMemo(
+    () => status === "checking",
+    [status]
+  );
 
-  const {
-    nombre, nombreValid, apellido, apellidoValid,
+  const { nombre, nombreValid, apellido, apellidoValid,
     email, emailValid, password, passwordValid,
     onInputChange, isFormValid, formState,
   } = useForm(formData, formValidations);
 
   useEffect(() => {
-    if(status === "authenticated"){
+    if (status === "authenticated") {
       navigate("/");
     }
-  }, [ status ]);
+  }, [status]);
+
+  const handleClick = () => {
+    window.location.reload();
+  };
 
   const startCreatingUserWithEmailPassword = ({ email, password, nombre, apellido }) => {
     return async (dispatch) => {
-      dispatch(checkingCredentials());
 
       const displayName = `${nombre} ${apellido}`;
 
       const result = await registerUserWithEmailPassword({ email, password, displayName });
       if (!result.ok) return dispatch(logout(result.errorMessage));
-      const resultCopia = {...result, nombre: nombre, apellido: apellido};
-      console.log(resultCopia);
-      
+      const resultCopia = { ...result, nombre: nombre, apellido: apellido };
+
       dispatch(login(resultCopia));
       return result;
     };
@@ -74,6 +83,7 @@ const RegisterPage = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitted(true);
+
     if (!isFormValid) return;
 
     const updatedFormState = {
@@ -81,31 +91,35 @@ const RegisterPage = () => {
       displayName: `${formState.nombre} ${formState.apellido}`,
     };
 
-    dispatch(startCreatingUserWithEmailPassword(updatedFormState))
-    .then(async (result) => {
+    dispatch(startCreatingUserWithEmailPassword(updatedFormState)).then(
+      async (result) => {
+        if (result.ok) {
+          // Creando una copia de updatedFormState
+          const updatedFormStateCopia = { ...updatedFormState };
 
-      if (result.ok) {
+          // Registro exitoso, actualiza el updatedFormStateCopia con el uid
+          updatedFormStateCopia.id = result.uid;
 
-        // Creando una copia de updatedFormState
-        const updatedFormStateCopia = { ...updatedFormState };
+          // Eliminando el displayName de updatedFormStateCopia
+          delete updatedFormStateCopia.displayName;
+          delete updatedFormStateCopia.password;
 
-        // Registro exitoso, actualiza el updatedFormStateCopia con el uid
-        updatedFormStateCopia.id = result.uid;
-
-        // Eliminando el displayName de updatedFormStateCopia
-        delete updatedFormStateCopia.displayName;
-
-        try {
-          const response = await axios.post( "http://localhost:3001/hotel/users", updatedFormStateCopia );
-          if (response.data) {
-            console.log("Usuario creado", response.data);
+          try {
+            const response = await axios.post( "http://localhost:3001/hotel/users", updatedFormStateCopia );
+            if (response.data) {
+              console.log("Usuario creado", response.data);
+              setShowMessage(true);
+              setTimeout(setShowConfirm(true), 10000);
+            }
+          } catch (error) {
+            console.error("Error sending data to backend:", error);
+            setShowConfirm(false);
           }
-        }
-        catch (error) {
-          console.error("Error sending data to backend:", error);
+        } else {
+          setShowConfirm(false);
         }
       }
-    });
+    );
   };
 
   return (
@@ -178,6 +192,13 @@ const RegisterPage = () => {
               <Alert severity="error">{errorMessage}</Alert>
             </Grid>
 
+            <Grid item xs={12} sx={{ mt: 0 }} display={showMessage ? "" : "none"} >
+              <Alert severity="info">
+                Se ha enviado un email de confirmación. Por favor confirma para
+                poder acceder.
+              </Alert>
+            </Grid>
+
             <Grid item xs={12}>
               <Button
                 sx={{
@@ -194,14 +215,27 @@ const RegisterPage = () => {
             </Grid>
           </Grid>
 
-          <Grid container direction="row" justifyContent="end">
-            <Typography color="#111E26" sx={{ mr: 1 }}>
-              ¿Ya tienes cuenta?
-            </Typography>
-            <Link component={RouterLink} color="#111E26" to="/login">
-              Ingresar
-            </Link>
+          <Grid container justifyContent="space-between" alignItems="center">
+
+            {showConfirm && (
+              <Grid item>
+                <Link component={RouterLink} color="#111E26" onClick={handleClick}>
+                  He confirmado mi cuenta.
+                </Link>
+              </Grid>
+            )}
+
+            <Grid item>
+              <Typography color="#111E26">
+                ¿Ya tienes cuenta?{" "}
+                <Link component={RouterLink} color="#111E26" to="/login">
+                  Ingresar
+                </Link>
+              </Typography>
+            </Grid>
+
           </Grid>
+
         </Grid>
       </form>
     </AuthLayout>

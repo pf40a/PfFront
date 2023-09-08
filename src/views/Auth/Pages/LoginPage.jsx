@@ -11,30 +11,31 @@ import { checkingCredentials, login, logout } from "../../../redux/actions";
 import { loginWithEmailPassword, singInWithGoogle } from "../../../Firebase/Providers";
 
 const LoginPage = () => {
-
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   const { status, errorMessage } = useSelector((state) => state.auth);
 
-  const { email, password, onInputChange } = useForm({ email: "", password: "" });
+  const { email, password, onInputChange } = useForm({
+    email: "",
+    password: "",
+  });
 
   const isAuthenticating = useMemo(() => status === "checking", [status]);
 
-  useEffect(()=>{
-    if(status === "authenticated"){
+  useEffect(() => {
+    if (status === "authenticated") {
       navigate("/");
     }
-  },[status]);
-  
+  }, [status]);
+
   // ----- Inicio con Google -----
 
   const startGoogleSignIn = () => {
     return async (dispatch) => {
       dispatch(checkingCredentials());
       const result = await singInWithGoogle();
-      console.log("result google: ", result);
       if (!result.ok) return dispatch(logout(result.errorMessage));
 
       dispatch(login(result));
@@ -43,11 +44,8 @@ const LoginPage = () => {
   };
 
   const onGoogleSignIn = () => {
-    dispatch(startGoogleSignIn())
-    .then(async (result) => {
-
+    dispatch(startGoogleSignIn()).then(async (result) => {
       if (result.ok) {
-
         // Creando una copia de updatedFormState
         const resultCopia = { ...result };
 
@@ -61,19 +59,15 @@ const LoginPage = () => {
           googleUser: true,
         };
 
-        // Registro exitoso, actualiza el updatedFormStateCopia con el uid
-        // updatedFormStateCopia.id = result.uid;
-
-        // Eliminando el displayName de updatedFormStateCopia
-        // delete updatedFormStateCopia.displayName;
-
         try {
-          const response = await axios.post( "http://localhost:3001/hotel/users", newResult );
+          const response = await axios.post(
+            "http://localhost:3001/hotel/users",
+            newResult
+          );
           if (response.data) {
             console.log("Usuario creado", response.data);
           }
-        }
-        catch (error) {
+        } catch (error) {
           console.error("Error sending data to backend:", error);
         }
       }
@@ -87,10 +81,8 @@ const LoginPage = () => {
       dispatch(checkingCredentials());
 
       const result = await loginWithEmailPassword({ email, password });
-      console.log("result login: ", result);
       if (!result.ok) return dispatch(logout(result.errorMessage));
       dispatch(login(result));
-      // return result;
     };
   };
 
@@ -131,7 +123,7 @@ const LoginPage = () => {
 
           <Grid container display={!!errorMessage ? "" : "none"} sx={{ mt: 1 }}>
             <Grid item xs={12}>
-             <Alert severity="error">{errorMessage}</Alert>
+              <Alert severity="error">{errorMessage}</Alert>
             </Grid>
           </Grid>
 
@@ -170,11 +162,20 @@ const LoginPage = () => {
             </Grid>
           </Grid>
 
-          <Grid container direction="row" justifyContent="end">
-            <Link component={RouterLink} color="#111E26" to="/register">
-              Crear una cuenta
-            </Link>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item>
+              <Link component={RouterLink} color="#111E26" to="/register">
+                Crear una cuenta
+              </Link>
+            </Grid>
+
+            <Grid item>
+              <Link component={RouterLink} color="#111E26" to="/recover">
+                Olvidé mi contraseña
+              </Link>
+            </Grid>
           </Grid>
+
         </Grid>
       </form>
     </AuthLayout>

@@ -1,15 +1,9 @@
-import { all } from "axios";
+import { FirebaseAuth } from "../Firebase/Config";
+
 import {
-  SEARCH_ROOMS,
-  DETAIL_ROOM,
-  FILTER_ROOMS,
-  ORDER_ROOMS,
-  TYPES_ROOMS,
-  FILTER_TYPES_ROOMS,
-  SAVE_PAGE,
-  LOGIN,
-  LOGOUT,
-  CHECKING_CREDENTIALS,
+  SEARCH_ROOMS, DETAIL_ROOM, FILTER_ROOMS, ORDER_ROOMS,
+  TYPES_ROOMS, FILTER_TYPES_ROOMS, SAVE_PAGE, LOGIN,
+  LOGOUT, CHECKING_CREDENTIALS,
 } from "./actions";
 
 const initialState = {
@@ -121,10 +115,13 @@ export default function rootReducer(state = initialState, action) {
 
     case LOGIN:
       const { displayName, nombre, apellido, photoURL } = action.payload;
+      // Verifica si el correo está confirmado
+      const isEmailVerified = FirebaseAuth.currentUser?.emailVerified || false;
       return {
         ...state,
         auth: {
-          status: "authenticated",
+          status: isEmailVerified ? "authenticated" : "Waiting for confirmation",
+          // status: "authenticated",
           uid: action.payload.uid,
           displayName: displayName || `${nombre} ${apellido}`,
           nombre: action.payload.nombre,
