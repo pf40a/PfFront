@@ -1,56 +1,94 @@
 import { AreaChart, Card, Flex, Grid, Metric, ProgressBar, Tab, TabGroup, TabList, TabPanel, TabPanels, Table, TableHead, Text, Title, TableRow, TableHeaderCell, TableBody, TableCell, Badge, Button, MultiSelect, MultiSelectItem, Select, SelectItem } from '@tremor/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector,  } from 'react-redux';
 import Detalle from './DashDetalle';
 import Form from './DashForm';
+import { GetUsers, PutUsers } from '../../redux/actions';
+import FormUser from './FormUser';
 
 
 function Usuarios(params) {
   const  {data} = params
+  const dispatch = useDispatch()
     const [selectedStatus, setSelectedStatus] = useState("all");
     const[selectedRole, setSelectedRole] = useState([])
     const [menuState, setMenuState] = useState({});
   
-    const [doc, setDoc] = useState("")//esto deberia guardar el documento
+    const [doc, setDoc] = useState("")//esto deberia guardar el id
+    const [admin, setAdmin] = useState(false)
+    const users = useSelector((state) => state.users);
     const toggleMenuForItem = (item) => {
       setMenuState((prevState) => ({
         ...prevState,
-        [item.name]: !prevState[item.name],
+        [item.nombre]: !prevState[item.nombre],
       }));
     };
     const handlerSelect = (select) => {
       return (
-        (select.status === selectedStatus || selectedStatus === "all") &&
-        (selectedRole.length === 0 || selectedRole.includes(select.Role))
+        (select.deleted === selectedStatus || selectedStatus === "all") &&
+        (selectedRole.length === 0 || selectedRole.includes(select.email)) 
+        
       );
+      
     }; 
-    const changeStatus = (status)=>{
-      //deberia hacer un borrado logico
-     
-    }
+    const changeSelect = (values) => {
+      // Filtra solo los valores seleccionados
+      const newSelectedRoles = values.filter((value) => value !== null);
+    
+      // Actualiza el estado con los valores seleccionados
+      setSelectedRole(newSelectedRoles);
+    };
     const [isOpenForm, setIsOpenForm] = useState(false);
     const [isOpenDetalle, setIsOpenDetalle] = useState(false);
-    const toggleMenuDetalle = (document) => {
+    const toggleMenuDetalle = (id) => {
       setIsOpenDetalle(!isOpenDetalle);
-      setDoc(document)
+      setDoc(id)
     };
-    const toggleMenuForm = (document) => {
+    const toggleMenuForm = (id, adm) => {
       setIsOpenForm(!isOpenForm);
-      setDoc(document)
+      setDoc(id)
+      setAdmin(adm)
     };
+    const handleDelete = async(docItem, deleteItem)=>{
+      let user = {}
+      if(deleteItem === true){
+        user.deleted = false
+      }else{
+        user.deleted = true
+      }
+      await dispatch(PutUsers(docItem, user))
+      await dispatch(GetUsers())
+    }
+    const PutForm = async(id, user)=>{
+      try{  
+        await dispatch(PutUsers(id, user))
+        dispatch(GetUsers());
+        setDoc("")
+    }catch(error){
+     console.error(error)
+    } 
+    }
+    useEffect(() => {
+      const fetchData = async () => {
+        await dispatch(GetUsers());
+      };
+      fetchData();
+    }, [dispatch]);
+
 return(
 
 <main className=""> 
 
 {isOpenForm && (
-    <div className=" z-50 bg-white p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto"> 
+    <div className=" z-50 bg-black p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto"> 
     
-      <Form estado={isOpenForm} cambiarEstado={setIsOpenForm} documento={doc}/>
+    <FormUser estado={isOpenForm} PutForm={PutForm} cambiarEstado={setIsOpenForm} documento={doc} admin={admin}/>
       </div>
   )}
   {isOpenDetalle && (
-    <div className=" z-50 bg-white p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto"> 
+    <div className=" z-50 bg-black p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto"> 
       
-      <Detalle estado={isOpenDetalle} cambiarEstado={setIsOpenDetalle} documento={doc}/>
+      <Detalle estado={isOpenDetalle} cambiarEstado={setIsOpenDetalle} id={doc}/>
       </div>
   )}
   <TabGroup className="mt-6 ">
@@ -63,16 +101,18 @@ return(
   <div className="flex space-x-2">
  <MultiSelect
  className="max-w-full sm:max-w-xs"
- onValueChange={setSelectedRole}
- placeholder="Select Role..."
+ onValueChange={changeSelect}
+ placeholder="Buscar email"
+ value={selectedRole}
  >
   {
-    data.map((item)=>{
+    users.map((item)=>{
       return(
-      <MultiSelectItem key={item.Role} value={item.Role}>
-      {item.Role}
+      <MultiSelectItem key={item.email} value={item.email}>
+      {item.email}
       </MultiSelectItem>)
     })
+    
   }
  </MultiSelect>
  <Select
@@ -81,8 +121,8 @@ return(
           onValueChange={setSelectedStatus}
         >
 <SelectItem value="all">All</SelectItem>
-<SelectItem value="active">Active</SelectItem>
-<SelectItem value="inactive">Inactive</SelectItem>
+<SelectItem value={false}>Active</SelectItem>
+<SelectItem value={true}>Inactive</SelectItem>
 
 </Select>          
   </div>
@@ -91,28 +131,28 @@ return(
 <Table>
 <TableHead>
 <TableRow>
-          <TableHeaderCell>Name</TableHeaderCell>
-          <TableHeaderCell>Position</TableHeaderCell>
-          <TableHeaderCell>Department</TableHeaderCell>
-          <TableHeaderCell>Status</TableHeaderCell>
+          <TableHeaderCell>Nombre</TableHeaderCell>
+          <TableHeaderCell>Apellido</TableHeaderCell>
+          <TableHeaderCell>Email</TableHeaderCell>
+          <TableHeaderCell>Estado</TableHeaderCell>
 </TableRow>
 </TableHead>
 <TableBody >
   
-{data.filter((item)=> handlerSelect(item))
+{users.filter((item)=> handlerSelect(item))
          .map((item) => (
-          <TableRow key={item.name}>
-            <TableCell>{item.name}</TableCell>
+          <TableRow key={item.email}>
+            <TableCell>{item.nombre}</TableCell>
             <TableCell>
-              <Text>{item.Role}</Text>
+              <Text>{item.apellido}</Text>
             </TableCell>
             <TableCell>
-              <Text>{item.departement}</Text>
+              <Text>{item.email}</Text>
             </TableCell>
             <TableCell>
-          <Button /*BORRADO LOGICO*/  color={item.status === 'active' ? 'emerald' : 'red'} className='flex-row'> 
+          <Button onClick={()=>handleDelete(item.id, item.deleted)} olor={item.deleted === false ? 'emerald' : 'red'} className='flex-row'> 
   <div className="flex items-center">
-    <div className="mr-2">{item.status}</div>
+    <div className="mr-2">{item.deleted === false ? "activo":"inactivo"}</div>
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
       <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
     </svg>
@@ -132,12 +172,12 @@ return(
 
 </div>
   </TableCell>           
-  {menuState[item.name] &&(
+  {menuState[item.nombre] &&(
   <TableCell> 
   <div className='bg-zinc-300 mt-2 -ml-10 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col h-13 w-13'
   >
-  <span onClick={() =>toggleMenuDetalle(item.name)} className='m-1'>Detalle</span>
-  <span onClick={() =>toggleMenuForm(item.name)} className='m-1'>Modificar</span>
+  <span onClick={() =>toggleMenuDetalle(item.id)} className='m-1'>Detalle</span>
+  <span onClick={() =>toggleMenuForm(item.id, item.admin)} className='m-1'>Modificar</span>
   </div>
   </TableCell>
   )

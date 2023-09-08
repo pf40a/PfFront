@@ -21,7 +21,7 @@ const Review = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/hotel/users/");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/users/`);
 
         const users = response.data.data;
 
@@ -55,7 +55,7 @@ const Review = () => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/hotel/reviews/"
+          `${import.meta.env.VITE_API_URL}/hotel/reviews/`
         );
         const reviewsData = response.data.data;
 
@@ -74,7 +74,7 @@ const Review = () => {
       return;
     }
     try {
-      await axios.post("http://localhost:3001/hotel/reviews", {
+      await axios.post(`${import.meta.env.VITE_API_URL}/hotel/reviews`, {
         UsuarioId: reviewId,
         rating: review.rating,
         comentario: review.comment,
@@ -89,7 +89,7 @@ const Review = () => {
     const pedido = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/hotel/reviews/"
+          `${import.meta.env.VITE_API_URL}/hotel/reviews/`
         );
         const reviewsData = response.data.data;
         setReviews(reviewsData);

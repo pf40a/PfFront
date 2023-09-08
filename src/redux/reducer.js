@@ -1,5 +1,8 @@
-import { all } from "axios";
+import { FirebaseAuth } from "../Firebase/Config";
+
 import {
+  PUT_CLIENTES,
+  GET_CLIENTES,
   SEARCH_ROOMS,
   DETAIL_ROOM,
   FILTER_ROOMS,
@@ -10,14 +13,18 @@ import {
   LOGIN,
   LOGOUT,
   CHECKING_CREDENTIALS,
+  PUT_USERS,
+  GET_USERS
 } from "./actions";
 
 const initialState = {
+  users:[],
+  clientes: [],
   rooms: [],
   allRooms: [],
   room: {},
   filters: [],
-  order: "",
+  order: "Capacidad",
   typesRooms: [],
   allTypesRooms: [],
   page: 1,
@@ -37,13 +44,86 @@ const initialState = {
   },
 };
 
+
+function ordenar(array,order){
+  let roomsOrder = array
+  let newRoomsOrder = []
+  if (order === "Precio Menor") {
+        
+    newRoomsOrder = roomsOrder.sort(function(a, b) {
+return a.precio - b.precio;
+});
+
+  }else if (order === "Precio Mayor") {
+    
+    newRoomsOrder = roomsOrder.sort(function(a, b) {
+return b.precio - a.precio;
+});
+
+  }else if (order === "Capacidad") {
+    
+    newRoomsOrder = roomsOrder.sort(function(a, b) {
+return b.capacidad - a.capacidad;
+});
+
+  } else if (order === "Name") {
+    newRoomsOrder = roomsOrder.sort((a, b) => {
+      if (a[order] < b[order]) {
+        return -1;
+      }
+      if (a[order] > b[order]) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+  //
+  return newRoomsOrder;
+}
+
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
-    ///
-    case SEARCH_ROOMS:
+    
+    
+    case PUT_USERS:
+  const updatedUserIndex = state.users.findIndex((u) => u.id === action.payload.id);
+  const updatedUsers = [...state.users];
+  updatedUsers[updatedUserIndex] = action.payload;
+  return {
+    ...state,
+    users: updatedUsers,
+  };
+    case GET_USERS:
       return {
         ...state,
-        rooms: [...action.payload],
+        users: [...action.payload]
+      };
+
+    case PUT_CLIENTES:
+     const updatedClientIndex = state.clientes.findIndex((client) => client.doc_Identidad === action.payload.doc_Identidad);
+  // Crea una copia del array de clientes actual y reemplaza el cliente modificado en el índice correspondiente
+  const updatedClientes = [...state.clientes];
+  updatedClientes[updatedClientIndex] = action.payload;
+  return {
+    ...state,
+    clientes: updatedClientes,
+  };
+    case GET_CLIENTES:
+      return {
+        ...state,
+        clientes: [...action.payload]
+      };
+    case SEARCH_ROOMS:
+     let newRoomsSearch = [...action.payload ]
+      //se aplican los filtros
+     newRoomsSearch = action.payload.filter((room) =>
+     state.filters.every((filtroItem) => room.caracteristica.includes(filtroItem))
+      ); 
+      let newRoomsSearchOrder = ordenar(newRoomsSearch,state.order)  
+           
+      return {
+        ...state,
+        rooms: [...newRoomsSearchOrder],
         allRooms: [...action.payload],
       };
 
@@ -61,6 +141,8 @@ export default function rootReducer(state = initialState, action) {
       const newRooms = roomsFilter.filter((room) =>
         filter.every((filtroItem) => room.caracteristica.includes(filtroItem))
       );
+      console.log('filtro:',filter);
+      console.log('Resultado:',newRooms);
       return {
         ...state,
         rooms: [...newRooms],
@@ -70,36 +152,7 @@ export default function rootReducer(state = initialState, action) {
     case ORDER_ROOMS:
       const roomsOrder = [...state.allRooms];
       const order = action.payload;
-      let newRoomsOrder = [];
-      if (order === "Precio Menor") {
-        
-        newRoomsOrder = roomsOrder.sort(function(a, b) {
-  return a.precio - b.precio;
-});
-
-      }else if (order === "Precio Mayor") {
-        
-        newRoomsOrder = roomsOrder.sort(function(a, b) {
-  return b.precio - a.precio;
-});
-
-      }else if (order === "Capacidad") {
-        
-        newRoomsOrder = roomsOrder.sort(function(a, b) {
-  return b.capacidad - a.capacidad;
-});
-
-      } else if (order === "Name") {
-        newRoomsOrder = roomsOrder.sort((a, b) => {
-          if (a[order] < b[order]) {
-            return -1;
-          }
-          if (a[order] > b[order]) {
-            return 1;
-          }
-          return 0;
-        });
-      }
+      let newRoomsOrder = ordenar(roomsOrder,order)
       return {
         ...state,
         rooms: [...newRoomsOrder],
@@ -137,10 +190,13 @@ export default function rootReducer(state = initialState, action) {
 
     case LOGIN:
       const { displayName, nombre, apellido, photoURL } = action.payload;
+      // Verifica si el correo está confirmado
+      const isEmailVerified = FirebaseAuth.currentUser?.emailVerified || false;
       return {
         ...state,
         auth: {
-          status: "authenticated",
+          status: isEmailVerified ? "authenticated" : "Waiting for confirmation",
+          // status: "authenticated",
           uid: action.payload.uid,
           displayName: displayName || `${nombre} ${apellido}`,
           nombre: action.payload.nombre,
