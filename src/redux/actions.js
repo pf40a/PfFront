@@ -9,12 +9,46 @@ export const GET_CLIENTES = "GET_CLIENTES"
 export const PUT_CLIENTES = "PUT_CLIENTES"
 export const GET_USERS = "GET_USERS"
 export const PUT_USERS = "PUT_USERS"
+export const GET_HABITACIONES = "GET_HABITACIONES"
+export const PUT_HABITACIONES = "PUT_HABITACIONES"
+export const PUT_HABITACIONES_DETAIL = "PUT_HABITACIONES_DETAIL"
 //  Authentication
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const CHECKING_CREDENTIALS = "CHECKING_CREDENTIALS";
 
 import axios from "axios";
+
+export const GetHabitaciones = ()=>{
+  return async(dispatch)=>{
+  let response = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones`)
+  dispatch({
+   type: GET_HABITACIONES,
+   payload: response.data.data   
+  }) 
+  }
+}
+export const PutHabitacionDetail = (id, habitacion)=>{
+  return async(dispatch)=>{
+  let response = await axios.put(`${import.meta.env.VITE_API_URL}/hotel/habitacion/detalle/put/${id}`, habitacion)
+  dispatch({
+   type: PUT_HABITACIONES_DETAIL,
+   payload: response.data.data   
+  }) 
+  }
+}
+
+export const PutHabitacion = (id, habitacion)=>{
+  return async(dispatch)=>{
+  let response = await axios.put(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/put/${id}`, habitacion)
+  dispatch({
+   type: PUT_HABITACIONES,
+   payload: response.data.data   
+  }) 
+  }
+}
+
+
 
 export const PutUsers = (id, user)=>{
   return async(dispatch)=>{

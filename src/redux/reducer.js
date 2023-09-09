@@ -14,10 +14,14 @@ import {
   LOGOUT,
   CHECKING_CREDENTIALS,
   PUT_USERS,
-  GET_USERS
+  GET_USERS,
+  GET_HABITACIONES,
+  PUT_HABITACIONES,
+  PUT_HABITACIONES_DETAIL
 } from "./actions";
 
 const initialState = {
+  habitaciones: [],
   users:[],
   clientes: [],
   rooms: [],
@@ -83,8 +87,28 @@ return b.capacidad - a.capacidad;
 
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_HABITACIONES:
+      return {
+        ...state,
+        habitaciones: [...action.payload]
+      };
     
-    
+      case PUT_HABITACIONES:
+        const updatedHabIndex = state.habitaciones.findIndex((h) => h.id === action.payload.id);
+        const updatedHabs = [...state.habitaciones];
+        updatedHabs[updatedHabIndex] = action.payload;
+        return {
+          ...state,
+          habitaciones: updatedHabs,
+        };
+        case PUT_HABITACIONES_DETAIL:
+          const updatedHabDetIndex = state.allRooms.findIndex((h) => h.id === action.payload.id);
+          const updatedHabsDet = [...state.allRooms];
+          updatedHabsDet[updatedHabDetIndex] = action.payload;
+          return {
+            ...state,
+            allRooms: updatedHabsDet,
+          };
     case PUT_USERS:
   const updatedUserIndex = state.users.findIndex((u) => u.id === action.payload.id);
   const updatedUsers = [...state.users];

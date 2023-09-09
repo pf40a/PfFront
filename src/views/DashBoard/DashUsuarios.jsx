@@ -150,7 +150,7 @@ return(
               <Text>{item.email}</Text>
             </TableCell>
             <TableCell>
-          <Button onClick={()=>handleDelete(item.id, item.deleted)} olor={item.deleted === false ? 'emerald' : 'red'} className='flex-row'> 
+          <Button onClick={()=>handleDelete(item.id, item.deleted)} color={item.deleted === false ? 'emerald' : 'red'} className='flex-row'> 
   <div className="flex items-center">
     <div className="mr-2">{item.deleted === false ? "activo":"inactivo"}</div>
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

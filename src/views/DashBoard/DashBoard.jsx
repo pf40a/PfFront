@@ -19,7 +19,7 @@ const dispatch = useDispatch()
   const toggleMenuForItem = (item) => {
     setMenuState((prevState) => ({
       ...prevState,
-      [item.nombre]: !prevState[item.nombre],
+      [item.doc_Identidad]: !prevState[item.doc_Identidad],
     }));
   };
   const changeSection = (newSection) => {
@@ -200,7 +200,7 @@ const roles = new Set(data.filter(r => r.Role))
             <a
             onClick={() => changeSection('dashboard')}
               href="#"
-              className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out"
+              className=" pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out "
             >
               <svg
                 className="w-6 h-6 fill-current inline-block"
@@ -217,7 +217,7 @@ const roles = new Set(data.filter(r => r.Role))
             <a
               href="#"
               onClick={() => changeSection('clientes')}
-              className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
+              className="pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
             >
               <svg
                 className="w-6 h-6 fill-current inline-block"
@@ -235,7 +235,7 @@ const roles = new Set(data.filter(r => r.Role))
             <a
         href="#"
         onClick={() => changeSection('usuarios')}
-        className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
+        className="  pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
       >
         <svg
           className="w-6 h-6 fill-current inline-block mr-2"
@@ -255,7 +255,7 @@ const roles = new Set(data.filter(r => r.Role))
       <a
         href="#"
         onClick={() => changeSection('habitaciones')}
-        className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
+        className=" pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
       >
         <svg
           className="w-6 h-6 fill-current inline-block mr-2"
@@ -275,7 +275,7 @@ const roles = new Set(data.filter(r => r.Role))
       <a
         href="#"
         onClick={() => changeSection('reservas')}
-        className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
+        className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center pt-4"
       >
         <svg
           className="w-6 h-6 fill-current inline-block mr-2"
@@ -291,57 +291,7 @@ const roles = new Set(data.filter(r => r.Role))
         </svg>
         <span>Reservas</span>
       </a>
-      <a
-        href="#"
-        onClick={() => changeSection('')}
-        className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
-      >
-        <svg
-          className="w-6 h-6 fill-current inline-block mr-2"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-            clipRule="evenodd"
-          ></path>
-        </svg>
-        <span>Usuarios</span>
-      </a>
-      <a
-        href="#"
-        className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
-      >
-        <svg
-          className="w-6 h-6 fill-current inline-block mr-2"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012 2h2a2 2 0 012-2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"
-          ></path>
-        </svg>
-        <span>UI Components</span>
-      </a>
-      <a
-        href="#"
-        className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
-      >
-        <svg
-          className="w-6 h-6 fill-current inline-block mr-2"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"
-          ></path>
-        </svg>
-        <span>Users</span>
-      </a>
+
           </div>
         </div>
       </div>
@@ -482,7 +432,7 @@ section === "clientes" && (
   </div>
 <Card >
 <Title>Lista de clientes</Title>
-<Table>
+<Table className='h-[60vh]'>
 <TableHead>
 <TableRow>
           <TableHeaderCell>Nombre</TableHeaderCell>
@@ -526,7 +476,7 @@ section === "clientes" && (
 
 </div>
   </TableCell>           
-  {menuState[item.nombre] &&(
+  {menuState[item.doc_Identidad] &&(
   <TableCell> 
   <div className='bg-zinc-300 mt-2 -ml-10 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col h-13 w-13'
   >
