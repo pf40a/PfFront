@@ -117,6 +117,7 @@ newFiltros=[...filtros, opcion];
         setFiltros(newFiltros);
         dispatch(filterRoom(newFiltros))
       }
+      paginator(1)
     };
   //console.log('filtros:',filtros)
 
@@ -134,7 +135,7 @@ newFiltros=[...filtros, opcion];
 
   const addToCart = (item) => {
     setSelectedRoom(item);
-  };
+    };
 
   const showCart = () => {
     setCartShow(true);
@@ -171,7 +172,10 @@ newFiltros=[...filtros, opcion];
       increaseQuantity(item.id)
       // Producto ya en el carrito, puedes mostrar un mensaje de error o realizar otra acción.
     }
+    showCart()
   };
+
+
   useEffect(() => {
     const storedRooms = JSON.parse(localStorage.getItem("rooms")) || [];
     setRoomReserve(storedRooms);
