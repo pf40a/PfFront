@@ -1,6 +1,7 @@
 import React, { useEffect , useState } from 'react'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux';
+import {IconSquareRoundedXFilled} from '@tabler/icons-react'
 
 const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacidad, image }) => {
   const [roomData, setRoomData] = useState({});
@@ -8,7 +9,10 @@ const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacida
 
   return (
     <div id={id} className="bg-white mx-auto max-w-sm border border-gray-300 rounded-lg overflow-hidden">
-      <button className="border-red right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8" onClick={close}>X</button>
+      <div class="text-right pr-2">
+      <button className="border-red right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8" onClick={close}><IconSquareRoundedXFilled /></button>  
+      </div>
+      
       <img src={image} alt={`Imagen de ${tipo_Habitacion}`} />
 
       <div className="flex flex-col items-center p-6">
@@ -33,7 +37,7 @@ const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacida
         </div>
 
         <div className="flex  mt-2 items-center">
-          {Array(5)
+          {/* {Array(5)
             .fill('')
             .map((_, i) => (
               <svg
@@ -46,16 +50,17 @@ const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacida
               >
                 <path d="M10 1l2.39 5.44h5.61l-4.33 3.98 1.3 5.4L10 13.36l-5.97 4.46 1.3-5.4L2 6.44h5.61L10 1z" />
               </svg>
-            ))}
+            ))} */}
           <span className="ml-2 text-gray-600 text-sm">
             {/* Esto también parece ser información adicional */}
           </span>
         </div>
 
         {/* Agregar el botón de pago */}
-        <button className="mt-4 bg-teal-500 text-white py-2 px-4 rounded-lg hover:bg-teal-600">
+        {/* <button className="mt-4 bg-teal-500 text-white py-2 px-4 rounded-lg hover:bg-teal-600">
           Pagar
-        </button>
+        </button> */}
+
       </div>
     </div>
   );

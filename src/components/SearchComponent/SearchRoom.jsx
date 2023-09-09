@@ -8,6 +8,7 @@ import { Fragment } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import styles from "./SearchRoom.module.css";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import {IconChevronsRight,IconChevronsLeft } from '@tabler/icons-react'
 import {
   ChevronDownIcon,
   FunnelIcon,
@@ -116,6 +117,7 @@ newFiltros=[...filtros, opcion];
         setFiltros(newFiltros);
         dispatch(filterRoom(newFiltros))
       }
+      paginator(1)
     };
   //console.log('filtros:',filtros)
 
@@ -126,13 +128,14 @@ newFiltros=[...filtros, opcion];
   };
 
   const roomsRedux = useSelector((state) => state.rooms);
+  const allRoomsRedux = useSelector((state) => state.allRooms);
   //Rooms LocalStorage :
   //añadir habitacion
 
 
   const addToCart = (item) => {
     setSelectedRoom(item);
-  };
+    };
 
   const showCart = () => {
     setCartShow(true);
@@ -149,7 +152,7 @@ newFiltros=[...filtros, opcion];
   }
   //
 
-  let roomsLocal;
+  let roomsLocal=[];
   if (getLocalStorage("rooms")) {
     roomsLocal = getLocalStorage("rooms");
   }
@@ -169,7 +172,10 @@ newFiltros=[...filtros, opcion];
       increaseQuantity(item.id)
       // Producto ya en el carrito, puedes mostrar un mensaje de error o realizar otra acción.
     }
+    showCart()
   };
+
+
   useEffect(() => {
     const storedRooms = JSON.parse(localStorage.getItem("rooms")) || [];
     setRoomReserve(storedRooms);
@@ -260,10 +266,8 @@ newFiltros=[...filtros, opcion];
       //console.log("qq", nowPage);
     }
 
-    // if (filtros.length > 0) dispatch(filterRoom(filtros));
-    // if (filterOrder != "") dispatch(orderRoom(filterOrder));
-  //alert('x')
-  })
+    
+  },[roomsRedux])
 
 
   return (
@@ -395,7 +399,7 @@ newFiltros=[...filtros, opcion];
           </Transition.Root>
 
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex mt-10">
+            <div className="flex mt-10 md:mt-20">
               <SearchBox />
             </div>
             <div className="flex flex-col md:flex-row items-center md:items-baseline justify-between border-b border-gray-200 pb-6 pt-8 md:pt-24 ">
@@ -521,10 +525,13 @@ newFiltros=[...filtros, opcion];
 
             {/* paginado */}
             <div className={styles.paginado}>
-              {actualPage > 1 && (
-                <button onClick={() => paginator(actualPage - 1)}>
-                  {" "}
-                  prev{" "}
+              {actualPage > 1? (
+                <button onClick={() => paginator(actualPage - 1)} className="">
+                  prev
+                </button>
+              ) : (btnPaginator?.length > 1 && 
+                <button className="text-gray-400">
+                  prev
                 </button>
               )}
 
@@ -537,10 +544,13 @@ newFiltros=[...filtros, opcion];
                   >{`${numeroPag}`}</button>
                 ))}
 
-              {btnPaginator?.length > 1 && actualPage < btnPaginator.length && (
+              {actualPage < btnPaginator.length? (
                 <button onClick={() => paginator(actualPage + 1)}>
-                  {" "}
-                  next{" "}
+                  next
+                </button>
+              ) : (btnPaginator?.length > 1 && 
+                <button className="text-gray-400" >
+                  next
                 </button>
               )}
             </div>
@@ -612,31 +622,35 @@ newFiltros=[...filtros, opcion];
 
               {/* paginado */}
               <div className={`${styles.paginado} mt-4`}>
-                {actualPage > 1 && (
-                  <button onClick={() => paginator(actualPage - 1)}>
-                    {" "}
-                    prev{" "}
-                  </button>
-                )}
-                {btnPaginator?.length > 1 &&
-                  btnPaginator?.map((numeroPag, i) => (
-                    <button
-                      className={
-                        actualPage === numeroPag ? styles.active : null
-                      }
-                      key={i}
-                      onClick={() => paginator(numeroPag)}
-                    >{`${numeroPag}`}</button>
-                  ))}
+              {actualPage > 1? (
+                <button onClick={() => paginator(actualPage - 1)}>
+                  prev
+                </button>
+              ) : (btnPaginator?.length > 1 && 
+                <button className="text-gray-400">
+                  prev
+                </button>
+              )}
 
-                {btnPaginator?.length > 1 &&
-                  actualPage < btnPaginator.length && (
-                    <button onClick={() => paginator(actualPage + 1)}>
-                      {" "}
-                      next{" "}
-                    </button>
-                  )}
-              </div>
+              {btnPaginator?.length > 1 &&
+                btnPaginator?.map((numeroPag, i) => (
+                  <button
+                    className={actualPage === numeroPag ? styles.active : null}
+                    key={i}
+                    onClick={() => paginator(numeroPag)}
+                  >{`${numeroPag}`}</button>
+                ))}
+
+              {actualPage < btnPaginator.length? (
+                <button onClick={() => paginator(actualPage + 1)}>
+                  next
+                </button>
+              ) : (btnPaginator?.length > 1 && 
+                <button className="text-gray-400" >
+                  next
+                </button>
+              )}
+            </div>
               {/* Fin paginado */}
             </section>
           </main>
