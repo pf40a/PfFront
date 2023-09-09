@@ -8,6 +8,7 @@ import { Fragment } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import styles from "./SearchRoom.module.css";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import {IconChevronsRight,IconChevronsLeft } from '@tabler/icons-react'
 import {
   ChevronDownIcon,
   FunnelIcon,
@@ -394,7 +395,7 @@ newFiltros=[...filtros, opcion];
           </Transition.Root>
 
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex mt-10">
+            <div className="flex mt-10 md:mt-20">
               <SearchBox />
             </div>
             <div className="flex flex-col md:flex-row items-center md:items-baseline justify-between border-b border-gray-200 pb-6 pt-8 md:pt-24 ">
@@ -521,7 +522,7 @@ newFiltros=[...filtros, opcion];
             {/* paginado */}
             <div className={styles.paginado}>
               {actualPage > 1? (
-                <button onClick={() => paginator(actualPage - 1)}>
+                <button onClick={() => paginator(actualPage - 1)} className="">
                   prev
                 </button>
               ) : (btnPaginator?.length > 1 && 
