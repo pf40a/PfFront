@@ -171,7 +171,9 @@ newFiltros=[...filtros, opcion];
       increaseQuantity(item.id)
       // Producto ya en el carrito, puedes mostrar un mensaje de error o realizar otra acción.
     }
+    showCart()
   };
+
   useEffect(() => {
     const storedRooms = JSON.parse(localStorage.getItem("rooms")) || [];
     setRoomReserve(storedRooms);
