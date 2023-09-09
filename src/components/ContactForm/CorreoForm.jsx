@@ -118,7 +118,7 @@ function CorreoForm() {
             type="button"
             onClick={handleEnviarCorreo}
           >
-            Recibir correo
+            Enviar correo
           </button>
         </form>
       </div>
