@@ -24,6 +24,7 @@ const MercadoPago = ({
   dias,
 }) => {
   const nameDb = useSelector((state) => state.auth.displayName);
+  const emailUser = useSelector((state) => state.auth.email);
   const [preferenceId, setPreferenceId] = useState(null);
   initMercadoPago("TEST-3aa1ff4a-f517-4dcf-8fb3-15640d67a3d3");
   let roomsLocal;
@@ -146,7 +147,7 @@ const MercadoPago = ({
   const handleBuy = async () => {
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/hotel/email`, {
-        email: "nicovillagra123@gmail.com",
+        email: `${emailUser}`,
         asunto: "Confirmación de Pago Exitoso en Oasis Hotel",
         mensaje: `Estimado/a ${nameDb},
 
