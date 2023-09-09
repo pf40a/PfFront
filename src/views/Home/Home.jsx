@@ -28,9 +28,12 @@ const Home = () => {
         className="w-full h-96 flex items-center justify-center"
         style={{ height: "40rem" }}
       >
-        <h2 className="absolute text-7xl bg-gradient-to-r from-blue-500 via-orange-500 to-green-500 text-transparent bg-clip-text stroke-black-500 ">
+        <div className="absolute bg-black/60 h-96 w-full  flex items-center justify-center" style={{height:"40rem"}}>
+        <h2 className="text-7xl bg-gradient-to-r from-blue-500 via-orange-500 to-green-500 text-transparent bg-clip-text stroke-black-500 ">
           Oasis Hotel
         </h2>
+        </div>
+
         <img
           src="https://images.unsplash.com/photo-1587213811864-46e59f6873b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
           alt=""

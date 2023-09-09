@@ -157,7 +157,7 @@ const Reservation = () => {
     <>
     <div>
       {showReserveForm && (
-        <div className="border-b border-gray-900/10 p-10 pb-12">
+        <div className="border-b border-gray-900/10 p-10 pb-12 mt-10">
         <h2 className="text-4xl   font-semibold leading-7 text-gray-900">
           Informacion del Titular de la reserva
         </h2>
@@ -413,6 +413,51 @@ const Reservation = () => {
               />
             </div>
           </div>
+          <div className="sm:col-span-2">
+            <label
+              htmlFor="region"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Fecha de ingreso
+            </label>
+            <div className="mt-2">
+              <input
+                type="date"
+                name="ingreso"
+                id="ingreso"
+                value={localStorageRoom.fechaIn}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          <div className="sm:col-span-2">
+            <label
+              htmlFor="region"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Fecha de egreso
+            </label>
+            <div className="mt-2">
+              <input
+                type="date"
+                name="egreso"
+                id="egreso"
+                value={localStorageRoom.fechaOut}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          <div>
+            <h1 className="text-2xl font-semibold mb-4">Agrega personas</h1>
+            <div className="flex gap-4">
+              <PersonInput label="Adultos" onChange={handleAdultsChange} value={localStorageRoom.adultos} />
+              <PersonInput label="Niños" onChange={handleChildrenChange} value={localStorageRoom.niños} />
+            </div>
+          </div>
+
+
           <div className=" sm:col-span-6 mt-2" style={{ margin: "auto" }}>
             <button
               className=" mx-auto rounded-lg w-60 bg-[#152430] text-white py-2 px-4  "
@@ -429,11 +474,6 @@ const Reservation = () => {
     <div>
   {showMercadoPago && (
     <div>
-      <button onClick={toBackReserve} className="bg-blue-500  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-        </svg>
-      </button>
       <MercadoPago
         nombre={reserve.firstName}
         apellido={reserve.lastName}
