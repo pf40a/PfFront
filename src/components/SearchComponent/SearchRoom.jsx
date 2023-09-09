@@ -8,6 +8,7 @@ import { Fragment } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import styles from "./SearchRoom.module.css";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import {IconChevronsRight,IconChevronsLeft } from '@tabler/icons-react'
 import {
   ChevronDownIcon,
   FunnelIcon,
@@ -102,21 +103,22 @@ const SearchRoom = () => {
   ];
   const [filtros, setFiltros] = useState([]);
   // Función para manejar la selección/deselección de una opción
-  const handleFiltros = (opcion) => {
-    //alert(opcion)
-    let newFiltros = [];
-    if (filtros.includes(opcion)) {
-      // Si la opción ya está seleccionada, la eliminamos
-      newFiltros = filtros.filter((item) => item !== opcion);
-      setFiltros(newFiltros);
-      dispatch(filterRoom(newFiltros));
-    } else {
-      // Si la opción no está seleccionada, la agregamos
-      newFiltros = [...filtros, opcion];
-      setFiltros(newFiltros);
-      dispatch(filterRoom(newFiltros));
-    }
-  };
+    const handleFiltros = (opcion) => {
+      //alert(opcion)
+      let newFiltros = [];
+      if (filtros.includes(opcion)) {
+        // Si la opción ya está seleccionada, la eliminamos
+        newFiltros=filtros.filter(item => item !== opcion)
+        setFiltros(newFiltros);
+        dispatch(filterRoom(newFiltros))
+      } else {
+        // Si la opción no está seleccionada, la agregamos
+newFiltros=[...filtros, opcion];
+        setFiltros(newFiltros);
+        dispatch(filterRoom(newFiltros))
+      }
+      paginator(1)
+    };
   //console.log('filtros:',filtros)
 
   const [order, setOrder] = useState("Capacidad");
@@ -130,9 +132,10 @@ const SearchRoom = () => {
   //Rooms LocalStorage :
   //añadir habitacion
 
+
   const addToCart = (item) => {
     setSelectedRoom(item);
-  };
+    };
 
   const showCart = () => {
     setCartShow(true);
@@ -149,7 +152,7 @@ const SearchRoom = () => {
   }
   //
 
-  let roomsLocal;
+  let roomsLocal=[];
   if (getLocalStorage("rooms")) {
     roomsLocal = getLocalStorage("rooms");
   }
@@ -161,19 +164,17 @@ const SearchRoom = () => {
   const addReserve = (item) => {
     if (!isProductInCart(item.id)) {
       // Si el producto no está en el carrito, agrégalo
-      const newItem = {
-        ...item,
-        precio: item.precio * diasEntreFechas(search.fechaIn, search.fechaOut),
-        quantity: 1,
-      };
+      const newItem = { ...item,precio:item.precio * diasEntreFechas(search.fechaIn,search.fechaOut) ,quantity: 1 };
       setRoomReserve([...roomReserve, newItem]);
       localStorage.setItem("rooms", JSON.stringify([...roomReserve, newItem]));
+
     } else {
-      increaseQuantity(item.id);
+      increaseQuantity(item.id)
       // Producto ya en el carrito, puedes mostrar un mensaje de error o realizar otra acción.
     }
     showCart()
   };
+
 
   useEffect(() => {
     const storedRooms = JSON.parse(localStorage.getItem("rooms")) || [];
@@ -199,11 +200,12 @@ const SearchRoom = () => {
       }
       return item;
     });
-
+  
     setRoomReserve(updatedReserve);
     localStorage.setItem("rooms", JSON.stringify(updatedReserve));
   };
 
+  
   const decreaseQuantity = (itemId) => {
     const updatedReserve = roomReserve.map((item) => {
       if (item.id === itemId && item.quantity > 1) {
@@ -214,12 +216,14 @@ const SearchRoom = () => {
       }
       return item;
     });
-
+  
     setRoomReserve(updatedReserve);
     localStorage.setItem("rooms", JSON.stringify(updatedReserve));
   };
-
+  
+  console.log(roomsLocal);
   //---------PARA QUE NO SE AGREGUE UNA CARD REPETIDO-------------//
+
 
   ///Paginado - Filtros - Orden
   const roomsPerPage = 4;
@@ -227,7 +231,10 @@ const SearchRoom = () => {
   //
   let nowPage = useSelector((store) => store.page);
   const [roomsPage, setRoomsPage] = useState([]); //listado-paginado
-  const [actualPage, setActualPage] = useState(nowPage);
+  const [actualPage, setActualPage] = useState(1);
+  //
+  const [filter, setFilter] = useState("");
+  const [filterOrder, setFilterOrder] = useState("");
   //
   let [btnPaginator, setBtnPaginator] = useState([]); ///botones paginado
 
@@ -236,7 +243,7 @@ const SearchRoom = () => {
     const init = (pag - 1) * roomsPerPage;
     const end = init + roomsPerPage;
     setRoomsPage(roomsRedux?.slice(init, end));
-
+    
     window.scrollTo({
       top: 0,
       behavior: "smooth", // Hace que el desplazamiento sea suave
@@ -258,14 +265,10 @@ const SearchRoom = () => {
       paginator(nowPage);
       //console.log("qq", nowPage);
     }
-  }, [roomsRedux]);
 
-  /* useEffect(() => {
-    paginator(1);
-    if (filtros?.length > 0) dispatch(filterRoom(filtros));
-    if (filterOrder != "") dispatch(orderRoom(filterOrder));
-    //alert('x')
-  }, [allRoomsRedux]); */
+    
+  },[roomsRedux])
+
 
   return (
     <>
@@ -396,7 +399,7 @@ const SearchRoom = () => {
           </Transition.Root>
 
           <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex mt-10">
+            <div className="flex mt-10 md:mt-20">
               <SearchBox />
             </div>
             <div className="flex flex-col md:flex-row items-center md:items-baseline justify-between border-b border-gray-200 pb-6 pt-8 md:pt-24 ">
@@ -522,10 +525,13 @@ const SearchRoom = () => {
 
             {/* paginado */}
             <div className={styles.paginado}>
-              {actualPage > 1 && (
-                <button onClick={() => paginator(actualPage - 1)}>
-                  {" "}
-                  prev{" "}
+              {actualPage > 1? (
+                <button onClick={() => paginator(actualPage - 1)} className="">
+                  prev
+                </button>
+              ) : (btnPaginator?.length > 1 && 
+                <button className="text-gray-400">
+                  prev
                 </button>
               )}
 
@@ -538,10 +544,13 @@ const SearchRoom = () => {
                   >{`${numeroPag}`}</button>
                 ))}
 
-              {btnPaginator?.length > 1 && actualPage < btnPaginator.length && (
+              {actualPage < btnPaginator.length? (
                 <button onClick={() => paginator(actualPage + 1)}>
-                  {" "}
-                  next{" "}
+                  next
+                </button>
+              ) : (btnPaginator?.length > 1 && 
+                <button className="text-gray-400" >
+                  next
                 </button>
               )}
             </div>
@@ -613,31 +622,35 @@ const SearchRoom = () => {
 
               {/* paginado */}
               <div className={`${styles.paginado} mt-4`}>
-                {actualPage > 1 && (
-                  <button onClick={() => paginator(actualPage - 1)}>
-                    {" "}
-                    prev{" "}
-                  </button>
-                )}
-                {btnPaginator?.length > 1 &&
-                  btnPaginator?.map((numeroPag, i) => (
-                    <button
-                      className={
-                        actualPage === numeroPag ? styles.active : null
-                      }
-                      key={i}
-                      onClick={() => paginator(numeroPag)}
-                    >{`${numeroPag}`}</button>
-                  ))}
+              {actualPage > 1? (
+                <button onClick={() => paginator(actualPage - 1)}>
+                  prev
+                </button>
+              ) : (btnPaginator?.length > 1 && 
+                <button className="text-gray-400">
+                  prev
+                </button>
+              )}
 
-                {btnPaginator?.length > 1 &&
-                  actualPage < btnPaginator.length && (
-                    <button onClick={() => paginator(actualPage + 1)}>
-                      {" "}
-                      next{" "}
-                    </button>
-                  )}
-              </div>
+              {btnPaginator?.length > 1 &&
+                btnPaginator?.map((numeroPag, i) => (
+                  <button
+                    className={actualPage === numeroPag ? styles.active : null}
+                    key={i}
+                    onClick={() => paginator(numeroPag)}
+                  >{`${numeroPag}`}</button>
+                ))}
+
+              {actualPage < btnPaginator.length? (
+                <button onClick={() => paginator(actualPage + 1)}>
+                  next
+                </button>
+              ) : (btnPaginator?.length > 1 && 
+                <button className="text-gray-400" >
+                  next
+                </button>
+              )}
+            </div>
               {/* Fin paginado */}
             </section>
           </main>
@@ -645,5 +658,6 @@ const SearchRoom = () => {
       </div>
     </>
   );
+ 
 };
 export default SearchRoom;

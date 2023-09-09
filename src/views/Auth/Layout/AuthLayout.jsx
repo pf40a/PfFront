@@ -1,6 +1,6 @@
-import { Link as RouterLink } from "react-router-dom";
-import { Grid, Typography, Link } from "@mui/material";
-import { ArrowBack } from "@mui/icons-material";
+// import { Link as RouterLink } from "react-router-dom";
+import { Grid, Typography,  } from "@mui/material";
+// import { ArrowBack } from "@mui/icons-material";
 
 import style from "./AuthLayout.module.css";
 
@@ -12,13 +12,13 @@ const AuthLayout = ({ children, title = "" }) => {
       direction="column"
       alignItems="center"
       justifyContent="center"
-      sx={{ minHeight: "100vh", padding: 4, backgroundColor: "#111e26" }}
+      sx={{ padding: 4,  }}
     >
-      <Grid item sx={{ position: "absolute", top: 0, left: 0, mt: 5, ml: 5 }} >
+      {/* <Grid item sx={{ position: "absolute", top: 0, left: 0, mt: 5, ml: 5 }} >
         <Link component={RouterLink} color="#fff" to="/">
           <ArrowBack />
         </Link>
-      </Grid>
+      </Grid> */}
 
       <Grid
         item

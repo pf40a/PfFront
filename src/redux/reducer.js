@@ -48,28 +48,21 @@ const initialState = {
   },
 };
 
-
-function ordenar(array,order){
-  let roomsOrder = array
-  let newRoomsOrder = []
+function ordenar(array, order) {
+  let roomsOrder = array;
+  let newRoomsOrder = [];
   if (order === "Precio Menor") {
-        
-    newRoomsOrder = roomsOrder.sort(function(a, b) {
-return a.precio - b.precio;
-});
-
-  }else if (order === "Precio Mayor") {
-    
-    newRoomsOrder = roomsOrder.sort(function(a, b) {
-return b.precio - a.precio;
-});
-
-  }else if (order === "Capacidad") {
-    
-    newRoomsOrder = roomsOrder.sort(function(a, b) {
-return b.capacidad - a.capacidad;
-});
-
+    newRoomsOrder = roomsOrder.sort(function (a, b) {
+      return a.precio - b.precio;
+    });
+  } else if (order === "Precio Mayor") {
+    newRoomsOrder = roomsOrder.sort(function (a, b) {
+      return b.precio - a.precio;
+    });
+  } else if (order === "Capacidad") {
+    newRoomsOrder = roomsOrder.sort(function (a, b) {
+      return b.capacidad - a.capacidad;
+    });
   } else if (order === "Name") {
     newRoomsOrder = roomsOrder.sort((a, b) => {
       if (a[order] < b[order]) {
@@ -110,41 +103,47 @@ export default function rootReducer(state = initialState, action) {
             allRooms: updatedHabsDet,
           };
     case PUT_USERS:
-  const updatedUserIndex = state.users.findIndex((u) => u.id === action.payload.id);
-  const updatedUsers = [...state.users];
-  updatedUsers[updatedUserIndex] = action.payload;
-  return {
-    ...state,
-    users: updatedUsers,
-  };
+      const updatedUserIndex = state.users.findIndex(
+        (u) => u.id === action.payload.id
+      );
+      const updatedUsers = [...state.users];
+      updatedUsers[updatedUserIndex] = action.payload;
+      return {
+        ...state,
+        users: updatedUsers,
+      };
     case GET_USERS:
       return {
         ...state,
-        users: [...action.payload]
+        users: [...action.payload],
       };
 
     case PUT_CLIENTES:
-     const updatedClientIndex = state.clientes.findIndex((client) => client.doc_Identidad === action.payload.doc_Identidad);
-  // Crea una copia del array de clientes actual y reemplaza el cliente modificado en el índice correspondiente
-  const updatedClientes = [...state.clientes];
-  updatedClientes[updatedClientIndex] = action.payload;
-  return {
-    ...state,
-    clientes: updatedClientes,
-  };
+      const updatedClientIndex = state.clientes.findIndex(
+        (client) => client.doc_Identidad === action.payload.doc_Identidad
+      );
+      // Crea una copia del array de clientes actual y reemplaza el cliente modificado en el índice correspondiente
+      const updatedClientes = [...state.clientes];
+      updatedClientes[updatedClientIndex] = action.payload;
+      return {
+        ...state,
+        clientes: updatedClientes,
+      };
     case GET_CLIENTES:
       return {
         ...state,
-        clientes: [...action.payload]
+        clientes: [...action.payload],
       };
     case SEARCH_ROOMS:
-     let newRoomsSearch = [...action.payload ]
+      let newRoomsSearch = [...action.payload];
       //se aplican los filtros
-     newRoomsSearch = action.payload.filter((room) =>
-     state.filters.every((filtroItem) => room.caracteristica.includes(filtroItem))
-      ); 
-      let newRoomsSearchOrder = ordenar(newRoomsSearch,state.order)  
-           
+      newRoomsSearch = action.payload.filter((room) =>
+        state.filters.every((filtroItem) =>
+          room.caracteristica.includes(filtroItem)
+        )
+      );
+      let newRoomsSearchOrder = ordenar(newRoomsSearch, state.order);
+
       return {
         ...state,
         rooms: [...newRoomsSearchOrder],
@@ -165,8 +164,8 @@ export default function rootReducer(state = initialState, action) {
       const newRooms = roomsFilter.filter((room) =>
         filter.every((filtroItem) => room.caracteristica.includes(filtroItem))
       );
-      console.log('filtro:',filter);
-      console.log('Resultado:',newRooms);
+      console.log("filtro:", filter);
+      console.log("Resultado:", newRooms);
       return {
         ...state,
         rooms: [...newRooms],
@@ -176,7 +175,7 @@ export default function rootReducer(state = initialState, action) {
     case ORDER_ROOMS:
       const roomsOrder = [...state.allRooms];
       const order = action.payload;
-      let newRoomsOrder = ordenar(roomsOrder,order)
+      let newRoomsOrder = ordenar(roomsOrder, order);
       return {
         ...state,
         rooms: [...newRoomsOrder],
@@ -219,14 +218,18 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         auth: {
-          status: isEmailVerified ? "authenticated" : "Waiting for confirmation",
+          status: isEmailVerified
+            ? "authenticated"
+            : "Waiting for confirmation",
           // status: "authenticated",
           uid: action.payload.uid,
           displayName: displayName || `${nombre} ${apellido}`,
           nombre: action.payload.nombre,
           apellido: action.payload.apellido,
           email: action.payload.email,
-          photoURL: photoURL || "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+          photoURL:
+            photoURL ||
+            "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
           errorMessage: null,
           admin: false,
           user: true,

@@ -12,12 +12,10 @@ import Tooltip from '@mui/material/Tooltip';
 const navegacionAdmin = [
   { name: "Dashboard", href: "/Dashboard", current: true },
   { name: "Reservas", href: "/Reservations", current: false },
-  { name: "Calendario", href: "/git", current: false },
 ];
 
 const navegacionUsuario = [
-  { name: "Reservas", href: "/Reservations", current: true },
-  { name: "Calendario", href: "/git", current: false },
+  { name: "Reservas", href: "/dashboard", current: true },
 ];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -93,7 +91,7 @@ const Navbar = () => {
                 >
                   <Tooltip title="Ir al Home" arrow>
       <img
-                    className="h-full max-w-full"
+                    className="z-50 h-full max-w-full"
                     src="/logo.jpg"
                     alt="Hotel Oasis"
                   />
