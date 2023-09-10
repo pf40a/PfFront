@@ -125,44 +125,44 @@ const RegisterPage = () => {
           //// -------------------------------------------------------------
 
           //envio correo
-          const sendEmail = {
-            email: updatedFormStateCopia.email,
-            asunto: "¡Bienvenido a Oasis Hotel - Tu hogar lejos de casa!",
-            nombre: result.displayName,
-            mensaje: `Estimado ${result.displayName},
+          // const sendEmail = {
+          //   email: updatedFormStateCopia.email,
+          //   asunto: "¡Bienvenido a Oasis Hotel - Tu hogar lejos de casa!",
+          //   nombre: result.displayName,
+          //   mensaje: `Estimado ${result.displayName},
 
-          En nombre de todo el equipo de Oasis Hotel, quiero darte la más cordial bienvenida a nuestra familia. Nos complace enormemente que hayas elegido Oasis Hotel como tu destino para alojarte y esperamos que tu experiencia aquí sea inolvidable.
+          // En nombre de todo el equipo de Oasis Hotel, quiero darte la más cordial bienvenida a nuestra familia. Nos complace enormemente que hayas elegido Oasis Hotel como tu destino para alojarte y esperamos que tu experiencia aquí sea inolvidable.
           
-          En Oasis, nos enorgullece ofrecer un servicio excepcional y comodidades de primer nivel que harán que te sientas como en casa desde el momento en que entres por nuestras puertas. Nuestro objetivo es proporcionarte una estancia placentera y relajante que cumpla con todas tus expectativas y necesidades.
+          // En Oasis, nos enorgullece ofrecer un servicio excepcional y comodidades de primer nivel que harán que te sientas como en casa desde el momento en que entres por nuestras puertas. Nuestro objetivo es proporcionarte una estancia placentera y relajante que cumpla con todas tus expectativas y necesidades.
           
-          Aquí, encontrarás habitaciones cuidadosamente diseñadas, gastronomía exquisita en nuestro restaurante Oasis Restaurant, un personal amable y atento disponible las 24 horas del día y una variedad de servicios pensados para hacerte sentir cómodo y seguro durante tu estancia.
+          // Aquí, encontrarás habitaciones cuidadosamente diseñadas, gastronomía exquisita en nuestro restaurante Oasis Restaurant, un personal amable y atento disponible las 24 horas del día y una variedad de servicios pensados para hacerte sentir cómodo y seguro durante tu estancia.
           
-          Además, como miembro registrado de nuestra página web, tendrás acceso exclusivo a ofertas especiales, promociones y actualizaciones sobre eventos locales que te ayudarán a aprovechar al máximo tu tiempo en nuestra hermosa ubicación.
+          // Además, como miembro registrado de nuestra página web, tendrás acceso exclusivo a ofertas especiales, promociones y actualizaciones sobre eventos locales que te ayudarán a aprovechar al máximo tu tiempo en nuestra hermosa ubicación.
           
-          Si necesitas alguna asistencia o tienes alguna pregunta antes de tu llegada, no dudes en ponerte en contacto con nuestro equipo de conserjería o servicio al cliente. Estamos aquí para ayudarte en todo momento.
+          // Si necesitas alguna asistencia o tienes alguna pregunta antes de tu llegada, no dudes en ponerte en contacto con nuestro equipo de conserjería o servicio al cliente. Estamos aquí para ayudarte en todo momento.
           
-          Una vez más, te damos la bienvenida a Oasis Hotel y esperamos que disfrutes de tu estadía con nosotros. Siempre nos esforzamos por superar tus expectativas, y estamos ansiosos por brindarte una experiencia inolvidable.
+          // Una vez más, te damos la bienvenida a Oasis Hotel y esperamos que disfrutes de tu estadía con nosotros. Siempre nos esforzamos por superar tus expectativas, y estamos ansiosos por brindarte una experiencia inolvidable.
           
-          ¡Esperamos verte pronto!
+          // ¡Esperamos verte pronto!
           
-          Cordialmente,
+          // Cordialmente,
           
-          Nicolas Villagra
-          Ceo
-          Oasis Hotel
-          +54 9 343 344 6601
-          hotel.oasis.adm@gmail.com
-          https://pffront40.onrender.com/`,
-          };
+          // Nicolas Villagra
+          // Ceo
+          // Oasis Hotel
+          // +54 9 343 344 6601
+          // hotel.oasis.adm@gmail.com
+          // https://pffront40.onrender.com/`,
+          // };
 
-          try {
-            const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/email`, sendEmail );
-            if (response.data) {
-              window.alert("Correo electronico enviado con la confirmacion");
-            }
-          } catch (error) {
-            console.error("Error sending email:", error);
-          }
+          // try {
+          //   const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/email`, sendEmail );
+          //   if (response.data) {
+          //     console.log("Correo electronico enviado");
+          //   }
+          // } catch (error) {
+          //   console.error("Error sending email:", error);
+          // }
         }
       }
     );

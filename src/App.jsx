@@ -47,8 +47,6 @@ function App() {
     setShowLayout(
       currentPath !== "/error" &&
         currentPath !== "/reserve" &&
-        currentPath !== "/login" &&
-        currentPath !== "/register" &&
         currentPath !== "/recover" &&
         currentPath !== "/dashboard" &&
         currentPath !== "/contact" &&
