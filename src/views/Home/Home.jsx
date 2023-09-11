@@ -40,7 +40,7 @@ const Home = () => {
           className="w-full h-full object-cover"
         />
       </div>
-      <div className="flex">
+      <div className="flex relative z-10 -mt-14">
         <SearchBox />
       </div>
 
