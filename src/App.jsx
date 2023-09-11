@@ -37,6 +37,7 @@ import { useCheckAuth } from "./Hooks/useCheckAuth";
 // ----- Estilos -----
 
 import "./App.css";
+import DashboardUser from "./views/DashBoardUser/DashboardUser";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -82,6 +83,7 @@ function App() {
         <Route path="/recover" element={<PassRecoverPage />} />
         <Route path="/mercadopago" element={<MercadoPago />} />
         <Route path="/details/:subtipo" element={<DetailsRooms />} />
+        <Route path="/dashboardUser" element ={<DashboardUser/>}/>
       </Routes>
       {showLayout && <Footer />}
     </>

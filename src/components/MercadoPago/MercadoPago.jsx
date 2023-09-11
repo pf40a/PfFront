@@ -1,10 +1,10 @@
 import React from "react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { getLocalStorage } from "../../utilities/managerLocalStorage";
-import { useSelector } from "react-redux";
+import { useSelector} from "react-redux";
 
 const includedFeatures = [
   "Traslado al Aeropuerto",
@@ -24,8 +24,10 @@ const MercadoPago = ({
   dias,
 }) => {
   const nameDb = useSelector((state) => state.auth.displayName);
+  const idDb = useSelector((state) => state.auth.uid);
   const emailUser = useSelector((state) => state.auth.email);
   const [preferenceId, setPreferenceId] = useState(null);
+  const [reserveId, setReserveId] = useState("")
   initMercadoPago("TEST-3aa1ff4a-f517-4dcf-8fb3-15640d67a3d3");
   let roomsLocal;
   if (getLocalStorage("rooms")) {
@@ -94,9 +96,6 @@ const MercadoPago = ({
   const numberToString = numberRooms.join(", ");
   const cantidadDeHabitaciones = numberRooms.length
 
-  console.log(arrayHabitaciones);
-  console.log(cantidadDeHabitaciones);
-  console.log(habitacionesId);
 
   const objetosSeleccionados = [];
 
@@ -127,13 +126,39 @@ const MercadoPago = ({
   // Ahora, objetosSeleccionados contiene los objetos seleccionados de cada objeto padre
   console.log(objetosSeleccionados);
 
+  useEffect(() => {
+
+    const fetchReserve = async ()=>{
+      try {
+        
+        const reserveRequest = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/reservas`)
+        const response = reserveRequest.data.data
+        const filterData = response.filter((item)=>item.UsuarioId === idDb)
+        console.log(filterData);
+        const idReserve = filterData.map((item)=>{
+          return item.id
+        })
+        const lengthOfArray = idReserve.length
+        const element = idReserve[lengthOfArray - 1]
+        console.log(element);
+        setReserveId(element)
+
+      } catch (error) {
+        
+      }
+    }
+    fetchReserve()
+  }, [])
+
+console.log(reserveId);
+
   const createPreference = async () => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/hotel/mercadoPago/create_preference`,
         {
           items: arrayMapeado,
-          reservaId: "ddd620aa-f62a-476c-ab5c-17c72f5e4b71",
+          reservaId: reserveId,
         }
       );
       const initPoint = response.data.init_point;
@@ -201,7 +226,7 @@ const MercadoPago = ({
     objetosSeleccionados.forEach(async (objeto) => {
       const precio = objeto.precio;
       const cantidad = objeto.quantity; // Cambiado a objeto.quantity para obtener la cantidad correcta
-      const reservaId = "8c90fe62-22fa-44e9-b60a-223117c8bd57";
+      const reservaId = reserveId;
 
       // Recorre cada habitación en el objeto y realiza una solicitud POST por habitación
       for (const habitacion of objeto.habitaciones) {
@@ -237,6 +262,12 @@ const MercadoPago = ({
       window.location.href = initPoint;
     }
   };
+
+
+
+
+
+
   return (
     <div>
       <div className="bg-white py-24 sm:py-32">
