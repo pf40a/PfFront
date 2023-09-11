@@ -7,7 +7,8 @@ import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
-import Review from "../../components/Reviews/Reviews";
+import ReviewAdmin from "../../components/Reviews/Admin/ReviewsAdmin";
+
 import CorreoForm from "../../components/ContactForm/CorreoForm";
 
 const Home = () => {
@@ -28,10 +29,13 @@ const Home = () => {
         className="w-full h-96 flex items-center justify-center"
         style={{ height: "40rem" }}
       >
-        <div className="absolute bg-black/60 h-96 w-full  flex items-center justify-center" style={{height:"40rem"}}>
-        <h2 className="text-7xl bg-gradient-to-r from-blue-500 via-orange-500 to-green-500 text-transparent bg-clip-text stroke-black-500 ">
-          Oasis Hotel
-        </h2>
+        <div
+          className="absolute bg-black/60 h-96 w-full  flex items-center justify-center"
+          style={{ height: "40rem" }}
+        >
+          <h2 className="text-7xl bg-gradient-to-r from-blue-500 via-orange-500 to-green-500 text-transparent bg-clip-text stroke-black-500 ">
+            Oasis Hotel
+          </h2>
         </div>
 
         <img
@@ -133,7 +137,7 @@ const Home = () => {
         </div>
       </div>
       <AboutUs />
-      <Review />
+      <ReviewAdmin />
       <div>
         <CorreoForm />
       </div>

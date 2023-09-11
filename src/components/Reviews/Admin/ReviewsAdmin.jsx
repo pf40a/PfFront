@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import ReviewsCarrousel from "../../views/ReviewsCarrousel/ReviewsCarrousel";
+import ReviewsCarrousel from "../../../views/ReviewsCarrousel/ReviewsCarrousel";
 
-const Review = () => {
+const ReviewAdmin = () => {
   const reviewId = useSelector((state) => state.auth.uid);
   const userEmail = useSelector((state) => state.auth.email);
   const [usersList, setUsersList] = useState([]);
@@ -21,7 +21,9 @@ const Review = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/users/`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hotel/users/`
+        );
 
         const users = response.data.data;
 
@@ -86,6 +88,7 @@ const Review = () => {
       setShowReviewForm(false);
     } catch (error) {
       // Manejar errores
+      console.log(error);
     }
     const pedido = async () => {
       try {
@@ -178,4 +181,4 @@ const Review = () => {
   );
 };
 
-export default Review;
+export default ReviewAdmin;
