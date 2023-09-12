@@ -2,43 +2,39 @@ import React from 'react'
 import { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import Reserve from './Reserve';
 
 const DashboardUser = () => {
+  const name = useSelector((state) => state.auth.displayName);
   const [sidenav, setSidenav] = useState(true);
+  const [showReserve, setShowReserve] = useState(false)
+  const [showDashboard, setShowDashboard] = useState(true)
 
-  const toggleSidenav = () => {
-    setSidenav(!sidenav);
-  };
+  //---------HANDLES-------------//
+  const handleShowRerves = ()=>{
+    setShowReserve(true)
+  }
+  const handleShowDashboard = ()=>{
+    setShowDashboard(true)
+    setShowReserve(false)
+  }
 
 
   return (
     <>
-    <div className="font-poppins antialiased">
+    <div className="font-poppins antialiased h-screen flex">
       <div
         id="view"
-        className={`mt-10 h-full w-screen flex flex-row ${sidenav ? 'translate-x-0' : '-translate-x-60'} transition-transform duration-300 ease-in-out`}
+        className={`gap-10 mt-10 h-full w-screen flex flex-col md:flex-row ${sidenav ? 'translate-x-0' : '-translate-x-60'} transition-transform duration-300 ease-in-out`}
       >
-        <button
-          onClick={toggleSidenav}
-          className="p-2 border-2 bg-white rounded-md border-gray-200 shadow-lg text-gray-500 focus:bg-teal-500 focus:outline-none focus:text-white absolute top-0 left-0 sm:hidden"
-        >
-          <svg
-            className="w-5 h-5 fill-current"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-            ></path>
-          </svg>
-        </button>
+
         <div
           id="sidebar"
-          className="bg-white h-screen md:block shadow-xl px-3 w-30 md:w-60 lg:w-60 overflow-x-hidden transition-transform duration-300 ease-in-out"
+          className={`bg-white w-60 md:w-72 lg:w-80 px-6 py-8 transition-transform duration-300 ease-in-out transform ${
+            sidenav ? 'translate-x-0' : '-translate-x-full'
+          } absolute left-0 z-10`}
         >
-          <div className="space-y-6 md:space-y-10 mt-10">
+          <div className="space-y-6 md:space-y-10">
             <h1 className="font-bold text-4xl text-center md:hidden">
               D<span className="text-teal-600">.</span>
             </h1>
@@ -55,13 +51,14 @@ const DashboardUser = () => {
                 <h2
                   className="font-medium text-xs md:text-sm text-center text-teal-500"
                 >
-                  Nicolas Villagra
+                  {name}
                 </h2>
                 <p className="text-xs text-gray-500 text-center">Usuario</p>
               </div>
             </div>
-            <div id="menu" className="flex flex-col space-y-2">
+            <div id="menu" className="flex  flex-col items-start space-y-2">
               <button
+              onClick={handleShowDashboard}
                 className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out"
               >
                 <svg
@@ -95,7 +92,7 @@ const DashboardUser = () => {
 
 
               <button
-                href=""
+                onClick={handleShowRerves}
                 className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
               >
                 <svg
@@ -170,10 +167,13 @@ const DashboardUser = () => {
         
 
 
-        <div className='flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl '>
-          <h1>ACA VAN LOS COMPONENTES</h1>
-        </div>
-
+        <div className='flex-1 p-4 md:ml-72 lg:ml-80 '>
+  {showReserve ? (
+    <div>
+      <Reserve />
+    </div>
+  ) : ""}
+</div>
 
 
       </div>

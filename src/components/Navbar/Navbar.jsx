@@ -15,7 +15,7 @@ const navegacionAdmin = [
 ];
 
 const navegacionUsuario = [
-  { name: "Reservas", href: "/dashboard", current: true },
+  { name: "Reservas", href: "/dashboardUser", current: true },
 ];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
