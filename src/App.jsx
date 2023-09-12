@@ -29,7 +29,7 @@ import ReviewStars from "./components/pruebas/pruebas";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import ReviewAdmin from "./components/Reviews/Admin/ReviewsAdmin";
-
+import ReviewUser from "./components/Reviews/User/ReviewsUser";
 // ----- Hooks -----
 
 import { useCheckAuth } from "./Hooks/useCheckAuth";
@@ -83,7 +83,8 @@ function App() {
         <Route path="/recover" element={<PassRecoverPage />} />
         <Route path="/mercadopago" element={<MercadoPago />} />
         <Route path="/details/:subtipo" element={<DetailsRooms />} />
-        <Route path="/dashboardUser" element ={<DashboardUser/>}/>
+        <Route path="/dashboardUser" element={<DashboardUser />} />
+        <Route path="/reviewUser" element={<ReviewUser />} />
       </Routes>
       {showLayout && <Footer />}
     </>
