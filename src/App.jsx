@@ -28,7 +28,7 @@ import PopDetail from "./components/PopDetail/PopDetail";
 import ReviewStars from "./components/pruebas/pruebas";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import Review from "./components/Reviews/Reviews";
+import ReviewAdmin from "./components/Reviews/Admin/ReviewsAdmin";
 
 // ----- Hooks -----
 
@@ -70,7 +70,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="*" element={<ErroPage />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/review" element={<Review />} />
+        <Route path="/review" element={<ReviewAdmin />} />
         <Route path="/pop" element={<PopDetail />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/search" element={<SearchRoom />} />
