@@ -139,7 +139,6 @@ const Home = () => {
       <AboutUs />
       <ReviewAdmin />
       <div>
-        <CorreoForm />
       </div>
     </div>
   );

@@ -16,7 +16,8 @@ const navegacionAdmin = [
 
 const navegacionUsuario = [
   { name: "Reservas", href: "/dashboardUser", current: true },
-  { name: "Contacto", href: "/contacto", current: true },
+  { name: "Contacto", href: "/contact", current: true },
+  { name: "Developers", href: "/developers", current: true },
 ];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
