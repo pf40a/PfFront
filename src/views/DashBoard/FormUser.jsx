@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
  function FormUser(params) {
 //const {id} = params
 const {cambiarEstado, documento, setDoc, PutForm, admin} = params
+console.log(documento)
 const dispatch = useDispatch()
     const [cliente, setCliente] = useState({nombre:"", apellido:"",  admin: admin, email:""})
     const handleClick = ()=>{

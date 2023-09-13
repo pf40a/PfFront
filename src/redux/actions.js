@@ -30,7 +30,7 @@ export const GetHabitaciones = ()=>{
 }
 export const PutHabitacionDetail = (id, habitacion)=>{
   return async(dispatch)=>{
-  let response = await axios.put(`${import.meta.env.VITE_API_URL}/hotel/habitacion/detalle/put/${id}`, habitacion)
+  let response = await axios.put(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle/put/${id}`, habitacion)
   dispatch({
    type: PUT_HABITACIONES_DETAIL,
    payload: response.data.data   

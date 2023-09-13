@@ -7,6 +7,7 @@ import Usuarios from './DashUsuarios';
 import Habitaciones from './DashHabitaciones';
 import { GetClientes, PutClientes } from '../../redux/actions';
 import axios from 'axios';
+import Reservas from './Reservas';
 const Sidebar = () => {
 const dispatch = useDispatch()
   const [sidenav, setSidenav] = useState(true);
@@ -71,53 +72,6 @@ const dispatch = useDispatch()
    console.error(error)
   } 
   }
-  const data = [
-    {
-      name: "Viola Amherd",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Defence, Civil Protection and Sport (DDPS)",
-      status: "active",
-    },
-    {
-      name: "Simonetta Sommaruga",
-      Role: "Federal Councillor",
-      departement:
-        "The Federal Department of the Environment, Transport, Energy and Communications (DETEC)",
-      status: "active",
-    },
-    {
-      name: "Alain Berset",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Home Affairs (FDHA)",
-      status: "active",
-    },
-    {
-      name: "Ignazio Cassis",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Foreign Affairs (FDFA)",
-      status: "active",
-    },
-    {
-      name: "Ueli Maurer",
-      Role: "cocinero",
-      departement: "The Federal Department of Finance (FDF)",
-      status: "active",
-    },
-    {
-      name: "Guy Parmelin",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Economic Affairs, Education and Research (EAER)",
-      status: "inactive",
-    },
-    {
-      name: "Karin Keller-Sutter",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Justice and Police (FDJP)",
-      status: "active",
-    },
-  ];
-  
-const roles = new Set(data.filter(r => r.Role))
 
   const chartdata = [
     {
@@ -369,16 +323,22 @@ const roles = new Set(data.filter(r => r.Role))
   </main>
   
      )}
+     {
+section === "reservas" && ( 
+
+<Reservas/>
+)
+}
 {
 section === "usuarios" && ( 
 
-<Usuarios data = {data}/>
+<Usuarios />
 )
 }
 {
 section === "habitaciones" && ( 
 
-<Habitaciones data={data}/>
+<Habitaciones />
 )
 }
 {//CLIENTES
