@@ -104,9 +104,9 @@ setErrors(err)
   return (
     <div className="mx-auto -mt-4 ">
       <form onSubmit={handleSubmit}>
-        <div className="search-form bg-Secondary p-2 rounded-md shadow-md text-center md:text-left flex flex-col md:flex-row items-center justify-center gap-2 md:gap-8 md:items-end md:justify-between  align-bottom md:p-4">
+        <div className="search-form bg-Secondary p-2 rounded-md shadow-md text-center md:text-left flex flex-col md:flex-row items-center justify-center gap-2 md:gap-8 md:items-end md:justify-between  align-bottom md:p-4 dark:bg-[#b0905f]">
           <div className="flex flex-col">
-            <label>Fecha de Ingreso:</label>
+            <label className="dark:text-white">Fecha de Ingreso:</label>
             <DatePicker
               selected={checkInDate}
               onChange={(date) => {
@@ -125,7 +125,7 @@ setErrors(err)
             />
           </div>
           <div className="flex flex-col">
-            <label>Fecha de Salida:</label>
+            <label className="dark:text-white">Fecha de Salida:</label>
             <DatePicker
               selected={checkOutDate}
               onChange={(date) => {
@@ -144,7 +144,7 @@ setErrors(err)
             />
           </div>
           <div className="flex flex-col">
-            <label>Adultos</label>
+            <label className="dark:text-white">Adultos</label>
             <input
               type="number"
               min="1"
@@ -155,7 +155,7 @@ setErrors(err)
             />
           </div>
           <div className="flex flex-col">
-            <label>Niños</label>
+            <label className="dark:text-white">Niños</label>
             <input
               type="number"
               min="0"

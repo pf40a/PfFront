@@ -8,6 +8,7 @@ import { logout } from "../../redux/actions";
 import { logoutFirebase } from "../../Firebase/Providers";
 
 import Tooltip from '@mui/material/Tooltip';
+import DarkModeToggle from "../DarkMode/DarkMode";
 
 const navegacionAdmin = [
   { name: "Dashboard", href: "/Dashboard", current: true },
@@ -70,7 +71,7 @@ const Navbar = () => {
 
   const navegacion = isAdmin ? navegacionAdmin : navegacionUsuario;
   return (
-    <Disclosure as="nav" className="bg-[#16242f]">
+    <Disclosure as="nav" className="bg-[#16242f] ">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -105,8 +106,10 @@ const Navbar = () => {
                     className="hidden sm:ml-6 sm:block"
                     style={{ margin: "auto" }}
                   >
+                    
                     <div className="flex space-x-4">
                       {navegacion.map((item) => (
+                        
                         <NavLink
                           key={item.name}
                           to={item.href}
@@ -120,7 +123,9 @@ const Navbar = () => {
                         >
                           {item.name}
                         </NavLink>
+                        
                       ))}
+
                     </div>
                   </div>
                 ) : (
@@ -133,6 +138,8 @@ const Navbar = () => {
                 }`}
                 style={{ gap: "10px" }}
               >
+                                <DarkModeToggle/>
+                
                 <NavLink to="/register">
                   <h2 className="text-white">Registrarse</h2>
                 </NavLink>
@@ -140,9 +147,12 @@ const Navbar = () => {
                 <NavLink to="/login">
                   <h2 className="text-white">Login</h2>
                 </NavLink>
+            
               </div>
               {isLoggedIn && (
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                                          <div> <DarkModeToggle/></div>
+
                   <button
                     type="button"
                     className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -165,6 +175,7 @@ const Navbar = () => {
                         />
                       </Menu.Button>
                     </div>
+                    
                     <Transition
                       as={Fragment}
                       enter="transition ease-out duration-100"
@@ -174,6 +185,7 @@ const Navbar = () => {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
+                        
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <Menu.Item>
                           {({ active }) => (
@@ -187,6 +199,7 @@ const Navbar = () => {
                               Tu Perfil
                             </NavLink>
                           )}
+                          
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (

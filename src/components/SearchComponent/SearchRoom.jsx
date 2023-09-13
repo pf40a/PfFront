@@ -269,7 +269,7 @@ const SearchRoom = () => {
 
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-white dark:bg-[#16242f]">
         <div>
           {/* Mobile filter dialog */}
           <Transition.Root show={mobileFiltersOpen} as={Fragment}>
@@ -302,7 +302,7 @@ const SearchRoom = () => {
                 >
                   <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                     <div className="flex items-center justify-between px-4">
-                      <h2 className="text-lg font-medium text-gray-900">
+                      <h2 className="text-lg font-medium text-gray-900 dark:text-white">
                         Filtros
                       </h2>
                       <button
@@ -400,14 +400,14 @@ const SearchRoom = () => {
               <SearchBox />
             </div>
             <div className="flex flex-col md:flex-row items-center md:items-baseline justify-between border-b border-gray-200 pb-6 pt-8 md:pt-24 ">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
                 Habitaciones
               </h1>
 
               <div className="flex items-center">
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
-                    <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                    <Menu.Button className="dark:text-white group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                       Filtros
                       <ChevronDownIcon
                         className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
@@ -493,7 +493,7 @@ const SearchRoom = () => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-6 h-6"
+                    className="w-6 h-6 text-black dark:text-white"
                   >
                     <path
                       strokeLinecap="round"
@@ -521,18 +521,18 @@ const SearchRoom = () => {
             </div>
 
             {/* paginado */}
-            <div className="flex gap-10 mt-4 mx-auto">
+            <div className="flex gap-10 mt-4">
                 {actualPage > 1 ? (
                   <button
                     onClick={() => paginator(actualPage - 1)}
-                    className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                    className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 dark:text-gray-600 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 focus:z-20 focus:outline-offset-0"
                   >
                     <span className="sr-only">Previous</span>
                     <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                   </button>
                 ) : (
                   btnPaginator?.length > 1 && (
-                    <button className="text-gray-400 relative inline-flex items-center rounded-l-md px-2 py-2 focus:z-20 focus:outline-offset-0">
+                    <button className="text-gray-400 dark:text-gray-600 relative inline-flex items-center rounded-l-md px-2 py-2 focus:z-20 focus:outline-offset-0">
                       <span className="sr-only">Previous</span>
                       <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                     </button>
@@ -544,8 +544,8 @@ const SearchRoom = () => {
                     <a
                       className={`${
                         actualPage === numeroPag
-                          ? "relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:outline-offset-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                          : "relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                          ? "relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white dark:bg-gray-700 dark:text-white dark:focus:outline-offset-0 dark:focus-visible:outline dark:focus-visible:outline-2 dark:focus-visible:outline-offset-2 dark:focus-visible:outline-indigo-600"
+                          : "dark:text-white relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:hover:bg-gray-800 dark:focus:z-20 dark:focus:outline-offset-0"
                       }`}
                       key={i}
                       onClick={() => paginator(numeroPag)}
@@ -558,14 +558,14 @@ const SearchRoom = () => {
                 {actualPage < btnPaginator.length ? (
                   <button
                     onClick={() => paginator(actualPage + 1)}
-                    className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                    className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 dark:text-gray-600 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 focus:z-20 focus:outline-offset-0"
                   >
                     <span className="sr-only">Next</span>
                     <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                   </button>
                 ) : (
                   btnPaginator?.length > 1 && (
-                    <button className="text-gray-400 relative inline-flex items-center rounded-r-md px-2 py-2 focus:z-20 focus:outline-offset-0">
+                    <button className="text-gray-400 dark:text-gray-600 relative inline-flex items-center rounded-r-md px-2 py-2 focus:z-20 focus:outline-offset-0">
                       <span className="sr-only">Next</span>
                       <ChevronRightIcon
                         className="h-5 w-5"
@@ -646,14 +646,14 @@ const SearchRoom = () => {
                 {actualPage > 1 ? (
                   <button
                     onClick={() => paginator(actualPage - 1)}
-                    className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                    className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 dark:text-gray-600 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 focus:z-20 focus:outline-offset-0"
                   >
                     <span className="sr-only">Previous</span>
                     <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                   </button>
                 ) : (
                   btnPaginator?.length > 1 && (
-                    <button className="text-gray-400 relative inline-flex items-center rounded-l-md px-2 py-2 focus:z-20 focus:outline-offset-0">
+                    <button className="text-gray-400 dark:text-gray-600 relative inline-flex items-center rounded-l-md px-2 py-2 focus:z-20 focus:outline-offset-0">
                       <span className="sr-only">Previous</span>
                       <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                     </button>
@@ -665,8 +665,8 @@ const SearchRoom = () => {
                     <a
                       className={`${
                         actualPage === numeroPag
-                          ? "relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:outline-offset-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                          : "relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                          ? "relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white dark:bg-gray-700 dark:text-white dark:focus:outline-offset-0 dark:focus-visible:outline dark:focus-visible:outline-2 dark:focus-visible:outline-offset-2 dark:focus-visible:outline-indigo-600"
+                          : "dark:text-white relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:hover:bg-gray-800 dark:focus:z-20 dark:focus:outline-offset-0"
                       }`}
                       key={i}
                       onClick={() => paginator(numeroPag)}
@@ -679,14 +679,14 @@ const SearchRoom = () => {
                 {actualPage < btnPaginator.length ? (
                   <button
                     onClick={() => paginator(actualPage + 1)}
-                    className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                    className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 dark:text-gray-600 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 focus:z-20 focus:outline-offset-0"
                   >
                     <span className="sr-only">Next</span>
                     <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                   </button>
                 ) : (
                   btnPaginator?.length > 1 && (
-                    <button className="text-gray-400 relative inline-flex items-center rounded-r-md px-2 py-2 focus:z-20 focus:outline-offset-0">
+                    <button className="text-gray-400 dark:text-gray-600 relative inline-flex items-center rounded-r-md px-2 py-2 focus:z-20 focus:outline-offset-0">
                       <span className="sr-only">Next</span>
                       <ChevronRightIcon
                         className="h-5 w-5"
@@ -696,6 +696,7 @@ const SearchRoom = () => {
                   )
                 )}
               </div>
+
               {/* Fin paginado */}
             </section>
           </main>
