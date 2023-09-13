@@ -175,7 +175,7 @@ const [dataId, setDataId] = useState('')
               className=" pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out "
             >
               <LeaderboardOutlinedIcon /> 
-              <span>Dashboard**</span>
+              <span className="ml-2">Estadísticas</span>
             </a>
             <a
               href="#"
@@ -183,7 +183,7 @@ const [dataId, setDataId] = useState('')
               className="pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
             >
               <GroupOutlinedIcon />
-              <span>Clientes</span>
+              <span className="ml-2">Clientes</span>
             </a>
             {/* Add the rest of the menu items here */}
             <a
@@ -192,7 +192,7 @@ const [dataId, setDataId] = useState('')
         className="  pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
       >
         <AssignmentIndOutlinedIcon />
-        <span>Usuarios</span>
+        <span className="ml-2">Usuarios</span>
       </a>
       <a
         href="#"
@@ -200,7 +200,7 @@ const [dataId, setDataId] = useState('')
         className=" pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
       >
         <HotelOutlinedIcon />
-        <span>Habitaciones</span>
+        <span className="ml-2">Habitaciones</span>
       </a>
       <a
         href="#"
@@ -208,7 +208,7 @@ const [dataId, setDataId] = useState('')
         className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center pt-4"
       >
         <ConfirmationNumberOutlinedIcon />
-        <span>Reservas</span>
+        <span className="ml-2">Reservas</span>
       </a>
 
           </div>
