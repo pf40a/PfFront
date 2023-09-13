@@ -58,6 +58,33 @@ export default function CartRooms({ state, close, arrayRooms = [], remove, dias,
 
   return (
     <Transition.Root show={open} as={Fragment}>
+
+<Modal
+                                        isOpen={isModalOpen}
+                                        onRequestClose={closeModal}
+                                        contentLabel="Confirmación"
+                                        className="fixed inset-0 flex items-center justify-center outline-none"
+                                        overlayClassName="fixed inset-0 bg-gray-500 bg-opacity-50 z-20"
+                                      >
+                                        <div className="bg-white w-full max-w-md p-4 rounded-lg shadow-lg">
+                                          <h2 className="text-xl font-semibold mb-4">¿Está seguro de borrar este ítem?</h2>
+                                          <div className="flex justify-end">
+                                            <button
+                                              onClick={handleConfirm}
+                                              className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg mr-2"
+                                            >
+                                              Confirmar
+                                            </button>
+                                            <button
+                                              onClick={closeModal}
+                                              className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg"
+                                            >
+                                              Cancelar
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </Modal>
+                                      
       <Dialog as="div" className="relative z-10" onClose={close}>
         <Transition.Child
           as={Fragment}
@@ -164,31 +191,7 @@ export default function CartRooms({ state, close, arrayRooms = [], remove, dias,
                                       >
                                         Remove
                                       </button>
-                                      <Modal
-                                        isOpen={isModalOpen}
-                                        onRequestClose={closeModal}
-                                        contentLabel="Confirmación"
-                                        className="fixed inset-0 flex items-center justify-center outline-none"
-                                        overlayClassName="fixed inset-0 bg-gray-500 bg-opacity-50 z-20"
-                                      >
-                                        <div className="bg-white w-full max-w-md p-4 rounded-lg shadow-lg">
-                                          <h2 className="text-xl font-semibold mb-4">¿Está seguro de borrar este ítem?</h2>
-                                          <div className="flex justify-end">
-                                            <button
-                                              onClick={handleConfirm}
-                                              className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg mr-2"
-                                            >
-                                              Confirmar
-                                            </button>
-                                            <button
-                                              onClick={closeModal}
-                                              className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg"
-                                            >
-                                              Cancelar
-                                            </button>
-                                          </div>
-                                        </div>
-                                      </Modal>
+                                      
                                     </div>
                                   </div>
                                 </div>
