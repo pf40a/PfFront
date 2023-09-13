@@ -58,7 +58,7 @@ export default function CartRooms({ state, close, arrayRooms = [], remove, dias,
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="z-50 relative z-10" onClose={close}>
+      <Dialog as="div" className="relative z-10" onClose={close}>
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-500"
@@ -168,8 +168,8 @@ export default function CartRooms({ state, close, arrayRooms = [], remove, dias,
                                         isOpen={isModalOpen}
                                         onRequestClose={closeModal}
                                         contentLabel="Confirmación"
-                                        className="fixed z-60 inset-0 flex items-center justify-center outline-none"
-                                        overlayClassName="fixed inset-0 bg-gray-500 bg-opacity-50"
+                                        className="fixed inset-0 flex items-center justify-center outline-none"
+                                        overlayClassName="fixed inset-0 bg-gray-500 bg-opacity-50 z-20"
                                       >
                                         <div className="bg-white w-full max-w-md p-4 rounded-lg shadow-lg">
                                           <h2 className="text-xl font-semibold mb-4">¿Está seguro de borrar este ítem?</h2>
