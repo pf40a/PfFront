@@ -5,6 +5,7 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     transparent: "transparent",
     current: "currentColor",
@@ -16,7 +17,6 @@ export default {
         customDarkBlue: '#0F8CF2',
         customOrange: '#A66500',
       
-
         // light mode
         tremor: {
           brand: {

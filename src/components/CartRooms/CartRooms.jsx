@@ -205,7 +205,7 @@ export default function CartRooms({ state, close, arrayRooms = [], remove, dias,
                         <p>${totalPrice.toFixed(2)}</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">
-                        Shipping and taxes calculated at checkout.
+                        Los impuestos estan incluidos.
                       </p>
                       <div className="mt-6">
                         <NavLink to="/reserve"
@@ -217,11 +217,10 @@ export default function CartRooms({ state, close, arrayRooms = [], remove, dias,
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
-                          or
                           <button
                             type="button"
                             className="font-medium text-indigo-600 hover:text-indigo-500"
-                            onClick={() => setOpen(false)}
+                            onClick={close}
                           >
                             Continuar Reservando
                             <span aria-hidden="true"> &rarr;</span>

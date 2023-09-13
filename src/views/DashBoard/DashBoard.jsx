@@ -1,12 +1,19 @@
-import { AreaChart, Card, Flex, Grid, Metric, ProgressBar, Tab, TabGroup, TabList, TabPanel, TabPanels, Table, TableHead, Text, Title, TableRow, TableHeaderCell, TableBody, TableCell, Badge, Button, MultiSelect, MultiSelectItem, Select, SelectItem } from '@tremor/react';
+import { AreaChart, Card, Flex, Grid, Metric, ProgressBar, Tab, TabGroup, TabList, TabPanel, TabPanels, Table, TableHead, Text, Title, TableRow, TableHeaderCell, TableBody, TableCell, Badge, Button, MultiSelect, MultiSelectItem, Select, SelectItem, TextInput, BarList } from '@tremor/react';
+import { Dialog, Transition } from "@headlessui/react";
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector,  } from 'react-redux';
-import Detalle from './DashDetalle';
+import DashDetalle from './DashDetalle';
 import Form from './DashForm';
 import Usuarios from './DashUsuarios';
 import Habitaciones from './DashHabitaciones';
 import { GetClientes, PutClientes } from '../../redux/actions';
 import axios from 'axios';
+import Reservas from './Reservas';
+import { IconId } from '@tabler/icons-react';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
+
+
 const Sidebar = () => {
 const dispatch = useDispatch()
   const [sidenav, setSidenav] = useState(true);
@@ -37,9 +44,15 @@ const dispatch = useDispatch()
   }
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [isOpenDetalle, setIsOpenDetalle] = useState(false);
-  const toggleMenuDetalle = (document) => {
+//
+const [dataDetail, setDataDetail] = useState({})
+const [typeData,setTypeData] = useState('')
+const [dataId, setDataId] = useState('')
+
+
+  const toggleMenuDetalle = () => {
     setIsOpenDetalle(!isOpenDetalle);
-    setDoc(document)
+   // setDoc(document)
   };
   const toggleMenuForm = (document) => {
     setIsOpenForm(!isOpenForm);
@@ -60,6 +73,7 @@ const dispatch = useDispatch()
       await dispatch(GetClientes());
     };
     fetchData();
+    setIsOpenDetalle(false)
   }, [dispatch]);
   //data deberian ser los clientes de las BD
   const PutForm = async(documento, cliente)=>{
@@ -71,53 +85,6 @@ const dispatch = useDispatch()
    console.error(error)
   } 
   }
-  const data = [
-    {
-      name: "Viola Amherd",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Defence, Civil Protection and Sport (DDPS)",
-      status: "active",
-    },
-    {
-      name: "Simonetta Sommaruga",
-      Role: "Federal Councillor",
-      departement:
-        "The Federal Department of the Environment, Transport, Energy and Communications (DETEC)",
-      status: "active",
-    },
-    {
-      name: "Alain Berset",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Home Affairs (FDHA)",
-      status: "active",
-    },
-    {
-      name: "Ignazio Cassis",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Foreign Affairs (FDFA)",
-      status: "active",
-    },
-    {
-      name: "Ueli Maurer",
-      Role: "cocinero",
-      departement: "The Federal Department of Finance (FDF)",
-      status: "active",
-    },
-    {
-      name: "Guy Parmelin",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Economic Affairs, Education and Research (EAER)",
-      status: "inactive",
-    },
-    {
-      name: "Karin Keller-Sutter",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Justice and Police (FDJP)",
-      status: "active",
-    },
-  ];
-  
-const roles = new Set(data.filter(r => r.Role))
 
   const chartdata = [
     {
@@ -152,6 +119,8 @@ const roles = new Set(data.filter(r => r.Role))
     },
   ];
 
+
+  console.log('AbrirDetalle',isOpenDetalle)
   return (
     <div id="view" className="h-full w-screen flex flex-row">
       <button
@@ -202,17 +171,8 @@ const roles = new Set(data.filter(r => r.Role))
               href="#"
               className=" pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out "
             >
-              <svg
-                className="w-6 h-6 fill-current inline-block"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5 3a2 2 0 012-2h2a2 2 0 012 2h2a2 2 0 012-2h2a2 2 0 012 2h2a2 2 0 012-2h2a2 2 0 012 2V17a2 2 0 01-2 2H5a2 2 0 01-2-2V3z"
-                ></path>
-              </svg>
-              <span>Dashboard</span>
+              <LeaderboardOutlinedIcon /> 
+              <span>Dashboard**</span>
             </a>
             <a
               href="#"
@@ -299,6 +259,13 @@ const roles = new Set(data.filter(r => r.Role))
  {/* INFORMACION PARA EL TABLERO */}
 
  <div className='flex-1 bg-gray-100' >
+
+ {isOpenDetalle && (
+    <div className=" z-50 bg-black p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto"> 
+      
+      <DashDetalle onClose={setIsOpenDetalle} id={dataId} data={dataDetail} type={typeData} />
+      </div>
+  )}
   
      {//DASHBOARD
      section === "dashboard" && (
@@ -369,16 +336,22 @@ const roles = new Set(data.filter(r => r.Role))
   </main>
   
      )}
+     {
+section === "reservas" && ( 
+
+<Reservas/>
+)
+}
 {
 section === "usuarios" && ( 
 
-<Usuarios data = {data}/>
+<Usuarios  setIsOpenDetalle={setIsOpenDetalle} setDataDetail={setDataDetail} setDataId={setDataId} setTypeData={setTypeData}/>
 )
 }
 {
 section === "habitaciones" && ( 
 
-<Habitaciones data={data}/>
+<Habitaciones />
 )
 }
 {//CLIENTES
@@ -391,12 +364,7 @@ section === "clientes" && (
       <Form estado={isOpenForm} PutForm={PutForm} cambiarEstado={setIsOpenForm} documento={doc} setDoc = {setDoc}/>
       </div>
   )}
-  {isOpenDetalle && (
-    <div className=" z-50 bg-black p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto"> 
-      
-      <Detalle estado={isOpenDetalle} cambiarEstado={setIsOpenDetalle} documento={doc}/>
-      </div>
-  )}
+  
   <TabGroup className="mt-6 ">
   <TabList>
         <Tab>Clientes</Tab>
@@ -433,12 +401,13 @@ section === "clientes" && (
 <Card >
 <Title>Lista de clientes</Title>
 <Table className='h-[60vh]'>
-<TableHead>
+<TableHead className='bg-white'>
 <TableRow>
           <TableHeaderCell>Nombre</TableHeaderCell>
           <TableHeaderCell>Documento</TableHeaderCell>
           <TableHeaderCell>Pais</TableHeaderCell>
           <TableHeaderCell>Estado</TableHeaderCell>
+          <TableHeaderCell></TableHeaderCell>
 </TableRow>
 </TableHead>
 <TableBody >
@@ -465,18 +434,24 @@ section === "clientes" && (
 
             </TableCell>
  <TableCell >
- <div className='flex inline-flex'>
+  <DescriptionOutlinedIcon className='cursor-pointer' onClick={() =>{
+    toggleMenuDetalle()
+    setDataDetail(item)
+    setDataId(item.doc_Identidad)
+    setTypeData('clientes')
+setTypeData
+    }}/>
+
+ {/* <div className='flex inline-flex'>
   <span onClick={() => toggleMenuForItem(item)}>
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
 </svg>
   </span>
- 
+</div> */}
 
-
-</div>
   </TableCell>           
-  {menuState[item.doc_Identidad] &&(
+  {/* {menuState[item.doc_Identidad] &&(
   <TableCell> 
   <div className='bg-zinc-300 mt-2 -ml-10 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col h-13 w-13'
   >
@@ -485,7 +460,7 @@ section === "clientes" && (
   </div>
   </TableCell>
   )
-}
+} */}
           </TableRow>
           
         ))}
