@@ -3,32 +3,32 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector,  } from 'react-redux';
 import Detalle from './DashDetalle';
 import Form from './DashForm';
-import { GetHabitaciones, GetUsers, PutHabitacion, PutHabitacionDetail, PutUsers } from '../../redux/actions';
+import { GetUsers, PutUsers } from '../../redux/actions';
 import FormUser from './FormUser';
-import FormHabitacion from './FormHabitacion';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import axios from 'axios';
 
-
-function Reservas(params) {
+function Tipos( {data, toggleMenuDetalle, setIsOpenDetalle, setDataDetail, setDataId, setTypeData}) {
   
   const dispatch = useDispatch()
     const [selectedStatus, setSelectedStatus] = useState("all");
     const[selectedRole, setSelectedRole] = useState([])
     const [menuState, setMenuState] = useState({});
-    const [reservas, setReservas] = useState([])
+  
     const [doc, setDoc] = useState("")//esto deberia guardar el id
     const [admin, setAdmin] = useState(false)
-    const habitaciones = useSelector((state) => state.habitaciones);
+    const users = useSelector((state) => state.users);
+    const [tipos, setTipos] = useState([])
     const toggleMenuForItem = (item) => {
       setMenuState((prevState) => ({
         ...prevState,
-        [item.id]: !prevState[item.id],
+        [item.nombre]: !prevState[item.nombre],
       }));
     };
     const handlerSelect = (select) => {
       return (
-        (select.deleted === selectedStatus || selectedStatus === "all") &&
-        (selectedRole.length === 0 || selectedRole.includes(select.ClienteDocIdentidad.toString())) 
+        (select.subTipo === selectedStatus || selectedStatus === "all") &&
+        (selectedRole.length === 0 || selectedRole.includes(select.id.toString())) 
         
       );
       
@@ -41,43 +41,48 @@ function Reservas(params) {
       setSelectedRole(newSelectedRoles);
     };
     const [isOpenForm, setIsOpenForm] = useState(false);
+    
+    /* 
     const [isOpenDetalle, setIsOpenDetalle] = useState(false);
     const toggleMenuDetalle = (id) => {
       setIsOpenDetalle(!isOpenDetalle);
       setDoc(id)
-    };
+    }; */
+
     const toggleMenuForm = (id, adm) => {
       setIsOpenForm(!isOpenForm);
       setDoc(id)
-      
+      setAdmin(adm)
     };
-    const handleDelete = async(id, deleteItem)=>{
-        let res = {}
-        if(deleteItem === true){
-            res.deleted = false
-        }else{
-            res.deleted = true
-        }
-        await axios.put(`${import.meta.env.VITE_API_URL}/hotel/reservas/${id}`, res)
-        console.log(id)
+    const handleDelete = async(docItem, deleteItem)=>{
+      let user = {}
+      if(deleteItem === true){
+        user.deleted = false
+      }else{
+        user.deleted = true
       }
-    /*
-    const PutForm = async(id, hab)=>{
+       await axios.put(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle/put/${docItem}`, user)
+     
+    }
+    const PutForm = async(id, user)=>{
       try{  
-        await dispatch(PutHabitacionDetail(id, hab))
+        await dispatch(PutUsers(id, user))
+        dispatch(GetUsers());
         setDoc("")
     }catch(error){
      console.error(error)
     } 
     }
-    */
+    const fetchData = async () => {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle`)
+         setTipos(res.data.data)
+       };
     useEffect(() => {
-      const fetchData = async () => {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/reservas`)
-        setReservas(res.data.data)
-      };
+      
       fetchData();
-    }, [reservas]);
+      
+      setIsOpenDetalle(false)
+    }, [tipos]);
 
 return(
 
@@ -86,18 +91,18 @@ return(
 {isOpenForm && (
     <div className=" z-50 bg-black p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto"> 
     
-    <FormHabitacion estado={isOpenForm} /*PutForm={PutForm}*/ cambiarEstado={setIsOpenForm} id={doc} />
+    <FormUser estado={isOpenForm} PutForm={PutForm} cambiarEstado={setIsOpenForm} documento={doc} admin={admin}/>
       </div>
   )}
-  {isOpenDetalle && (
+  {/* {isOpenDetalle && (
     <div className=" z-50 bg-black p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto"> 
       
       <Detalle estado={isOpenDetalle} cambiarEstado={setIsOpenDetalle} id={doc}/>
       </div>
-  )}
+  )} */}
   <TabGroup className="mt-6 ">
   <TabList>
-        <Tab>Reservas</Tab>
+        <Tab>Tipos de habitacion</Tab>
       </TabList>
       <TabPanels> 
       <TabPanel> 
@@ -106,14 +111,14 @@ return(
  <MultiSelect
  className="max-w-full sm:max-w-xs"
  onValueChange={changeSelect}
- placeholder="Buscar cliente..."
+ placeholder="Buscar id..."
  value={selectedRole}
  >
   {
-    reservas.map((item)=>{
+    tipos.map((item)=>{
       return(
-      <MultiSelectItem key={item.ClienteDocIdentidad.toString()} value={item.ClienteDocIdentidad.toString()}>
-      {item.ClienteDocIdentidad.toString()}
+      <MultiSelectItem key={item.id.toString()} value={item.id.toString()}>
+      {item.id.toString()}
       </MultiSelectItem>)
     })
     
@@ -125,33 +130,33 @@ return(
           onValueChange={setSelectedStatus}
         >
 <SelectItem value="all">All</SelectItem>
-<SelectItem value={false}>Active</SelectItem>
-<SelectItem value={true}>Inactive</SelectItem>
-
+<SelectItem value={"Economica"}>Economica</SelectItem>
+<SelectItem value={"Confort"}>Confort</SelectItem>
+<SelectItem value={"Gold"}>Gold</SelectItem>
 </Select>          
   </div>
 <Card >
-<Title>Lista de reservas</Title>
-<Table className='h-[70vh]'>
+<Title>Lista de tipos de habitacion</Title>
+<Table className='h-[65vh]'>
 <TableHead>
 <TableRow>
-          <TableHeaderCell>Fechas</TableHeaderCell>
-          <TableHeaderCell>Pago</TableHeaderCell>
-          <TableHeaderCell>Cliente</TableHeaderCell>
-          <TableHeaderCell>Estado</TableHeaderCell>
+          <TableHeaderCell>Id</TableHeaderCell>
+          <TableHeaderCell>Tipo</TableHeaderCell>
+          <TableHeaderCell>Subtipo</TableHeaderCell>
+          
 </TableRow>
 </TableHead>
 <TableBody >
   
-{reservas.filter((item)=> handlerSelect(item))
+{tipos.filter((item)=> handlerSelect(item))
          .map((item) => (
           <TableRow key={item.id}>
-            <TableCell>{item.fechaIngreso + " - " + item.fechaSalida}</TableCell>
+            <TableCell>{item.id}</TableCell>
             <TableCell>
-              <Text>{item.pago_Estado}</Text>
+              <Text>{item.tipo_Habitacion}</Text>
             </TableCell>
             <TableCell>
-              <Text>{item.ClienteDocIdentidad}</Text>
+              <Text>{item.subTipo}</Text>
             </TableCell>
             <TableCell>
           <Button onClick={()=>handleDelete(item.id, item.deleted)} color={item.deleted === false ? 'emerald' : 'red'} className='flex-row'> 
@@ -165,27 +170,36 @@ return(
 
             </TableCell>
  <TableCell >
- <div className='flex inline-flex'>
+ <DescriptionOutlinedIcon className='cursor-pointer' onClick={() =>{
+    setIsOpenDetalle(true)
+    setDataDetail(item)
+    setDataId(item.id)
+    setTypeData('habitaciones/detalle/put')
+    action = {fetchData}
+    }}/>
+
+ {/* <div className='flex inline-flex'>
   <span onClick={() => toggleMenuForItem(item)}>
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
 </svg>
   </span>
  
-
-
 </div>
+ */}
   </TableCell>           
-  {menuState[item.id] &&(
+  {/* {menuState[item.nombre] &&(
   <TableCell> 
   <div className='bg-zinc-300 mt-2 -ml-10 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col h-13 w-13'
   >
   <span onClick={() =>toggleMenuDetalle(item.id)} className='m-1'>Detalle</span>
-  <span onClick={() =>toggleMenuForm(item.id)} className='m-1'>Modificar</span>
+  <span onClick={() =>toggleMenuForm(item.id, item.admin)} className='m-1'>Modificar</span>
   </div>
   </TableCell>
-  )
-}
+  ) 
+  }
+  */}
+
           </TableRow>
           
         ))}
@@ -200,7 +214,8 @@ return(
 </TabPanels>
 </TabGroup>   
 </main>
-)  
-}
 
-export default Reservas
+)
+
+}
+export default Tipos
