@@ -28,8 +28,8 @@ import PopDetail from "./components/PopDetail/PopDetail";
 import ReviewStars from "./components/pruebas/pruebas";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import Review from "./components/Reviews/Reviews";
-
+import ReviewAdmin from "./components/Reviews/Admin/ReviewsAdmin";
+import ReviewUser from "./components/Reviews/User/ReviewsUser";
 // ----- Hooks -----
 
 import { useCheckAuth } from "./Hooks/useCheckAuth";
@@ -37,6 +37,8 @@ import { useCheckAuth } from "./Hooks/useCheckAuth";
 // ----- Estilos -----
 
 import "./App.css";
+import DashboardUser from "./views/DashBoardUser/DashboardUser";
+import Developers from "./components/Developers/Developers";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -69,7 +71,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="*" element={<ErroPage />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/review" element={<Review />} />
+        <Route path="/review" element={<ReviewAdmin />} />
         <Route path="/pop" element={<PopDetail />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/search" element={<SearchRoom />} />
@@ -82,6 +84,9 @@ function App() {
         <Route path="/recover" element={<PassRecoverPage />} />
         <Route path="/mercadopago" element={<MercadoPago />} />
         <Route path="/details/:subtipo" element={<DetailsRooms />} />
+        <Route path="/dashboardUser" element={<DashboardUser />} />
+        <Route path="/reviewUser" element={<ReviewUser />} />
+        <Route path="/developers" element={<Developers/>} />
       </Routes>
       {showLayout && <Footer />}
     </>

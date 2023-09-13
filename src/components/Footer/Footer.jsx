@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="bg-[#16242f] text-neutral-200 text-center dark:bg-gray-900 lg:text-left">
-      <div className="flex items-center justify-center border-b-2 border-neutral-200 p-6 dark:border-neutral-500 lg:justify-between">
+      <div className="flex items-center justify-center border-b-2 border-neutral-200 p-6  lg:justify-between">
         <div className="mr-12 hidden lg:block">
           <span>Conéctate con nosotros en redes sociales:</span>
         </div>
@@ -140,7 +140,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="bg-neutral-200 dark:bg-neutral-700 py-2 text-sm text-neutral-500 dark:text-neutral-300">
+      <div className="bg-neutral-200  py-2 text-sm text-neutral-500 dark:text-neutral-300">
         <p className="text-center">
           &copy; 2023 Oasis Hotel. Todos los derechos reservados.
         </p>

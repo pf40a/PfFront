@@ -159,7 +159,7 @@ return(
 
             </TableCell>
  <TableCell >
- <div className='flex inline-flex'>
+ <div className='flex'>
   <span onClick={() => toggleMenuForItem(item)}>
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -172,7 +172,7 @@ return(
   </TableCell>           
   {menuState[item.id] &&(
   <TableCell> 
-  <div className='bg-zinc-300 mt-2 -ml-10 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col h-13 w-13'
+  <div className='mt-2 -ml-10 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col h-13 w-13'
   >
   <span onClick={() =>toggleMenuDetalle(item.HabitacionDetalleId)} className='m-1'>Detalle</span>
   <span onClick={() =>toggleMenuForm(item.HabitacionDetalleId)} className='m-1'>Modificar</span>
