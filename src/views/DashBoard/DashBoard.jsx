@@ -12,6 +12,8 @@ import Reservas from './Reservas';
 import { IconId } from '@tabler/icons-react';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
+import Tipos from './TiposHabs';
+
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
 import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
@@ -210,7 +212,25 @@ const [dataId, setDataId] = useState('')
         <ConfirmationNumberOutlinedIcon />
         <span className="ml-2">Reservas</span>
       </a>
-
+      <a
+        href="#"
+        onClick={() => changeSection('Tipos')}
+        className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center pt-4"
+      >
+        <svg
+          className="w-6 h-6 fill-current inline-block mr-2"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+            clipRule="evenodd"
+          ></path>
+        </svg>
+        <span>Tipos-habitacion</span>
+      </a>
           </div>
         </div>
       </div>
@@ -295,6 +315,12 @@ const [dataId, setDataId] = useState('')
   </main>
   
      )}
+       {
+section === "Tipos" && ( 
+
+<Tipos setIsOpenDetalle={setIsOpenDetalle} setDataDetail={setDataDetail} setDataId={setDataId} setTypeData={setTypeData}/>
+)
+}
      {
 section === "reservas" && ( 
 

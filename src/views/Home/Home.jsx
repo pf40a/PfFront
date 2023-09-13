@@ -7,7 +7,7 @@ import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
-import ReviewAdmin from "../../components/Reviews/Admin/ReviewsAdmin";
+import ReviewsCarrousel from "../ReviewsCarrousel/ReviewsCarrousel";
 
 import CorreoForm from "../../components/ContactForm/CorreoForm";
 
@@ -119,7 +119,9 @@ const Home = () => {
             className="w-15 h-15 mb-2 mx-auto"
           />
           <div className="flex flex-col items-center w-48">
-            <p className="text-lg font-semibold dark:text-white">Traslado al Aeropuerto</p>
+            <p className="text-lg font-semibold dark:text-white">
+              Traslado al Aeropuerto
+            </p>
             <p className="mt-2 text-sm break-words dark:text-white">
               Traslados seguros desde el aeropuerto para tu comodidad.
             </p>
@@ -137,9 +139,8 @@ const Home = () => {
         </div>
       </div>
       <AboutUs />
-      <ReviewAdmin />
-      <div>
-      </div>
+      <ReviewsCarrousel />
+      <div></div>
     </div>
   );
 };
