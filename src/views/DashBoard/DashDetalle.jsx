@@ -58,6 +58,8 @@ const handleSubmit = async (e) => {
       alert('Usuario actualizado');
       if(type==='clientes'){
        dispatch(GetClientes()); 
+      }else if(type==='users'){ 
+       dispatch(GetUsers());
       }
       
       onClose(false);
@@ -78,10 +80,19 @@ const handleSubmit = async (e) => {
           {Object.keys(newData).map(key => ( key!=='deleted' && key !== 'id' && key !== 'createdAt' && key !== 'updatedAt' &&
         <div key={key}>
          <label htmlFor="">{convertirCadena(key)}</label><br />
-         {key==='googleUser' && `${newData[key]}`}
-         {key !== 'googleUser' && (
-         <TextInput name={key} value={newData[key]} onChange={handleChange} /> 
+         {(key==='googleUser' && `${newData[key]}`) || ((newData[key]===true || newData[key]===false) && (
+          <div>
+
+{/* <Select name={key} value={newData[key] ? "true" : "false"} onChange={handleChange}>
+  <SelectItem value="true">Si</SelectItem>
+  <SelectItem value="false">No</SelectItem>
+</Select> */}
+<TextInput name={key} value={newData[key]} onChange={handleChange} />
+          </div>
+         )) || (
+          <TextInput name={key} value={newData[key]} onChange={handleChange} />
          )}
+         
          
           </div>
       ))}
