@@ -1,11 +1,30 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Modal from 'react-modal';
 
 function CorreoForm() {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [asunto, setAsunto] = useState('');
   const [mensaje, setMensaje] = useState('');
+
+  // Estado para controlar si el modal está abierto o cerrado
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Función para abrir el modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Función para cerrar el modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleConfirm = () => {
+    handleEnviarCorreo()
+    closeModal();
+  };
 
   const handleEnviarCorreo = async () => {
     // Combinamos el mensaje predefinido con el mensaje personalizado del usuario
@@ -54,7 +73,7 @@ function CorreoForm() {
         console.log("Correo electrónico no válido");
       }
     }
-    
+
     setNombre('');
     setEmail('');
     setAsunto('');
@@ -68,7 +87,7 @@ function CorreoForm() {
         <form className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="email">
-             Nombres:
+              Nombres:
             </label>
             <input
               type="email"
@@ -80,7 +99,7 @@ function CorreoForm() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="email">
-             Tu Email:
+              Tu Email:
             </label>
             <input
               type="email"
@@ -116,10 +135,35 @@ function CorreoForm() {
           <button
             className="w-full bg-blue-500 text-white py-2 rounded-md"
             type="button"
-            onClick={handleEnviarCorreo}
+            onClick={openModal}
           >
             Enviar correo
           </button>
+          <Modal
+            isOpen={isModalOpen}
+            onRequestClose={closeModal}
+            contentLabel="Confirmación"
+            className="fixed inset-0 flex items-center justify-center z-50 outline-none"
+            overlayClassName="fixed inset-0 bg-gray-500 bg-opacity-50"
+          >
+            <div className="bg-white w-full max-w-md p-4 rounded-lg shadow-lg">
+              <h2 className="text-xl font-semibold mb-4">¿Aceptas recibir información en este correo electronico?</h2>
+              <div className="flex justify-end">
+                <button
+                  onClick={handleConfirm}
+                  className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg mr-2"
+                >
+                  Confirmar
+                </button>
+                <button
+                  onClick={closeModal}
+                  className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </Modal>
         </form>
       </div>
     </div>
