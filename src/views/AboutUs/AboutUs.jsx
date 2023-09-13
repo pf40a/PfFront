@@ -17,7 +17,7 @@ const AboutUs = () => {
   });
 
   return (
-    <div className="mt-20">
+    <div className="mt-20 dark:bg-[#16242f]">
       {/* <h1 className={styles["heading"]}>About Us - Oasis Hotel</h1>
       <p className={styles["text"]}>
         Welcome to Oasis Hotel! We are dedicated to providing a memorable and
@@ -54,10 +54,10 @@ const AboutUs = () => {
           <Marker position={position} icon={markerIcon} />
         </MapContainer>
       </div> */}
-      <h1 className="text-center text-2xl text-gray-900 font-bold md:text-4xl">
+      <h1 className="text-center text-2xl text-gray-900 font-bold md:text-4xl dark:text-white">
         Oasis Hotel
       </h1>
-      <div className="py-16 bg-white">
+      <div className="py-16 bg-white dark:bg-[#16242f]">
         <div className="container m-auto px-6 text-gray-600 md:px-12 xl:px-6">
           <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
             <div className="md:w-5/12">
@@ -70,11 +70,11 @@ const AboutUs = () => {
               />
             </div>
             <div className="flex flex-col items-center gap-10 md:w-6/12">
-              <h2 className="text-2xl text-gray-600">
+              <h2 className="text-2xl text-gray-600 dark:text-white">
                 ¡Bienvenido al Hotel Oasis! Estamos dedicados a proporcionar una
                 experiencia memorable y relajante para nuestros huéspedes.
               </h2>
-              <p className="text-1xl text-gray-600">
+              <p className="text-1xl text-gray-600 dark:text-white">
                 Nuestra Misión: Brindar hospitalidad y servicio excepcionales
                 Ofrecer alojamientos lujosos y cómodos Crear un oasis de
                 tranquilidad para nuestros huéspedes Ya sea que estés viajando
@@ -82,7 +82,7 @@ const AboutUs = () => {
                 para tu estancia. Contáctanos para hacer reservaciones y
                 consultas. ¡Esperamos poder atenderte!
               </p>
-              <h1 className="text-2xl text-gray-900 font-bold md:text-4xl">
+              <h1 className="text-2xl text-gray-900 font-bold md:text-4xl dark:text-white">
                 Nuestra Ubicacion
               </h1>
               <div className={styles["map-container"]}>

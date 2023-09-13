@@ -2,11 +2,26 @@ import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
+import Modal from 'react-modal';
 
-export default function CartRooms({ state, close, arrayRooms=[], remove,dias,quantityTotal,increseQuantity,decreaseQuantity,showBooking }) {
+export default function CartRooms({ state, close, arrayRooms = [], remove, dias, quantityTotal, increseQuantity, decreaseQuantity, showBooking }) {
   const [open, setOpen] = useState(state);
   const [totalPrice, setTotalPrice] = useState(0);
   const [products, setProducts] = useState(arrayRooms);
+
+  // Estado para controlar si el modal está abierto o cerrado
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Función para abrir el modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Función para cerrar el modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
 
   useEffect(() => {
     setProducts(arrayRooms);
@@ -14,13 +29,13 @@ export default function CartRooms({ state, close, arrayRooms=[], remove,dias,qua
 
   useEffect(() => {
     let sumaPrecios = 0;
-    
+
     if (products.length > 0) {
       products.forEach(item => {
         sumaPrecios += item.precio;
       });
     }
-    
+
     setTotalPrice(sumaPrecios);
   }, [quantityTotal, products]);
 
@@ -35,7 +50,12 @@ export default function CartRooms({ state, close, arrayRooms=[], remove,dias,qua
     // Actualiza el estado local de products aquí si es necesario
   };
 
-  
+  const handleConfirm = (product) => {
+    remove(product.id)
+    closeModal();
+  };
+
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="z-50 relative z-10" onClose={close}>
@@ -138,12 +158,37 @@ export default function CartRooms({ state, close, arrayRooms=[], remove,dias,qua
                                     </div>
                                     <div className="flex">
                                       <button
-                                        onClick={() => remove(product.id)}
+                                        onClick={openModal}
                                         type="button"
                                         className="font-medium text-indigo-600 hover:text-indigo-500"
                                       >
                                         Remove
                                       </button>
+                                      <Modal
+                                        isOpen={isModalOpen}
+                                        onRequestClose={closeModal}
+                                        contentLabel="Confirmación"
+                                        className="fixed z-60 inset-0 flex items-center justify-center outline-none"
+                                        overlayClassName="fixed inset-0 bg-gray-500 bg-opacity-50"
+                                      >
+                                        <div className="bg-white w-full max-w-md p-4 rounded-lg shadow-lg">
+                                          <h2 className="text-xl font-semibold mb-4">¿Está seguro de borrar este ítem?</h2>
+                                          <div className="flex justify-end">
+                                            <button
+                                              onClick={handleConfirm}
+                                              className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg mr-2"
+                                            >
+                                              Confirmar
+                                            </button>
+                                            <button
+                                              onClick={closeModal}
+                                              className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg"
+                                            >
+                                              Cancelar
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </Modal>
                                     </div>
                                   </div>
                                 </div>
@@ -160,11 +205,11 @@ export default function CartRooms({ state, close, arrayRooms=[], remove,dias,qua
                         <p>${totalPrice.toFixed(2)}</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">
-                        Shipping and taxes calculated at checkout.
+                        Los impuestos estan incluidos.
                       </p>
                       <div className="mt-6">
-                        <NavLink to="/reserve" 
-                          
+                        <NavLink to="/reserve"
+
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 w-full"
                         >
                           Reserver
@@ -172,11 +217,10 @@ export default function CartRooms({ state, close, arrayRooms=[], remove,dias,qua
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
-                          or
                           <button
                             type="button"
                             className="font-medium text-indigo-600 hover:text-indigo-500"
-                            onClick={() => setOpen(false)}
+                            onClick={close}
                           >
                             Continuar Reservando
                             <span aria-hidden="true"> &rarr;</span>
