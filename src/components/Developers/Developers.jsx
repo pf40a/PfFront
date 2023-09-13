@@ -2,59 +2,75 @@ const people = [
     {
       name: 'Jose Nicolas Villagra',
       role: 'Front-End Developer',
-      email: 'villgrajosenicolas@gmail.com',
+      email: 'villagrajosenicolas@gmail.com',
       imageUrl:
         '/developer1.JPG',
+      linkedin:"https://www.linkedin.com/in/jose-nicolas-villagra-83332a242/",
+      GitHub:"https://github.com/NicolasVillagra"
     },
     {
-        name: 'TU NOMBRE AQUI',
-        role: 'Front-End Developer',
-        email: 'TU EMAIL AQUI',
-        imageUrl:
-          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'TU NOMBRE AQUI',
-        role: 'Front-End Developer',
-        email: 'TU EMAIL AQUI',
-        imageUrl:
-          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'TU NOMBRE AQUI',
-        role: 'Front-End Developer',
-        email: 'TU EMAIL AQUI',
-        imageUrl:
-          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'TU NOMBRE AQUI',
-        role: 'Back-End Developer',
-        email: 'TU EMAIL AQUI',
-        imageUrl:
-          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'TU NOMBRE AQUI',
-        role: 'Back-End Developer',
-        email: 'TU EMAIL AQUI',
-        imageUrl:
-          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'TU NOMBRE AQUI',
-        role: 'Back-End Developer',
-        email: 'TU EMAIL AQUI',
-        imageUrl:
-          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'TU NOMBRE AQUI',
-        role: 'Back-End Developer',
-        email: 'TU EMAIL AQUI',
-        imageUrl:
-          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
+      name: 'TU NOMBRE AQUI',
+      role: 'Front-End Developer',
+      email: 'TU EMAIL AQUI',
+      imageUrl:
+        '/logo.jpg',
+      linkedin:"TU LINKEDIN AQUI",
+      GitHub:"TU GIT HUB AQUI"
+    },
+    {
+      name: 'TU NOMBRE AQUI',
+      role: 'Front-End Developer',
+      email: 'TU EMAIL AQUI',
+      imageUrl:
+        '/logo.jpg',
+      linkedin:"TU LINKEDIN AQUI",
+      GitHub:"TU GIT HUB AQUI"
+    },
+    {
+      name: 'TU NOMBRE AQUI',
+      role: 'Front-End Developer',
+      email: 'TU EMAIL AQUI',
+      imageUrl:
+        '/logo.jpg',
+      linkedin:"TU LINKEDIN AQUI",
+      GitHub:"TU GIT HUB AQUI"
+    },
+    {
+      name: 'TU NOMBRE AQUI',
+      role: 'Back-End Developer',
+      email: 'TU EMAIL AQUI',
+      imageUrl:
+        '/logo.jpg',
+      linkedin:"TU LINKEDIN AQUI",
+      GitHub:"TU GIT HUB AQUI"
+    },
+    {
+      name: 'TU NOMBRE AQUI',
+      role: 'Back-End Developer',
+      email: 'TU EMAIL AQUI',
+      imageUrl:
+        '/logo.jpg',
+      linkedin:"TU LINKEDIN AQUI",
+      GitHub:"TU GIT HUB AQUI"
+    },
+    {
+      name: 'TU NOMBRE AQUI',
+      role: 'Back-End Developer',
+      email: 'TU EMAIL AQUI',
+      imageUrl:
+        '/logo.jpg',
+      linkedin:"TU LINKEDIN AQUI",
+      GitHub:"TU GIT HUB AQUI"
+    },
+    {
+      name: 'TU NOMBRE AQUI',
+      role: 'Back-End Developer',
+      email: 'TU EMAIL AQUI',
+      imageUrl:
+        '/logo.jpg',
+      linkedin:"TU LINKEDIN AQUI",
+      GitHub:"TU GIT HUB AQUI"
+    },
 
     // More people...
   ]
@@ -78,6 +94,8 @@ const people = [
                     <h3 className="text-base font-semibold leading-7 tracking-tight text-gray-900">{person.name}</h3>
                     <p className="text-sm font-semibold leading-6 text-indigo-600">{person.role}</p>
                     <p className="text-sm font-semibold leading-6 text-indigo-600">{person.email}</p>
+                    <p className="text-sm font-semibold leading-6 text-indigo-600">{person.linkedin}</p>
+                    <p className="text-sm font-semibold leading-6 text-indigo-600">{person.GitHub}</p>
                   </div>
                 </div>
               </li>
