@@ -8,7 +8,7 @@ import { Fragment } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import styles from "./SearchRoom.module.css";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import {IconChevronsRight,IconChevronsLeft } from '@tabler/icons-react'
+import { IconChevronsRight, IconChevronsLeft } from "@tabler/icons-react";
 import {
   ChevronDownIcon,
   FunnelIcon,
@@ -16,6 +16,7 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
 import Room from "../Room/Room";
 import PaymenView from "../Payment/PaymenView";
@@ -103,22 +104,22 @@ const SearchRoom = () => {
   ];
   const [filtros, setFiltros] = useState([]);
   // Función para manejar la selección/deselección de una opción
-    const handleFiltros = (opcion) => {
-      //alert(opcion)
-      let newFiltros = [];
-      if (filtros.includes(opcion)) {
-        // Si la opción ya está seleccionada, la eliminamos
-        newFiltros=filtros.filter(item => item !== opcion)
-        setFiltros(newFiltros);
-        dispatch(filterRoom(newFiltros))
-      } else {
-        // Si la opción no está seleccionada, la agregamos
-newFiltros=[...filtros, opcion];
-        setFiltros(newFiltros);
-        dispatch(filterRoom(newFiltros))
-      }
-      paginator(1)
-    };
+  const handleFiltros = (opcion) => {
+    //alert(opcion)
+    let newFiltros = [];
+    if (filtros.includes(opcion)) {
+      // Si la opción ya está seleccionada, la eliminamos
+      newFiltros = filtros.filter((item) => item !== opcion);
+      setFiltros(newFiltros);
+      dispatch(filterRoom(newFiltros));
+    } else {
+      // Si la opción no está seleccionada, la agregamos
+      newFiltros = [...filtros, opcion];
+      setFiltros(newFiltros);
+      dispatch(filterRoom(newFiltros));
+    }
+    paginator(1);
+  };
   //console.log('filtros:',filtros)
 
   const [order, setOrder] = useState("Capacidad");
@@ -132,10 +133,9 @@ newFiltros=[...filtros, opcion];
   //Rooms LocalStorage :
   //añadir habitacion
 
-
   const addToCart = (item) => {
     setSelectedRoom(item);
-    };
+  };
 
   const showCart = () => {
     setCartShow(true);
@@ -152,7 +152,7 @@ newFiltros=[...filtros, opcion];
   }
   //
 
-  let roomsLocal=[];
+  let roomsLocal = [];
   if (getLocalStorage("rooms")) {
     roomsLocal = getLocalStorage("rooms");
   }
@@ -164,17 +164,19 @@ newFiltros=[...filtros, opcion];
   const addReserve = (item) => {
     if (!isProductInCart(item.id)) {
       // Si el producto no está en el carrito, agrégalo
-      const newItem = { ...item,precio:item.precio * diasEntreFechas(search.fechaIn,search.fechaOut) ,quantity: 1 };
+      const newItem = {
+        ...item,
+        precio: item.precio * diasEntreFechas(search.fechaIn, search.fechaOut),
+        quantity: 1,
+      };
       setRoomReserve([...roomReserve, newItem]);
       localStorage.setItem("rooms", JSON.stringify([...roomReserve, newItem]));
-
     } else {
-      increaseQuantity(item.id)
+      increaseQuantity(item.id);
       // Producto ya en el carrito, puedes mostrar un mensaje de error o realizar otra acción.
     }
-    showCart()
+    showCart();
   };
-
 
   useEffect(() => {
     const storedRooms = JSON.parse(localStorage.getItem("rooms")) || [];
@@ -200,12 +202,11 @@ newFiltros=[...filtros, opcion];
       }
       return item;
     });
-  
+
     setRoomReserve(updatedReserve);
     localStorage.setItem("rooms", JSON.stringify(updatedReserve));
   };
 
-  
   const decreaseQuantity = (itemId) => {
     const updatedReserve = roomReserve.map((item) => {
       if (item.id === itemId && item.quantity > 1) {
@@ -216,14 +217,13 @@ newFiltros=[...filtros, opcion];
       }
       return item;
     });
-  
+
     setRoomReserve(updatedReserve);
     localStorage.setItem("rooms", JSON.stringify(updatedReserve));
   };
-  
+
   console.log(roomsLocal);
   //---------PARA QUE NO SE AGREGUE UNA CARD REPETIDO-------------//
-
 
   ///Paginado - Filtros - Orden
   const roomsPerPage = 4;
@@ -243,7 +243,7 @@ newFiltros=[...filtros, opcion];
     const init = (pag - 1) * roomsPerPage;
     const end = init + roomsPerPage;
     setRoomsPage(roomsRedux?.slice(init, end));
-    
+
     window.scrollTo({
       top: 0,
       behavior: "smooth", // Hace que el desplazamiento sea suave
@@ -265,14 +265,11 @@ newFiltros=[...filtros, opcion];
       paginator(nowPage);
       //console.log("qq", nowPage);
     }
-
-    
-  },[roomsRedux])
-
+  }, [roomsRedux]);
 
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-white dark:bg-[#16242f]">
         <div>
           {/* Mobile filter dialog */}
           <Transition.Root show={mobileFiltersOpen} as={Fragment}>
@@ -305,7 +302,7 @@ newFiltros=[...filtros, opcion];
                 >
                   <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                     <div className="flex items-center justify-between px-4">
-                      <h2 className="text-lg font-medium text-gray-900">
+                      <h2 className="text-lg font-medium text-gray-900 dark:text-white">
                         Filtros
                       </h2>
                       <button
@@ -403,14 +400,14 @@ newFiltros=[...filtros, opcion];
               <SearchBox />
             </div>
             <div className="flex flex-col md:flex-row items-center md:items-baseline justify-between border-b border-gray-200 pb-6 pt-8 md:pt-24 ">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
                 Habitaciones
               </h1>
 
               <div className="flex items-center">
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
-                    <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                    <Menu.Button className="dark:text-white group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                       Filtros
                       <ChevronDownIcon
                         className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
@@ -496,7 +493,7 @@ newFiltros=[...filtros, opcion];
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-6 h-6"
+                    className="w-6 h-6 text-black dark:text-white"
                   >
                     <path
                       strokeLinecap="round"
@@ -524,36 +521,60 @@ newFiltros=[...filtros, opcion];
             </div>
 
             {/* paginado */}
-            <div className={styles.paginado}>
-              {actualPage > 1? (
-                <button onClick={() => paginator(actualPage - 1)} className="">
-                  prev
-                </button>
-              ) : (btnPaginator?.length > 1 && 
-                <button className="text-gray-400">
-                  prev
-                </button>
-              )}
-
-              {btnPaginator?.length > 1 &&
-                btnPaginator?.map((numeroPag, i) => (
+            <div className="flex gap-10 mt-4">
+                {actualPage > 1 ? (
                   <button
-                    className={actualPage === numeroPag ? styles.active : null}
-                    key={i}
-                    onClick={() => paginator(numeroPag)}
-                  >{`${numeroPag}`}</button>
-                ))}
+                    onClick={() => paginator(actualPage - 1)}
+                    className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 dark:text-gray-600 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 focus:z-20 focus:outline-offset-0"
+                  >
+                    <span className="sr-only">Previous</span>
+                    <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+                  </button>
+                ) : (
+                  btnPaginator?.length > 1 && (
+                    <button className="text-gray-400 dark:text-gray-600 relative inline-flex items-center rounded-l-md px-2 py-2 focus:z-20 focus:outline-offset-0">
+                      <span className="sr-only">Previous</span>
+                      <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                  )
+                )}
 
-              {actualPage < btnPaginator.length? (
-                <button onClick={() => paginator(actualPage + 1)}>
-                  next
-                </button>
-              ) : (btnPaginator?.length > 1 && 
-                <button className="text-gray-400" >
-                  next
-                </button>
-              )}
-            </div>
+                {btnPaginator?.length > 1 &&
+                  btnPaginator?.map((numeroPag, i) => (
+                    <a
+                      className={`${
+                        actualPage === numeroPag
+                          ? "relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white dark:bg-gray-700 dark:text-white dark:focus:outline-offset-0 dark:focus-visible:outline dark:focus-visible:outline-2 dark:focus-visible:outline-offset-2 dark:focus-visible:outline-indigo-600"
+                          : "dark:text-white relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:hover:bg-gray-800 dark:focus:z-20 dark:focus:outline-offset-0"
+                      }`}
+                      key={i}
+                      onClick={() => paginator(numeroPag)}
+                      href="#"
+                    >
+                      {`${numeroPag}`}
+                    </a>
+                  ))}
+
+                {actualPage < btnPaginator.length ? (
+                  <button
+                    onClick={() => paginator(actualPage + 1)}
+                    className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 dark:text-gray-600 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 focus:z-20 focus:outline-offset-0"
+                  >
+                    <span className="sr-only">Next</span>
+                    <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+                  </button>
+                ) : (
+                  btnPaginator?.length > 1 && (
+                    <button className="text-gray-400 dark:text-gray-600 relative inline-flex items-center rounded-r-md px-2 py-2 focus:z-20 focus:outline-offset-0">
+                      <span className="sr-only">Next</span>
+                      <ChevronRightIcon
+                        className="h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    </button>
+                  )
+                )}
+              </div>
             {/* Fin paginado */}
 
             <section aria-labelledby="products-heading" className="pb-24 pt-6 ">
@@ -605,7 +626,7 @@ newFiltros=[...filtros, opcion];
                   {roomsPage?.length == 0 && <div>Sin Resultados</div>}
 
                   {selectedRoom && (
-                    <div className=" backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto">
+                    <div className="z-50 backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto">
                       <PaymenView
                         close={() => setSelectedRoom(null)} // Cierra el componente PaymenView
                         id={selectedRoom.id}
@@ -621,36 +642,61 @@ newFiltros=[...filtros, opcion];
               </div>
 
               {/* paginado */}
-              <div className={`${styles.paginado} mt-4`}>
-              {actualPage > 1? (
-                <button onClick={() => paginator(actualPage - 1)}>
-                  prev
-                </button>
-              ) : (btnPaginator?.length > 1 && 
-                <button className="text-gray-400">
-                  prev
-                </button>
-              )}
-
-              {btnPaginator?.length > 1 &&
-                btnPaginator?.map((numeroPag, i) => (
+              <div className="flex gap-10 mt-4">
+                {actualPage > 1 ? (
                   <button
-                    className={actualPage === numeroPag ? styles.active : null}
-                    key={i}
-                    onClick={() => paginator(numeroPag)}
-                  >{`${numeroPag}`}</button>
-                ))}
+                    onClick={() => paginator(actualPage - 1)}
+                    className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 dark:text-gray-600 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 focus:z-20 focus:outline-offset-0"
+                  >
+                    <span className="sr-only">Previous</span>
+                    <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+                  </button>
+                ) : (
+                  btnPaginator?.length > 1 && (
+                    <button className="text-gray-400 dark:text-gray-600 relative inline-flex items-center rounded-l-md px-2 py-2 focus:z-20 focus:outline-offset-0">
+                      <span className="sr-only">Previous</span>
+                      <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+                    </button>
+                  )
+                )}
 
-              {actualPage < btnPaginator.length? (
-                <button onClick={() => paginator(actualPage + 1)}>
-                  next
-                </button>
-              ) : (btnPaginator?.length > 1 && 
-                <button className="text-gray-400" >
-                  next
-                </button>
-              )}
-            </div>
+                {btnPaginator?.length > 1 &&
+                  btnPaginator?.map((numeroPag, i) => (
+                    <a
+                      className={`${
+                        actualPage === numeroPag
+                          ? "relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white dark:bg-gray-700 dark:text-white dark:focus:outline-offset-0 dark:focus-visible:outline dark:focus-visible:outline-2 dark:focus-visible:outline-offset-2 dark:focus-visible:outline-indigo-600"
+                          : "dark:text-white relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 dark:hover:bg-gray-800 dark:focus:z-20 dark:focus:outline-offset-0"
+                      }`}
+                      key={i}
+                      onClick={() => paginator(numeroPag)}
+                      href="#"
+                    >
+                      {`${numeroPag}`}
+                    </a>
+                  ))}
+
+                {actualPage < btnPaginator.length ? (
+                  <button
+                    onClick={() => paginator(actualPage + 1)}
+                    className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 dark:text-gray-600 ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 focus:z-20 focus:outline-offset-0"
+                  >
+                    <span className="sr-only">Next</span>
+                    <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+                  </button>
+                ) : (
+                  btnPaginator?.length > 1 && (
+                    <button className="text-gray-400 dark:text-gray-600 relative inline-flex items-center rounded-r-md px-2 py-2 focus:z-20 focus:outline-offset-0">
+                      <span className="sr-only">Next</span>
+                      <ChevronRightIcon
+                        className="h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    </button>
+                  )
+                )}
+              </div>
+
               {/* Fin paginado */}
             </section>
           </main>
@@ -658,6 +704,5 @@ newFiltros=[...filtros, opcion];
       </div>
     </>
   );
- 
 };
 export default SearchRoom;

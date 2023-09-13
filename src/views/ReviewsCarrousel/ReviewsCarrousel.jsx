@@ -1,29 +1,41 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const ReviewsCarrousel = ({state}) => {
+const ReviewsCarrousel = ({ state }) => {
   const [reviews, setReviews] = useState(state);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [isIntervalRunning, setIsIntervalRunning] = useState(true);
   const intervalDuration = 1500;
 
   useEffect(() => {
-    setReviews(state)
-  }, [state])
-  
-
-  useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/reviews`);
-        // setReviews(response.data.data);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hotel/reviews/`
+        );
+        const reviewsData = response.data.data;
+
+        setReviews(reviewsData);
       } catch (error) {
-        console.error("Error al obtener las reseñas:", error);
+        console.error("Error al obtener las revisiones:", error);
       }
     };
 
-    fetchReviews(); // Llamar a la función para obtener las revisiones inicialmente
+    fetchReviews();
   }, []);
+  // useEffect(() => {
+  //   const fetchReviews = async () => {
+  //     try {
+  //       const response = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/reviews`);
+  //       // setReviews(response.data.data);
+  //     } catch (error) {
+  //       console.error("Error al obtener las reseñas:", error);
+  //     }
+  //   };
+
+  //   fetchReviews(); // Llamar a la función para obtener las revisiones inicialmente
+  // }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (isIntervalRunning) {
@@ -35,6 +47,9 @@ const ReviewsCarrousel = ({state}) => {
       clearInterval(interval);
     };
   }, [reviews, isIntervalRunning]);
+  if (!reviews || reviews.length === 0) {
+    return null;
+  }
 
   const currentReview = reviews[currentReviewIndex];
 

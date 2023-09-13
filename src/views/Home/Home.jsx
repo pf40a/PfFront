@@ -7,7 +7,8 @@ import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
-import Review from "../../components/Reviews/Reviews";
+import ReviewsCarrousel from "../ReviewsCarrousel/ReviewsCarrousel";
+
 import CorreoForm from "../../components/ContactForm/CorreoForm";
 
 const Home = () => {
@@ -28,10 +29,13 @@ const Home = () => {
         className="w-full h-96 flex items-center justify-center"
         style={{ height: "40rem" }}
       >
-        <div className="absolute bg-black/60 h-96 w-full  flex items-center justify-center" style={{height:"40rem"}}>
-        <h2 className="text-7xl bg-gradient-to-r from-blue-500 via-orange-500 to-green-500 text-transparent bg-clip-text stroke-black-500 ">
-          Oasis Hotel
-        </h2>
+        <div
+          className="absolute bg-black/60 h-96 w-full  flex items-center justify-center"
+          style={{ height: "40rem" }}
+        >
+          <h2 className="text-7xl bg-gradient-to-r from-blue-500 via-orange-500 to-green-500 text-transparent bg-clip-text stroke-black-500 ">
+            Oasis Hotel
+          </h2>
         </div>
 
         <img
@@ -76,10 +80,10 @@ const Home = () => {
       </div>
 
       <div className=" flex flex-col items-center justify-center  m-16">
-        <p className="font-mono text-center text-5xl font-semibold ">
+        <p className="font-mono text-center text-5xl font-semibold dark:text-white ">
           Nuestros Servicios
         </p>
-        <p className="font-sans md:system-ui mt-3 text-center text-lg  text-gray-800">
+        <p className="font-sans md:system-ui mt-3 text-center text-lg  text-gray-800  dark:text-white">
           Oasis Hotel te ofrece todos los servicios que necesitas.
         </p>
       </div>
@@ -88,8 +92,8 @@ const Home = () => {
         <div className="flex flex-col items-center justify-center w-full h-full text-center">
           <img src={pool} alt="Piscina" className="w-15 h-15 mb-2 mx-auto" />
           <div className="flex flex-col items-center w-48">
-            <p className="text-lg font-semibold">Piscina</p>
-            <p className="mt-2 text-sm break-words">
+            <p className="text-lg font-semibold dark:text-white">Piscina</p>
+            <p className="mt-2 text-sm break-words dark:text-white">
               Disfruta de un refrescante baño junto a la piscina. El lugar
               perfecto para relajarte.
             </p>
@@ -102,8 +106,8 @@ const Home = () => {
             className="w-15 h-15 mb-2 mx-auto"
           />
           <div className="flex flex-col items-center w-48">
-            <p className="text-lg font-semibold">WiFi Gratis</p>
-            <p className="mt-2 text-sm break-words">
+            <p className="text-lg font-semibold dark:text-white">WiFi Gratis</p>
+            <p className="mt-2 text-sm break-words dark:text-white">
               Mantente conectado en nuestro Hotel con WiFi gratuito.
             </p>
           </div>
@@ -115,8 +119,10 @@ const Home = () => {
             className="w-15 h-15 mb-2 mx-auto"
           />
           <div className="flex flex-col items-center w-48">
-            <p className="text-lg font-semibold">Traslado al Aeropuerto</p>
-            <p className="mt-2 text-sm break-words">
+            <p className="text-lg font-semibold dark:text-white">
+              Traslado al Aeropuerto
+            </p>
+            <p className="mt-2 text-sm break-words dark:text-white">
               Traslados seguros desde el aeropuerto para tu comodidad.
             </p>
           </div>
@@ -124,8 +130,8 @@ const Home = () => {
         <div className="flex flex-col items-center justify-center w-full h-full text-center">
           <img src={bf} alt="Desayuno" className="w-15 h-15 mb-2 mx-auto" />
           <div className="flex flex-col items-center w-48">
-            <p className="text-lg font-semibold">Desayuno</p>
-            <p className="mt-2 text-sm break-words">
+            <p className="text-lg font-semibold dark:text-white">Desayuno</p>
+            <p className="mt-2 text-sm break-words dark:text-white">
               Comienza el día con un delicioso desayuno preparado especialmente
               para ti.
             </p>
@@ -133,10 +139,8 @@ const Home = () => {
         </div>
       </div>
       <AboutUs />
-      <Review />
-      <div>
-        <CorreoForm />
-      </div>
+      <ReviewsCarrousel />
+      <div></div>
     </div>
   );
 };
