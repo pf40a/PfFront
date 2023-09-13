@@ -11,6 +11,9 @@ import axios from 'axios';
 import Reservas from './Reservas';
 import { IconId } from '@tabler/icons-react';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
+
+
 const Sidebar = () => {
 const dispatch = useDispatch()
   const [sidenav, setSidenav] = useState(true);
@@ -168,17 +171,8 @@ const [dataId, setDataId] = useState('')
               href="#"
               className=" pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out "
             >
-              <svg
-                className="w-6 h-6 fill-current inline-block"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5 3a2 2 0 012-2h2a2 2 0 012 2h2a2 2 0 012-2h2a2 2 0 012 2h2a2 2 0 012-2h2a2 2 0 012 2V17a2 2 0 01-2 2H5a2 2 0 01-2-2V3z"
-                ></path>
-              </svg>
-              <span>Dashboard</span>
+              <LeaderboardOutlinedIcon /> 
+              <span>Dashboard**</span>
             </a>
             <a
               href="#"
