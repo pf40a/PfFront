@@ -4,7 +4,7 @@ import axios from 'axios';
 import { GetClientes,GetUsers} from '../../redux/actions'
 import { useDispatch } from 'react-redux';
 
-export default function DashDetalle({ id, data, type, onClose }) {
+export default function DashDetalle({ id, data, type, onClose, action = null }) {
  const dispatch = useDispatch(); 
   const [newData, setNewData] = useState({});
 console.log('Data:.',newData)
@@ -60,7 +60,9 @@ const handleSubmit = async (e) => {
        dispatch(GetClientes()); 
       }else if(type==='users'){ 
        dispatch(GetUsers());
-      }
+      }else if(type==='habitaciones/detalle/put'){ 
+        action();
+       }
       
       onClose(false);
     })
@@ -101,7 +103,7 @@ const handleSubmit = async (e) => {
       
        
        <div className='mt-2'>
-<Button className='bg-red text-white' onClick={()=>onClose(false)}>Cerrar</Button> <Button type='submit' variant="primary" className='text-white' >Guardar</Button> 
+<Button variant="secondary" onClick={()=>onClose(false)}>Cerrar</Button> <Button type='submit' variant="primary" className='text-white' >Guardar</Button> 
        </div>
        
       </Card>

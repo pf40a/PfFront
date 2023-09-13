@@ -36,13 +36,13 @@ const people = [
       GitHub:"TU GIT HUB AQUI"
     },
     {
-      name: 'TU NOMBRE AQUI',
+      name: 'Juan Bautista María Beck',
       role: 'Back-End Developer',
-      email: 'TU EMAIL AQUI',
+      email: 'juanbautistabeck@gmail.com',
       imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
+        '/FotodeperfilLinkedin.png',
+      linkedin:"www.linkedin.com/in/juan-bautista-maría-beck",
+      GitHub:"https://github.com/JBautistaBeck"
     },
     {
       name: 'TU NOMBRE AQUI',

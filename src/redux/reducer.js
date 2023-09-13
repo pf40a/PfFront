@@ -21,6 +21,7 @@ import {
 } from "./actions";
 
 const initialState = {
+  
   habitaciones: [],
   users:[],
   clientes: [],

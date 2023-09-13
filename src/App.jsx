@@ -38,7 +38,6 @@ import { useCheckAuth } from "./Hooks/useCheckAuth";
 
 import "./App.css";
 import DashboardUser from "./views/DashBoardUser/DashboardUser";
-import Developers from "./components/Developers/Developers";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -71,7 +70,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="*" element={<ErroPage />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/review" element={<ReviewAdmin />} />
         <Route path="/pop" element={<PopDetail />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/search" element={<SearchRoom />} />
@@ -86,7 +84,7 @@ function App() {
         <Route path="/details/:subtipo" element={<DetailsRooms />} />
         <Route path="/dashboardUser" element={<DashboardUser />} />
         <Route path="/reviewUser" element={<ReviewUser />} />
-        <Route path="/developers" element={<Developers/>} />
+        <Route path="/reviewAdmin" element={<ReviewAdmin />} />
       </Routes>
       {showLayout && <Footer />}
     </>

@@ -8,10 +8,16 @@ import Usuarios from './DashUsuarios';
 import Habitaciones from './DashHabitaciones';
 import { GetClientes, PutClientes } from '../../redux/actions';
 import axios from 'axios';
+import Reservas from './Reservas';
 import { IconId } from '@tabler/icons-react';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
+import Tipos from './TiposHabs';
 
+import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
+import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
+import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
+import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 
 const Sidebar = () => {
 const dispatch = useDispatch()
@@ -84,53 +90,6 @@ const [dataId, setDataId] = useState('')
    console.error(error)
   } 
   }
-  const data = [
-    {
-      name: "Viola Amherd",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Defence, Civil Protection and Sport (DDPS)",
-      status: "active",
-    },
-    {
-      name: "Simonetta Sommaruga",
-      Role: "Federal Councillor",
-      departement:
-        "The Federal Department of the Environment, Transport, Energy and Communications (DETEC)",
-      status: "active",
-    },
-    {
-      name: "Alain Berset",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Home Affairs (FDHA)",
-      status: "active",
-    },
-    {
-      name: "Ignazio Cassis",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Foreign Affairs (FDFA)",
-      status: "active",
-    },
-    {
-      name: "Ueli Maurer",
-      Role: "cocinero",
-      departement: "The Federal Department of Finance (FDF)",
-      status: "active",
-    },
-    {
-      name: "Guy Parmelin",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Economic Affairs, Education and Research (EAER)",
-      status: "inactive",
-    },
-    {
-      name: "Karin Keller-Sutter",
-      Role: "Federal Councillor",
-      departement: "The Federal Department of Justice and Police (FDJP)",
-      status: "active",
-    },
-  ];
-  
-const roles = new Set(data.filter(r => r.Role))
 
   const chartdata = [
     {
@@ -218,24 +177,15 @@ const roles = new Set(data.filter(r => r.Role))
               className=" pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out "
             >
               <LeaderboardOutlinedIcon /> 
-              <span>Dashboard**</span>
+              <span className="ml-2">Estadísticas</span>
             </a>
             <a
               href="#"
               onClick={() => changeSection('clientes')}
               className="pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
             >
-              <svg
-                className="w-6 h-6 fill-current inline-block"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z"
-                ></path>
-              </svg>
-              <span>Clientes</span>
+              <GroupOutlinedIcon />
+              <span className="ml-2">Clientes</span>
             </a>
             {/* Add the rest of the menu items here */}
             <a
@@ -243,44 +193,28 @@ const roles = new Set(data.filter(r => r.Role))
         onClick={() => changeSection('usuarios')}
         className="  pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
       >
-        <svg
-          className="w-6 h-6 fill-current inline-block mr-2"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-          <path
-            fillRule="evenodd"
-            d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z"
-            clipRule="evenodd"
-          ></path>
-        </svg>
-        <span>Usuarios</span>
+        <AssignmentIndOutlinedIcon />
+        <span className="ml-2">Usuarios</span>
       </a>
       <a
         href="#"
         onClick={() => changeSection('habitaciones')}
         className=" pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
       >
-        <svg
-          className="w-6 h-6 fill-current inline-block mr-2"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"
-          ></path>
-          <path
-            d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"
-          ></path>
-        </svg>
-        <span>Habitaciones</span>
+        <HotelOutlinedIcon />
+        <span className="ml-2">Habitaciones</span>
       </a>
       <a
         href="#"
         onClick={() => changeSection('reservas')}
+        className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center pt-4"
+      >
+        <ConfirmationNumberOutlinedIcon />
+        <span className="ml-2">Reservas</span>
+      </a>
+      <a
+        href="#"
+        onClick={() => changeSection('Tipos')}
         className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center pt-4"
       >
         <svg
@@ -295,9 +229,8 @@ const roles = new Set(data.filter(r => r.Role))
             clipRule="evenodd"
           ></path>
         </svg>
-        <span>Reservas</span>
+        <span>Tipos-habitacion</span>
       </a>
-
           </div>
         </div>
       </div>
@@ -382,16 +315,28 @@ const roles = new Set(data.filter(r => r.Role))
   </main>
   
      )}
+       {
+section === "Tipos" && ( 
+
+<Tipos setIsOpenDetalle={setIsOpenDetalle} setDataDetail={setDataDetail} setDataId={setDataId} setTypeData={setTypeData}/>
+)
+}
+     {
+section === "reservas" && ( 
+
+<Reservas/>
+)
+}
 {
 section === "usuarios" && ( 
 
-<Usuarios data = {data} setIsOpenDetalle={setIsOpenDetalle} setDataDetail={setDataDetail} setDataId={setDataId} setTypeData={setTypeData}/>
+<Usuarios  setIsOpenDetalle={setIsOpenDetalle} setDataDetail={setDataDetail} setDataId={setDataId} setTypeData={setTypeData}/>
 )
 }
 {
 section === "habitaciones" && ( 
 
-<Habitaciones data={data}/>
+<Habitaciones />
 )
 }
 {//CLIENTES
