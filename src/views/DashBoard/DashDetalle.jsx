@@ -101,7 +101,7 @@ const handleSubmit = async (e) => {
       
        
        <div className='mt-2'>
-<Button className='bg-red text-white' onClick={()=>onClose(false)}>Cerrar</Button> <Button type='submit' variant="primary" className='text-white' >Guardar</Button> 
+<Button variant="secondary" onClick={()=>onClose(false)}>Cerrar</Button> <Button type='submit' variant="primary" className='text-white' >Guardar</Button> 
        </div>
        
       </Card>
