@@ -7,7 +7,7 @@ import bf from "../../assets/imgHome/breakfast.png";
 import axios from "axios";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import AboutUs from "../AboutUs/AboutUs";
-import ReviewAdmin from "../../components/Reviews/Admin/ReviewsAdmin";
+import ReviewsCarrousel from "../ReviewsCarrousel/ReviewsCarrousel";
 
 import CorreoForm from "../../components/ContactForm/CorreoForm";
 
@@ -137,10 +137,8 @@ const Home = () => {
         </div>
       </div>
       <AboutUs />
-      <ReviewAdmin />
-      <div>
-        <CorreoForm />
-      </div>
+      <ReviewsCarrousel />
+      <div></div>
     </div>
   );
 };
