@@ -1,23 +1,10 @@
 import { FirebaseAuth } from "../Firebase/Config";
 
 import {
-  PUT_CLIENTES,
-  GET_CLIENTES,
-  SEARCH_ROOMS,
-  DETAIL_ROOM,
-  FILTER_ROOMS,
-  ORDER_ROOMS,
-  TYPES_ROOMS,
-  FILTER_TYPES_ROOMS,
-  SAVE_PAGE,
-  LOGIN,
-  LOGOUT,
-  CHECKING_CREDENTIALS,
-  PUT_USERS,
-  GET_USERS,
-  GET_HABITACIONES,
-  PUT_HABITACIONES,
-  PUT_HABITACIONES_DETAIL
+  PUT_CLIENTES, GET_CLIENTES, SEARCH_ROOMS, DETAIL_ROOM,
+  FILTER_ROOMS, ORDER_ROOMS, TYPES_ROOMS, FILTER_TYPES_ROOMS,
+  SAVE_PAGE, LOGIN, LOGOUT, CHECKING_CREDENTIALS, PUT_USERS,
+  GET_USERS, GET_HABITACIONES, PUT_HABITACIONES, PUT_HABITACIONES_DETAIL
 } from "./actions";
 
 const initialState = {
@@ -212,26 +199,30 @@ export default function rootReducer(state = initialState, action) {
     // ----- Authentication -----
 
     case LOGIN:
-      const { displayName, nombre, apellido, photoURL } = action.payload;
+      const { displayName, nombre, apellido, email, photoURL } = action.payload;
+
       // Verifica si el correo está confirmado
       const isEmailVerified = FirebaseAuth.currentUser?.emailVerified || false;
+
+        // Determina si el usuario es administrador
+        const isAdmin = email === "pf.henry40a@gmail.com";
+
       return {
         ...state,
         auth: {
           status: isEmailVerified
             ? "authenticated"
             : "Waiting for confirmation",
-          // status: "authenticated",
           uid: action.payload.uid,
           displayName: displayName || `${nombre} ${apellido}`,
-          nombre: action.payload.nombre,
-          apellido: action.payload.apellido,
-          email: action.payload.email,
+          nombre: nombre,
+          apellido: apellido,
+          email: email,
           photoURL:
             photoURL ||
             "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
           errorMessage: null,
-          admin: false,
+          admin: isAdmin,
           user: true,
         },
       };

@@ -2,13 +2,16 @@ import axios from "axios";
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { Grid, Typography, TextField, Button, Link, Alert } from "@mui/material";
+import { Grid, Typography, TextField, Button, Link, Alert, getDialogActionsUtilityClass, } from "@mui/material";
 import { Google } from "@mui/icons-material";
 
 import AuthLayout from "../Layout/AuthLayout";
 import { useForm } from "../../../Hooks/useForm";
 import { checkingCredentials, login, logout } from "../../../redux/actions";
-import { loginWithEmailPassword, singInWithGoogle } from "../../../Firebase/Providers";
+import {
+  loginWithEmailPassword,
+  singInWithGoogle,
+} from "../../../Firebase/Providers";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -30,6 +33,16 @@ const LoginPage = () => {
     }
   }, [status]);
 
+  // Obtener el usuario que se intenta registrar
+  const getId = async (correo) => {
+    try {
+      const userId = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/users/login`, { email: correo });
+      return userId.data;
+    } catch (error) {
+      return { msg: "Error obteniendo los datos del backend: ", error };
+    }
+  };
+
   // ----- Inicio con Google -----
 
   const startGoogleSignIn = () => {
@@ -46,27 +59,34 @@ const LoginPage = () => {
   const onGoogleSignIn = () => {
     dispatch(startGoogleSignIn()).then(async (result) => {
       if (result.ok) {
-        // Creando una copia de updatedFormState
+        // Creando una copia de result
         const resultCopia = { ...result };
 
-        // Nuevo result
-        const newResult = {
-          id: resultCopia.uid,
-          nombre: resultCopia.displayName,
-          apellido: "Sin apellido",
-          email: resultCopia.email,
-          password: "noAplica",
-          googleUser: true,
-        };
+        getId(resultCopia.email)
+        .then( async (result) => {
+          if(result.error) {
+              // Nuevo result
+            const newResult = {
+              id: resultCopia.uid,
+              nombre: resultCopia.displayName,
+              apellido: "Sin apellido",
+              email: resultCopia.email,
+              password: "noAplica",
+              googleUser: true,
+            };
 
-        try {
-          const response = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/users`, newResult );
-          if (response.data) {
-            console.log("Usuario creado", response.data);
+            try {
+              const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/users`, newResult );
+            if (response.data) {
+              console.log("Usuario creado", response.data);
+            }
+            } catch (error) {
+              console.error("Error sending data to backend:", error);
+            }
+          } else {
+            console.log("Este usuario ya se encuentra registrado en la DB... no se va a volver a guardar");
           }
-        } catch (error) {
-          console.error("Error sending data to backend:", error);
-        }
+        });
       }
     });
   };
@@ -97,7 +117,7 @@ const LoginPage = () => {
             <TextField
               label="Correo"
               type="email"
-              placeholder="example@exaple.com"
+              placeholder="example@example.com"
               fullWidth
               name="email"
               value={email}
@@ -172,7 +192,6 @@ const LoginPage = () => {
               </Link>
             </Grid>
           </Grid>
-
         </Grid>
       </form>
     </AuthLayout>

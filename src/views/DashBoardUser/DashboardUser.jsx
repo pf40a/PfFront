@@ -1,7 +1,9 @@
 import React from 'react'
 import { useState } from 'react';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+
+import MisDatos from "./MisDatos.jsx"
 
 const DashboardUser = () => {
   const [sidenav, setSidenav] = useState(true);
@@ -93,7 +95,6 @@ const DashboardUser = () => {
                 <span className="">Mis datos</span>
               </button>
 
-
               <button
                 href=""
                 className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
@@ -170,8 +171,8 @@ const DashboardUser = () => {
         
 
 
-        <div className='flex bg-white shadow-lg rounded-lg mx-4 md:mx-auto my-56 max-w-md md:max-w-2xl '>
-          <h1>ACA VAN LOS COMPONENTES</h1>
+        <div style={{ width: '100vw', height: '100vh' }} className="justify-content-center ">
+          <MisDatos/>
         </div>
 
 
