@@ -12,14 +12,22 @@ const DashboardUser = () => {
   const [sidenav, setSidenav] = useState(true);
   const [showReserve, setShowReserve] = useState(false);
   const [showDashboard, setShowDashboard] = useState(true);
+  const [showDate, setShowDate] = useState(false);
 
   //---------HANDLES-------------//
   const handleShowRerves = () => {
     setShowReserve(true);
+    setShowDate(false)
   };
   const handleShowDashboard = () => {
     setShowDashboard(true);
     setShowReserve(false);
+    setShowDate(false)
+  };
+  const handleShowDates = () => {
+    setShowDashboard(false);
+    setShowReserve(false);
+    setShowDate(true)
   };
 
 
@@ -74,7 +82,7 @@ const DashboardUser = () => {
                   <span className="">Dashboard</span>
                 </button>
                 <button
-                  href=""
+                  onClick={handleShowDates}
                   className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
                 >
                   <svg
@@ -157,11 +165,13 @@ const DashboardUser = () => {
           <div className="flex-1 p-4 md:ml-72 lg:ml-80 ">
             {showReserve ? (
               <div>
-                <MisDatos/>
                 <Reserve />
               </div>
             ) : (
               ""
+            )}
+            {showDate && (
+             <MisDatos/>
             )}
           </div>
         </div>
