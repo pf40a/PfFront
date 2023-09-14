@@ -12,7 +12,10 @@ import DarkModeToggle from "../DarkMode/DarkMode";
 
 const navegacionAdmin = [
   { name: "Dashboard", href: "/Dashboard", current: true },
-  { name: "Reservas", href: "/Reservations", current: false },
+  { name: "Developers", href: "/developers", current: true },
+];
+const invited = [
+{ name: "Developers", href: "/developers", current: true },
 ];
 
 const navegacionUsuario = [

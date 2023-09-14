@@ -117,7 +117,7 @@ const Reserve = ({info}) => {
           {state.map((person) => (
             <li
               key={person.id}
-              className="w-full flex flex-col md:flex-row justify-between gap-2 sm:gap-4 py-4 md:py-6 lg:py-8 relative"
+              className="w-full flex flex-col items-center md:flex-row justify-between gap-2 sm:gap-4 py-4 md:py-6 lg:py-8 relative"
             >
               <div className="flex flex-col md:flex-row items-center min-w-0 gap-2 md:gap-4">
                 <img
@@ -132,7 +132,7 @@ const Reserve = ({info}) => {
                   </p>
                 </div>
               </div>
-              <div className="absolute top-0 right-0 mt-2 md:mt-0">
+              <div className=" top-0 right-0 mt-2 md:mt-0">
                 <button onClick={() => handleMoreInfoClick(person)}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
