@@ -39,6 +39,7 @@ import { useCheckAuth } from "./Hooks/useCheckAuth";
 
 import "./App.css";
 import DashboardUser from "./views/DashBoardUser/DashboardUser";
+import Developers from "./components/Developers/Developers";
 
 function App() {
   const [showLayout, setShowLayout] = useState(true);
@@ -51,7 +52,6 @@ function App() {
         currentPath !== "/reserve" &&
         currentPath !== "/recover" &&
         currentPath !== "/dashboard" &&
-        currentPath !== "/contact" &&
         currentPath !== "/mercadopago"
     );
   }, []);
@@ -86,6 +86,7 @@ function App() {
         <Route path="/dashboardUser" element={<DashboardUser />} />
         <Route path="/reviewUser" element={<ReviewUser />} />
         <Route path="/reviewAdmin" element={<ReviewAdmin />} />
+        <Route path="/developers" element={<Developers/>} />
       </Routes>
       {showLayout && <Footer />}
     </>
