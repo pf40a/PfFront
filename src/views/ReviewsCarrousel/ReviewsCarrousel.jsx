@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const ReviewsCarrousel = ({ state }) => {
-  const [reviews, setReviews] = useState(state);
+const ReviewsCarrousel = () => {
+  const [reviews, setReviews] = useState();
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [isIntervalRunning, setIsIntervalRunning] = useState(true);
   const intervalDuration = 1500;
@@ -13,9 +13,12 @@ const ReviewsCarrousel = ({ state }) => {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/hotel/reviews/`
         );
-        const reviewsData = response.data.data;
 
-        setReviews(reviewsData);
+        const reviewsData = response.data.data;
+        const reviewFalse = reviewsData.filter(
+          (review) => review.deleted === false
+        );
+        setReviews(reviewFalse);
       } catch (error) {
         console.error("Error al obtener las revisiones:", error);
       }
@@ -23,6 +26,7 @@ const ReviewsCarrousel = ({ state }) => {
 
     fetchReviews();
   }, []);
+
   // useEffect(() => {
   //   const fetchReviews = async () => {
   //     try {
@@ -47,7 +51,8 @@ const ReviewsCarrousel = ({ state }) => {
       clearInterval(interval);
     };
   }, [reviews, isIntervalRunning]);
-  if (!reviews || reviews.length === 0) {
+
+  if (!reviews || reviews.length === 0 || !reviews[currentReviewIndex]) {
     return null;
   }
 
