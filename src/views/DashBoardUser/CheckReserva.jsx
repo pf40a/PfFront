@@ -132,7 +132,6 @@ function CheckReserva() {
       <div className="p-4">
         {qrValue && (
           <div>
-            <h1 className="text-2xl font-bold mb-4">Generador de Código QR</h1>
             <h2 className="text-xl font-bold mb-2">Código QR de la Reserva</h2>
             <QRCode value={qrValue} />
           </div>
