@@ -77,12 +77,11 @@ function Tipos( {data, toggleMenuDetalle, setIsOpenDetalle, setDataDetail, setDa
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle`)
          setTipos(res.data.data)
        };
+
     useEffect(() => {
-      
       fetchData();
-      
       setIsOpenDetalle(false)
-    }, [tipos]);
+    }, []);
 
 return(
 
