@@ -1,7 +1,9 @@
-import React from "react";
-import { useState } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import React from 'react'
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+
+import MisDatos from "./MisDatos.jsx"
 import Reserve from "./Reserve";
 
 const DashboardUser = () => {
@@ -155,6 +157,7 @@ const DashboardUser = () => {
           <div className="flex-1 p-4 md:ml-72 lg:ml-80 ">
             {showReserve ? (
               <div>
+                <MisDatos/>
                 <Reserve />
               </div>
             ) : (
