@@ -11,6 +11,7 @@ export const GET_USERS = "GET_USERS";
 export const PUT_USERS = "PUT_USERS";
 export const GET_HABITACIONES = "GET_HABITACIONES";
 export const PUT_HABITACIONES = "PUT_HABITACIONES";
+
 export const PUT_HABITACIONES_DETAIL = "PUT_HABITACIONES_DETAIL";
 //  Authentication
 export const LOGIN = "LOGIN";
