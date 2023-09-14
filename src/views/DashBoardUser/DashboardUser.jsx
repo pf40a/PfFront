@@ -5,12 +5,14 @@ import axios from 'axios';
 
 import MisDatos from "./MisDatos.jsx"
 import Reserve from "./Reserve";
+import CheckReserva from './CheckReserva.jsx';
 
 const DashboardUser = () => {
   const name = useSelector((state) => state.auth.displayName);
   const imageOfProfile = useSelector((state) => state.auth.photoURL);
   const [sidenav, setSidenav] = useState(true);
   const [showReserve, setShowReserve] = useState(false);
+  const [showCheck, setShowCheck] = useState(false);
   const [showDashboard, setShowDashboard] = useState(true);
 
   //---------HANDLES-------------//
@@ -20,8 +22,12 @@ const DashboardUser = () => {
   const handleShowDashboard = () => {
     setShowDashboard(true);
     setShowReserve(false);
+     setShowCheck(false);
   };
 
+  const handleShowCheck = () => {
+    setShowCheck(true);
+  }
 
   return (
     <>
@@ -103,6 +109,7 @@ const DashboardUser = () => {
                   <span className="">Mis Reservas</span>
                 </button>
                 <button
+                  onClick={handleShowCheck}
                   href=""
                   className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
                 >
@@ -157,8 +164,17 @@ const DashboardUser = () => {
           <div className="flex-1 p-4 md:ml-72 lg:ml-80 ">
             {showReserve ? (
               <div>
-                <MisDatos/>
+                {/* <MisDatos /> */}
                 <Reserve />
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="flex-1 p-4 md:ml-72 lg:ml-80 ">
+            {showCheck ? (
+              <div>
+                <CheckReserva />
               </div>
             ) : (
               ""
