@@ -85,7 +85,7 @@ const ReviewsCarrousel = () => {
             </span>
           </div>
           <figure className="mt-10">
-            <blockquote className="text-center text-lg font-semibold leading-8 text-gray-900 sm:text-lg sm:leading-9 text-white overflow-y-auto max-h-40">
+            <blockquote className="text-center text-lg font-semibold leading-8 sm:text-lg sm:leading-9 text-white overflow-y-auto max-h-40">
               <p>"{currentReview.comentario}"</p>
             </blockquote>
             <figcaption className="mt-10">
@@ -101,7 +101,7 @@ const ReviewsCarrousel = () => {
                 </div>
               </div>
               <div className="mt-4 flex items-center justify-center space-x-3 text-base">
-                <div className="font-semibold text-gray-900 text-white">
+                <div className="font-semibold text-white">
                   <span>{currentReview.Usuario?.nombre}</span>{" "}
                   <span>
                     {currentReview.Usuario?.apellido !== "Sin apellido" &&
