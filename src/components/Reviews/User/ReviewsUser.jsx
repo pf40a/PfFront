@@ -283,7 +283,6 @@ const ReviewUser = () => {
             </div>
           )}
         </div>
-
         {showNotification && (
           <div className="bg-green-500 text-white p-2 text-center">
             ¡Tu revisión se ha enviado correctamente!
