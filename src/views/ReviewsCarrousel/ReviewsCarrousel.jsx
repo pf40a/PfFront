@@ -39,7 +39,7 @@ const ReviewsCarrousel = ({ state }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (isIntervalRunning) {
-        setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+        setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews?.length);
       }
     }, intervalDuration);
 
