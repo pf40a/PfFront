@@ -3,11 +3,25 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { GetClientes,GetUsers} from '../../redux/actions'
 import { useDispatch } from 'react-redux';
+import Modal from 'react-modal';
 
 export default function DashDetalle({ id, data, type, onClose, action = null }) {
  const dispatch = useDispatch(); 
   const [newData, setNewData] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 console.log('Data:.',newData)
+
+// Función para abrir el modal de confirmación
+const openModal = () => {
+  setIsModalOpen(true);
+};
+
+// Función para cerrar el modal de confirmación
+const closeModal = () => {
+  setIsModalOpen(false);
+};
+
   useEffect(() => {
     setNewData(data)
   },[data])
@@ -49,8 +63,8 @@ console.log('Data:.',newData)
   };
 
 const handleSubmit = async (e) => {
+  closeModal(); 
   e.preventDefault();
-  if(confirm('¿Desea guardar los cambios?')){
   ///con axios envio la newData
   await axios.put(`${import.meta.env.VITE_API_URL}/hotel/${type}/${id}`, newData)
     .then((response) => {
@@ -67,7 +81,6 @@ const handleSubmit = async (e) => {
       onClose(false);
     })
     .catch((error) => console.log(error));
-  }
 }
 
 
@@ -103,12 +116,38 @@ const handleSubmit = async (e) => {
       
        
        <div className='mt-2'>
-<Button variant="secondary" onClick={()=>onClose(false)}>Cerrar</Button> <Button type='submit' variant="primary" className='text-white' >Guardar</Button> 
+<Button variant="secondary" onClick={()=>onClose(false)}>Cerrar</Button> 
+<Button type='button' variant="primary" className='text-white' onClick={openModal} >Guardar</Button>
+
        </div>
        
       </Card>
       </form>
-      
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Confirmación"
+        className="fixed inset-0 flex items-center justify-center outline-none"
+        overlayClassName="fixed inset-0 bg-gray-500 bg-opacity-50 z-50"
+      >
+        <div className="bg-white w-full max-w-md p-4 rounded-lg shadow-lg">
+          <h2 className="text-xl font-semibold mb-4">¿Aceptas recibir información en este correo electrónico?</h2>
+          <div className="flex justify-end">
+            <button
+              onClick={handleSubmit}
+              className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg mr-2"
+            >
+              Confirmar
+            </button>
+            <button
+              onClick={closeModal}
+              className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </Modal>      
     </div>
   );
 }
