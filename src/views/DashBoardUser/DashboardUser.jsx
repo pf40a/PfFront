@@ -6,6 +6,7 @@ import axios from 'axios';
 import MisDatos from "./MisDatos.jsx"
 import Reserve from "./Reserve";
 import DashboardComponent from './DashboardComponent.jsx';
+import ShowsReviews from './ShowsReviews.jsx';
 
 const DashboardUser = () => {
   const name = useSelector((state) => state.auth.displayName);
@@ -14,23 +15,34 @@ const DashboardUser = () => {
   const [showReserve, setShowReserve] = useState(false);
   const [showDashboard, setShowDashboard] = useState(true);
   const [showDate, setShowDate] = useState(false);
+  const [showReviews, setShowReviews] = useState(false)
 
   //---------HANDLES-------------//
   const handleShowRerves = () => {
     setShowReserve(true);
     setShowDate(false)
     setShowDashboard(false);
+    setShowReviews(false);
   };
   const handleShowDashboard = () => {
     setShowDashboard(true);
     setShowReserve(false);
     setShowDate(false)
+    setShowReviews(false);
   };
   const handleShowDates = () => {
     setShowDashboard(false);
     setShowReserve(false);
     setShowDate(true)
+    setShowReviews(false);
   };
+  const handleShowReviews = ()=>{
+    setShowDashboard(false);
+    setShowReserve(false);
+    setShowDate(false);
+    setShowReviews(true);
+
+  }
 
 
   return (
@@ -147,7 +159,7 @@ const DashboardUser = () => {
                   <span className="">Messages</span>
                 </button>
                 <button
-                  href=""
+                  onClick={handleShowReviews}
                   className=" flex text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
                 >
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -173,6 +185,9 @@ const DashboardUser = () => {
             )}
             {showDashboard && (
               <DashboardComponent/>
+            )}
+            {showReviews && (
+              <ShowsReviews/>
             )}
           </div>
         </div>

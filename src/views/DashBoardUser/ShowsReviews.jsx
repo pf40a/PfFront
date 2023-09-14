@@ -262,7 +262,7 @@ const ShowsReviews = () => {
         ))}
       </div>
       {reviewToDelete !== null && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-70">
+        <div className="fixed z-50 mt-10 top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-70">
           <div className="bg-white p-4 mx-4 md:mx-auto rounded-lg w-full md:w-96">
             <p>¿Seguro que quieres borrar esta revisión?</p>
             <div className="flex justify-end">
@@ -284,7 +284,7 @@ const ShowsReviews = () => {
       )}
 
       {isEditing && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-70">
+        <div className="fixed z-50 top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-70">
           <div className="bg-white p-4 mx-4 md:mx-auto rounded-lg w-full md:w-96">
             <form>
               <div className="mb-4">

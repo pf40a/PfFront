@@ -204,7 +204,7 @@ const ReviewUser = () => {
   return (
     <div className="mt-5 space-y-4">
       <>
-        {canWriteReview && (
+   
           <div>
             <div className="text-center">
               <button
@@ -284,7 +284,6 @@ const ReviewUser = () => {
               </div>
             )}
           </div>
-        )}
         {showNotification && (
           <div className="bg-green-500 text-white p-2 text-center">
             ¡Tu revisión se ha enviado correctamente!
