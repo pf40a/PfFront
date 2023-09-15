@@ -11,12 +11,15 @@ export const GET_USERS = "GET_USERS";
 export const PUT_USERS = "PUT_USERS";
 export const GET_HABITACIONES = "GET_HABITACIONES";
 export const PUT_HABITACIONES = "PUT_HABITACIONES";
+export const GET_TIPOS_HABITACIONES = "GET_TIPOS_HABITACIONES";
+export const PUT_TIPOS_HABITACIONES = "PUT_TIPOS_HABITACIONES";
 
 export const PUT_HABITACIONES_DETAIL = "PUT_HABITACIONES_DETAIL";
 //  Authentication
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const CHECKING_CREDENTIALS = "CHECKING_CREDENTIALS";
+export const UPDATE_DISPLAYNAME = "UPDATE_DISPLAYNAME";
 
 import axios from "axios";
 
@@ -52,6 +55,42 @@ export const PutHabitacion = (id, habitacion) => {
   };
 };
 
+export const GetTiposHabitaciones = ()=>{
+  return async(dispatch)=>{
+  let response = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle`)
+  ///orden
+  response.data.data.sort((a, b) => {
+    // Comparamos los valores de nombre y apellido en cada objeto
+    const nombreCompletoA = `${a.tipo_Habitacion} ${a.subTipo}`;
+    const nombreCompletoB = `${b.tipo_Habitacion} ${b.subTipo}`;  
+    // Realizamos la comparación
+    if (nombreCompletoA < nombreCompletoB) {
+      return -1; // Si 'a' es menor que 'b', retorna un número negativo
+    }
+    if (nombreCompletoA > nombreCompletoB) {
+      return 1; // Si 'a' es mayor que 'b', retorna un número positivo
+    }
+    return 0; // Si son iguales, retorna 0
+  });
+
+  dispatch({
+   type: GET_TIPOS_HABITACIONES,
+   payload: response.data.data   
+  }) 
+  }
+}
+export const PutTipoHabitacion = (id, habitacion) => {
+  return async (dispatch) => {
+    let response = await axios.put(
+      `${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle/put/${id}`,
+      habitacion
+    );
+    dispatch({
+      type: PUT_TIPOS_HABITACIONES,
+      payload: response.data.data,
+    });
+  };
+};
 export const PutUsers = (id, user) => {
   return async (dispatch) => {
     let response = await axios.put(
@@ -70,6 +109,20 @@ export const GetUsers = () => {
     let response = await axios.get(
       `${import.meta.env.VITE_API_URL}/hotel/users`
     );
+    ///orden
+  response.data.data.sort((a, b) => {
+    // Comparamos los valores de nombre y apellido en cada objeto
+    const nombreCompletoA = `${a.nombre} ${a.apellidos}`;
+    const nombreCompletoB = `${b.nombre} ${b.apellidos}`;  
+    // Realizamos la comparación
+    if (nombreCompletoA < nombreCompletoB) {
+      return -1; // Si 'a' es menor que 'b', retorna un número negativo
+    }
+    if (nombreCompletoA > nombreCompletoB) {
+      return 1; // Si 'a' es mayor que 'b', retorna un número positivo
+    }
+    return 0; // Si son iguales, retorna 0
+  });
     dispatch({
       type: GET_USERS,
       payload: response.data.data,
@@ -82,10 +135,11 @@ export const PutClientes = (doc, cliente) => {
     let response = await axios.put(
       `${import.meta.env.VITE_API_URL}/hotel/clientes/${doc}`,
       cliente
-    );
+    );    
     dispatch({
       type: PUT_CLIENTES,
       payload: response.data.data,
+      doc: doc
     });
   };
 };
@@ -95,6 +149,20 @@ export const GetClientes = () => {
     let response = await axios.get(
       `${import.meta.env.VITE_API_URL}/hotel/clientes`
     );
+    ///orden
+  response.data.data.sort((a, b) => {
+    // Comparamos los valores de nombre y apellido en cada objeto
+    const nombreCompletoA = `${a.nombre} ${a.apellidos}`;
+    const nombreCompletoB = `${b.nombre} ${b.apellidos}`;  
+    // Realizamos la comparación
+    if (nombreCompletoA < nombreCompletoB) {
+      return -1; // Si 'a' es menor que 'b', retorna un número negativo
+    }
+    if (nombreCompletoA > nombreCompletoB) {
+      return 1; // Si 'a' es mayor que 'b', retorna un número positivo
+    }
+    return 0; // Si son iguales, retorna 0
+  });
     dispatch({
       type: GET_CLIENTES,
       payload: response.data.data,
@@ -210,4 +278,11 @@ export const checkingCredentials = () => {
   return {
     type: CHECKING_CREDENTIALS,
   };
+};
+
+export const updateDisplayName = (payload) => {
+  return{
+    type: UPDATE_DISPLAYNAME,
+    payload,
+  }
 };

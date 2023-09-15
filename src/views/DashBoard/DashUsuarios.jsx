@@ -136,18 +136,21 @@ return(
 <Table>
 <TableHead>
 <TableRow>
+  <TableHeaderCell></TableHeaderCell>
           <TableHeaderCell>Nombre</TableHeaderCell>
           <TableHeaderCell>Apellido</TableHeaderCell>
           <TableHeaderCell>Email</TableHeaderCell>
           <TableHeaderCell>Estado</TableHeaderCell>
+          <TableHeaderCell>Detalle</TableHeaderCell>
 </TableRow>
 </TableHead>
 <TableBody >
   
 {users.filter((item)=> handlerSelect(item))
-         .map((item) => (
+         .map((item,i) => (
           <TableRow key={item.email}>
-            <TableCell>{item.nombre}</TableCell>
+            <TableCell><Text>{i+1}</Text></TableCell>
+            <TableCell><Text>{item.nombre}</Text></TableCell>
             <TableCell>
               <Text>{item.apellido}</Text>
             </TableCell>

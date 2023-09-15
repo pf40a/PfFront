@@ -22,6 +22,7 @@ const ShowsReviews = () => {
   const [reviewToDelete, setReviewToDelete] = useState(null);
 
   useEffect(() => {
+    if (epopPup) return;
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
@@ -53,54 +54,9 @@ const ShowsReviews = () => {
       }
     };
 
-    // const fetchReservationDate = async () => {
-    //   try {
-    //     const response = await axios.get(
-    //       `${
-    //         import.meta.env.VITE_API_URL
-    //       }/hotel/filtros/reservaPorUsuario/${reviewId}`
-    //     );
-
-    //     const reservations = response.data.data;
-
-    //     const firstReservation = reservations[0];
-    //     const departureDate = new Date(firstReservation.fechaSalida);
-
-    //     // Comprobar si la fecha de salida es menor o igual a la fecha actual
-    //     const currentDate = new Date();
-    //     setCanWriteReview(currentDate >= departureDate);
-    //   } catch (error) {
-    //     console.error(
-    //       "Error al obtener la fecha de salida de la reserva:",
-    //       error
-    //     );
-    //   }
-    // };
-
     fetchUserData();
     fetchReviews();
-    // fetchReservationDate();
   }, [reviewId]);
-
-  // const handleRatingChange = (value) => {
-  //   setReview({ ...review, rating: value });
-  //   setError(false);
-  // };
-
-  // const handleCommentChange = (event) => {
-  //   const inputText = event.target.value;
-  //   const remainingChars = 200 - inputText.length;
-  //   setCharCount(remainingChars);
-  //   if (remainingChars >= 0) {
-  //     setReview({ ...review, comment: inputText });
-
-  //     if (inputText.length >= 5) {
-  //       setError(false);
-  //     }
-  //   } else {
-  //     setError(true);
-  //   }
-  // };
 
   const handleEditReview = (reviewId) => {
     const reviewToEdit = reviews.find((r) => r.id === reviewId);
@@ -113,35 +69,48 @@ const ShowsReviews = () => {
     if (editReview.comment.length < 5) {
       setepopUp(true);
       return;
-    }
-    try {
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/hotel/reviews/${editingReviewId}`,
-        {
-          rating: editReview.rating,
-          comentario: editReview.comment,
-        }
-      );
-      const updatedReviews = reviews.map((review) =>
-        review.id === editingReviewId ? { ...review, ...editReview } : review
-      );
-      setReviews(updatedReviews);
-      setEditingReviewId(null);
-      setEditReview({});
-      setepopUp(false);
-    } catch (error) {
-      console.error("Error al editar la revisión:", error);
+    } else {
+      try {
+        await axios.put(
+          `${import.meta.env.VITE_API_URL}/hotel/reviews/${editingReviewId}`,
+          {
+            rating: editReview.rating,
+            comentario: editReview.comment,
+          }
+        );
+  
+        // No es necesario actualizar el estado local aquí
+  
+        setEditingReviewId(null);
+        setEditReview({});
+        setepopUp(false);
+      } catch (error) {
+        console.error("Error al editar la revisión:", error);
+      }
     }
   };
+  
+  // ...
+  
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/hotel/reviews/`
+        );
+        const reviewsData = response.data.data;
+  
+        const filterReview = reviewsData.filter((f) => f.UsuarioId === reviewId);
+  
+        setReviews(filterReview);
+      } catch (error) {
+        console.error("Error al obtener las revisiones:", error);
+      }
+    };
+  
+    fetchReviews();
+  }, [reviewId]);
 
-  // const handleDeleteReview = (reviewId) => {
-  //   const confirmDelete = window.confirm(
-  //     "¿Seguro que quieres borrar esta revisión?"
-  //   );
-  //   if (confirmDelete) {
-  //     deleteReview(reviewId);
-  //   }
-  // };
   const handleDeleteReview = (reviewId) => {
     setReviewToDelete(reviewId);
   };
@@ -166,63 +135,6 @@ const ShowsReviews = () => {
       }
     }
   };
-  // const handleSubmit = async () => {
-  //   if (review.comment.length < 5 || review.rating === 0) {
-  //     setError(true);
-  //     console.log(error);
-  //     return;
-  //   }
-  //   try {
-  //     await axios.post(`${import.meta.env.VITE_API_URL}/hotel/reviews`, {
-  //       UsuarioId: reviewId,
-  //       rating: review.rating,
-  //       comentario: review.comment,
-  //       deleted: false,
-  //     });
-  //     console.log("REVIEW CREADA");
-  //     setCharCount(200);
-  //     setReview({ rating: 0, comment: "" });
-  //     setShowReviewForm(false);
-  //     setError(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   const pedido = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${import.meta.env.VITE_API_URL}/hotel/reviews/`
-  //       );
-  //       const reviewsData = response.data.data.filter(
-  //         (f) => f.UsuarioId === reviewId
-  //       );
-  //       setReviews(reviewsData);
-  //     } catch (error) {
-  //       console.error("Error al obtener las revisiones:", error);
-  //     }
-  //   };
-  //   pedido();
-  // };
-
-  // const handleDeleteReview = (reviewId) => {
-  //   const confirmDelete = window.confirm(
-  //     "¿Seguro que quieres borrar esta revisión?"
-  //   );
-  //   if (confirmDelete) {
-  //     deleteReview(reviewId);
-  //   }
-  // };
-
-  // const deleteReview = async (reviewId) => {
-  //   try {
-  //     await axios.delete(
-  //       `${import.meta.env.VITE_API_URL}/hotel/reviews/${reviewId}`
-  //     );
-  //     const updatedReviews = reviews.filter((review) => review.id !== reviewId);
-  //     setReviews(updatedReviews);
-  //   } catch (error) {
-  //     console.error("Error al borrar la revisión:", error);
-  //   }
-  // };
 
   return (
     <div className="mt-5 space-y-4">
@@ -340,7 +252,7 @@ const ShowsReviews = () => {
                 <span className="text-sm text-right text-gray-400">
                   Caracteres restantes: {charCount}
                 </span>
-                {epopPup && (
+                {editReview.comment.length < 5 && (
                   <span className="text-red-500">
                     Faltan caracteres o no has seleccionado una estrella.
                   </span>
@@ -349,7 +261,7 @@ const ShowsReviews = () => {
                   <button
                     onClick={handleSaveReview}
                     className={`px-4 py-2 text-white bg-[#16242f] rounded-md hover:bg-gray-700 mr-2`}
-                    disabled={review.comment.length > 5}
+                    disabled={editReview.comment.length < 5}
                   >
                     Guardar
                   </button>
