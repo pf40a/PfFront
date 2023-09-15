@@ -123,7 +123,9 @@ alert(urlImagen.data)
                 key !== "updatedAt" && 
                 key !== "descripcion" && 
                 key !== "caracteristica" && 
-                key !== "image" && (
+                key !== "image" &&
+                key !== "password" &&
+                (
                   <div key={key}>
                     <label htmlFor="">
                       {convertirCadena(key)}
