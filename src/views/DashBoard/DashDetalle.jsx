@@ -1,16 +1,7 @@
-import {
-  
-  Card,
-  
-  Title,
-  
-  Button,
-  
-  TextInput,
-} from "@tremor/react";
+import {Card,Title,Button,TextInput} from "@tremor/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { GetClientes, GetUsers } from "../../redux/actions";
+import { PutClientes, PutUsers, PutTipoHabitacion} from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import Modal from 'react-modal';
 
@@ -18,8 +9,7 @@ export default function DashDetalle({
   id,
   data,
   type,
-  onClose,
-  action = null,
+  onClose
 }) {
   const dispatch = useDispatch();
   const [newData, setNewData] = useState({});
@@ -40,20 +30,7 @@ const closeModal = () => {
   useEffect(() => {
     setNewData(data);
   }, [data]);
-  /* useEffect(() => {
-    // Realizar la solicitud Axios para obtener los detalles del usuario
-    axios.get(`${import.meta.env.VITE_API_URL}/api/usuario/${userId}`)
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.error('Error al obtener los detalles del usuario', error);
-      });
-  }, [userId]);
-
-  if (!user) {
-    return <div>Cargando...</div>;
-  } */
+  
 
   function convertirCadena(cadena) {
     // Dividir la cadena en palabras separadas por mayúsculas o "_"
@@ -87,26 +64,50 @@ const closeModal = () => {
 const handleSubmit = async (e) => {
   closeModal(); 
   e.preventDefault();
-  ///con axios envio la newData
+
+  if(type==='clientes'){
+    //alert('Cliente actualizado');
+   dispatch(PutClientes(id,newData)); 
+  }else if(type==='users'){ 
+   // alert('Usuario actualizado');
+   dispatch(PutUsers(id,newData));
+  }else if(type==='habitaciones'){ 
+    //alert('Habitacion actualizado');
+    dispatch(PutTipoHabitacion(id,newData));
+   }
+   onClose(false);
+  /* ///con axios envio la newData
   await axios.put(`${import.meta.env.VITE_API_URL}/hotel/${type}/${id}`, newData)
     .then((response) => {
       console.log(response);
-      if(type==='clientes'){
-        alert('Cliente actualizado');
-       dispatch(GetClientes()); 
-      }else if(type==='users'){ 
-        alert('Usuario actualizado');
-       dispatch(GetUsers());
-      }else if(type==='habitaciones/detalle/put'){ 
-        alert('Habitacion actualizado');
-        action();
-       }
-      
       onClose(false);
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.log(error)); */
 }
 
+
+const handleUploadPhoto =async (e) => {
+  let file = e.target.files[0];
+  // const formData = new FormData();
+  // formData.append("photo", file);
+  const formData = {"photo": file}
+  //
+  const response = await axios.post(
+    "http://localhost:3001/hotel/imagen",
+    formData,
+    {headers:{"Content-Type": "multipart/form-data"}}
+  )
+  if (response) {
+    alert('Respuesta: '+response.data)
+    const urlImagen = await axios.get(
+      "http://localhost:3001/hotel/imagen" + file.name
+    )
+    if (urlImagen.data) {
+//setUrl(urlImagen.data);
+alert(urlImagen.data)
+    }
+    }
+}
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -119,13 +120,16 @@ const handleSubmit = async (e) => {
                 key !== "deleted" &&
                 key !== "id" &&
                 key !== "createdAt" &&
-                key !== "updatedAt" && (
+                key !== "updatedAt" && 
+                key !== "descripcion" && 
+                key !== "caracteristica" && 
+                key !== "image" && (
                   <div key={key}>
                     <label htmlFor="">
                       {convertirCadena(key)}
                     </label>
                     <br />
-                    {(key === "googleUser" && `${newData[key]}`) ||
+                    {((key === "googleUser" || key === 'doc_Identidad') && `${newData[key]}`) ||
                       ((newData[key] === true || newData[key] === false) && (
                         <div>
                           <select
@@ -140,8 +144,7 @@ const handleSubmit = async (e) => {
                         
                           
                         </div>
-                      )) ||
-                      ((key === "descripcion" || key === "caracteristica" || key === "image") && null) || (
+                      )) || (
                         <TextInput
                           name={key}
                           value={newData[key]}
@@ -165,9 +168,8 @@ const handleSubmit = async (e) => {
                           onChange={handleChange}
                           name={key}
                           className="block w-full h-20 rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        >
-                          {newData[key]}
-                        </textarea>
+                          value={newData[key]}
+                        ></textarea>
                      
                   </div>
                 ) || key=='image' && (
@@ -178,6 +180,7 @@ const handleSubmit = async (e) => {
                     <br />
   <img src={newData[key]} alt="" className="w-10/12 max-w-[300px] h-auto mx-auto" />
   
+  <input type="file" name="photo" onChange={handleUploadPhoto} />
 </div>
               
       ))}

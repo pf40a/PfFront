@@ -11,7 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import DarkModeToggle from "../DarkMode/DarkMode";
 
 const navegacionAdmin = [
-  { name: "Dashboard", href: "/Dashboard", current: true },
+  { name: "Dashboard", href: "/dashboard", current: true },
   { name: "Developers", href: "/developers", current: true },
 ];
 const invited = [
