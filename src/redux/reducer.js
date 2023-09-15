@@ -4,7 +4,12 @@ import {
   PUT_CLIENTES, GET_CLIENTES, SEARCH_ROOMS, DETAIL_ROOM,
   FILTER_ROOMS, ORDER_ROOMS, TYPES_ROOMS, FILTER_TYPES_ROOMS,
   SAVE_PAGE, LOGIN, LOGOUT, CHECKING_CREDENTIALS, PUT_USERS,
+<<<<<<< HEAD
+  GET_USERS, GET_HABITACIONES, PUT_HABITACIONES, PUT_HABITACIONES_DETAIL,
+  UPDATE_DISPLAYNAME,
+=======
   GET_USERS, GET_HABITACIONES, PUT_HABITACIONES, PUT_HABITACIONES_DETAIL, GET_TIPOS_HABITACIONES, PUT_TIPOS_HABITACIONES
+>>>>>>> c9290ab3492e209d32f9c5bf4fbe5a14052ae14c
 } from "./actions";
 
 const initialState = {
@@ -212,6 +217,12 @@ export default function rootReducer(state = initialState, action) {
       };
 
     // ----- Authentication -----
+
+    case UPDATE_DISPLAYNAME:
+      return{
+        ...state,
+        auth:{...state.auth, displayName: `${action.payload.nombre} ${action.payload.apellido}`}
+      };
 
     case LOGIN:
       const { displayName, nombre, apellido, email, photoURL } = action.payload;
