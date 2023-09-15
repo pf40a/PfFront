@@ -62,16 +62,14 @@ const DashboardUser = () => {
 
   return (
     <>
-      <div className="font-poppins antialiased h-screen flex">
+      <div className="font-poppins antialiased min-h-screen flex">
         <div
           id="view"
-          className={`gap-10 mt-10 h-full w-screen flex flex-col md:flex-row ${
-            sidenav ? "translate-x-0" : "-translate-x-60"
-          } transition-transform duration-300 ease-in-out`}
+          className={`gap-10 mt-10 h-full w-screen flex flex-col md:flex-row`}
         >
           <div
             id="sidebar"
-            className={`bg-white w-60 md:w-72 lg:w-80 px-6 py-8 transition-transform duration-300 ease-in-out transform ${
+            className={`bg-white w-60 md:w-72 lg:w-80 px-6 py-8 sm:w-16 transition-transform duration-300 ease-in-out transform ${
               sidenav ? "translate-x-0" : "-translate-x-full"
             } absolute left-0 z-10`}
           >
