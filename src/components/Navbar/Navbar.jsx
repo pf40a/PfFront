@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
@@ -11,7 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import DarkModeToggle from "../DarkMode/DarkMode";
 
 const navegacionAdmin = [
-  { name: "Dashboard", href: "/Dashboard", current: true },
+  { name: "Dashboard", href: "/dashboard", current: true },
   { name: "Developers", href: "/developers", current: true },
 ];
 const invited = [
@@ -30,6 +30,7 @@ function classNames(...classes) {
 const Navbar = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Establece esto según el estado de inicio de sesión del usuario
   const [isAdmin, setIsAdmin] = useState(false); // Establece esto según el rol del usuario
@@ -53,6 +54,7 @@ const Navbar = () => {
     else if (status === "not-authenticated") {
       setloggedOut(true);
       setIsLoggedIn(false);
+      navigate("/");
     }
     if (loginAdmin === true) {
       setIsAdmin(true);

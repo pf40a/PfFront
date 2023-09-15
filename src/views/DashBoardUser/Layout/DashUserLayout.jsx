@@ -17,7 +17,7 @@ const DashUserLayout = ({ children, title = "" }) => {
         className={style.box}
         xs={3}
         sx={{
-          width: { sm: 450, md: 650 },
+          width: { sm: 450, md: 660 },
           backgroundColor: "#fff",
           padding: 3,
           borderRadius: 2,

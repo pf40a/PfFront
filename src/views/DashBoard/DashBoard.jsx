@@ -98,7 +98,7 @@ const Sidebar = () => {
       cliente.deleted = true;
     }
     await dispatch(PutClientes(docItem, cliente));
-    await dispatch(GetClientes());
+    //await dispatch(GetClientes());
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -111,7 +111,7 @@ const Sidebar = () => {
   const PutForm = async (documento, cliente) => {
     try {
       await dispatch(PutClientes(documento, cliente));
-      dispatch(GetClientes());
+      //dispatch(GetClientes());
       setDoc("");
     } catch (error) {
       console.error(error);
@@ -232,14 +232,14 @@ const Sidebar = () => {
         <MeetingRoomOutlinedIcon />
         <span>Tipos Habitación</span>
       </a>
-      <a
+      {/* <a
         href="#"
         onClick={() => changeSection('habitaciones')}
         className=" pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
       >
         <HotelOutlinedIcon />
         <span className="ml-2">Habitaciones</span>
-      </a>
+      </a> */}
       <a
         href="#"
         onClick={() => changeSection('reservas')}
@@ -422,19 +422,21 @@ const Sidebar = () => {
                         <Table className="h-[60vh]">
                           <TableHead className="bg-white">
                             <TableRow>
+                              <TableHeaderCell></TableHeaderCell>
                               <TableHeaderCell>Nombre</TableHeaderCell>
                               <TableHeaderCell>Documento</TableHeaderCell>
                               <TableHeaderCell>Pais</TableHeaderCell>
                               <TableHeaderCell>Estado</TableHeaderCell>
-                              <TableHeaderCell></TableHeaderCell>
+                              <TableHeaderCell>Detalles</TableHeaderCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
                             {clientes
                               .filter((item) => handlerSelect(item))
-                              .map((item) => (
+                              .map((item,i) => (
                                 <TableRow key={item.doc_Identidad}>
-                                  <TableCell>{item.nombre}</TableCell>
+                                  <TableCell><Text>{i+1}</Text></TableCell>
+                                  <TableCell><Text>{item.nombre}</Text></TableCell>
                                   <TableCell>
                                     <Text>{item.doc_Identidad}</Text>
                                   </TableCell>

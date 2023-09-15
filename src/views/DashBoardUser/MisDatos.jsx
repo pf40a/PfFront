@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   Alert, Button, Grid, Link, TextField, Typography,
@@ -9,8 +9,12 @@ import {
 import { SaveAlt } from "@mui/icons-material";
 
 import DashUserLayout from "./Layout/DashUserLayout.jsx";
+import { logout, updateDisplayName } from "../../redux/actions.js";
+import { logoutFirebase } from "../../Firebase/Providers.js";
 
 const MisDatos = () => {
+  const dispatch = useDispatch();
+
   const { email } = useSelector((state) => state.auth);
 
   // Estados para llenar los campos automaticamente y para hacer el put
@@ -24,10 +28,15 @@ const MisDatos = () => {
   // Estados de verificación
   const [isDirty, setIsDirty] = useState([false, false, false]); // Estado para el cambio en los campos
 
+  // Estados para mostrar algo
   const [showMessage, setShowMessage] = useState(false); // Estado para mostrar el mensaje
+  const [showDelete, setShowDelete] = useState(false); // Estado para mostrar el mensaje
   const [showWarning, setShowWarning] = useState(false); // Estado para mostrar el mensaje
+
   const [showEmailField, setShowEmailField] = useState(false); // Estado para mostrar u ocultar el campo de correo
-  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false); // Estado para mostrar el diálogo de confirmación
+
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false); // Estado para mostrar el diálogo de confirmación para cambiar la contraseña
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false); // Estado para mostrar el diálogo de confirmación para eliminar la cuenta.
 
   const isSaveButtonDisabled = isDirty.some((dirty, index) => dirty && !([nombres, apellidos, correo][index]));
 
@@ -70,11 +79,15 @@ const MisDatos = () => {
     setIsDirty([isDirty[0], isDirty[1], true]);
   };
 
+  ////---------------------------------------------------------------
+
   // Función para mostrar el mensaje de warning al hacer click en "Cambiar contraseña"
   const toggleWarning = () => {
     setShowWarning(true);
     setTimeout(() => { setShowWarning(false); }, 5000);
   };
+
+  ////---------------------------------------------------------------
 
   // Función para mostrar u ocultar el campo de correo al hacer click en "Cambiar contraseña"
   const toggleEmailField = () => {
@@ -94,34 +107,85 @@ const MisDatos = () => {
     setShowConfirmationDialog(false);
   };
 
-  // Funcion para guardar los cambios en los campos
+  ////---------------------------------------------------------------
+
+  // Función para confirmar que el usuario quiere eliminar la cuenta
+  const confirmDeleteAccount = () => {
+    setShowDeleteDialog(false);
+    deleteUser();
+  };
+  
+  // Función para cancelar el cambio de contraseña
+  const cancelDeleteAccount = () => {
+    setShowDeleteDialog(false);
+  };
+
+  ////---------------------------------------------------------------
+
+  // Funcion para guardar los cambios o eliminar la cuenta
   const onSubmit = async (event) => {
     event.preventDefault();
+    console.log(event.nativeEvent.submitter.name)
 
     setIsDirty([false, false, false]);
     setShowEmailField(false);
 
-    setShowMessage(true);
-    setTimeout(() => { setShowMessage(false); }, 5000);
+    // -------- Guardar --------
 
-    const dataToSend = {
-      nombre: nombres,
-      apellido: apellidos,
-      email: correo,
-      password,
+    if (event.nativeEvent.submitter.name === "Guardar") {
+
+      const dataToSend = {
+        nombre: nombres,
+        apellido: apellidos,
+        email: correo,
+        password,
+      }
+  
+      try {
+        const response = await axios.put( `${import.meta.env.VITE_API_URL}/hotel/users/${id}`, dataToSend );
+  
+        if (response.data) {
+          setShowMessage(true);
+          setTimeout(() => { setShowMessage(false); }, 5000);
+          dispatch(updateDisplayName({nombre: nombres, apellido: apellidos}));
+
+          if(password === true){
+            setPassword(false);
+            // console.log("Se envió un enlace para restablecer la contraseña.");
+          }
+        }
+      } catch (error) {
+        console.error("Error sending data to backend:", error);
+      }
     }
 
+    // -------- Eliminar Cuenta --------
+
+    else if (event.nativeEvent.submitter.name === "Eliminar") {
+      setShowDeleteDialog(true);
+    }
+  };
+
+  const deleteUser = async () => {
+
+    const startLogout = async () => {
+      await logoutFirebase();
+        dispatch(logout());
+    };
+
+    setShowDelete(true);
+    setTimeout(() => { setShowDelete(false); }, 5000);
+    startLogout();
+
     try {
-      const response = await axios.put( `${import.meta.env.VITE_API_URL}/hotel/users/${id}`, dataToSend );
+      const response = await axios.delete( `${import.meta.env.VITE_API_URL}/hotel/users/disable/${id}`);
 
       if (response.data) {
-        if(password === true){
-          console.log("Se envió un enlace para restablecer la contraseña.");
-          setPassword(false);
-        }
-        else{
-          console.log("Datos actualizados satisfactoriamente.");
-        }
+        console.log("Usuario Eliminado.");
+        setPassword(false);
+        setShowDelete(true);
+        setTimeout(() => { setShowDelete(false); }, 5000);
+        setTimeout(() => { startLogout(); }, 8000);
       }
     } catch (error) {
       console.error("Error sending data to backend:", error);
@@ -215,49 +279,111 @@ const MisDatos = () => {
             </Grid>
           )}
 
-          {/* -------- Guardar y Mensaje -------- */}
+          {/* -------- Guardar, Eliminar y Mensaje -------- */}
 
-          <Grid item container alignItems="center" xs={12} sx={{ mt: 2 }}>
+          <Grid item container justifyContent="space-between" alignItems="center" xs={12} sx={{ mt: 2 }}>
+
+            {/* ~ ~ ~ ~ Guardar ~ ~ ~ ~ */}
+
             <Button
-              sx={{
-                backgroundColor: "#38a169",
-                "&:hover": { backgroundColor: "#56c196" },
-                mr: 2,
-              }}
+              sx={{ backgroundColor: "#38a169", "&:hover": { backgroundColor: "#56c196" }, mr: 1, }}
               disabled={!isDirty.some((dirty, index) => dirty) ||isSaveButtonDisabled}
               title="Guardar"
               type="submit"
               variant="contained"
+              name="Guardar"
             >
+              <Typography sx={{ mr: 1, textTransform: 'none' }}>
+                {`${"Guardar".charAt(0).toUpperCase()}${"Guardar".slice(1).toLowerCase()}`}
+              </Typography>
+
               <SaveAlt />
             </Button>
+
+            {/* ~ ~ ~ ~ Mensajes ~ ~ ~ ~ */}
 
             <Grid item display={showMessage ? "" : "none"}>
               <Alert severity="success">
                 Datos actualizados satisfactoriamente.
               </Alert>
             </Grid>
+
+            <Grid item display={showDelete ? "" : "none"}>
+              <Alert severity="error">
+                ¡Cuenta Eliminada!
+              </Alert>
+            </Grid>
+
+            {/* ~ ~ ~ ~ Eliminar Cuenta ~ ~ ~ ~ */}
+
+            <Button
+              sx={{ backgroundColor: "#FF0000", "&:hover": { backgroundColor: "#DC143C" }, ml: 1, }}
+              title="Eliminar Cuenta"
+              type="submit"
+              variant="contained"
+              name="Eliminar"
+            >
+              <Typography sx={{ textTransform: 'none' }}>
+              {`${"Eliminar cuenta".charAt(0).toUpperCase()}${"Eliminar cuenta".slice(1).toLowerCase()}`}
+              </Typography>
+
+            </Button>
           </Grid>
         </Grid>
       </form>
 
-      {/* --------- Diálogo de confirmación para cambiar la contraseña --------- */}
+      {/* --------- Diálogo de confirmación para cambiar la contraseña o eliminar la cuenta --------- */}
 
-      <Dialog open={showConfirmationDialog} onClose={cancelChangePassword}>
-        <DialogTitle>Confirmar Cambio de Contraseña</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            ¿Está seguro de que quiere cambiar la contraseña?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={cancelChangePassword} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={confirmChangePassword} color="primary" autoFocus>
-            Confirmar
-          </Button>
-        </DialogActions>
+      <Dialog open={showConfirmationDialog || showDeleteDialog} onClose={cancelChangePassword || cancelDeleteAccount}>
+        {
+          showConfirmationDialog ? (
+            <>
+              <DialogTitle>Confirmar Cambio de Contraseña</DialogTitle>
+
+              <DialogContent>
+                <DialogContentText>
+                  ¿Está seguro de que quiere cambiar la contraseña?
+                </DialogContentText>
+              </DialogContent>
+
+              <DialogActions>
+
+                <Button onClick={cancelChangePassword} color="primary">
+                  Cancelar
+                </Button>
+
+                <Button onClick={confirmChangePassword} color="primary" autoFocus>
+                  Confirmar
+                </Button>
+
+              </DialogActions>
+            </>
+          )
+          : showDeleteDialog ? (
+            <>
+              <DialogTitle>Confirma para Eliminar la Cuenta</DialogTitle>
+
+              <DialogContent>
+                <DialogContentText>
+                  ¿Está seguro de que quiere eliminar definitivamente la cuenta?
+                </DialogContentText>
+              </DialogContent>
+
+              <DialogActions>
+
+                <Button onClick={cancelDeleteAccount} style={{ color: "#FF0000" }} autoFocus>
+                  Cancelar
+                </Button>
+
+                <Button onClick={confirmDeleteAccount} style={{ color: "#FF0000" }}>
+                  Confirmar
+                </Button>
+
+              </DialogActions>
+            </>
+          )
+          : null
+        }
       </Dialog>
     </DashUserLayout>
   );
