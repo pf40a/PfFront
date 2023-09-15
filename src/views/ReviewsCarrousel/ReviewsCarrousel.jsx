@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const ReviewsCarrousel = ({ state }) => {
-  const [reviews, setReviews] = useState(state);
+const ReviewsCarrousel = () => {
+  const [reviews, setReviews] = useState();
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [isIntervalRunning, setIsIntervalRunning] = useState(true);
   const intervalDuration = 1500;
@@ -13,9 +13,12 @@ const ReviewsCarrousel = ({ state }) => {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/hotel/reviews/`
         );
-        const reviewsData = response.data.data;
 
-        setReviews(reviewsData);
+        const reviewsData = response.data.data;
+        const reviewFalse = reviewsData.filter(
+          (review) => review.deleted === false
+        );
+        setReviews(reviewFalse);
       } catch (error) {
         console.error("Error al obtener las revisiones:", error);
       }
@@ -23,6 +26,7 @@ const ReviewsCarrousel = ({ state }) => {
 
     fetchReviews();
   }, []);
+
   // useEffect(() => {
   //   const fetchReviews = async () => {
   //     try {
@@ -39,7 +43,7 @@ const ReviewsCarrousel = ({ state }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (isIntervalRunning) {
-        setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+        setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews?.length);
       }
     }, intervalDuration);
 
@@ -47,7 +51,8 @@ const ReviewsCarrousel = ({ state }) => {
       clearInterval(interval);
     };
   }, [reviews, isIntervalRunning]);
-  if (!reviews || reviews.length === 0) {
+
+  if (!reviews || reviews.length === 0 || !reviews[currentReviewIndex]) {
     return null;
   }
 
@@ -80,7 +85,7 @@ const ReviewsCarrousel = ({ state }) => {
             </span>
           </div>
           <figure className="mt-10">
-            <blockquote className="text-center text-lg font-semibold leading-8 text-gray-900 sm:text-lg sm:leading-9 text-white overflow-y-auto max-h-40">
+            <blockquote className="text-center text-lg font-semibold leading-8 sm:text-lg sm:leading-9 text-white overflow-y-auto max-h-40">
               <p>"{currentReview.comentario}"</p>
             </blockquote>
             <figcaption className="mt-10">
@@ -96,7 +101,7 @@ const ReviewsCarrousel = ({ state }) => {
                 </div>
               </div>
               <div className="mt-4 flex items-center justify-center space-x-3 text-base">
-                <div className="font-semibold text-gray-900 text-white">
+                <div className="font-semibold text-white">
                   <span>{currentReview.Usuario?.nombre}</span>{" "}
                   <span>
                     {currentReview.Usuario?.apellido !== "Sin apellido" &&

@@ -4,8 +4,12 @@ import {
   PUT_CLIENTES, GET_CLIENTES, SEARCH_ROOMS, DETAIL_ROOM,
   FILTER_ROOMS, ORDER_ROOMS, TYPES_ROOMS, FILTER_TYPES_ROOMS,
   SAVE_PAGE, LOGIN, LOGOUT, CHECKING_CREDENTIALS, PUT_USERS,
+<<<<<<< HEAD
   GET_USERS, GET_HABITACIONES, PUT_HABITACIONES, PUT_HABITACIONES_DETAIL,
   UPDATE_DISPLAYNAME,
+=======
+  GET_USERS, GET_HABITACIONES, PUT_HABITACIONES, PUT_HABITACIONES_DETAIL, GET_TIPOS_HABITACIONES, PUT_TIPOS_HABITACIONES
+>>>>>>> c9290ab3492e209d32f9c5bf4fbe5a14052ae14c
 } from "./actions";
 
 const initialState = {
@@ -91,6 +95,20 @@ export default function rootReducer(state = initialState, action) {
             ...state,
             allRooms: updatedHabsDet,
           };
+          case GET_TIPOS_HABITACIONES:
+      return {
+        ...state,
+        habitaciones: [...action.payload]
+      };
+    
+      case PUT_TIPOS_HABITACIONES:
+        const updatedTiposHabIndex = state.habitaciones.findIndex((h) => h.id === action.payload.id);
+        const updatedTiposHabs = [...state.habitaciones];
+        updatedTiposHabs[updatedTiposHabIndex] = action.payload;
+        return {
+          ...state,
+          habitaciones: updatedTiposHabs,
+        };
     case PUT_USERS:
       const updatedUserIndex = state.users.findIndex(
         (u) => u.id === action.payload.id
@@ -109,14 +127,14 @@ export default function rootReducer(state = initialState, action) {
 
     case PUT_CLIENTES:
       const updatedClientIndex = state.clientes.findIndex(
-        (client) => client.doc_Identidad === action.payload.doc_Identidad
+        (client) => client.doc_Identidad === action.doc
       );
       // Crea una copia del array de clientes actual y reemplaza el cliente modificado en el índice correspondiente
       const updatedClientes = [...state.clientes];
       updatedClientes[updatedClientIndex] = action.payload;
       return {
         ...state,
-        clientes: updatedClientes,
+        clientes: [...updatedClientes],
       };
     case GET_CLIENTES:
       return {
