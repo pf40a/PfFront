@@ -9,9 +9,11 @@ function CheckReserva() {
   const [nroHabitacion, setNroHabitacion] = useState([]);
   const [review, setReview] = useState(false);
   const [qrValue, setQRValue] = useState("");
-  const UsuarioId = useSelector((state) => state.auth.uid);
   const [check, setCheck] = useState("");
   //console.log(UsuarioId);
+
+  const UsuarioId = useSelector((state) => state.auth.uid);
+  const URL = "https://hotel-oasis.onrender.com";
 
   const handleCheckIn = async () => {
     try {
@@ -23,9 +25,7 @@ function CheckReserva() {
 
       // Obtiene los detalles de la reserva
       const response = await axios.get(
-        `${
-          import.meta.env.VITE_API_URL
-        }/hotel/filtros/reservaPorUsuario/${UsuarioId}`
+        `${URL}/hotel/filtros/reservaPorUsuario/${UsuarioId}`
       );
 
       const data = response.data;
@@ -59,11 +59,10 @@ function CheckReserva() {
       setQRValue(null);
       setReservation(null);
       setReview(null);
+
       // Obtiene los detalles de la reserva
       const response = await axios.get(
-        `${
-          import.meta.env.VITE_API_URL
-        }/hotel/filtros/reservaPorUsuario/${UsuarioId}`
+        `${URL}/hotel/filtros/reservaPorUsuario/${UsuarioId}`
       );
 
       const data = response.data;
@@ -71,9 +70,9 @@ function CheckReserva() {
       if (data.data) {
         const reservas = data.data[0];
 
-        // Verifica si hay una reserva y si la fecha de ingreso está dentro de los próximos 30 días
-        const fechaIngreso = reservas.fechaIngreso;
-        if (isCheckInDateValid(fechaIngreso)) {
+        // Verifica si hay una reserva y si la fecha de salida está dentro de los próximos 30 días
+        const fechaSalida = reservas.fechaSalida;
+        if (isCheckInDateValid(fechaSalida)) {
           setReservation(reservas);
           setCheck("Check-Out");
           setReview(true);
@@ -92,12 +91,12 @@ function CheckReserva() {
     }
   };
 
-  // Función para verificar si la fecha de ingreso está dentro de los próximos 30 días
-  const isCheckInDateValid = (fechaIngreso) => {
+  // Función para verificar si la fecha de ingreso o salida están dentro de los próximos 30 días
+  const isCheckInDateValid = (fecha) => {
     const fechaValida = new Date();
     fechaValida.setDate(fechaValida.getDate() + 30);
 
-    return new Date(fechaIngreso) <= fechaValida;
+    return new Date(fecha) <= fechaValida;
   };
 
   return (
@@ -141,10 +140,10 @@ function CheckReserva() {
         )}
       </div>
       {review && (
-        <div>
+        <div className="flex items-center justify-center flex-col">
           <p>
-            Porque tu opinión importa y nos ayuda a mejor, por favor déjanos una
-            Reseña
+            Porque tu opinión importa y nos ayuda a mejorar, por favor déjamos
+            una Reseña
           </p>
           <Link to="/reviewUser">
             <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-2">

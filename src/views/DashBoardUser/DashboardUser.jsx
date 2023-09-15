@@ -25,6 +25,7 @@ const DashboardUser = () => {
     setShowDate(false)
     setShowDashboard(false);
     setShowReviews(false);
+    setShowCheck(false);
   };
   const handleShowDashboard = () => {
     setShowDashboard(true);
@@ -32,11 +33,13 @@ const DashboardUser = () => {
      setShowCheck(false);
     setShowDate(false)
     setShowReviews(false);
+    setShowCheck(false);
   };
   const handleShowDates = () => {
     setShowDashboard(false);
     setShowReserve(false);
     setShowDate(true)
+    setShowCheck(false);
     setShowReviews(false);
   };
   const handleShowReviews = ()=>{
@@ -44,11 +47,17 @@ const DashboardUser = () => {
     setShowReserve(false);
     setShowDate(false);
     setShowReviews(true);
+    setShowCheck(false);
 
   }
 
   const handleShowCheck = () => {
     setShowCheck(true);
+    setShowDashboard(false);
+    setShowReserve(false);
+    setShowDate(false);
+    setShowReviews(false);
+
   }
 
   return (
@@ -196,12 +205,8 @@ const DashboardUser = () => {
             {showReviews && (
               <ShowsReviews/>
             )}
-          </div>
-          <div className="flex-1 p-4 md:ml-72 lg:ml-80 ">
-            {showCheck ? (
-              <div>
-                <CheckReserva />
-              </div>
+            {showCheck ? ( 
+            <CheckReserva /> 
             ) : (
               ""
             )}
