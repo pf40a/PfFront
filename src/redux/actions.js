@@ -16,6 +16,7 @@ export const PUT_HABITACIONES_DETAIL = "PUT_HABITACIONES_DETAIL";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const CHECKING_CREDENTIALS = "CHECKING_CREDENTIALS";
+export const UPDATE_DISPLAYNAME = "UPDATE_DISPLAYNAME";
 
 import axios from "axios";
 
@@ -209,4 +210,11 @@ export const checkingCredentials = () => {
   return {
     type: CHECKING_CREDENTIALS,
   };
+};
+
+export const updateDisplayName = (payload) => {
+  return{
+    type: UPDATE_DISPLAYNAME,
+    payload,
+  }
 };
