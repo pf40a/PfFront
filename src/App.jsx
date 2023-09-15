@@ -30,6 +30,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import ReviewAdmin from "./components/Reviews/Admin/ReviewsAdmin";
 import ReviewUser from "./components/Reviews/User/ReviewsUser";
+
 // ----- Hooks -----
 
 import { useCheckAuth } from "./Hooks/useCheckAuth";
@@ -51,7 +52,6 @@ function App() {
         currentPath !== "/reserve" &&
         currentPath !== "/recover" &&
         currentPath !== "/dashboard" &&
-        currentPath !== "/contact" &&
         currentPath !== "/mercadopago"
     );
   }, []);
@@ -71,7 +71,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="*" element={<ErroPage />} />
         <Route path="/about" element={<AboutUs />} />
-        <Route path="/review" element={<ReviewAdmin />} />
         <Route path="/pop" element={<PopDetail />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/search" element={<SearchRoom />} />
@@ -86,6 +85,7 @@ function App() {
         <Route path="/details/:subtipo" element={<DetailsRooms />} />
         <Route path="/dashboardUser" element={<DashboardUser />} />
         <Route path="/reviewUser" element={<ReviewUser />} />
+        <Route path="/reviewAdmin" element={<ReviewAdmin />} />
         <Route path="/developers" element={<Developers/>} />
       </Routes>
       {showLayout && <Footer />}

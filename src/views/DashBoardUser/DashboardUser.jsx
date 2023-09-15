@@ -1,25 +1,64 @@
-import React from "react";
-import { useState } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import React from 'react'
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+
+import MisDatos from "./MisDatos.jsx"
 import Reserve from "./Reserve";
+import CheckReserva from './CheckReserva.jsx';
+import DashboardComponent from './DashboardComponent.jsx';
+import ShowsReviews from './ShowsReviews.jsx';
 
 const DashboardUser = () => {
   const name = useSelector((state) => state.auth.displayName);
   const imageOfProfile = useSelector((state) => state.auth.photoURL);
   const [sidenav, setSidenav] = useState(true);
   const [showReserve, setShowReserve] = useState(false);
+  const [showCheck, setShowCheck] = useState(false);
   const [showDashboard, setShowDashboard] = useState(true);
+  const [showDate, setShowDate] = useState(false);
+  const [showReviews, setShowReviews] = useState(false)
 
   //---------HANDLES-------------//
   const handleShowRerves = () => {
     setShowReserve(true);
+    setShowDate(false)
+    setShowDashboard(false);
+    setShowReviews(false);
+    setShowCheck(false);
   };
   const handleShowDashboard = () => {
     setShowDashboard(true);
     setShowReserve(false);
+     setShowCheck(false);
+    setShowDate(false)
+    setShowReviews(false);
+    setShowCheck(false);
   };
+  const handleShowDates = () => {
+    setShowDashboard(false);
+    setShowReserve(false);
+    setShowDate(true)
+    setShowCheck(false);
+    setShowReviews(false);
+  };
+  const handleShowReviews = ()=>{
+    setShowDashboard(false);
+    setShowReserve(false);
+    setShowDate(false);
+    setShowReviews(true);
+    setShowCheck(false);
 
+  }
+
+  const handleShowCheck = () => {
+    setShowCheck(true);
+    setShowDashboard(false);
+    setShowReserve(false);
+    setShowDate(false);
+    setShowReviews(false);
+
+  }
 
   return (
     <>
@@ -72,7 +111,7 @@ const DashboardUser = () => {
                   <span className="">Dashboard</span>
                 </button>
                 <button
-                  href=""
+                  onClick={handleShowDates}
                   className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
                 >
                   <svg
@@ -101,6 +140,7 @@ const DashboardUser = () => {
                   <span className="">Mis Reservas</span>
                 </button>
                 <button
+                  onClick={handleShowCheck}
                   href=""
                   className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
                 >
@@ -135,17 +175,13 @@ const DashboardUser = () => {
                   <span className="">Messages</span>
                 </button>
                 <button
-                  href=""
-                  className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
+                  onClick={handleShowReviews}
+                  className=" flex text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
                 >
-                  <svg
-                    className="w-6 h-6 fill-current inline-block"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
-                  </svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+</svg>
+
                   <span className="">Mis reseñas</span>
                 </button>
               </div>
@@ -157,6 +193,20 @@ const DashboardUser = () => {
               <div>
                 <Reserve />
               </div>
+            ) : (
+              ""
+            )}
+            {showDate && (
+             <MisDatos/>
+            )}
+            {showDashboard && (
+              <DashboardComponent/>
+            )}
+            {showReviews && (
+              <ShowsReviews/>
+            )}
+            {showCheck ? ( 
+            <CheckReserva /> 
             ) : (
               ""
             )}

@@ -174,49 +174,14 @@ console.log(reserveId);
       await axios.post(`${import.meta.env.VITE_API_URL}/hotel/email`, {
         email: `${emailUser}`,
         asunto: "Confirmación de Pago Exitoso en Oasis Hotel",
-        mensaje: `Estimado/a ${nameDb},
-
-           Queremos agradecerte por elegir Oasis Hotel para tu próxima estadía y confirmar que hemos recibido con éxito el pago correspondiente a tu reserva a través de Mercado Pago.
-            
-            Detalle de la Reserva:
-            
-            Nombre del Cliente: ${nameDb}
-            Fecha de Llegada: ${search.fechaIn}
-            Fecha de Salida: ${search.fechaOut}
-            Tipo de Habitación: ${nameToString}
-            Número de Habitaciones: ${numberToString}
-            Tarifa Total: ${totalPrice}
-            Nos complace informarte que tu reserva está completamente garantizada y que hemos registrado tu pago de manera exitosa. Esto asegura que tengas una experiencia sin problemas en Oasis Hotel y que todo esté listo para tu llegada.
-            
-            Además, nos gustaría destacar los servicios adicionales que ofrecemos para hacer de tu estadía una experiencia aún más placentera:
-            
-            Piscina: Disfruta de un relajante chapuzón en nuestra piscina climatizada.
-            
-            Spa: Permítete un momento de relajación y rejuvenecimiento en nuestro spa de clase mundial. Te ofrecemos una amplia gama de tratamientos y masajes para que te sientas completamente renovado/a.
-            
-            Gimnasio: Mantén tu rutina de ejercicios en nuestro moderno gimnasio equipado con las últimas máquinas y equipos de fitness.
-            
-            Taxi del Aeropuerto al Hotel: Si necesitas transporte desde el aeropuerto hasta el hotel, nuestro servicio de taxi te estará esperando a tu llegada. Solo tienes que proporcionarnos los detalles de tu vuelo y estaremos allí para recibirte.
-            
-            Desayuno: Comienza tus mañanas con un delicioso desayuno en nuestro restaurante Oasis Restaurant. Ofrecemos una variedad de opciones para satisfacer todos los gustos.
-            
-            Si tienes alguna pregunta adicional sobre tu reserva o si deseas realizar alguna solicitud especial para tu estadía, no dudes en ponerte en contacto con nuestro equipo de recepción. Estamos aquí para ayudarte en todo momento y asegurarnos de que disfrutes de una estancia memorable con nosotros.
-            
-            ¡Esperamos ansiosos tu llegada y estamos seguros de que tendrás una experiencia inolvidable en Oasis Hotel!
-            
-            Si tienes alguna pregunta o necesitas asistencia adicional, no dudes en responder a este correo electrónico o comunicarte con nosotros al +54 9 343 344 6601.
-            
-            Gracias por confiar en nosotros. ¡Nos vemos pronto!
-            
-            Cordialmente,
-            
-            Nicolas
-            Ceo
-            Oasis Hotel
-            +54 9 343 344 6601
-            hotel.oasis.adm@gmail.com
-            https://pffront40.onrender.com`,
         nombre: nameDb,
+        templateType: "reserva",
+        fechaLlegada:`${search.fechaIn}`,
+        fechaSalida:`${search.fechaOut}`,
+        tipoHabitacion:[`${nameToString}`],
+        numeroHabitacion:[`${numberToString}`],
+        tarifaTotal:`${totalPrice}`
+
       });
     } catch (error) {
       console.log(error);

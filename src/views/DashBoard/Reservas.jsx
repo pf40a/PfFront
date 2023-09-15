@@ -6,15 +6,17 @@ import Form from './DashForm';
 import { GetHabitaciones, GetUsers, PutHabitacion, PutHabitacionDetail, PutUsers } from '../../redux/actions';
 import FormUser from './FormUser';
 import FormHabitacion from './FormHabitacion';
+import axios from 'axios';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 
 
-function Habitaciones(params) {
+function Reservas(params) {
   
   const dispatch = useDispatch()
     const [selectedStatus, setSelectedStatus] = useState("all");
     const[selectedRole, setSelectedRole] = useState([])
     const [menuState, setMenuState] = useState({});
-  
+    const [reservas, setReservas] = useState([])
     const [doc, setDoc] = useState("")//esto deberia guardar el id
     const [admin, setAdmin] = useState(false)
     const habitaciones = useSelector((state) => state.habitaciones);
@@ -26,8 +28,8 @@ function Habitaciones(params) {
     };
     const handlerSelect = (select) => {
       return (
-        (select.estado === selectedStatus || selectedStatus === "all") &&
-        (selectedRole.length === 0 || selectedRole.includes(select.nroHabitacion.toString())) 
+        (select.deleted === selectedStatus || selectedStatus === "all") &&
+        (selectedRole.length === 0 || selectedRole.includes(select.ClienteDocIdentidad.toString())) 
         
       );
       
@@ -50,16 +52,16 @@ function Habitaciones(params) {
       setDoc(id)
       
     };
-    const handleDelete = async(docItem, deleteItem)=>{
-      let room = {}
-      if(deleteItem === "activo"){
-        room.estado = "En Mantenimiento"
-      }else{
-        room.estado = "activo"
+    const handleDelete = async(id, deleteItem)=>{
+        let res = {}
+        if(deleteItem === true){
+            res.deleted = false
+        }else{
+            res.deleted = true
+        }
+        await axios.put(`${import.meta.env.VITE_API_URL}/hotel/reservas/${id}`, res)
+        console.log(id)
       }
-      await dispatch(PutHabitacion(docItem, room))
-      await dispatch(GetHabitaciones())
-    }
     /*
     const PutForm = async(id, hab)=>{
       try{  
@@ -72,10 +74,11 @@ function Habitaciones(params) {
     */
     useEffect(() => {
       const fetchData = async () => {
-        await dispatch(GetHabitaciones());
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/reservas`)
+        setReservas(res.data.data)
       };
       fetchData();
-    }, [dispatch]);
+    }, [reservas]);
 
 return(
 
@@ -95,7 +98,7 @@ return(
   )}
   <TabGroup className="mt-6 ">
   <TabList>
-        <Tab>Habitaciones</Tab>
+        <Tab>Reservas</Tab>
       </TabList>
       <TabPanels> 
       <TabPanel> 
@@ -104,14 +107,14 @@ return(
  <MultiSelect
  className="max-w-full sm:max-w-xs"
  onValueChange={changeSelect}
- placeholder="Buscar nº habitacion..."
+ placeholder="Buscar cliente..."
  value={selectedRole}
  >
   {
-    habitaciones.map((item)=>{
+    reservas.map((item)=>{
       return(
-      <MultiSelectItem key={item.nroHabitacion.toString()} value={item.nroHabitacion.toString()}>
-      {item.nroHabitacion.toString()}
+      <MultiSelectItem key={item.ClienteDocIdentidad.toString()} value={item.ClienteDocIdentidad.toString()}>
+      {item.ClienteDocIdentidad.toString()}
       </MultiSelectItem>)
     })
     
@@ -123,34 +126,41 @@ return(
           onValueChange={setSelectedStatus}
         >
 <SelectItem value="all">All</SelectItem>
-<SelectItem value={"activo"}>Active</SelectItem>
-<SelectItem value={"En Mantenimiento"}>Inactive</SelectItem>
+<SelectItem value={false}>Active</SelectItem>
+<SelectItem value={true}>Inactive</SelectItem>
 
 </Select>          
   </div>
 <Card >
-<Title>Lista de habitaciones</Title>
+<Title>Lista de reservas</Title>
 <Table className='h-[70vh]'>
 <TableHead>
 <TableRow>
-          <TableHeaderCell>Numero</TableHeaderCell>
-          <TableHeaderCell>Piso</TableHeaderCell>
+  <TableHeaderCell></TableHeaderCell>
+          <TableHeaderCell>Fechas</TableHeaderCell>
+          <TableHeaderCell>Pago</TableHeaderCell>
+          <TableHeaderCell>Cliente</TableHeaderCell>
           <TableHeaderCell>Estado</TableHeaderCell>
+          <TableHeaderCell>Detalle</TableHeaderCell>
 </TableRow>
 </TableHead>
 <TableBody >
   
-{habitaciones.filter((item)=> handlerSelect(item))
-         .map((item) => (
+{reservas.filter((item)=> handlerSelect(item))
+         .map((item,i) => (
           <TableRow key={item.id}>
-            <TableCell>{item.nroHabitacion}</TableCell>
+            <TableCell><Text>{i+1}</Text></TableCell>
+            <TableCell><Text>{item.fechaIngreso + " - " + item.fechaSalida}</Text></TableCell>
             <TableCell>
-              <Text>{item.nivel}</Text>
+              <Text>{item.pago_Estado}</Text>
             </TableCell>
             <TableCell>
-          <Button onClick={()=>handleDelete(item.id, item.estado)} color={item.estado === "activo" ? 'emerald' : 'red'} className='flex-row'> 
+              <Text>{item.ClienteDocIdentidad}</Text>
+            </TableCell>
+            <TableCell>
+          <Button onClick={()=>handleDelete(item.id, item.deleted)} color={item.deleted === false ? 'emerald' : 'red'} className='flex-row'> 
   <div className="flex items-center">
-    <div className="mr-2">{item.estado === "activo" ? "activo":"inactivo"}</div>
+    <div className="mr-2">{item.deleted === false ? "activo":"inactivo"}</div>
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
       <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
     </svg>
@@ -159,7 +169,13 @@ return(
 
             </TableCell>
  <TableCell >
- <div className='flex'>
+ <DescriptionOutlinedIcon className='cursor-pointer' onClick={() =>{
+    setIsOpenDetalle(true)
+    setDataDetail(item)
+    setDataId(item.id)
+    setTypeData('clientes')
+    }}/>
+ {/* <div className='flex'>
   <span onClick={() => toggleMenuForItem(item)}>
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -168,18 +184,21 @@ return(
  
 
 
-</div>
-  </TableCell>           
-  {menuState[item.id] &&(
-  <TableCell> 
+</div> */}
+  </TableCell> 
+
+
+  {/* {menuState[item.id] &&(
+  <TableCell>
+
   <div className='mt-2 -ml-10 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col h-13 w-13'
   >
-  <span onClick={() =>toggleMenuDetalle(item.HabitacionDetalleId)} className='m-1'>Detalle</span>
-  <span onClick={() =>toggleMenuForm(item.HabitacionDetalleId)} className='m-1'>Modificar</span>
+  <span onClick={() =>toggleMenuDetalle(item.id)} className='m-1'>Detalle</span>
+  <span onClick={() =>toggleMenuForm(item.id)} className='m-1'>Modificar</span>
   </div>
   </TableCell>
   )
-}
+} */}
           </TableRow>
           
         ))}
@@ -197,4 +216,4 @@ return(
 )  
 }
 
-export default Habitaciones
+export default Reservas
