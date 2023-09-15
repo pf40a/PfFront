@@ -140,7 +140,7 @@ function CheckReserva() {
         )}
       </div>
       {review && (
-        <div>
+        <div className="flex items-center justify-center flex-col">
           <p>Porque tu opinión importa y nos ayuda a mejorar, por favor déjamos una Reseña</p>
           <Link to="/review">
             <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-2">
