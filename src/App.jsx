@@ -28,8 +28,7 @@ import PopDetail from "./components/PopDetail/PopDetail";
 import ReviewStars from "./components/pruebas/pruebas";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import ReviewAdmin from "./components/Reviews/Admin/ReviewsAdmin";
-import ReviewUser from "./components/Reviews/User/ReviewsUser";
+import ReviewUser from "./views/DashBoardUser/ReviewsUser";
 
 // ----- Hooks -----
 
@@ -85,8 +84,7 @@ function App() {
         <Route path="/details/:subtipo" element={<DetailsRooms />} />
         <Route path="/dashboardUser" element={<DashboardUser />} />
         <Route path="/reviewUser" element={<ReviewUser />} />
-        <Route path="/reviewAdmin" element={<ReviewAdmin />} />
-        <Route path="/developers" element={<Developers/>} />
+        <Route path="/developers" element={<Developers />} />
       </Routes>
       {showLayout && <Footer />}
     </>

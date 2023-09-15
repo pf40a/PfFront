@@ -78,9 +78,9 @@ const ShowsReviews = () => {
             comentario: editReview.comment,
           }
         );
-  
+
         // No es necesario actualizar el estado local aquí
-  
+
         setEditingReviewId(null);
         setEditReview({});
         setepopUp(false);
@@ -89,9 +89,9 @@ const ShowsReviews = () => {
       }
     }
   };
-  
+
   // ...
-  
+
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -99,15 +99,17 @@ const ShowsReviews = () => {
           `${import.meta.env.VITE_API_URL}/hotel/reviews/`
         );
         const reviewsData = response.data.data;
-  
-        const filterReview = reviewsData.filter((f) => f.UsuarioId === reviewId);
-  
+
+        const filterReview = reviewsData.filter(
+          (f) => f.UsuarioId === reviewId
+        );
+
         setReviews(filterReview);
       } catch (error) {
         console.error("Error al obtener las revisiones:", error);
       }
     };
-  
+
     fetchReviews();
   }, [reviewId]);
 
@@ -249,13 +251,11 @@ const ShowsReviews = () => {
                   className="w-full px-3 py-2 border rounded-md max-w-full min-h-[150px] overflow-x-auto"
                 ></textarea>
 
-                <span className="text-sm text-right text-gray-400">
+                {/* <span className="text-sm text-right text-gray-400">
                   Caracteres restantes: {charCount}
-                </span>
+                </span> */}
                 {editReview.comment.length < 5 && (
-                  <span className="text-red-500">
-                    Faltan caracteres o no has seleccionado una estrella.
-                  </span>
+                  <p className="text-red-500">Faltan caracteres</p>
                 )}
                 <div className="flex justify-end">
                   <button

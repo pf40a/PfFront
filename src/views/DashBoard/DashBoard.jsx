@@ -42,11 +42,12 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import LeaderboardOutlinedIcon from "@mui/icons-material/LeaderboardOutlined";
 import Tipos from "./TiposHabs";
 
-import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
-import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
-import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
-import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
-import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoomOutlined';
+import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
+import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
+import HotelOutlinedIcon from "@mui/icons-material/HotelOutlined";
+import ConfirmationNumberOutlinedIcon from "@mui/icons-material/ConfirmationNumberOutlined";
+import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
+import ReviewAdmin from "./ReviewsAdmin";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -217,22 +218,22 @@ const Sidebar = () => {
             </a>
             {/* Add the rest of the menu items here */}
             <a
-        href="#"
-        onClick={() => changeSection('usuarios')}
-        className="  pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
-      >
-        <AssignmentIndOutlinedIcon />
-        <span className="ml-2">Usuarios</span>
-      </a>
-      <a
-        href="#"
-        onClick={() => changeSection('Tipos')}
-        className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center pt-4"
-      >
-        <MeetingRoomOutlinedIcon />
-        <span>Tipos Habitación</span>
-      </a>
-      {/* <a
+              href="#"
+              onClick={() => changeSection("usuarios")}
+              className="  pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
+            >
+              <AssignmentIndOutlinedIcon />
+              <span className="ml-2">Usuarios</span>
+            </a>
+            <a
+              href="#"
+              onClick={() => changeSection("Tipos")}
+              className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center pt-4"
+            >
+              <MeetingRoomOutlinedIcon />
+              <span>Tipos Habitación</span>
+            </a>
+            {/* <a
         href="#"
         onClick={() => changeSection('habitaciones')}
         className=" pt-4 text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center"
@@ -240,15 +241,16 @@ const Sidebar = () => {
         <HotelOutlinedIcon />
         <span className="ml-2">Habitaciones</span>
       </a> */}
-      <a
-        href="#"
-        onClick={() => changeSection('reservas')}
-        className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center pt-4"
-      >
-        <ConfirmationNumberOutlinedIcon />
-        <span className="ml-2">Reservas</span>
-      </a>
-      <a
+            <a
+              href="#"
+              onClick={() => changeSection("reservas")}
+              className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center pt-4"
+            >
+              <ConfirmationNumberOutlinedIcon />
+              <span className="ml-2">Reservas</span>
+            </a>
+            <a
+              onClick={() => changeSection("reviews")}
               href="#"
               className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out flex items-center pt-4"
             >
@@ -358,6 +360,7 @@ const Sidebar = () => {
           />
         )}
         {section === "reservas" && <Reservas />}
+        {section === "reviews" && <ReviewAdmin />}
         {section === "usuarios" && (
           <Usuarios
             setIsOpenDetalle={setIsOpenDetalle}
@@ -433,10 +436,14 @@ const Sidebar = () => {
                           <TableBody>
                             {clientes
                               .filter((item) => handlerSelect(item))
-                              .map((item,i) => (
+                              .map((item, i) => (
                                 <TableRow key={item.doc_Identidad}>
-                                  <TableCell><Text>{i+1}</Text></TableCell>
-                                  <TableCell><Text>{item.nombre}</Text></TableCell>
+                                  <TableCell>
+                                    <Text>{i + 1}</Text>
+                                  </TableCell>
+                                  <TableCell>
+                                    <Text>{item.nombre}</Text>
+                                  </TableCell>
                                   <TableCell>
                                     <Text>{item.doc_Identidad}</Text>
                                   </TableCell>
