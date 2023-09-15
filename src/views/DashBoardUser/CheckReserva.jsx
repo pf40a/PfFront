@@ -7,94 +7,97 @@ import { useSelector } from "react-redux";
 function CheckReserva() {
   const [reservation, setReservation] = useState(null);
   const [nroHabitacion, setNroHabitacion] = useState([]);
-  const [review, setReview] = useState(false) 
+  const [review, setReview] = useState(false);
   const [qrValue, setQRValue] = useState("");
   const UsuarioId = useSelector((state) => state.auth.uid);
-  const [check, setCheck] = useState("")
-    //console.log(UsuarioId);
+  const [check, setCheck] = useState("");
+  //console.log(UsuarioId);
 
   const handleCheckIn = async () => {
     try {
-        //Se limpia los estados
-        setQRValue(null);
-        setReservation(null);
-        setReview(null);
-        console.log(UsuarioId);
+      //Se limpia los estados
+      setQRValue(null);
+      setReservation(null);
+      setReview(null);
+      console.log(UsuarioId);
 
-        // Obtiene los detalles de la reserva
-         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/hotel/filtros/reservaPorUsuario/${UsuarioId}`
-        ); 
-        
-        const data = response.data;
+      // Obtiene los detalles de la reserva
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_API_URL
+        }/hotel/filtros/reservaPorUsuario/${UsuarioId}`
+      );
 
-        if (data.data) {
-          const reservas = data.data[0];
+      const data = response.data;
 
-          // Verifica si hay una reserva y si la fecha de ingreso está dentro de los próximos 30 días
-          const fechaIngreso = reservas.fechaIngreso;
-          
-          if (isCheckInDateValid(fechaIngreso)) {
-             setReservation(reservas);
-            setCheck("Check-In")
-            const habitaciones = reservas.Reserva_Items;
-            const nroHabitaciones = habitaciones
-              .map((elem) => elem.Habitacion.nroHabitacion)
-              .join(", ");
-            setNroHabitacion(nroHabitaciones);
-            setQRValue(reservas.id); 
-          } else {
-            alert("No se encontró una reserva válida para Check In.");
-          }
+      if (data.data) {
+        const reservas = data.data[0];
+
+        // Verifica si hay una reserva y si la fecha de ingreso está dentro de los próximos 30 días
+        const fechaIngreso = reservas.fechaIngreso;
+
+        if (isCheckInDateValid(fechaIngreso)) {
+          setReservation(reservas);
+          setCheck("Check-In");
+          const habitaciones = reservas.Reserva_Items;
+          const nroHabitaciones = habitaciones
+            .map((elem) => elem.Habitacion.nroHabitacion)
+            .join(", ");
+          setNroHabitacion(nroHabitaciones);
+          setQRValue(reservas.id);
+        } else {
+          alert("No se encontró una reserva válida para Check In.");
         }
-      } catch (error) {
-        return alert("No tiene Reservas");
       }
-    };
+    } catch (error) {
+      return alert("No tiene Reservas");
+    }
+  };
 
   const handleCheckOut = async () => {
     try {
-        setQRValue(null);
-        setReservation(null);
-        setReview(null);
-        // Obtiene los detalles de la reserva
-         const response = await axios.get(
-           `${import.meta.env.VITE_API_URL}/hotel/filtros/reservaPorUsuario/${UsuarioId}`
-      ); 
-      
-        const data = response.data;
+      setQRValue(null);
+      setReservation(null);
+      setReview(null);
+      // Obtiene los detalles de la reserva
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_API_URL
+        }/hotel/filtros/reservaPorUsuario/${UsuarioId}`
+      );
 
-        if (data.data) {
-          const reservas = data.data[0];
+      const data = response.data;
 
-          // Verifica si hay una reserva y si la fecha de ingreso está dentro de los próximos 30 días
-          const fechaIngreso = reservas.fechaIngreso;
-          if (isCheckInDateValid(fechaIngreso)) {
-            setReservation(reservas);
-             setCheck("Check-Out");
-            setReview(true);
-            const habitaciones = reservas.Reserva_Items;
-            const nroHabitaciones = habitaciones
-              .map((elem) => elem.Habitacion.nroHabitacion)
-              .join(", ");
-            setNroHabitacion(nroHabitaciones);
-            setQRValue(reservas.id);
-          } else {
-            alert("No se encontró una reserva válida para Check Out.");
-          }
+      if (data.data) {
+        const reservas = data.data[0];
+
+        // Verifica si hay una reserva y si la fecha de ingreso está dentro de los próximos 30 días
+        const fechaIngreso = reservas.fechaIngreso;
+        if (isCheckInDateValid(fechaIngreso)) {
+          setReservation(reservas);
+          setCheck("Check-Out");
+          setReview(true);
+          const habitaciones = reservas.Reserva_Items;
+          const nroHabitaciones = habitaciones
+            .map((elem) => elem.Habitacion.nroHabitacion)
+            .join(", ");
+          setNroHabitacion(nroHabitaciones);
+          setQRValue(reservas.id);
+        } else {
+          alert("No se encontró una reserva válida para Check Out.");
         }
-      } catch (error) {
-        return alert("No tiene Reservas");
       }
-    };
+    } catch (error) {
+      return alert("No tiene Reservas");
+    }
+  };
 
-    // Función para verificar si la fecha de ingreso está dentro de los próximos 30 días
+  // Función para verificar si la fecha de ingreso está dentro de los próximos 30 días
   const isCheckInDateValid = (fechaIngreso) => {
-      const fechaValida = new Date();
-      fechaValida.setDate(fechaValida.getDate() + 30);
+    const fechaValida = new Date();
+    fechaValida.setDate(fechaValida.getDate() + 30);
 
     return new Date(fechaIngreso) <= fechaValida;
-    
   };
 
   return (
@@ -139,8 +142,11 @@ function CheckReserva() {
       </div>
       {review && (
         <div>
-          <p>Porque tu opinión importa y nos ayuda a mejor, por favor déjamos una Reseña</p>
-          <Link to="/review">
+          <p>
+            Porque tu opinión importa y nos ayuda a mejor, por favor déjanos una
+            Reseña
+          </p>
+          <Link to="/reviewUser">
             <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-2">
               Dejar Reseña
             </button>
@@ -149,7 +155,6 @@ function CheckReserva() {
       )}
     </div>
   );
-
 }
 
 export default CheckReserva;
