@@ -58,8 +58,7 @@ function CheckReserva() {
         setQRValue(null);
         setReservation(null);
         setReview(null);
-      
-    //     const URL = "https://hotel-oasis.onrender.com";
+    
          // Obtiene los detalles de la reserva
          const response = await axios.get(
            `${URL}/hotel/filtros/reservaPorUsuario/${UsuarioId}`
@@ -70,7 +69,7 @@ function CheckReserva() {
         if (data.data) {
           const reservas = data.data[0];
 
-          // Verifica si hay una reserva y si la fecha de ingreso está dentro de los próximos 30 días
+          // Verifica si hay una reserva y si la fecha de salida está dentro de los próximos 30 días
           const fechaSalida = reservas.fechaSalida;
           if (isCheckInDateValid(fechaSalida)) {
             setReservation(reservas);
@@ -91,7 +90,7 @@ function CheckReserva() {
       }
     };
 
-    // Función para verificar si la fecha de ingreso está dentro de los próximos 30 días
+    // Función para verificar si la fecha de ingreso o salida están dentro de los próximos 30 días
   const isCheckInDateValid = (fecha) => {
       const fechaValida = new Date();
       fechaValida.setDate(fechaValida.getDate() + 30);
