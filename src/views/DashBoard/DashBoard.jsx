@@ -1,4 +1,4 @@
-import { AreaChart, Card, Flex, Grid, Metric, ProgressBar, Tab, TabGroup, TabList, TabPanel, TabPanels, Table, TableHead, Text, Title, TableRow, TableHeaderCell, TableBody, TableCell, Badge, Button, MultiSelect, MultiSelectItem, Select, SelectItem, TextInput, BarList } from '@tremor/react';
+import { AreaChart, Card, Flex, Grid, Metric, ProgressBar, Tab, TabGroup, TabList, TabPanel, TabPanels, Table, TableHead, Text, Title, TableRow, TableHeaderCell, TableBody, TableCell, Badge, Button, MultiSelect, MultiSelectItem, Select, SelectItem, TextInput, BarList, DonutChart } from '@tremor/react';
 import { Dialog, Transition } from "@headlessui/react";
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector,  } from 'react-redux';
@@ -13,7 +13,7 @@ import { IconId } from '@tabler/icons-react';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined';
 import Tipos from './TiposHabs';
-
+import { BarChart } from "@tremor/react"
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
 import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
@@ -25,9 +25,25 @@ const dispatch = useDispatch()
   const [section, setSection] = useState('dashboard');
   const [selectedStatus, setSelectedStatus] = useState("all");
   const[selectedRole, setSelectedRole] = useState([])
+  const [habsDetalle, setHabsDetalle] = useState([])
   const [menuState, setMenuState] = useState({});
   const [doc, setDoc] = useState("")//esto deberia guardar el documento
   const clientes = useSelector((state) => state.clientes);
+ const [habitaciones, setHabitaciones] = useState([])
+
+useEffect(() => {
+  const fetchData = async()=>{
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle`)
+  setHabsDetalle(res.data.data)}
+fetchData();
+}, []);
+useEffect(() => {
+  const fetchData = async()=>{
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones`)
+  setHabitaciones(res.data.data)}
+fetchData();
+}, []);
+
   const toggleMenuForItem = (item) => {
     setMenuState((prevState) => ({
       ...prevState,
@@ -53,8 +69,100 @@ const dispatch = useDispatch()
 const [dataDetail, setDataDetail] = useState({})
 const [typeData,setTypeData] = useState('')
 const [dataId, setDataId] = useState('')
+const [reser, setReser] = useState([])
+useEffect(() => {
+  const fetchData = async () => {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/reservas`);
+    setReser(res.data.data)
+  };
+  fetchData();
+}, []);
 
+const char = {
+  primer: 0,
+  segundo: 0,
+  tercero:0
+}
+const charCliente = {
+  primer: 0,
+  segundo: 0,
+  tercero:0
+}
+console
+reser.forEach(r => {
+  
+  if (r.pago_Estado === "approved") {
+    if(r.createdAt !== undefined && r.createdAt !== null){
+    const fecha = new Date(r.createdAt);
+    let mes = fecha.getMonth() + 1;
+   
+      
+      console.log(mes)
+    
+    if (mes >= 1 && mes <= 4) {
+      
+      r.Reserva_Items.forEach(item => {
+        char.primer += item.precio;
+      });
+    }
+    if (mes >= 4 && mes <= 8) {
+      
+      r.Reserva_Items.forEach(item => {
+        char.segundo += item.precio;
+      });
+    }
+    if (mes >= 8) {
+     
+      r.Reserva_Items.forEach(item => {
+        char.tercero += item.precio;
+      });
+    }
+  }
+  }
+});
 
+const habitaciones_ingresos = [];
+
+habsDetalle.forEach(h => {
+  const hab = {};
+  hab.name = `${h.tipo_Habitacion} - ${h.subTipo}`;
+  hab.ingresos = 0;
+  habitaciones_ingresos.push(hab);
+});
+
+ function obtenerDetalleHabitacion(item) {
+  try {
+    const res = habitaciones.find(h=> h.id === item.HabitacionId)
+    //await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/${item.HabitacionId}`);
+    const hab = habsDetalle.find(h=> h.id === res.HabitacionDetalleId)
+    //const resDetalle = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle/${hab.HabitacionDetalleId}`);
+    const name = `${hab.tipo_Habitacion} - ${hab.subTipo}`;
+    return { name, ingreso: item.precio };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+ function procesarReservas() {
+  for (const r of reser) {
+    if (r.pago_Estado === "approved") {
+      const promesasDetalle = r.Reserva_Items.map(y => obtenerDetalleHabitacion(y));
+      promesasDetalle.forEach(result => {
+        if (result) {
+          const { name, ingreso } = result;
+          const habitacion = habitaciones_ingresos.find(i => i.name === name);
+          if (habitacion) {
+            habitacion.ingresos += ingreso;
+          }
+        }
+      });
+    }
+  }
+}
+
+procesarReservas()
+  console.log(habitaciones_ingresos);
   const toggleMenuDetalle = () => {
     setIsOpenDetalle(!isOpenDetalle);
    // setDoc(document)
@@ -80,6 +188,24 @@ const [dataId, setDataId] = useState('')
     fetchData();
     setIsOpenDetalle(false)
   }, [dispatch]);
+
+ /* clientes.forEach(r => {
+    console.log("gola")
+      const fecha = new Date(r.createdAt);
+      let mes = fecha.getMonth() + 1;
+        console.log(mes)
+      if (mes >= 1 && mes <= 4) {
+          charCliente.primer += 1;
+      }
+      if (mes >= 4 && mes <= 8) {
+          charCliente.segundo += 1;
+      }
+      if (mes >= 8) {
+          charCliente.tercero += 1;
+      }
+  });
+*/
+
   //data deberian ser los clientes de las BD
   const PutForm = async(documento, cliente)=>{
     try{  
@@ -90,38 +216,23 @@ const [dataId, setDataId] = useState('')
    console.error(error)
   } 
   }
-
+ 
   const chartdata = [
     {
-      date: "Jan 22",
-      ingresos: 2890,
-      "clientes": 2338,
+      date: "Enero-Abril",
+      ingresos: char.primer,
+     // "clientes": charCliente.primer,
     },
     {
-      date: "Feb 22",
-      ingresos: 2756,
-      "clientes": 2103,
+      date: "Mayo-Agosto",
+      ingresos: char.segundo,
+      //"clientes": charCliente.segundo,
     },
     {
-      date: "Mar 22",
-      ingresos: 3322,
-      "clientes": 2194,
-    },
-    {
-      date: "Apr 22",
-      ingresos: 3470,
-      "clientes": 2108,
-    },
-    {
-      date: "May 22",
-      ingresos: 3475,
-      "clientes": 1812,
-    },
-    {
-      date: "Jun 22",
-      ingresos: 3129,
-      "clientes": 1726,
-    },
+      date: "Septiembre-Diciembre",
+      ingresos: char.tercero,
+      //"clientes": charCliente.tercero,
+    }
   ];
 
 
@@ -253,8 +364,8 @@ const [dataId, setDataId] = useState('')
 
     <TabGroup className="mt-6">
       <TabList>
-        <Tab>Vista general</Tab>
-        
+        <Tab>Ingresos</Tab>
+        <Tab>Ingresos por habitacion</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
@@ -310,6 +421,32 @@ const [dataId, setDataId] = useState('')
       </Grid>
          
         </TabPanel>
+        
+        <TabPanel>
+          <Grid  className="gap-6 mt-6 column items-center justify-center"> 
+          <Title>Ingresos por habitacion 2023</Title>
+          <DonutChart
+      className="mt-6"
+      data={habitaciones_ingresos}
+      category="ingresos"
+      index="name"
+      colors={["slate", "violet", "indigo", "rose", "cyan", "amber"]}
+    />
+  
+  <Card>
+  <BarChart
+      className="mt-6"
+      data={habitaciones_ingresos}
+      index="name"
+      categories={["ingresos"]}
+      colors={["blue"]}
+      yAxisWidth={48}
+    />
+  </Card>
+  
+  </Grid>
+     </TabPanel> 
+
       </TabPanels>
     </TabGroup>
   </main>
