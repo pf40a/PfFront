@@ -1,16 +1,31 @@
 import { FirebaseAuth } from "../Firebase/Config";
 
 import {
-  PUT_CLIENTES, GET_CLIENTES, SEARCH_ROOMS, DETAIL_ROOM,
-  FILTER_ROOMS, ORDER_ROOMS, TYPES_ROOMS, FILTER_TYPES_ROOMS,
-  SAVE_PAGE, LOGIN, LOGOUT, CHECKING_CREDENTIALS, PUT_USERS,
-  GET_USERS, GET_HABITACIONES, PUT_HABITACIONES, PUT_HABITACIONES_DETAIL, GET_TIPOS_HABITACIONES, PUT_TIPOS_HABITACIONES, UPDATE_DISPLAYNAME
+  PUT_CLIENTES,
+  GET_CLIENTES,
+  SEARCH_ROOMS,
+  DETAIL_ROOM,
+  FILTER_ROOMS,
+  ORDER_ROOMS,
+  TYPES_ROOMS,
+  FILTER_TYPES_ROOMS,
+  SAVE_PAGE,
+  LOGIN,
+  LOGOUT,
+  CHECKING_CREDENTIALS,
+  PUT_USERS,
+  GET_USERS,
+  GET_HABITACIONES,
+  PUT_HABITACIONES,
+  PUT_HABITACIONES_DETAIL,
+  GET_TIPOS_HABITACIONES,
+  PUT_TIPOS_HABITACIONES,
+  UPDATE_DISPLAYNAME,
 } from "./actions";
 
 const initialState = {
-  
   habitaciones: [],
-  users:[],
+  users: [],
   clientes: [],
   rooms: [],
   allRooms: [],
@@ -71,39 +86,45 @@ export default function rootReducer(state = initialState, action) {
     case GET_HABITACIONES:
       return {
         ...state,
-        habitaciones: [...action.payload]
+        habitaciones: [...action.payload],
       };
-    
-      case PUT_HABITACIONES:
-        const updatedHabIndex = state.habitaciones.findIndex((h) => h.id === action.payload.id);
-        const updatedHabs = [...state.habitaciones];
-        updatedHabs[updatedHabIndex] = action.payload;
-        return {
-          ...state,
-          habitaciones: updatedHabs,
-        };
-        case PUT_HABITACIONES_DETAIL:
-          const updatedHabDetIndex = state.allRooms.findIndex((h) => h.id === action.payload.id);
-          const updatedHabsDet = [...state.allRooms];
-          updatedHabsDet[updatedHabDetIndex] = action.payload;
-          return {
-            ...state,
-            allRooms: updatedHabsDet,
-          };
-          case GET_TIPOS_HABITACIONES:
+
+    case PUT_HABITACIONES:
+      const updatedHabIndex = state.habitaciones.findIndex(
+        (h) => h.id === action.payload.id
+      );
+      const updatedHabs = [...state.habitaciones];
+      updatedHabs[updatedHabIndex] = action.payload;
       return {
         ...state,
-        habitaciones: [...action.payload]
+        habitaciones: updatedHabs,
       };
-    
-      case PUT_TIPOS_HABITACIONES:
-        const updatedTiposHabIndex = state.habitaciones.findIndex((h) => h.id === action.payload.id);
-        const updatedTiposHabs = [...state.habitaciones];
-        updatedTiposHabs[updatedTiposHabIndex] = action.payload;
-        return {
-          ...state,
-          habitaciones: updatedTiposHabs,
-        };
+    case PUT_HABITACIONES_DETAIL:
+      const updatedHabDetIndex = state.allRooms.findIndex(
+        (h) => h.id === action.payload.id
+      );
+      const updatedHabsDet = [...state.allRooms];
+      updatedHabsDet[updatedHabDetIndex] = action.payload;
+      return {
+        ...state,
+        allRooms: updatedHabsDet,
+      };
+    case GET_TIPOS_HABITACIONES:
+      return {
+        ...state,
+        habitaciones: [...action.payload],
+      };
+
+    case PUT_TIPOS_HABITACIONES:
+      const updatedTiposHabIndex = state.habitaciones.findIndex(
+        (h) => h.id === action.payload.id
+      );
+      const updatedTiposHabs = [...state.habitaciones];
+      updatedTiposHabs[updatedTiposHabIndex] = action.payload;
+      return {
+        ...state,
+        habitaciones: updatedTiposHabs,
+      };
     case PUT_USERS:
       const updatedUserIndex = state.users.findIndex(
         (u) => u.id === action.payload.id
@@ -214,9 +235,12 @@ export default function rootReducer(state = initialState, action) {
     // ----- Authentication -----
 
     case UPDATE_DISPLAYNAME:
-      return{
+      return {
         ...state,
-        auth:{...state.auth, displayName: `${action.payload.nombre} ${action.payload.apellido}`}
+        auth: {
+          ...state.auth,
+          displayName: `${action.payload.nombre} ${action.payload.apellido}`,
+        },
       };
 
     case LOGIN:
@@ -225,8 +249,8 @@ export default function rootReducer(state = initialState, action) {
       // Verifica si el correo está confirmado
       const isEmailVerified = FirebaseAuth.currentUser?.emailVerified || false;
 
-        // Determina si el usuario es administrador
-        const isAdmin = email === "pf.henry40a@gmail.com";
+      // Determina si el usuario es administrador
+      const isAdmin = email === "pf.henry40a@gmail.com";
 
       return {
         ...state,
