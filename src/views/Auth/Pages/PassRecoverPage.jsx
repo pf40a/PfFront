@@ -26,7 +26,7 @@ const PassRecoverPage = () => {
   const getId = async () => {
     try {
       const userId = await axios.post(
-        "http://localhost:3001/hotel/users/login",
+        `${import.meta.env.VITE_API_URL}/hotel/users/login`,
         { email: email }
       );
       const { id } = userId.data.data;
