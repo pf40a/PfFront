@@ -15,14 +15,16 @@ const navegacionAdmin = [
   { name: "Developers", href: "/developers", current: true },
 ];
 const invited = [
+  { name: "Home", href: "/", current: true },
   { name: "Contacto", href: "/contact", current: true },
 { name: "Developers", href: "/developers", current: true }
 ];
 
 const navegacionUsuario = [
-  { name: "Reservas", href: "/dashboardUser", current: true },
+  { name: "Home", href: "/", current: true },
   { name: "Contacto", href: "/contact", current: true },
   { name: "Developers", href: "/developers", current: true },
+  { name: "Reservas", href: "/dashboardUser", current: true }
 ];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
