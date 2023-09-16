@@ -5,9 +5,9 @@ import "leaflet/dist/leaflet.css";
 import mapIcon from "/logo.jpg";
 
 const AboutUs = () => {
-  const latitude = 7.098899;
-  const longitude = -73.132826;
-
+  const latitude = -31.410677;
+  const longitude = -64.192890;
+  
   const position = [latitude, longitude];
   const markerIcon = L.icon({
     iconUrl: mapIcon,
@@ -88,7 +88,7 @@ const AboutUs = () => {
               <div className={styles["map-container"]}>
                 <MapContainer
                   center={position}
-                  zoom={13}
+                  zoom={15}
                   style={{ width: "100%", height: "400px" }}
                 >
                   <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
