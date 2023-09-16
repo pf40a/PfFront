@@ -19,17 +19,14 @@ const formValidations = {
 const PassRecoverPage = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-  const { email, emailValid, onInputChange, isFormValid } = useForm(
-    formData,
-    formValidations
-  );
+  const { email, emailValid, onInputChange, isFormValid } = useForm( formData, formValidations );
 
   // ----- Obtener id de la BD de acuerdo al correo proporcionado -----
 
   const getId = async () => {
     try {
       const userId = await axios.post(
-        "http://localhost:3001/hotel/users/login",
+        `${import.meta.env.VITE_API_URL}/hotel/users/login`,
         { email: email }
       );
       const { id } = userId.data.data;
@@ -49,7 +46,7 @@ const PassRecoverPage = () => {
       getId().then(async (result) => {
         if (result) {
  
-          const response = await axios.put( `http://localhost:3001/hotel/users/${result}`, { email: email } );
+          const response = await axios.put( `${import.meta.env.VITE_API_URL}/hotel/users/${result}`, { email: email } );
 
           if (response.data) {
             setShowMessage(true);

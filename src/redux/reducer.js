@@ -17,13 +17,15 @@ import {
   GET_USERS,
   GET_HABITACIONES,
   PUT_HABITACIONES,
-  PUT_HABITACIONES_DETAIL
+  PUT_HABITACIONES_DETAIL,
+  GET_TIPOS_HABITACIONES,
+  PUT_TIPOS_HABITACIONES,
+  UPDATE_DISPLAYNAME,
 } from "./actions";
 
 const initialState = {
-  
   habitaciones: [],
-  users:[],
+  users: [],
   clientes: [],
   rooms: [],
   allRooms: [],
@@ -84,25 +86,45 @@ export default function rootReducer(state = initialState, action) {
     case GET_HABITACIONES:
       return {
         ...state,
-        habitaciones: [...action.payload]
+        habitaciones: [...action.payload],
       };
-    
-      case PUT_HABITACIONES:
-        const updatedHabIndex = state.habitaciones.findIndex((h) => h.id === action.payload.id);
-        const updatedHabs = [...state.habitaciones];
-        updatedHabs[updatedHabIndex] = action.payload;
-        return {
-          ...state,
-          habitaciones: updatedHabs,
-        };
-        case PUT_HABITACIONES_DETAIL:
-          const updatedHabDetIndex = state.allRooms.findIndex((h) => h.id === action.payload.id);
-          const updatedHabsDet = [...state.allRooms];
-          updatedHabsDet[updatedHabDetIndex] = action.payload;
-          return {
-            ...state,
-            allRooms: updatedHabsDet,
-          };
+
+    case PUT_HABITACIONES:
+      const updatedHabIndex = state.habitaciones.findIndex(
+        (h) => h.id === action.payload.id
+      );
+      const updatedHabs = [...state.habitaciones];
+      updatedHabs[updatedHabIndex] = action.payload;
+      return {
+        ...state,
+        habitaciones: updatedHabs,
+      };
+    case PUT_HABITACIONES_DETAIL:
+      const updatedHabDetIndex = state.allRooms.findIndex(
+        (h) => h.id === action.payload.id
+      );
+      const updatedHabsDet = [...state.allRooms];
+      updatedHabsDet[updatedHabDetIndex] = action.payload;
+      return {
+        ...state,
+        allRooms: updatedHabsDet,
+      };
+    case GET_TIPOS_HABITACIONES:
+      return {
+        ...state,
+        habitaciones: [...action.payload],
+      };
+
+    case PUT_TIPOS_HABITACIONES:
+      const updatedTiposHabIndex = state.habitaciones.findIndex(
+        (h) => h.id === action.payload.id
+      );
+      const updatedTiposHabs = [...state.habitaciones];
+      updatedTiposHabs[updatedTiposHabIndex] = action.payload;
+      return {
+        ...state,
+        habitaciones: updatedTiposHabs,
+      };
     case PUT_USERS:
       const updatedUserIndex = state.users.findIndex(
         (u) => u.id === action.payload.id
@@ -121,14 +143,14 @@ export default function rootReducer(state = initialState, action) {
 
     case PUT_CLIENTES:
       const updatedClientIndex = state.clientes.findIndex(
-        (client) => client.doc_Identidad === action.payload.doc_Identidad
+        (client) => client.doc_Identidad === action.doc
       );
       // Crea una copia del array de clientes actual y reemplaza el cliente modificado en el índice correspondiente
       const updatedClientes = [...state.clientes];
       updatedClientes[updatedClientIndex] = action.payload;
       return {
         ...state,
-        clientes: updatedClientes,
+        clientes: [...updatedClientes],
       };
     case GET_CLIENTES:
       return {
@@ -212,27 +234,40 @@ export default function rootReducer(state = initialState, action) {
 
     // ----- Authentication -----
 
+    case UPDATE_DISPLAYNAME:
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          displayName: `${action.payload.nombre} ${action.payload.apellido}`,
+        },
+      };
+
     case LOGIN:
-      const { displayName, nombre, apellido, photoURL } = action.payload;
+      const { displayName, nombre, apellido, email, photoURL } = action.payload;
+
       // Verifica si el correo está confirmado
       const isEmailVerified = FirebaseAuth.currentUser?.emailVerified || false;
+
+      // Determina si el usuario es administrador
+      const isAdmin = email === "pf.henry40a@gmail.com";
+
       return {
         ...state,
         auth: {
           status: isEmailVerified
             ? "authenticated"
             : "Waiting for confirmation",
-          // status: "authenticated",
           uid: action.payload.uid,
           displayName: displayName || `${nombre} ${apellido}`,
-          nombre: action.payload.nombre,
-          apellido: action.payload.apellido,
-          email: action.payload.email,
+          nombre: nombre,
+          apellido: apellido,
+          email: email,
           photoURL:
             photoURL ||
             "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
           errorMessage: null,
-          admin: false,
+          admin: isAdmin,
           user: true,
         },
       };
