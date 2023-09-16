@@ -88,6 +88,7 @@ const handleSubmit = async (e) => {
 
 const handleUploadPhoto =async (e) => {
   let file = e.target.files[0];
+  console.log(file)
   const formData = new FormData();
   formData.append("photo", file);
   /////const formData = {photo: file}
@@ -100,11 +101,12 @@ const handleUploadPhoto =async (e) => {
   if (response) {
     alert('Respuesta: '+response.data)
     const urlImagen = await axios.get(
-      `${import.meta.env.VITE_API_URL}/hotel/imagen` + file.name
+      `${import.meta.env.VITE_API_URL}/hotel/imagen/` + file.name
     )
     if (urlImagen.data) {
+      console.log(urlImagen.data)
 //setUrl(urlImagen.data);
-alert(urlImagen.data)
+//alert(urlImagen.data)
     }
     }
 }

@@ -222,7 +222,7 @@ const SearchRoom = () => {
     localStorage.setItem("rooms", JSON.stringify(updatedReserve));
   };
 
-  console.log(roomsLocal);
+  // console.log(roomsLocal);
   //---------PARA QUE NO SE AGREGUE UNA CARD REPETIDO-------------//
 
   ///Paginado - Filtros - Orden
