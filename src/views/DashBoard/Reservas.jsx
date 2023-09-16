@@ -20,6 +20,7 @@ function Reservas(params) {
     const [doc, setDoc] = useState("")//esto deberia guardar el id
     const [admin, setAdmin] = useState(false)
     const habitaciones = useSelector((state) => state.habitaciones);
+    const [multi, setMulti] = useState([])
     const toggleMenuForItem = (item) => {
       setMenuState((prevState) => ({
         ...prevState,
@@ -29,7 +30,7 @@ function Reservas(params) {
     const handlerSelect = (select) => {
       return (
         (select.deleted === selectedStatus || selectedStatus === "all") &&
-        (selectedRole.length === 0 || selectedRole.includes(select.ClienteDocIdentidad.toString())) 
+        (selectedRole.length === 0 || selectedRole.includes(select.ClienteDocIdentidad)) 
         
       );
       
@@ -59,8 +60,9 @@ function Reservas(params) {
         }else{
             res.deleted = true
         }
-        await axios.put(`${import.meta.env.VITE_API_URL}/hotel/reservas/${id}`, res)
-        console.log(id)
+       const respuesta =  await axios.put(`${import.meta.env.VITE_API_URL}/hotel/reservas/${id}`, res)
+       console.log(res)
+        console.log(respuesta.data.data)
       }
     /*
     const PutForm = async(id, hab)=>{
@@ -72,13 +74,17 @@ function Reservas(params) {
     } 
     }
     */
+   
     useEffect(() => {
       const fetchData = async () => {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/reservas`)
         setReservas(res.data.data)
+        const multiFilter = new Set(reservas.map(item => item.ClienteDocIdentidad))
+        setMulti([...multiFilter])
       };
       fetchData();
-    }, [reservas]);
+    }, [handleDelete]);
+
 
 return(
 
@@ -111,11 +117,12 @@ return(
  value={selectedRole}
  >
   {
-    reservas.map((item)=>{
+  multi.map((item)=>{
+        if(item !== null && item !== undefined){
       return(
-      <MultiSelectItem key={item.ClienteDocIdentidad.toString()} value={item.ClienteDocIdentidad.toString()}>
-      {item.ClienteDocIdentidad.toString()}
-      </MultiSelectItem>)
+      <MultiSelectItem key={item} value={item}>
+      {item}
+      </MultiSelectItem>)}
     })
     
   }
