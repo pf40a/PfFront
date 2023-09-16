@@ -179,15 +179,18 @@ export const GetReservas = ()=>{
   response.data.data.sort((a, b) => {
     const fechaA = new Date(a.fechaIngreso);
     const fechaB = new Date(b.fechaIngreso);
-  
-    // Compara las fechas y devuelve un valor negativo, cero o positivo
+  // Compara las fechas y devuelve un valor negativo, cero o positivo
     // para determinar el orden ascendente.
     return fechaA - fechaB;
   });
+  /// solo se cargan las reservas de hoy o mayores
+  const fechaHoy = new Date();
+  // Filtra el array para mantener solo los objetos cuya 'fechaIngreso' sea igual o mayor que 'fechaHoy'.
+const reservasFiltradas = response.data.data.filter(objeto => new Date(objeto.fechaSalida) >= fechaHoy);
 
   dispatch({
    type: GET_RESERVAS,
-   payload: response.data.data   
+   payload: reservasFiltradas   
   }) 
   }
 }
