@@ -18,7 +18,7 @@ import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined'
 import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
-import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlinedIcon"
+import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined"
 const Sidebar = () => {
 const dispatch = useDispatch()
   const [sidenav, setSidenav] = useState(true);
