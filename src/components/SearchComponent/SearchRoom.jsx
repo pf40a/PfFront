@@ -300,7 +300,7 @@ const SearchRoom = () => {
                   leaveFrom="translate-x-0"
                   leaveTo="translate-x-full"
                 >
-                  <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
+                  <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl " >
                     <div className="flex items-center justify-between px-4">
                       <h2 className="text-lg font-medium text-gray-900 dark:text-white">
                         Filtros
@@ -316,7 +316,7 @@ const SearchRoom = () => {
                     </div>
 
                     {/* Filters */}
-                    <form className="mt-4 border-t border-gray-200">
+                    <form className="mt-4 border-t border-gray-200   z-10">
                       <h3 className="sr-only">Categories</h3>
                       <ul
                         role="list"
@@ -424,8 +424,9 @@ const SearchRoom = () => {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
+                    
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute -right-14 md:right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="p-2">
                         <ul>
                           {sortOptions.map((opcion, index) => (
