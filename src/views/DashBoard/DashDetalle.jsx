@@ -93,26 +93,28 @@ export default function DashDetalle({ id, data, type, onClose }) {
     .catch((error) => console.log(error)); */
   };
 
-  const handleUploadPhoto = async (e) => {
-    let file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("photo", file);
-    /////const formData = {photo: file}
-    //
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/hotel/imagen`,
-      formData,
-      { headers: { "Content-Type": "multipart/form-data" } }
-    );
-    if (response) {
-      alert("Respuesta: " + response.data);
-      const urlImagen = await axios.get(
-        `${import.meta.env.VITE_API_URL}/hotel/imagen` + file.name
-      );
-      if (urlImagen.data) {
-        //setUrl(urlImagen.data);
-        alert(urlImagen.data);
-      }
+const handleUploadPhoto =async (e) => {
+  let file = e.target.files[0];
+  console.log(file)
+  const formData = new FormData();
+  formData.append("photo", file);
+  /////const formData = {photo: file}
+  //
+  const response = await axios.post(
+    `${import.meta.env.VITE_API_URL}/hotel/imagen`,
+    formData,
+    {headers:{"Content-Type": "multipart/form-data"}}
+  )
+  if (response) {
+    alert('Respuesta: '+response.data)
+    const urlImagen = await axios.get(
+      `${import.meta.env.VITE_API_URL}/hotel/imagen/` + file.name
+    )
+    if (urlImagen.data) {
+      console.log(urlImagen.data)
+//setUrl(urlImagen.data);
+//alert(urlImagen.data)
+    }
     }
   };
   return (
