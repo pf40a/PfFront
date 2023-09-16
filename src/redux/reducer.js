@@ -204,8 +204,8 @@ export default function rootReducer(state = initialState, action) {
       const newRooms = roomsFilter.filter((room) =>
         filter.every((filtroItem) => room.caracteristica.includes(filtroItem))
       );
-      console.log("filtro:", filter);
-      console.log("Resultado:", newRooms);
+      // console.log("filtro:", filter);
+      // console.log("Resultado:", newRooms);
       return {
         ...state,
         rooms: [...newRooms],
