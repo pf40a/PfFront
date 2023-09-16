@@ -9,7 +9,16 @@ const people = [
       GitHub:"https://github.com/NicolasVillagra"
     },
     {
-      name: 'TU NOMBRE AQUI',
+      name: 'Bryan Arley Chica Gutiérrez',
+      role: 'Ingeniero Electrónico - Full Stack Web Developer',
+      email: 'Bryany8@hotmail.com - Bryany899@gmail.com',
+      imageUrl:
+        '/Bryan.jpg',
+      linkedin:"https://www.linkedin.com/in/bryan-arley-chica-gutierrez/",
+      GitHub:"https://github.com/BACHICAG"
+    },
+    {
+      name: 'TU NOMBRE AQUI 1',
       role: 'Front-End Developer',
       email: 'TU EMAIL AQUI',
       imageUrl:
@@ -18,16 +27,7 @@ const people = [
       GitHub:"TU GIT HUB AQUI"
     },
     {
-      name: 'TU NOMBRE AQUI',
-      role: 'Front-End Developer',
-      email: 'TU EMAIL AQUI',
-      imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
-    },
-    {
-      name: 'TU NOMBRE AQUI',
+      name: 'TU NOMBRE AQUI 2',
       role: 'Front-End Developer',
       email: 'TU EMAIL AQUI',
       imageUrl:
@@ -45,7 +45,16 @@ const people = [
       GitHub:"https://github.com/JBautistaBeck"
     },
     {
-      name: 'TU NOMBRE AQUI',
+      name: 'TU NOMBRE AQUI 3',
+      role: 'Back-End Developer',
+      email: 'TU EMAIL AQUI',
+      imageUrl:
+        '/logo.jpg',
+      linkedin:"TU LINKEDIN AQUI 4",
+      GitHub:"TU GIT HUB AQUI"
+    },
+    {
+      name: 'TU NOMBRE AQUI 5',
       role: 'Back-End Developer',
       email: 'TU EMAIL AQUI',
       imageUrl:
@@ -54,16 +63,7 @@ const people = [
       GitHub:"TU GIT HUB AQUI"
     },
     {
-      name: 'TU NOMBRE AQUI',
-      role: 'Back-End Developer',
-      email: 'TU EMAIL AQUI',
-      imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
-    },
-    {
-      name: 'TU NOMBRE AQUI',
+      name: 'TU NOMBRE AQUI 6',
       role: 'Back-End Developer',
       email: 'TU EMAIL AQUI',
       imageUrl:

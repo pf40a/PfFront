@@ -83,7 +83,7 @@ const Reserve = ({info}) => {
         );
         const response = reserveRequest.data.data;
         const filterData = response.filter((item) => item.UsuarioId === idDb);
-        console.log(filterData);
+        // console.log(filterData);
         const dataCliente = filterData.map((item) => {
           return {
             id:item.id,
@@ -104,7 +104,7 @@ const Reserve = ({info}) => {
     fetchData();
   }, []);
 
-  console.log(state);
+  // console.log(state);
 
 
   return (
