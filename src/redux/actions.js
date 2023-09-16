@@ -13,6 +13,8 @@ export const GET_HABITACIONES = "GET_HABITACIONES";
 export const PUT_HABITACIONES = "PUT_HABITACIONES";
 export const GET_TIPOS_HABITACIONES = "GET_TIPOS_HABITACIONES";
 export const PUT_TIPOS_HABITACIONES = "PUT_TIPOS_HABITACIONES";
+export const GET_RESERVAS = "GET_RESERVAS";
+export const PUT_RESERVAS = "PUT_RESERVAS";
 
 export const PUT_HABITACIONES_DETAIL = "PUT_HABITACIONES_DETAIL";
 //  Authentication
@@ -166,6 +168,40 @@ export const GetClientes = () => {
     dispatch({
       type: GET_CLIENTES,
       payload: response.data.data,
+    });
+  };
+};
+
+export const GetReservas = ()=>{
+  return async(dispatch)=>{
+  let response = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/reservas`)
+  ///orden
+  response.data.data.sort((a, b) => {
+    const fechaA = new Date(a.fechaIngreso);
+    const fechaB = new Date(b.fechaIngreso);
+  
+    // Compara las fechas y devuelve un valor negativo, cero o positivo
+    // para determinar el orden ascendente.
+    return fechaA - fechaB;
+  });
+
+  dispatch({
+   type: GET_RESERVAS,
+   payload: response.data.data   
+  }) 
+  }
+}
+
+export const PutReservas = (id, reserva) => {
+  return async (dispatch) => {
+    let response = await axios.put(
+      `${import.meta.env.VITE_API_URL}/hotel/reservas/${id}`,
+      reserva
+    );    
+    dispatch({
+      type: PUT_RESERVAS,
+      payload: response.data.data,
+      id: id
     });
   };
 };

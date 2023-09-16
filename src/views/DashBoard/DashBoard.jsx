@@ -359,7 +359,12 @@ const Sidebar = () => {
             setTypeData={setTypeData}
           />
         )}
-        {section === "reservas" && <Reservas />}
+        {section === "reservas" && <Reservas
+        setIsOpenDetalle={setIsOpenDetalle}
+            setDataDetail={setDataDetail}
+            setDataId={setDataId}
+            setTypeData={setTypeData}
+        />}
         {section === "reviews" && <ReviewAdmin />}
         {section === "usuarios" && (
           <Usuarios
