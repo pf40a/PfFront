@@ -24,7 +24,7 @@ const invited = [
 const navegacionUsuario = [
   { name: "Home", href: "/", current: true },
   { name: "Contact", href: "/contact", current: true },
-  { name: "Develop", href: "/developers", current: true },
+  { name: "Developers", href: "/developers", current: true },
   { name: "Reservas", href: "/dashboardUser", current: true }
 ];
 function classNames(...classes) {
