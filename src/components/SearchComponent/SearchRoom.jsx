@@ -399,7 +399,7 @@ const SearchRoom = () => {
             <div className="flex mt-10 md:mt-20">
               <SearchBox />
             </div>
-            <div className="flex flex-col md:flex-row items-center md:items-baseline justify-between border-b border-gray-200 pb-6 pt-8 md:pt-24 ">
+            <div className="flex gap-10 flex-col md:flex-row items-center md:items-baseline justify-between border-b border-gray-200 pb-6 pt-8 md:pt-24 ">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
                 Habitaciones
               </h1>
@@ -526,7 +526,7 @@ const SearchRoom = () => {
             </div>
 
             {/* paginado */}
-            <div className="flex gap-10 mt-4">
+            <div className="flex space-y-4 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0 mt-4">
                 {actualPage > 1 ? (
                   <button
                     onClick={() => paginator(actualPage - 1)}
@@ -647,7 +647,7 @@ const SearchRoom = () => {
               </div>
 
               {/* paginado */}
-              <div className="flex gap-10 mt-4">
+              <div className="flex space-y-4 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0 mt-4 ">
                 {actualPage > 1 ? (
                   <button
                     onClick={() => paginator(actualPage - 1)}

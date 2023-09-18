@@ -89,7 +89,7 @@ const Reservation = () => {
 
   useEffect(() => {
     const submitReserve = async () => {
-      if (!reserve.dni) return; // No hacer solicitudes si dni está vacío
+      if (!dataId) return; // No hacer solicitudes si dni está vacío
       try {
         await axios.get(`${import.meta.env.VITE_API_URL}/hotel/clientes/${reserve.dni}`);
         console.log("Cliente existente");

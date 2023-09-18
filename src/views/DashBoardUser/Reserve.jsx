@@ -111,9 +111,9 @@ const Reserve = ({info}) => {
     <>
     <div className="relative">
         <div>
-          <h1 className="text-2xl md:text-3xl lg:text-4xl">Mis Reservas</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl dark:text-white">Mis Reservas</h1>
         </div>
-        <ul role="list" className="divide-y divide-gray-100">
+        <ul role="list" className="bg-white rounded-3xl divide-y divide-gray-100">
           {state.map((person) => (
             <li
               key={person.id}
