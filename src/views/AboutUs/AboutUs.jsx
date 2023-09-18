@@ -54,10 +54,10 @@ const AboutUs = () => {
           <Marker position={position} icon={markerIcon} />
         </MapContainer>
       </div> */}
-      <h1 className="text-center text-2xl text-gray-900 font-bold md:text-4xl dark:text-white">
+      <h1 className="text-center dark:bg-[#111827] text-2xl text-gray-900 font-bold md:text-4xl dark:text-white">
         Oasis Hotel
       </h1>
-      <div className="py-16 bg-white dark:bg-[#16242f]">
+      <div className="py-16 bg-white dark:bg-[#111827]">
         <div className="container m-auto px-6 text-gray-600 md:px-12 xl:px-6">
           <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
             <div className="md:w-5/12">

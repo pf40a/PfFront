@@ -69,7 +69,7 @@ const DashboardUser = () => {
         >
           <div
             id="sidebar"
-            className={`bg-white w-60 md:w-72 lg:w-80 px-6 py-8 sm:w-16 transition-transform duration-300 ease-in-out transform ${
+            className={`bg-white border-gray-100 w-60 md:w-72 lg:w-80 px-6 py-8 sm:w-16 transition-transform duration-300 ease-in-out transform ${
               sidenav ? "translate-x-0" : "-translate-x-full"
             } absolute left-0 z-10`}
           >

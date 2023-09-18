@@ -50,7 +50,6 @@ function App() {
       currentPath !== "/error" &&
         currentPath !== "/reserve" &&
         currentPath !== "/recover" &&
-        currentPath !== "/dashboard" &&
         currentPath !== "/mercadopago"
     );
   }, []);
