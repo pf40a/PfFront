@@ -58,7 +58,6 @@ const Navbar = () => {
     else if (status === "not-authenticated") {
       setloggedOut(true);
       setIsLoggedIn(false);
-      navigate("/");
     }
     if (loginAdmin === true) {
       setIsAdmin(true);
@@ -71,6 +70,7 @@ const Navbar = () => {
     return async (dispatch) => {
       await logoutFirebase();
       dispatch(logout());
+      navigate("/");
     };
   };
 
