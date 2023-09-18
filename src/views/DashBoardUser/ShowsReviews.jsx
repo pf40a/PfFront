@@ -144,10 +144,10 @@ const ShowsReviews = () => {
         {reviews.map((review) => (
           <div
             key={review.id}
-            className="m-10 bg-[#16242f] p-4 rounded-lg shadow-md flex flex-col items-center justify-center text-center hover:bg-slate-800 transition duration-300 ease-in-out"
+            className="m-10 bg-[#16242f] dark:bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center text-center hover:bg-slate-800 transition duration-300 ease-in-out"
           >
             <div className="mb-2 flex-grow">
-              <span className="text-white font-light">{review.comentario}</span>
+              <span className="text-white font-light dark:text-black">{review.comentario}</span>
             </div>
             <div className="flex items-center justify-center space-x-3 text-base mt-2">
               {Array(review.rating)

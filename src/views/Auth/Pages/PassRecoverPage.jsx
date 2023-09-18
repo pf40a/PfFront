@@ -1,7 +1,6 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom"; 
 import { Alert, Button, Grid, Link, TextField } from "@mui/material";
 
 import AuthLayout from "../Layout/AuthLayout";
@@ -46,7 +45,7 @@ const PassRecoverPage = () => {
       getId().then(async (result) => {
         if (result) {
  
-          const response = await axios.put( `${import.meta.env.VITE_API_URL}/hotel/users/${result}`, { email: email } );
+          const response = await axios.put( `${import.meta.env.VITE_API_URL}/hotel/users/${result}`, { email: email, password: true } );
 
           if (response.data) {
             setShowMessage(true);

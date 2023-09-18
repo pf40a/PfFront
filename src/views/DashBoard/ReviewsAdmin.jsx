@@ -24,7 +24,7 @@ const ReviewAdmin = () => {
     fetchReviews();
   }, []);
 
-  const isAdmin = userEmail === "matiasgolubeff7@gmail.com";
+  const isAdmin = userEmail === "pf.henry40a@gmail.com";
 
   const handleDeleteReview = (reviewId) => {
     setReviewToDelete(reviewId);

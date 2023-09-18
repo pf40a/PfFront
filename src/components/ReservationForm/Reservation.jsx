@@ -89,7 +89,7 @@ const Reservation = () => {
 
   useEffect(() => {
     const submitReserve = async () => {
-      if (!reserve.dni) return; // No hacer solicitudes si dni está vacío
+      if (!dataId) return; // No hacer solicitudes si dni está vacío
       try {
         await axios.get(`${import.meta.env.VITE_API_URL}/hotel/clientes/${reserve.dni}`);
         console.log("Cliente existente");
@@ -413,7 +413,7 @@ const Reservation = () => {
               />
             </div>
           </div>
-          <div className="sm:col-span-2">
+          <div className="hidden sm:col-span-2">
             <label
               htmlFor="region"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -431,7 +431,7 @@ const Reservation = () => {
             </div>
           </div>
 
-          <div className="sm:col-span-2">
+          <div className="hidden sm:col-span-2">
             <label
               htmlFor="region"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -449,7 +449,7 @@ const Reservation = () => {
             </div>
           </div>
 
-          <div>
+          <div className="hidden">
             <h1 className="text-2xl font-semibold mb-4">Agrega personas</h1>
             <div className="flex gap-4">
               <PersonInput label="Adultos" onChange={handleAdultsChange} value={localStorageRoom.adultos} />

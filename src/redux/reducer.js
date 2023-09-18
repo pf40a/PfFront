@@ -21,6 +21,8 @@ import {
   GET_TIPOS_HABITACIONES,
   PUT_TIPOS_HABITACIONES,
   UPDATE_DISPLAYNAME,
+  GET_RESERVAS,
+  PUT_RESERVAS
 } from "./actions";
 
 const initialState = {
@@ -35,7 +37,7 @@ const initialState = {
   typesRooms: [],
   allTypesRooms: [],
   page: 1,
-
+  reservas: [],
   // Authentication
   auth: {
     status: "checking", // authenticated, not-authenticated, checking
@@ -157,6 +159,21 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         clientes: [...action.payload],
       };
+      case GET_RESERVAS:
+      return {
+        ...state,
+        reservas: [...action.payload],
+      };
+      case PUT_RESERVAS:
+      const updatedReservaIndex = state.habitaciones.findIndex(
+        (h) => h.id === action.payload.id
+      );
+      const updatedReserva = [...state.habitaciones];
+      updatedReserva[updatedReservaIndex] = action.payload;
+      return {
+        ...state,
+        habitaciones: updatedReserva,
+      };
     case SEARCH_ROOMS:
       let newRoomsSearch = [...action.payload];
       //se aplican los filtros
@@ -187,8 +204,8 @@ export default function rootReducer(state = initialState, action) {
       const newRooms = roomsFilter.filter((room) =>
         filter.every((filtroItem) => room.caracteristica.includes(filtroItem))
       );
-      console.log("filtro:", filter);
-      console.log("Resultado:", newRooms);
+      // console.log("filtro:", filter);
+      // console.log("Resultado:", newRooms);
       return {
         ...state,
         rooms: [...newRooms],
