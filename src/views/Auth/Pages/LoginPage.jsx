@@ -69,10 +69,10 @@ const LoginPage = () => {
             const newResult = {
               id: resultCopia.uid,
               nombre: resultCopia.displayName,
-              apellido: "Sin apellido",
+              apellido: "",
               email: resultCopia.email,
-              password: "noAplica",
               googleUser: true,
+              admin: (resultCopia.email === "pf.henry40a@gmail.com") ? true : false,
             };
 
             try {

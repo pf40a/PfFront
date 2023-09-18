@@ -156,13 +156,13 @@ export default function CartRooms({
                                       <p className="text-gray-500">
                                         Cnt {product.quantity}
                                       </p>
-                                      <div className="flex">
+                                      <div className="flex gap-10">
                                         <button
                                           onClick={() =>
                                             handleIncreaseQuantity(product.id)
                                           } // Aumentar quantity
                                           type="button"
-                                          className="font-medium text-indigo-600 hover:text-indigo-500"
+                                          className="text-xl text-indigo-600 hover:text-indigo-500"
                                         >
                                           +
                                         </button>
@@ -171,7 +171,7 @@ export default function CartRooms({
                                             decreaseQuantity(product.id)
                                           } // Disminuir quantity
                                           type="button"
-                                          className="font-medium text-indigo-600 hover:text-indigo-500"
+                                          className="text-xl text-indigo-600 hover:text-indigo-500"
                                         >
                                           -
                                         </button>

@@ -5,9 +5,9 @@ import "leaflet/dist/leaflet.css";
 import mapIcon from "/logo.jpg";
 
 const AboutUs = () => {
-  const latitude = 7.098899;
-  const longitude = -73.132826;
-
+  const latitude = -31.410677;
+  const longitude = -64.192890;
+  
   const position = [latitude, longitude];
   const markerIcon = L.icon({
     iconUrl: mapIcon,
@@ -54,10 +54,10 @@ const AboutUs = () => {
           <Marker position={position} icon={markerIcon} />
         </MapContainer>
       </div> */}
-      <h1 className="text-center text-2xl text-gray-900 font-bold md:text-4xl dark:text-white">
+      <h1 className="text-center dark:bg-[#111827] text-2xl text-gray-900 font-bold md:text-4xl dark:text-white">
         Oasis Hotel
       </h1>
-      <div className="py-16 bg-white dark:bg-[#16242f]">
+      <div className="py-16 bg-white dark:bg-[#111827]">
         <div className="container m-auto px-6 text-gray-600 md:px-12 xl:px-6">
           <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
             <div className="md:w-5/12">
@@ -88,7 +88,7 @@ const AboutUs = () => {
               <div className={styles["map-container"]}>
                 <MapContainer
                   center={position}
-                  zoom={13}
+                  zoom={15}
                   style={{ width: "100%", height: "400px" }}
                 >
                   <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />

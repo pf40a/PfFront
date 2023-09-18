@@ -26,6 +26,7 @@ import {
   SelectItem,
   TextInput,
   BarList,
+  DonutChart,
 } from "@tremor/react";
 import { Dialog, Transition } from "@headlessui/react";
 import React, { useState, useEffect } from "react";
@@ -41,23 +42,44 @@ import { IconId } from "@tabler/icons-react";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import LeaderboardOutlinedIcon from "@mui/icons-material/LeaderboardOutlined";
 import Tipos from "./TiposHabs";
-
+import { BarChart } from "@tremor/react";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import HotelOutlinedIcon from "@mui/icons-material/HotelOutlined";
 import ConfirmationNumberOutlinedIcon from "@mui/icons-material/ConfirmationNumberOutlined";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
 import ReviewAdmin from "./ReviewsAdmin";
-
 const Sidebar = () => {
   const dispatch = useDispatch();
   const [sidenav, setSidenav] = useState(true);
   const [section, setSection] = useState("dashboard");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedRole, setSelectedRole] = useState([]);
+  const [habsDetalle, setHabsDetalle] = useState([]);
   const [menuState, setMenuState] = useState({});
   const [doc, setDoc] = useState(""); //esto deberia guardar el documento
   const clientes = useSelector((state) => state.clientes);
+  const [habitaciones, setHabitaciones] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle`
+      );
+      setHabsDetalle(res.data.data);
+    };
+    fetchData();
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/hotel/habitaciones`
+      );
+      setHabitaciones(res.data.data);
+    };
+    fetchData();
+  }, []);
+
   const toggleMenuForItem = (item) => {
     setMenuState((prevState) => ({
       ...prevState,
@@ -82,7 +104,101 @@ const Sidebar = () => {
   const [dataDetail, setDataDetail] = useState({});
   const [typeData, setTypeData] = useState("");
   const [dataId, setDataId] = useState("");
+  const [reser, setReser] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/hotel/reservas`
+      );
+      setReser(res.data.data);
+    };
+    fetchData();
+  }, []);
 
+  const char = {
+    primer: 0,
+    segundo: 0,
+    tercero: 0,
+  };
+  const charCliente = {
+    primer: 0,
+    segundo: 0,
+    tercero: 0,
+  };
+  console;
+  reser.forEach((r) => {
+    if (r.pago_Estado === "approved") {
+      if (r.createdAt !== undefined && r.createdAt !== null) {
+        const fecha = new Date(r.createdAt);
+        let mes = fecha.getMonth() + 1;
+
+        console.log(mes);
+
+        if (mes >= 1 && mes <= 4) {
+          r.Reserva_Items.forEach((item) => {
+            char.primer += item.precio;
+          });
+        }
+        if (mes >= 4 && mes <= 8) {
+          r.Reserva_Items.forEach((item) => {
+            char.segundo += item.precio;
+          });
+        }
+        if (mes >= 8) {
+          r.Reserva_Items.forEach((item) => {
+            char.tercero += item.precio;
+          });
+        }
+      }
+    }
+  });
+
+  const habitaciones_ingresos = [];
+
+  habsDetalle.forEach((h) => {
+    const hab = {};
+    hab.name = `${h.tipo_Habitacion} - ${h.subTipo}`;
+    hab.ingresos = 0;
+    habitaciones_ingresos.push(hab);
+  });
+
+  function obtenerDetalleHabitacion(item) {
+    try {
+      const res = habitaciones.find((h) => h.id === item.HabitacionId);
+      //await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/${item.HabitacionId}`);
+      const hab = habsDetalle.find((h) => h.id === res.HabitacionDetalleId);
+      //const resDetalle = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle/${hab.HabitacionDetalleId}`);
+      const name = `${hab.tipo_Habitacion} - ${hab.subTipo}`;
+      return { name, ingreso: item.precio };
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  function procesarReservas() {
+    for (const r of reser) {
+      if (r.pago_Estado === "approved") {
+        const promesasDetalle = r.Reserva_Items.map((y) =>
+          obtenerDetalleHabitacion(y)
+        );
+        promesasDetalle.forEach((result) => {
+          if (result) {
+            const { name, ingreso } = result;
+            const habitacion = habitaciones_ingresos.find(
+              (i) => i.name === name
+            );
+            if (habitacion) {
+              habitacion.ingresos += ingreso;
+            }
+          }
+        });
+      }
+    }
+  }
+
+  procesarReservas();
+  console.log(habitaciones_ingresos);
   const toggleMenuDetalle = () => {
     setIsOpenDetalle(!isOpenDetalle);
     // setDoc(document)
@@ -99,7 +215,7 @@ const Sidebar = () => {
       cliente.deleted = true;
     }
     await dispatch(PutClientes(docItem, cliente));
-    //await dispatch(GetClientes());
+    await dispatch(GetClientes());
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -108,11 +224,29 @@ const Sidebar = () => {
     fetchData();
     setIsOpenDetalle(false);
   }, [dispatch]);
+
+  /* clientes.forEach(r => {
+    console.log("gola")
+      const fecha = new Date(r.createdAt);
+      let mes = fecha.getMonth() + 1;
+        console.log(mes)
+      if (mes >= 1 && mes <= 4) {
+          charCliente.primer += 1;
+      }
+      if (mes >= 4 && mes <= 8) {
+          charCliente.segundo += 1;
+      }
+      if (mes >= 8) {
+          charCliente.tercero += 1;
+      }
+  });
+*/
+
   //data deberian ser los clientes de las BD
   const PutForm = async (documento, cliente) => {
     try {
       await dispatch(PutClientes(documento, cliente));
-      //dispatch(GetClientes());
+      dispatch(GetClientes());
       setDoc("");
     } catch (error) {
       console.error(error);
@@ -121,38 +255,23 @@ const Sidebar = () => {
 
   const chartdata = [
     {
-      date: "Jan 22",
-      ingresos: 2890,
-      clientes: 2338,
+      date: "Enero-Abril",
+      ingresos: char.primer,
+      // "clientes": charCliente.primer,
     },
     {
-      date: "Feb 22",
-      ingresos: 2756,
-      clientes: 2103,
+      date: "Mayo-Agosto",
+      ingresos: char.segundo,
+      //"clientes": charCliente.segundo,
     },
     {
-      date: "Mar 22",
-      ingresos: 3322,
-      clientes: 2194,
-    },
-    {
-      date: "Apr 22",
-      ingresos: 3470,
-      clientes: 2108,
-    },
-    {
-      date: "May 22",
-      ingresos: 3475,
-      clientes: 1812,
-    },
-    {
-      date: "Jun 22",
-      ingresos: 3129,
-      clientes: 1726,
+      date: "Septiembre-Diciembre",
+      ingresos: char.tercero,
+      //"clientes": charCliente.tercero,
     },
   ];
 
-  console.log("AbrirDetalle", isOpenDetalle);
+  // console.log("AbrirDetalle", isOpenDetalle);
   return (
     <div id="view" className="h-full w-screen mt-20 flex flex-row">
       <button
@@ -258,13 +377,13 @@ const Sidebar = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
-                class="w-6 h-6"
+                className="w-6 h-6"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
                 />
               </svg>
@@ -359,8 +478,136 @@ const Sidebar = () => {
             setTypeData={setTypeData}
           />
         )}
-        {section === "reservas" && <Reservas />}
+        {section === "reservas" && (
+          <Reservas
+            setIsOpenDetalle={setIsOpenDetalle}
+            setDataDetail={setDataDetail}
+            setDataId={setDataId}
+            setTypeData={setTypeData}
+          />
+        )}
         {section === "reviews" && <ReviewAdmin />}
+        {section === "usuarios" && (
+          <Usuarios
+            setIsOpenDetalle={setIsOpenDetalle}
+            setDataDetail={setDataDetail}
+            setDataId={setDataId}
+            setTypeData={setTypeData}
+          />
+        )}
+        {section === "habitaciones" && <Habitaciones />}
+        {
+          //CLIENTES
+          section === "clientes" && (
+            <main className="">
+              {isOpenForm && (
+                <div className=" z-50 bg-black p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto">
+                  <Form
+                    estado={isOpenForm}
+                    PutForm={PutForm}
+                    cambiarEstado={setIsOpenForm}
+                    documento={doc}
+                    setDoc={setDoc}
+                  />
+                </div>
+              )}
+              <TabGroup className="mt-6">
+                <TabList>
+                  <Tab>Ingresos</Tab>
+                  <Tab>Ingresos por habitacion</Tab>
+                </TabList>
+                <TabPanels>
+                  <TabPanel>
+                    <Grid numItemsMd={2} numItemsLg={3} className="gap-6 mt-6">
+                      <Card>
+                        <Text>Sales</Text>
+                        <Metric>$ 71,465</Metric>
+                        <Flex className="mt-4">
+                          <Text>32% of annual target</Text>
+                          <Text>$ 225,000</Text>
+                        </Flex>
+                        <ProgressBar value={32} className="mt-2" />
+                        <div className="h-2" />
+                      </Card>
+                      <Card>
+                        <Text>Sales</Text>
+                        <Metric>$ 71,465</Metric>
+                        <Flex className="mt-4">
+                          <Text>32% of annual target</Text>
+                          <Text>$ 225,000</Text>
+                        </Flex>
+                        <ProgressBar value={32} className="mt-2" />
+                        <div className="h-2" />
+                      </Card>
+                      <Card>
+                        <Text>Sales</Text>
+                        <Metric>$ 71,465</Metric>
+                        <Flex className="mt-4">
+                          <Text>32% of annual target</Text>
+                          <Text>$ 225,000</Text>
+                        </Flex>
+                        <ProgressBar value={32} className="mt-2" />
+                        <div className="h-2" />
+                      </Card>
+                    </Grid>
+                    <Grid className="gap-6 mt-6">
+                      <Card>
+                        <Title>Ingresos</Title>
+                        <AreaChart
+                          data={chartdata}
+                          index="date"
+                          categories={["ingresos", "clientes"]}
+                          colors={["indigo", "cyan"]}
+                        />
+                        <div className="h-2 w-96" />
+                      </Card>
+                    </Grid>
+                  </TabPanel>
+
+                  <TabPanel>
+                    <Grid className="gap-6 mt-6 column items-center justify-center">
+                      <Title>Ingresos por habitacion 2023</Title>
+                      <DonutChart
+                        className="mt-6"
+                        data={habitaciones_ingresos}
+                        category="ingresos"
+                        index="name"
+                        colors={[
+                          "slate",
+                          "violet",
+                          "indigo",
+                          "rose",
+                          "cyan",
+                          "amber",
+                        ]}
+                      />
+
+                      <Card>
+                        <BarChart
+                          className="mt-6"
+                          data={habitaciones_ingresos}
+                          index="name"
+                          categories={["ingresos"]}
+                          colors={["blue"]}
+                          yAxisWidth={48}
+                        />
+                      </Card>
+                    </Grid>
+                  </TabPanel>
+                </TabPanels>
+              </TabGroup>
+            </main>
+          )
+        }
+        {section === "Tipos" && (
+          <Tipos
+            setIsOpenDetalle={setIsOpenDetalle}
+            setDataDetail={setDataDetail}
+            setDataId={setDataId}
+            setTypeData={setTypeData}
+          />
+        )}
+        {section === "reservas" && <Reservas />}
         {section === "usuarios" && (
           <Usuarios
             setIsOpenDetalle={setIsOpenDetalle}
@@ -425,25 +672,19 @@ const Sidebar = () => {
                         <Table className="h-[60vh]">
                           <TableHead className="bg-white">
                             <TableRow>
-                              <TableHeaderCell></TableHeaderCell>
                               <TableHeaderCell>Nombre</TableHeaderCell>
                               <TableHeaderCell>Documento</TableHeaderCell>
                               <TableHeaderCell>Pais</TableHeaderCell>
                               <TableHeaderCell>Estado</TableHeaderCell>
-                              <TableHeaderCell>Detalles</TableHeaderCell>
+                              <TableHeaderCell></TableHeaderCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
                             {clientes
                               .filter((item) => handlerSelect(item))
-                              .map((item, i) => (
+                              .map((item) => (
                                 <TableRow key={item.doc_Identidad}>
-                                  <TableCell>
-                                    <Text>{i + 1}</Text>
-                                  </TableCell>
-                                  <TableCell>
-                                    <Text>{item.nombre}</Text>
-                                  </TableCell>
+                                  <TableCell>{item.nombre}</TableCell>
                                   <TableCell>
                                     <Text>{item.doc_Identidad}</Text>
                                   </TableCell>
