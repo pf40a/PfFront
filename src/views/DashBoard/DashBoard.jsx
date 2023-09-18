@@ -19,7 +19,6 @@ import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined
 import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined"
-import ReviewAdmin from './ReviewsAdmin';
 const Sidebar = () => {
 const dispatch = useDispatch()
   const [sidenav, setSidenav] = useState(true);
@@ -448,7 +447,7 @@ procesarReservas()
             setDataId={setDataId}
             setTypeData={setTypeData}
         />}
-        {section === "reviews" && <ReviewAdmin/>}
+        {section === "reviews" && <ReviewAdmin />}
         {section === "usuarios" && (
           <Usuarios
             setIsOpenDetalle={setIsOpenDetalle}
