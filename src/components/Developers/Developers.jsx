@@ -94,8 +94,9 @@ const people = [
                     <h3 className="text-base font-semibold leading-7 tracking-tight text-gray-900">{person.name}</h3>
                     <p className="text-sm font-semibold leading-6 text-indigo-600">{person.role}</p>
                     <p className="text-sm font-semibold leading-6 text-indigo-600">{person.email}</p>
-                    <p className="text-sm font-semibold leading-6 text-indigo-600">{person.linkedin}</p>
-                    <p className="text-sm font-semibold leading-6 text-indigo-600">{person.GitHub}</p>
+                    <a href={person.linkedin} className="text-sm font-semibold leading-6 text-indigo-600">Linkedin</a>
+                    <br />
+                    <a href={person.GitHub} className="text-sm font-semibold leading-6 text-indigo-600">GitHub</a>
                   </div>
                 </div>
               </li>

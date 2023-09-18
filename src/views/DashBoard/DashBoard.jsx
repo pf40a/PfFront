@@ -19,6 +19,7 @@ import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined
 import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined"
+import ReviewAdmin from './ReviewsAdmin';
 const Sidebar = () => {
 const dispatch = useDispatch()
   const [sidenav, setSidenav] = useState(true);
@@ -87,7 +88,8 @@ const charCliente = {
   segundo: 0,
   tercero:0
 }
-console
+let ingresoTotal = 0
+
 reser.forEach(r => {
   
   if (r.pago_Estado === "approved") {
@@ -117,8 +119,14 @@ reser.forEach(r => {
       });
     }
   }
+
+r.Reserva_Items.forEach(item => {
+  ingresoTotal += item.precio
+});
   }
 });
+let porcentajeIngreso = (ingresoTotal / 200000) * 100
+ingresoTotal = ingresoTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
 const habitaciones_ingresos = [];
 
@@ -204,7 +212,7 @@ procesarReservas()
       }
   });
 */
-
+const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
   //data deberian ser los clientes de las BD
   const PutForm = async(documento, cliente)=>{
     try{  
@@ -377,101 +385,6 @@ procesarReservas()
             <main className="p-12">
               <Title>Dashboard</Title>
 
-              <TabGroup className="mt-6">
-                <TabList>
-                  <Tab>Vista general</Tab>
-                </TabList>
-                <TabPanels>
-                  <TabPanel>
-                    <Grid numItemsMd={2} numItemsLg={3} className="gap-6 mt-6">
-                      <Card>
-                        <Text>Sales</Text>
-                        <Metric>$ 71,465</Metric>
-                        <Flex className="mt-4">
-                          <Text>32% of annual target</Text>
-                          <Text>$ 225,000</Text>
-                        </Flex>
-                        <ProgressBar value={32} className="mt-2" />
-                        <div className="h-2" />
-                      </Card>
-                      <Card>
-                        <Text>Sales</Text>
-                        <Metric>$ 71,465</Metric>
-                        <Flex className="mt-4">
-                          <Text>32% of annual target</Text>
-                          <Text>$ 225,000</Text>
-                        </Flex>
-                        <ProgressBar value={32} className="mt-2" />
-                        <div className="h-2" />
-                      </Card>
-                      <Card>
-                        <Text>Sales</Text>
-                        <Metric>$ 71,465</Metric>
-                        <Flex className="mt-4">
-                          <Text>32% of annual target</Text>
-                          <Text>$ 225,000</Text>
-                        </Flex>
-                        <ProgressBar value={32} className="mt-2" />
-                        <div className="h-2" />
-                      </Card>
-                    </Grid>
-                    <Grid className="gap-6 mt-6">
-                      <Card>
-                        <Title>Ingresos</Title>
-                        <AreaChart
-                          data={chartdata}
-                          index="date"
-                          categories={["ingresos", "clientes"]}
-                          colors={["indigo", "cyan"]}
-                        />
-                        <div className="h-2 w-96" />
-                      </Card>
-                    </Grid>
-                  </TabPanel>
-                </TabPanels>
-              </TabGroup>
-            </main>
-          )
-        }
-        {section === "Tipos" && (
-          <Tipos
-            setIsOpenDetalle={setIsOpenDetalle}
-            setDataDetail={setDataDetail}
-            setDataId={setDataId}
-            setTypeData={setTypeData}
-          />
-        )}
-        {section === "reservas" && <Reservas
-        setIsOpenDetalle={setIsOpenDetalle}
-            setDataDetail={setDataDetail}
-            setDataId={setDataId}
-            setTypeData={setTypeData}
-        />}
-        {section === "reviews" && <ReviewAdmin />}
-        {section === "usuarios" && (
-          <Usuarios
-            setIsOpenDetalle={setIsOpenDetalle}
-            setDataDetail={setDataDetail}
-            setDataId={setDataId}
-            setTypeData={setTypeData}
-          />
-        )}
-        {section === "habitaciones" && <Habitaciones />}
-        {
-          //CLIENTES
-          section === "clientes" && (
-            <main className="">
-              {isOpenForm && (
-                <div className=" z-50 bg-black p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto">
-                  <Form
-                    estado={isOpenForm}
-                    PutForm={PutForm}
-                    cambiarEstado={setIsOpenForm}
-                    documento={doc}
-                    setDoc={setDoc}
-                  />
-                </div>
-              )}
     <TabGroup className="mt-6">
       <TabList>
         <Tab>Ingresos</Tab>
@@ -483,12 +396,12 @@ procesarReservas()
             <Card>
             
             <Text>Sales</Text>
-    <Metric>$ 71,465</Metric>
+    <Metric>{ingresoTotal}</Metric>
     <Flex className="mt-4">
-      <Text>32% of annual target</Text>
-      <Text>$ 225,000</Text>
+      <Text>{porcentajeIngreso}% del objetivo anual</Text>
+      <Text>$ 200,000</Text>
     </Flex>
-    <ProgressBar value={32} className="mt-2" />
+    <ProgressBar value={porcentajeIngreso} className="mt-2" />
     <div className="h-2" />    
             </Card>
             <Card>
@@ -537,7 +450,7 @@ procesarReservas()
           <Title>Ingresos por habitacion 2023</Title>
           <DonutChart
       className="mt-6"
-      data={habitaciones_ingresos}
+      data={chartHabitaciones}
       category="ingresos"
       index="name"
       colors={["slate", "violet", "indigo", "rose", "cyan", "amber"]}
@@ -545,12 +458,12 @@ procesarReservas()
   
   <Card>
   <BarChart
-      className="mt-6"
-      data={habitaciones_ingresos}
+      className="mt-6 "
+      data={chartHabitaciones}
       index="name"
       categories={["ingresos"]}
       colors={["blue"]}
-      yAxisWidth={48}
+      yAxisWidth={56}
     />
   </Card>
   
@@ -562,6 +475,12 @@ procesarReservas()
   </main>
   
      )}
+        {
+section === "reviews" && ( 
+
+<ReviewAdmin/>
+)
+}
        {
 section === "Tipos" && ( 
 
@@ -571,7 +490,7 @@ section === "Tipos" && (
      {
 section === "reservas" && ( 
 
-<Reservas/>
+<Reservas setIsOpenDetalle={setIsOpenDetalle} setDataDetail={setDataDetail} setDataId={setDataId} setTypeData={setTypeData}/>
 )
 }
 {
