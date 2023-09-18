@@ -145,7 +145,8 @@ return(
           <TableHeaderCell>Id</TableHeaderCell>
           <TableHeaderCell>Tipo</TableHeaderCell>
           <TableHeaderCell>Subtipo</TableHeaderCell>
-          
+          <TableHeaderCell>USD</TableHeaderCell>
+          <TableHeaderCell>Detalle</TableHeaderCell>
 </TableRow>
 </TableHead>
 <TableBody >
@@ -160,14 +161,16 @@ return(
             <TableCell>
               <Text>{item.subTipo}</Text>
             </TableCell>
+            <TableCell>
+              <Text>{item.precio}</Text>
+            </TableCell>
             
  <TableCell >
  <DescriptionOutlinedIcon className='cursor-pointer' onClick={() =>{
     setIsOpenDetalle(true)
     setDataDetail(item)
     setDataId(item.id)
-    setTypeData('habitaciones/detalle/put')
-    action = {fetchData}
+    setTypeData('habitaciones')
     }}/>
 
  {/* <div className='flex inline-flex'>
