@@ -6,7 +6,7 @@ import DashDetalle from './DashDetalle';
 import Form from './DashForm';
 import Usuarios from './DashUsuarios';
 import Habitaciones from './DashHabitaciones';
-import { GetClientes, PutClientes } from '../../redux/actions';
+import { GetClientes, GetUsers, PutClientes } from '../../redux/actions';
 import axios from 'axios';
 import Reservas from './Reservas';
 import { IconId } from '@tabler/icons-react';
@@ -31,7 +31,14 @@ const dispatch = useDispatch()
   const [doc, setDoc] = useState("")//esto deberia guardar el documento
   const clientes = useSelector((state) => state.clientes);
  const [habitaciones, setHabitaciones] = useState([])
-
+ const users = useSelector((state) => state.users);
+ useEffect(() => {
+  const fetchData = async () => {
+    await dispatch(GetUsers());
+  };
+  fetchData();
+  setIsOpenDetalle(false)
+}, [dispatch]);
 useEffect(() => {
   const fetchData = async()=>{
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle`)
@@ -170,6 +177,7 @@ habsDetalle.forEach(h => {
 
 procesarReservas()
   console.log(habitaciones_ingresos);
+
   const toggleMenuDetalle = () => {
     setIsOpenDetalle(!isOpenDetalle);
    // setDoc(document)
@@ -223,7 +231,8 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
    console.error(error)
   } 
   }
- 
+ const porcentajeClientes = Math.floor( (clientes.length / 1000) * 100)
+ const porcentajeUsers = Math.floor( (users.length / 1000) * 100)
   const chartdata = [
     {
       date: "Enero-Abril",
@@ -395,7 +404,7 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
           <Grid numItemsMd={2} numItemsLg={3} className="gap-6 mt-6">
             <Card>
             
-            <Text>Sales</Text>
+            <Text>Ingreso bruto</Text>
     <Metric>{ingresoTotal}</Metric>
     <Flex className="mt-4">
       <Text>{porcentajeIngreso}% del objetivo anual</Text>
@@ -406,23 +415,23 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
             </Card>
             <Card>
             
-            <Text>Sales</Text>
-    <Metric>$ 71,465</Metric>
+            <Text>Clientes</Text>
+    <Metric>{clientes.length}</Metric>
     <Flex className="mt-4">
-      <Text>32% of annual target</Text>
-      <Text>$ 225,000</Text>
+      <Text>{porcentajeClientes}% del objetivo anual</Text>
+      <Text>1000</Text>
     </Flex>
-    <ProgressBar value={32} className="mt-2" />
+    <ProgressBar value={porcentajeClientes} className="mt-2" />
     <div className="h-2" />
             </Card>
             <Card>
-            <Text>Sales</Text>
-    <Metric>$ 71,465</Metric>
+            <Text>Usuarios</Text>
+    <Metric>{users.length}</Metric>
     <Flex className="mt-4">
-      <Text>32% of annual target</Text>
-      <Text>$ 225,000</Text>
+      <Text>{porcentajeUsers}% del objetivo anual</Text>
+      <Text>{1000}</Text>
     </Flex>
-    <ProgressBar value={32} className="mt-2" />
+    <ProgressBar value={porcentajeUsers} className="mt-2" />
               <div className="h-2" />
             </Card>
 
