@@ -31,6 +31,8 @@ const dispatch = useDispatch()
   const [doc, setDoc] = useState("")//esto deberia guardar el documento
   const clientes = useSelector((state) => state.clientes);
  const [habitaciones, setHabitaciones] = useState([])
+ const name = useSelector((state) => state.auth.displayName);
+ const imageOfProfile = useSelector((state) => state.auth.photoURL);
 
 useEffect(() => {
   const fetchData = async()=>{
@@ -277,13 +279,13 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
           </h1>
           <div id="profile" className="space-y-3">
             <img
-              src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+              src={imageOfProfile}
               alt="Avatar user"
               className="w-10 md:w-16 rounded-full mx-auto"
             />
             <div>
               <h2 className="font-medium text-xs md:text-sm text-center text-teal-500">
-                Eduard Pantazi
+                {name}
               </h2>
               <p className="text-xs text-gray-500 text-center">Administrator</p>
             </div>

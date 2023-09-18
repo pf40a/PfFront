@@ -205,7 +205,11 @@ const DashboardUser = () => {
               ""
             )}
             {showDate && <MisDatos />}
-            {showDashboard && <DashboardComponent />}
+            {showDashboard && <DashboardComponent 
+            check={handleShowCheck}
+            datos={handleShowDates}
+            reserve={handleShowRerves}
+            reviews={handleShowReviews} />}
             {showReviews && <ShowsReviews />}
             {showCheck ? <CheckReserva /> : ""}
           </div>
