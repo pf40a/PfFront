@@ -48,7 +48,6 @@ function App() {
     const currentPath = window.location.pathname;
     setShowLayout(
       currentPath !== "/error" &&
-        currentPath !== "/reserve" &&
         currentPath !== "/recover" &&
         currentPath !== "/mercadopago"
     );
