@@ -125,7 +125,7 @@ const MisDatos = () => {
   // Funcion para guardar los cambios o eliminar la cuenta
   const onSubmit = async (event) => {
     event.preventDefault();
-    console.log(event.nativeEvent.submitter.name)
+    // console.log(event.nativeEvent.submitter.name)
 
     setIsDirty([false, false, false]);
     setShowEmailField(false);
@@ -206,7 +206,7 @@ const MisDatos = () => {
 
             <Grid item xs={12} sx={{ mr: 2 }}>
               <TextField
-                label={nombres || "Sin nombre"}
+                label={nombres || ""}
                 type="text"
                 placeholder="Nombre"
                 fullWidth
@@ -226,7 +226,7 @@ const MisDatos = () => {
 
             <Grid item xs={12} sx={{ mr: 2 }}>
               <TextField
-                label={apellidos || "Sin apellido"}
+                label={apellidos || ""}
                 type="text"
                 placeholder="Apellido"
                 fullWidth
