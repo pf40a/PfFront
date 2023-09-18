@@ -19,6 +19,7 @@ import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined
 import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined"
+import ReviewAdmin from './ReviewsAdmin';
 const Sidebar = () => {
 const dispatch = useDispatch()
   const [sidenav, setSidenav] = useState(true);
@@ -87,7 +88,8 @@ const charCliente = {
   segundo: 0,
   tercero:0
 }
-console
+let ingresoTotal = 0
+
 reser.forEach(r => {
   
   if (r.pago_Estado === "approved") {
@@ -117,8 +119,14 @@ reser.forEach(r => {
       });
     }
   }
+
+r.Reserva_Items.forEach(item => {
+  ingresoTotal += item.precio
+});
   }
 });
+let porcentajeIngreso = (ingresoTotal / 200000) * 100
+ingresoTotal = ingresoTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
 const habitaciones_ingresos = [];
 
@@ -204,7 +212,7 @@ procesarReservas()
       }
   });
 */
-
+const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
   //data deberian ser los clientes de las BD
   const PutForm = async(documento, cliente)=>{
     try{  
@@ -388,12 +396,12 @@ procesarReservas()
             <Card>
             
             <Text>Sales</Text>
-    <Metric>$ 71,465</Metric>
+    <Metric>{ingresoTotal}</Metric>
     <Flex className="mt-4">
-      <Text>32% of annual target</Text>
-      <Text>$ 225,000</Text>
+      <Text>{porcentajeIngreso}% del objetivo anual</Text>
+      <Text>$ 200,000</Text>
     </Flex>
-    <ProgressBar value={32} className="mt-2" />
+    <ProgressBar value={porcentajeIngreso} className="mt-2" />
     <div className="h-2" />    
             </Card>
             <Card>
@@ -442,7 +450,7 @@ procesarReservas()
           <Title>Ingresos por habitacion 2023</Title>
           <DonutChart
       className="mt-6"
-      data={habitaciones_ingresos}
+      data={chartHabitaciones}
       category="ingresos"
       index="name"
       colors={["slate", "violet", "indigo", "rose", "cyan", "amber"]}
@@ -450,12 +458,12 @@ procesarReservas()
   
   <Card>
   <BarChart
-      className="mt-6"
-      data={habitaciones_ingresos}
+      className="mt-6 "
+      data={chartHabitaciones}
       index="name"
       categories={["ingresos"]}
       colors={["blue"]}
-      yAxisWidth={48}
+      yAxisWidth={56}
     />
   </Card>
   
@@ -467,6 +475,12 @@ procesarReservas()
   </main>
   
      )}
+        {
+section === "reviews" && ( 
+
+<ReviewAdmin/>
+)
+}
        {
 section === "Tipos" && ( 
 
