@@ -13,7 +13,7 @@ function CheckReserva() {
   //console.log(UsuarioId);
 
   const UsuarioId = useSelector((state) => state.auth.uid);
-  const URL = "https://hotel-oasis.onrender.com";
+  //const URL = "https://hotel-oasis.onrender.com";
 
   const handleCheckIn = async () => {
     try {
@@ -21,15 +21,17 @@ function CheckReserva() {
       setQRValue(null);
       setReservation(null);
       setReview(null);
-      console.log(UsuarioId);
+      //console.log(UsuarioId);
 
       // Obtiene los detalles de la reserva
       const response = await axios.get(
-        `${URL}/hotel/filtros/reservaPorUsuario/${UsuarioId}`
+        `${
+          import.meta.env.VITE_API_URL
+        }/hotel/filtros/reservaPorUsuario/${UsuarioId}`
       );
 
       const data = response.data;
-
+      //console.log(data)
       if (data.data) {
         const reservas = data.data[0];
 
@@ -46,8 +48,10 @@ function CheckReserva() {
           setNroHabitacion(nroHabitaciones);
           setQRValue(reservas.id);
         } else {
-          alert("No se encontró una reserva válida para Check In.");
+          alert("Mensaje: No se encontró una reserva válida para Check In.");
         }
+      } else {
+        return alert ("No hay Reservas")
       }
     } catch (error) {
       return alert("No tiene Reservas");
@@ -61,10 +65,11 @@ function CheckReserva() {
       setReview(null);
 
       // Obtiene los detalles de la reserva
-      const response = await axios.get(
-        `${URL}/hotel/filtros/reservaPorUsuario/${UsuarioId}`
-      );
-
+         const response = await axios.get(
+           `${
+             import.meta.env.VITE_API_URL
+           }/hotel/filtros/reservaPorUsuario/${UsuarioId}`
+         );
       const data = response.data;
 
       if (data.data) {
