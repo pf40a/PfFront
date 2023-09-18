@@ -18,13 +18,12 @@ const people = [
       GitHub:"https://github.com/BACHICAG"
     },
     {
-      name: 'TU NOMBRE AQUI 1',
-      role: 'Front-End Developer',
-      email: 'TU EMAIL AQUI',
-      imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
+      name: "Matias Ezequiel Golubeff",
+      role: "Full Stack Web Developer",
+      email: "matiasgolubeff7@gmail.com ",
+      imageUrl: "/Mati.jpg",
+      linkedin: "https://www.linkedin.com/in/matias-golubeff-b89a17277/",
+      GitHub: "https://github.com/MatiasGolubeff7",
     },
     {
       name: 'TU NOMBRE AQUI 2',
@@ -89,7 +88,7 @@ const people = [
             {people.map((person) => (
               <li key={person.name}>
                 <div className="flex items-center gap-x-6">
-                  <img className="h-40 w-36 rounded-full" src={person.imageUrl} alt="" />
+                  <img className="h-52 w-44 rounded-full" src={person.imageUrl} alt="" />
                   <div>
                     <h3 className="text-base font-semibold leading-7 tracking-tight text-gray-900">{person.name}</h3>
                     <p className="text-sm font-semibold leading-6 text-indigo-600">{person.role}</p>
