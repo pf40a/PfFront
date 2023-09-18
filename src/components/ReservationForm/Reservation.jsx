@@ -116,11 +116,6 @@ const Reservation = () => {
           
         } catch (error) {
           console.log("Error al crear el cliente:", error.response);
-          navigate(
-            `/error?message=${encodeURIComponent(
-              "Hubo un problema en tu formulario"
-            )}`
-          );
         }
       }
 
