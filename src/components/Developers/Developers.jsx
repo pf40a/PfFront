@@ -1,3 +1,6 @@
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
+
 const people = [
   {
     name: "Jose Nicolas Villagra",
@@ -57,12 +60,12 @@ const people = [
     GitHub: "TU GIT HUB AQUI",
   },
   {
-    name: "TU NOMBRE AQUI 6",
-    role: "Back-End Developer",
-    email: "TU EMAIL AQUI",
-    imageUrl: "/logo.jpg",
-    linkedin: "TU LINKEDIN AQUI",
-    GitHub: "TU GIT HUB AQUI",
+    name: "Zubair Ali Lanuscou",
+    role: "Full-stack Developer",
+    email: "zubairalilanuscou@gmail.com",
+    imageUrl: "/zubair.jpg",
+    linkedin: "www.linkedin.com/in/zubair-lanuscou-896375275",
+    GitHub: "https://github.com/ZLanuscou",
   },
 
   // More people...
@@ -82,14 +85,14 @@ const people = [
             {people.map((person) => (
               <li key={person.name}>
                 <div className="flex items-center gap-x-6">
-                  <img className="h-52 w-44 rounded-full" src={person.imageUrl} alt="" />
+                  <img className="h-52 w-44 object-cover rounded-full" src={person.imageUrl} alt="" />
                   <div>
                     <h3 className="text-base font-semibold leading-7 tracking-tight text-gray-900">{person.name}</h3>
                     <p className="text-sm font-semibold leading-6 text-indigo-600">{person.role}</p>
                     <p className="text-sm font-semibold leading-6 text-indigo-600">{person.email}</p>
-                    <a href={person.linkedin} className="text-sm font-semibold leading-6 text-indigo-600">Linkedin</a>
+                    <a href={person.linkedin} className="text-sm font-semibold leading-6 text-indigo-600"><LinkedInIcon /> Linkedin</a>
                     <br />
-                    <a href={person.GitHub} className="text-sm font-semibold leading-6 text-indigo-600">GitHub</a>
+                    <a href={person.GitHub} className="text-sm font-semibold leading-6 text-indigo-600"><GitHubIcon /> GitHub</a>
                   </div>
                 </div>
               </li>

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux';
 import {IconSquareRoundedXFilled} from '@tabler/icons-react'
 
-const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacidad, image }) => {
+const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacidad, image, caracteristica }) => {
   const [roomData, setRoomData] = useState({});
 
 
@@ -33,10 +33,12 @@ const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacida
           {descripcion}
           <span className="text-gray-600 text-sm">
             {/* Esto parece ser información adicional */}
+            
           </span>
         </div>
 
         <div className="flex  mt-2 items-center">
+          
           {/* {Array(5)
             .fill('')
             .map((_, i) => (
@@ -53,6 +55,7 @@ const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacida
             ))} */}
           <span className="ml-2 text-gray-600 text-sm">
             {/* Esto también parece ser información adicional */}
+{caracteristica}
           </span>
         </div>
 

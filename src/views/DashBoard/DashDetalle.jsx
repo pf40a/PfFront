@@ -79,7 +79,7 @@ export default function DashDetalle({ id, data, type, onClose }) {
     } else if (type === "habitaciones") {
       //alert('Habitacion actualizado');
       dispatch(PutTipoHabitacion(id, newData));
-    } else if (type === "reserva") {
+    } else if (type === "reservas") {
       //alert('Habitacion actualizado');
       dispatch(PutReservas(id, newData));
     }
@@ -138,6 +138,8 @@ const handleUploadPhoto =async (e) => {
                 key !== "descripcion" &&
                 key !== "caracteristica" &&
                 key !== "image" &&
+                key !== "Cliente" &&
+                key !== "Reserva_Items" &&
                 key !== "ClienteDocIdentidad" &&
                 key !== "password" && (
                   <div key={key}>
@@ -166,10 +168,7 @@ const handleUploadPhoto =async (e) => {
                           onChange={handleChange}
                           className="block text-lg w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
-                      )) || (key === 'Cliente' && (
-                        Object.keys(newData[key]).map(
-                          (subkey) => <div>{convertirCadena(subkey)}: {newData[key][subkey]}</div>
-                      ))) || (
+                      )) || (
                         <TextInput
                           name={key}
                           value={newData[key]}
@@ -195,7 +194,39 @@ const handleUploadPhoto =async (e) => {
                       value={newData[key]}
                     ></textarea>
                   </div>
-                )) ||
+                )) || (key === 'Cliente' && (
+                  <div className="col-span-1 md:col-span-2" key={key}>
+                    <label htmlFor="">{convertirCadena(key)}</label>
+                    <br />
+                    <div className="border p-2">
+                    {Object.keys(newData[key]).map(
+                    (subkey) => <div>{convertirCadena(subkey)}: {newData[key][subkey]}
+                    </div>
+                    
+                )} </div>                  
+
+                  </div>
+                 )) || (key === 'Reserva_Items' && (
+                  <div className="col-span-2 md:col-span-4" key={key}>
+                    <label htmlFor="">{convertirCadena(key)}</label>
+                    <br />
+                    <div className="p-2 grid gap-2 grid-cols-2">
+                    {newData[key].map((element,index) => (
+                    <div className="border p-2">{Object.keys(element)
+                      .filter(subkey => subkey !== 'id')
+                      .map(
+                      (subkey) => <div>{convertirCadena(subkey)}: {subkey !== 'Habitacion'? JSON.stringify(element[subkey]) : (Object.keys(element[subkey]).map(
+                        (subsubkey) => <div>{convertirCadena(subsubkey)}: {JSON.stringify(element[subkey][subsubkey])}</div>
+                    ))}</div>
+                  )}</div>
+                    
+                    ))
+                  }
+                    </div>
+                                     
+
+                  </div>
+                 )) ||
                 (key == "image" && (
                   <div className="col-span-2 md:col-span-4" key={key}>
                     <label htmlFor="">{convertirCadena(key)}</label>

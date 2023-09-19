@@ -139,7 +139,7 @@ const MercadoPago = ({
           return item.id
         })
         const lengthOfArray = idReserve.length
-        const element = idReserve[lengthOfArray - 1]
+        const element = idReserve[0]
         console.log(element);
         setReserveId(element)
 

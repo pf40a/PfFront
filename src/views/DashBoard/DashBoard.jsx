@@ -6,7 +6,7 @@ import DashDetalle from './DashDetalle';
 import Form from './DashForm';
 import Usuarios from './DashUsuarios';
 import Habitaciones from './DashHabitaciones';
-import { GetClientes, PutClientes } from '../../redux/actions';
+import { GetClientes, GetUsers, PutClientes } from '../../redux/actions';
 import axios from 'axios';
 import Reservas from './Reservas';
 import { IconId } from '@tabler/icons-react';
@@ -31,6 +31,16 @@ const dispatch = useDispatch()
   const [doc, setDoc] = useState("")//esto deberia guardar el documento
   const clientes = useSelector((state) => state.clientes);
  const [habitaciones, setHabitaciones] = useState([])
+ const users = useSelector((state) => state.users);
+ useEffect(() => {
+  const fetchData = async () => {
+    await dispatch(GetUsers());
+  };
+  fetchData();
+  setIsOpenDetalle(false)
+}, [dispatch]);
+ const name = useSelector((state) => state.auth.displayName);
+ const imageOfProfile = useSelector((state) => state.auth.photoURL);
 
 useEffect(() => {
   const fetchData = async()=>{
@@ -125,7 +135,7 @@ r.Reserva_Items.forEach(item => {
 });
   }
 });
-let porcentajeIngreso = (ingresoTotal / 200000) * 100
+let porcentajeIngreso = (ingresoTotal / 800000) * 100
 ingresoTotal = ingresoTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
 const habitaciones_ingresos = [];
@@ -170,6 +180,7 @@ habsDetalle.forEach(h => {
 
 procesarReservas()
   console.log(habitaciones_ingresos);
+
   const toggleMenuDetalle = () => {
     setIsOpenDetalle(!isOpenDetalle);
    // setDoc(document)
@@ -223,7 +234,8 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
    console.error(error)
   } 
   }
- 
+ const porcentajeClientes = Math.floor( (clientes.length / 1000) * 100)
+ const porcentajeUsers = Math.floor( (users.length / 1000) * 100)
   const chartdata = [
     {
       date: "Enero-Abril",
@@ -268,22 +280,20 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
           sidenav ? "" : "transform -translate-x-full"
         }`}
       >
-        <div className="space-y-6 md:space-y-10 mt-10">
-          <h1 className="font-bold text-4xl text-center md:hidden">
-            D<span className="text-teal-600">.</span>
-          </h1>
+        <div className="space-y-6 md:space-y-10 mt-0">
+
           <h1 className="hidden md:block font-bold text-sm md:text-xl text-center">
             Oasis<span className="text-teal-600">.</span>
           </h1>
           <div id="profile" className="space-y-3">
             <img
-              src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+              src={imageOfProfile}
               alt="Avatar user"
               className="w-10 md:w-16 rounded-full mx-auto"
             />
             <div>
               <h2 className="font-medium text-xs md:text-sm text-center text-teal-500">
-                Eduard Pantazi
+                {name}
               </h2>
               <p className="text-xs text-gray-500 text-center">Administrator</p>
             </div>
@@ -395,34 +405,34 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
           <Grid numItemsMd={2} numItemsLg={3} className="gap-6 mt-6">
             <Card>
             
-            <Text>Sales</Text>
+            <Text>Ingreso bruto</Text>
     <Metric>{ingresoTotal}</Metric>
     <Flex className="mt-4">
       <Text>{porcentajeIngreso}% del objetivo anual</Text>
-      <Text>$ 200,000</Text>
+      <Text>$ 800,000</Text>
     </Flex>
     <ProgressBar value={porcentajeIngreso} className="mt-2" />
     <div className="h-2" />    
             </Card>
             <Card>
             
-            <Text>Sales</Text>
-    <Metric>$ 71,465</Metric>
+            <Text>Clientes</Text>
+    <Metric>{clientes.length}</Metric>
     <Flex className="mt-4">
-      <Text>32% of annual target</Text>
-      <Text>$ 225,000</Text>
+      <Text>{porcentajeClientes}% del objetivo anual</Text>
+      <Text>1000</Text>
     </Flex>
-    <ProgressBar value={32} className="mt-2" />
+    <ProgressBar value={porcentajeClientes} className="mt-2" />
     <div className="h-2" />
             </Card>
             <Card>
-            <Text>Sales</Text>
-    <Metric>$ 71,465</Metric>
+            <Text>Usuarios</Text>
+    <Metric>{users.length}</Metric>
     <Flex className="mt-4">
-      <Text>32% of annual target</Text>
-      <Text>$ 225,000</Text>
+      <Text>{porcentajeUsers}% del objetivo anual</Text>
+      <Text>{1000}</Text>
     </Flex>
-    <ProgressBar value={32} className="mt-2" />
+    <ProgressBar value={porcentajeUsers} className="mt-2" />
               <div className="h-2" />
             </Card>
 
@@ -435,8 +445,8 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
             <AreaChart 
             data={chartdata}
             index="date"
-      categories={["ingresos", "clientes"]}
-      colors={["indigo", "cyan"]}
+      categories={["ingresos"]}
+      colors={["indigo"]}
       
       />  
       <div className="h-2 w-96" />
@@ -453,7 +463,7 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
       data={chartHabitaciones}
       category="ingresos"
       index="name"
-      colors={["slate", "violet", "indigo", "rose", "cyan", "amber"]}
+      colors={["slate", "violet", "indigo", "rose", "cyan", "amber", "blue", "emerald", "pink", "rose", "fuchsia", "zinc", "yellow", "lime", ""]}
     />
   
   <Card>
@@ -554,6 +564,7 @@ section === "clientes" && (
 <Table className='h-[60vh]'>
 <TableHead className='bg-white'>
 <TableRow>
+  <TableHeaderCell></TableHeaderCell>
           <TableHeaderCell>Nombre</TableHeaderCell>
           <TableHeaderCell>Documento</TableHeaderCell>
           <TableHeaderCell>Pais</TableHeaderCell>
@@ -564,9 +575,10 @@ section === "clientes" && (
 <TableBody >
   
 {clientes.filter((item)=> handlerSelect(item))
-         .map((item) => (
+         .map((item,i) => (
           <TableRow key={item.doc_Identidad}>
-            <TableCell>{item.nombre}</TableCell>
+            <TableCell><Text>{i+1}</Text></TableCell>
+            <TableCell><Text>{item.nombre}</Text></TableCell>
             <TableCell>
               <Text>{item.doc_Identidad}</Text>
             </TableCell>
@@ -590,7 +602,6 @@ section === "clientes" && (
     setDataDetail(item)
     setDataId(item.doc_Identidad)
     setTypeData('clientes')
-setTypeData
     }}/>
 
                                     {/* <div className='flex inline-flex'>
