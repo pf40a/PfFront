@@ -94,29 +94,29 @@ const RegisterPage = () => {
     dispatch(startCreatingUserWithEmailPassword(updatedFormState)).then(
       async (result) => {
         if (result.ok) {
+          // Creando una copia de updatedFormState
+          const updatedFormStateCopia = { ...updatedFormState };
+
+          // Registro exitoso, actualiza el updatedFormStateCopia con el uid
+          updatedFormStateCopia.id = result.uid;
+
+          // Eliminando el displayName de updatedFormStateCopia
+          delete updatedFormStateCopia.displayName;
+          delete updatedFormStateCopia.password;
+
           //post BD usuario nuevo si este no existe en la BD
           getId(formState.email)
           .then(async (result) => {
             if(result.error){
-              // Creando una copia de updatedFormState
-              const updatedFormStateCopia = { ...updatedFormState };
-
-              // Registro exitoso, actualiza el updatedFormStateCopia con el uid
-              updatedFormStateCopia.id = result.uid;
-
-              // Eliminando el displayName de updatedFormStateCopia
-              delete updatedFormStateCopia.displayName;
-              delete updatedFormStateCopia.password;
-
               try {
                 const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/users`, updatedFormStateCopia );
                 if (response.data) {
-                  console.log("Usuario creado", response.data);
+                  // console.log("Usuario creado", response.data);
                   setShowMessage(true);
                   setShowConfirm(true);
                 }
               } catch (error) {
-                console.error("Error sending data to backend:", error);
+                // console.error("Error sending data to backend:", error);
                 setShowMessage(false);
                 setShowConfirm(false);
               }

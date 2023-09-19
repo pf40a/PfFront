@@ -130,6 +130,9 @@ const Reserve = ({info}) => {
                   <p className="mt-1 text-xs md:text-sm lg:text-base leading-5 text-gray-500">
                     {person.email}
                   </p>
+                  <p className="mt-1 text-xs md:text-sm lg:text-base leading-5 text-gray-500">
+                    ingreso: {person.ingreso}
+                  </p>
                 </div>
               </div>
               <div className=" top-0 right-0 mt-2 md:mt-0">

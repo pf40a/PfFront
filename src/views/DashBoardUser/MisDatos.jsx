@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -14,6 +15,7 @@ import { logoutFirebase } from "../../Firebase/Providers.js";
 
 const MisDatos = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { email } = useSelector((state) => state.auth);
 
@@ -171,11 +173,8 @@ const MisDatos = () => {
     const startLogout = async () => {
       await logoutFirebase();
         dispatch(logout());
+        navigate("/");
     };
-
-    setShowDelete(true);
-    setTimeout(() => { setShowDelete(false); }, 5000);
-    startLogout();
 
     try {
       const response = await axios.delete( `${import.meta.env.VITE_API_URL}/hotel/users/disable/${id}`);

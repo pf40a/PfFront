@@ -77,14 +77,12 @@ const LoginPage = () => {
 
             try {
               const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/users`, newResult );
-            if (response.data) {
-              console.log("Usuario creado", response.data);
-            }
+              if (response.data) {
+                console.log("Usuario creado", response.data);
+              }
             } catch (error) {
               console.error("Error sending data to backend:", error);
             }
-          } else {
-            console.log("Este usuario ya se encuentra registrado en la DB... no se va a volver a guardar");
           }
         });
       }

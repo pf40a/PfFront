@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector,  } from 'react-redux';
 import Detalle from './DashDetalle';
 import Form from './DashForm';
-import { GetUsers, PutUsers } from '../../redux/actions';
+import { GetUsers, PutUsers, GetTiposHabitaciones } from '../../redux/actions';
 import FormUser from './FormUser';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import axios from 'axios';
@@ -18,7 +18,8 @@ function Tipos( {data, toggleMenuDetalle, setIsOpenDetalle, setDataDetail, setDa
     const [doc, setDoc] = useState("")//esto deberia guardar el id
     const [admin, setAdmin] = useState(false)
     const users = useSelector((state) => state.users);
-    const [tipos, setTipos] = useState([])
+    //const [tipos, setTipos] = useState([])
+    const tipos = useSelector((state) => state.habitaciones);
     const toggleMenuForItem = (item) => {
       setMenuState((prevState) => ({
         ...prevState,
@@ -75,16 +76,19 @@ function Tipos( {data, toggleMenuDetalle, setIsOpenDetalle, setDataDetail, setDa
      console.error(error)
     } 
     }
-    const fetchData = async () => {
+
+    /* const fetchData = async () => {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/hotel/habitaciones/detalle`)
          setTipos(res.data.data)
-       };
+       }; */
+
+
     useEffect(() => {
       
-      fetchData();
-      
+      //fetchData();
+      dispatch(GetTiposHabitaciones());
      
-    }, [tipos]);
+    }, []);
 
 return(
 
