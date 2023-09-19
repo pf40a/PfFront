@@ -62,13 +62,13 @@ const people = [
       GitHub:"TU GIT HUB AQUI"
     },
     {
-      name: 'TU NOMBRE AQUI 6',
-      role: 'Back-End Developer',
-      email: 'TU EMAIL AQUI',
+      name: 'Zubair Ali Lanuscou',
+      role: 'Full-stack Developer',
+      email: 'zubairalilanuscou@gmail.com',
       imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
+        '/zubair.jpg',
+      linkedin:"www.linkedin.com/in/zubair-lanuscou-896375275",
+      GitHub:"https://github.com/ZLanuscou"
     },
 
     // More people...

@@ -79,7 +79,7 @@ export default function DashDetalle({ id, data, type, onClose }) {
     } else if (type === "habitaciones") {
       //alert('Habitacion actualizado');
       dispatch(PutTipoHabitacion(id, newData));
-    } else if (type === "reserva") {
+    } else if (type === "reservas") {
       //alert('Habitacion actualizado');
       dispatch(PutReservas(id, newData));
     }
