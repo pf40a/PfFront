@@ -110,6 +110,7 @@ const handleUploadPhoto =async (e) => {
     const urlImagen = await axios.get(
       `${import.meta.env.VITE_API_URL}/hotel/imagen/` + file.name
     )
+    console.log(urlImagen.data)
     if (urlImagen.data) {
       console.log(urlImagen.data)
       //actualizamos la foto

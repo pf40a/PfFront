@@ -1,78 +1,72 @@
 const people = [
-    {
-      name: 'Jose Nicolas Villagra',
-      role: 'Front-End Developer',
-      email: 'villagrajosenicolas@gmail.com',
-      imageUrl:
-        '/developer1.JPG',
-      linkedin:"https://www.linkedin.com/in/jose-nicolas-villagra-83332a242/",
-      GitHub:"https://github.com/NicolasVillagra"
-    },
-    {
-      name: 'Bryan Arley Chica Gutiérrez',
-      role: 'Ingeniero Electrónico - Full Stack Web Developer',
-      email: 'Bryany8@hotmail.com - Bryany899@gmail.com',
-      imageUrl:
-        '/Bryan.jpg',
-      linkedin:"https://www.linkedin.com/in/bryan-arley-chica-gutierrez/",
-      GitHub:"https://github.com/BACHICAG"
-    },
-    {
-      name: "Matias Ezequiel Golubeff",
-      role: "Full Stack Web Developer",
-      email: "matiasgolubeff7@gmail.com ",
-      imageUrl: "/Mati.jpg",
-      linkedin: "https://www.linkedin.com/in/matias-golubeff-b89a17277/",
-      GitHub: "https://github.com/MatiasGolubeff7",
-    },
-    {
-      name: 'TU NOMBRE AQUI 2',
-      role: 'Front-End Developer',
-      email: 'TU EMAIL AQUI',
-      imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
-    },
-    {
-      name: 'Juan Bautista María Beck',
-      role: 'Back-End Developer',
-      email: 'juanbautistabeck@gmail.com',
-      imageUrl:
-        '/FotodeperfilLinkedin.png',
-      linkedin:"www.linkedin.com/in/juan-bautista-maría-beck",
-      GitHub:"https://github.com/JBautistaBeck"
-    },
-    {
-      name: 'TU NOMBRE AQUI 3',
-      role: 'Back-End Developer',
-      email: 'TU EMAIL AQUI',
-      imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI 4",
-      GitHub:"TU GIT HUB AQUI"
-    },
-    {
-      name: 'TU NOMBRE AQUI 5',
-      role: 'Back-End Developer',
-      email: 'TU EMAIL AQUI',
-      imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
-    },
-    {
-      name: 'TU NOMBRE AQUI 6',
-      role: 'Back-End Developer',
-      email: 'TU EMAIL AQUI',
-      imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
-    },
+  {
+    name: "Jose Nicolas Villagra",
+    role: "Front-End Developer",
+    email: "villagrajosenicolas@gmail.com",
+    imageUrl: "/developer1.JPG",
+    linkedin: "https://www.linkedin.com/in/jose-nicolas-villagra-83332a242/",
+    GitHub: "https://github.com/NicolasVillagra",
+  },
+  {
+    name: "Bryan Arley Chica Gutiérrez",
+    role: "Ingeniero Electrónico - Full Stack Web Developer",
+    email: "Bryany8@hotmail.com - Bryany899@gmail.com",
+    imageUrl: "/Bryan.jpg",
+    linkedin: "https://www.linkedin.com/in/bryan-arley-chica-gutierrez/",
+    GitHub: "https://github.com/BACHICAG",
+  },
+  {
+    name: "Matias Ezequiel Golubeff",
+    role: "Full Stack Web Developer",
+    email: "matiasgolubeff7@gmail.com ",
+    imageUrl: "/Mati.jpg",
+    linkedin: "https://www.linkedin.com/in/matias-golubeff-b89a17277/",
+    GitHub: "https://github.com/MatiasGolubeff7",
+  },
+  {
+    name: "TU NOMBRE AQUI 2",
+    role: "Front-End Developer",
+    email: "TU EMAIL AQUI",
+    imageUrl: "/logo.jpg",
+    linkedin: "TU LINKEDIN AQUI",
+    GitHub: "TU GIT HUB AQUI",
+  },
+  {
+    name: "Juan Bautista María Beck",
+    role: "Back-End Developer",
+    email: "juanbautistabeck@gmail.com",
+    imageUrl: "/FotodeperfilLinkedin.png",
+    linkedin: "www.linkedin.com/in/juan-bautista-maría-beck",
+    GitHub: "https://github.com/JBautistaBeck",
+  },
+  {
+    name: "Rocio Cosme Yonemitsu",
+    role: "Back-End Developer",
+    email: "rcosme85@hotmail.com",
+    imageUrl:
+      "https://s3-pf40a.s3.sa-east-1.amazonaws.com/Imagenes-Readme/FOTO-RC-11-2.jpg",
+    linkedin: "https://www.linkedin.com/in/rocio-cosme-yonemitsu",
+    GitHub: "https://github.com/rcosme85",
+  },
+  {
+    name: "TU NOMBRE AQUI 5",
+    role: "Back-End Developer",
+    email: "TU EMAIL AQUI",
+    imageUrl: "/logo.jpg",
+    linkedin: "TU LINKEDIN AQUI",
+    GitHub: "TU GIT HUB AQUI",
+  },
+  {
+    name: "TU NOMBRE AQUI 6",
+    role: "Back-End Developer",
+    email: "TU EMAIL AQUI",
+    imageUrl: "/logo.jpg",
+    linkedin: "TU LINKEDIN AQUI",
+    GitHub: "TU GIT HUB AQUI",
+  },
 
-    // More people...
-  ]
+  // More people...
+];
   
   export default function Developers() {
     return (
