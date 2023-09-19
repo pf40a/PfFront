@@ -30,7 +30,7 @@ const people = [
     },
     {
       name: 'Diego Sierra',
-      role: 'Full Stack Web Developer',
+      role: 'Front-End Developer',
       email: 'diegosierra@cityciudad.com',
       imageUrl:
         '/Diego.jpg',
