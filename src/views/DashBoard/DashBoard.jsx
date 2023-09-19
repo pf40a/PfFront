@@ -280,10 +280,8 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
           sidenav ? "" : "transform -translate-x-full"
         }`}
       >
-        <div className="space-y-6 md:space-y-10 mt-10">
-          <h1 className="font-bold text-4xl text-center md:hidden">
-            D<span className="text-teal-600">.</span>
-          </h1>
+        <div className="space-y-6 md:space-y-10 mt-0">
+
           <h1 className="hidden md:block font-bold text-sm md:text-xl text-center">
             Oasis<span className="text-teal-600">.</span>
           </h1>
