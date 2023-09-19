@@ -556,6 +556,7 @@ section === "clientes" && (
 <Table className='h-[60vh]'>
 <TableHead className='bg-white'>
 <TableRow>
+  <TableHeaderCell></TableHeaderCell>
           <TableHeaderCell>Nombre</TableHeaderCell>
           <TableHeaderCell>Documento</TableHeaderCell>
           <TableHeaderCell>Pais</TableHeaderCell>
@@ -566,9 +567,10 @@ section === "clientes" && (
 <TableBody >
   
 {clientes.filter((item)=> handlerSelect(item))
-         .map((item) => (
+         .map((item,i) => (
           <TableRow key={item.doc_Identidad}>
-            <TableCell>{item.nombre}</TableCell>
+            <TableCell><Text>{i+1}</Text></TableCell>
+            <TableCell><Text>{item.nombre}</Text></TableCell>
             <TableCell>
               <Text>{item.doc_Identidad}</Text>
             </TableCell>
@@ -592,7 +594,6 @@ section === "clientes" && (
     setDataDetail(item)
     setDataId(item.doc_Identidad)
     setTypeData('clientes')
-setTypeData
     }}/>
 
                                     {/* <div className='flex inline-flex'>
