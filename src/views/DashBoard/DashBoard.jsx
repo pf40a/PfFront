@@ -447,8 +447,8 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
             <AreaChart 
             data={chartdata}
             index="date"
-      categories={["ingresos", "clientes"]}
-      colors={["indigo", "cyan"]}
+      categories={["ingresos"]}
+      colors={["indigo"]}
       
       />  
       <div className="h-2 w-96" />
@@ -465,7 +465,7 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
       data={chartHabitaciones}
       category="ingresos"
       index="name"
-      colors={["slate", "violet", "indigo", "rose", "cyan", "amber"]}
+      colors={["slate", "violet", "indigo", "rose", "cyan", "amber", "blue", "emerald", "pink", "rose", "fuchsia", "zinc", "yellow", "lime", ""]}
     />
   
   <Card>
