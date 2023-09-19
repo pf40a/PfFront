@@ -66,16 +66,18 @@ setErrors(err)
   const [isCheckOutCalendarOpen, setIsCheckOutCalendarOpen] = useState(false);
 
   useEffect(() => {
-    if (getLocalStorage("search")) {
-      //console.log('buscando:',getLocalStorage("search"))
-      let searchStart=getLocalStorage("search");
-      ///si la fechaIn es igual o mayor que hoy
-      if (searchStart.fechaIn >= new Date().toISOString().slice(0, 10)) {
-setInputs(getLocalStorage("search"));
-      validate(getLocalStorage("search"));
-      dispatch(searchRooms(getLocalStorage("search")));
+    const searchFromLocalStorage = getLocalStorage("search");
+  
+    if (searchFromLocalStorage) {
+      const searchStart = searchFromLocalStorage.fechaIn;
+      const currentDate = new Date().toISOString().slice(0, 10);
+  
+      if (searchStart > currentDate) {
+        // La fecha del almacenamiento local es igual o mayor que la fecha actual
+        setInputs(searchFromLocalStorage);
+        validate(searchFromLocalStorage);
+        dispatch(searchRooms(searchFromLocalStorage));
       }
-      
     }
   }, [pathname]);
 
