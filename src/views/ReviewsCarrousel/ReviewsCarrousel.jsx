@@ -72,7 +72,7 @@ const ReviewsCarrousel = () => {
   return (
     <div className="mx-auto max-w-2xl lg:max-w-4xl mb-16">
       <div
-        className="p-6 bg-[#16242f] rounded-lg overflow-hidden shadow-xl relative h-96"
+        className="p-6 bg-[#16242f] dark:bg-blue  rounded-lg overflow-hidden shadow-xl relative h-96"
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
       >

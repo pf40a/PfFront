@@ -40,7 +40,7 @@ const people = [
       email: 'juanbautistabeck@gmail.com',
       imageUrl:
         '/FotodeperfilLinkedin.png',
-      linkedin:"www.linkedin.com/in/juan-bautista-maría-beck",
+      linkedin:"https://www.linkedin.com/in/juan-bautista-maría-beck",
       GitHub:"https://github.com/JBautistaBeck"
     },
     {
