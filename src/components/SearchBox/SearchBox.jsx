@@ -49,7 +49,7 @@ setErrors(err)
   return totalError;
 };
 
-  let search = { fechaIn: "", fechaOut: "", adultos: 2, niños: 0, bebes: 0 };
+  let search = { fechaIn: "", fechaOut: "", adultos: 1, niños: 0, bebes: 0 };
 
   const [inputs, setInputs] = useState(search);
   //console.log('IN',inputs)
@@ -67,9 +67,15 @@ setErrors(err)
 
   useEffect(() => {
     if (getLocalStorage("search")) {
-      setInputs(getLocalStorage("search"));
+      //console.log('buscando:',getLocalStorage("search"))
+      let searchStart=getLocalStorage("search");
+      ///si la fechaIn es igual o mayor que hoy
+      if (searchStart.fechaIn >= new Date().toISOString().slice(0, 10)) {
+setInputs(getLocalStorage("search"));
       validate(getLocalStorage("search"));
       dispatch(searchRooms(getLocalStorage("search")));
+      }
+      
     }
   }, [pathname]);
 
