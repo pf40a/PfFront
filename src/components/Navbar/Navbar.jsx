@@ -11,20 +11,20 @@ import Tooltip from '@mui/material/Tooltip';
 import DarkModeToggle from "../DarkMode/DarkMode";
 
 const navegacionAdmin = [
-  { name: "Inicio", href: "/", current: true },
+  { name: "Home", href: "/", current: true },
   { name: "Dashboard", href: "/dashboard", current: true },
-  { name: "Desarrolladores", href: "/developers", current: true },
+  { name: "Developers", href: "/developers", current: true },
 ];
 const invited = [
-  { name: "Inicio", href: "/", current: true },
-  { name: "Contacto", href: "/contact", current: true },
-{ name: "Desarrolladores", href: "/developers", current: true }
+  { name: "Home", href: "/", current: true },
+  { name: "Contact", href: "/contact", current: true },
+{ name: "Developers", href: "/developers", current: true }
 ];
 
 const navegacionUsuario = [
-  { name: "Inicio", href: "/", current: true },
-  { name: "Contacto", href: "/contact", current: true },
-  { name: "Desarrolladores", href: "/developers", current: true },
+  { name: "Home", href: "/", current: true },
+  { name: "Contact", href: "/contact", current: true },
+  { name: "Developers", href: "/developers", current: true },
   { name: "Reservas", href: "/dashboardUser", current: true }
 ];
 function classNames(...classes) {
@@ -58,7 +58,6 @@ const Navbar = () => {
     else if (status === "not-authenticated") {
       setloggedOut(true);
       setIsLoggedIn(false);
-      navigate("/");
     }
     if (loginAdmin === true) {
       setIsAdmin(true);
@@ -71,6 +70,7 @@ const Navbar = () => {
     return async (dispatch) => {
       await logoutFirebase();
       dispatch(logout());
+      navigate("/");
     };
   };
 
