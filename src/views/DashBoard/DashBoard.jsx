@@ -135,7 +135,7 @@ r.Reserva_Items.forEach(item => {
 });
   }
 });
-let porcentajeIngreso = (ingresoTotal / 200000) * 100
+let porcentajeIngreso = (ingresoTotal / 800000) * 100
 ingresoTotal = ingresoTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
 const habitaciones_ingresos = [];
@@ -411,7 +411,7 @@ const chartHabitaciones = habitaciones_ingresos.filter((h) => h.ingresos > 1);
     <Metric>{ingresoTotal}</Metric>
     <Flex className="mt-4">
       <Text>{porcentajeIngreso}% del objetivo anual</Text>
-      <Text>$ 200,000</Text>
+      <Text>$ 800,000</Text>
     </Flex>
     <ProgressBar value={porcentajeIngreso} className="mt-2" />
     <div className="h-2" />    
