@@ -10,7 +10,7 @@ import axios from 'axios';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 
 
-function Reservas(params) {
+function Reservas({setIsOpenDetalle, setDataDetail, setDataId, setTypeData}) {
   
   const dispatch = useDispatch()
     const [selectedStatus, setSelectedStatus] = useState("all");
@@ -43,7 +43,7 @@ function Reservas(params) {
       setSelectedRole(newSelectedRoles);
     };
     const [isOpenForm, setIsOpenForm] = useState(false);
-    const [isOpenDetalle, setIsOpenDetalle] = useState(false);
+    //const [isOpenDetalle, setIsOpenDetalle] = useState(false);
     const toggleMenuDetalle = (id) => {
       setIsOpenDetalle(!isOpenDetalle);
       setDoc(id)
@@ -96,12 +96,12 @@ return(
     <FormHabitacion estado={isOpenForm} /*PutForm={PutForm}*/ cambiarEstado={setIsOpenForm} id={doc} />
       </div>
   )}
-  {isOpenDetalle && (
+  {/* {isOpenDetalle && (
     <div className=" z-50 bg-black p-4 border shadow-lg  backdrop-blur-sm bg-black/70 fixed w-full h-full flex items-center justify-center top-0 left-0  mx-auto"> 
       
       <Detalle estado={isOpenDetalle} cambiarEstado={setIsOpenDetalle} id={doc}/>
       </div>
-  )}
+  )} */}
   <TabGroup className="mt-6 ">
   <TabList>
         <Tab>Reservas</Tab>
@@ -180,7 +180,7 @@ return(
     setIsOpenDetalle(true)
     setDataDetail(item)
     setDataId(item.id)
-    setTypeData('clientes')
+    setTypeData('reservas')
     }}/>
  {/* <div className='flex'>
   <span onClick={() => toggleMenuForItem(item)}>

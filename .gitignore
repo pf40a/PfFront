@@ -13,6 +13,7 @@ dist-ssr
 *.local
 .env
 
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -23,8 +24,4 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
-<<<<<<< HEAD
-*.sw?
-=======
 *.sw
->>>>>>> 0d5cac9ab978d84a3dfae44d9465d9d162fbf2a0
