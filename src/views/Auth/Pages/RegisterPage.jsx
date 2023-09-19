@@ -12,7 +12,6 @@ import { registerUserWithEmailPassword } from "../../../Firebase/Providers";
 const formData = { nombre: "", apellido: "", email: "", password: "" };
 
 const formValidations = {
-
   nombre: [(value) => value.trim() !== "", "Este campo es obligatorio"],
 
   apellido: [(value) => value.trim() !== "", "Este campo es obligatorio"],
@@ -33,25 +32,17 @@ const formValidations = {
 };
 
 const RegisterPage = () => {
-
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
   const [showMessage, setShowMessage] = useState(false);
-
   const [showConfirm, setShowConfirm] = useState(false);
-
   const [formSubmitted, setFormSubmitted] = useState(false);
-
   const { status, errorMessage } = useSelector((state) => state.auth);
-
   const isCheckingAuthentication = useMemo( () => status === "checking", [status] );
 
   const {
-    nombre, nombreValid, apellido, apellidoValid,
-    email, emailValid, password, passwordValid,
-    onInputChange, isFormValid, formState,
+    nombre, nombreValid, apellido, apellidoValid, email, emailValid,
+    password, passwordValid, onInputChange, isFormValid, formState,
   } = useForm(formData, formValidations);
 
   useEffect(() => {
@@ -64,13 +55,11 @@ const RegisterPage = () => {
     window.location.reload();
   };
 
-  const startCreatingUserWithEmailPassword = ({ email, password, nombre, apellido }) => {
-
+  const startCreatingUserWithEmailPassword = ({ email, password, nombre, apellido, }) => {
     return async (dispatch) => {
-
       const displayName = `${nombre} ${apellido}`;
 
-      const result = await registerUserWithEmailPassword({ email, password, displayName });
+      const result = await registerUserWithEmailPassword({ email, password, displayName, });
 
       if (!result.ok) return dispatch(logout(result.errorMessage));
 
@@ -80,6 +69,15 @@ const RegisterPage = () => {
 
       return result;
     };
+  };
+
+  const getId = async (correo) => {
+    try {
+      const userId = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/users/login`, { email: correo });
+      return userId.data;
+    } catch (error) {
+      return { msg: "Error obteniendo los datos del backend: ", error };
+    }
   };
 
   const onSubmit = async (event) => {
@@ -93,11 +91,9 @@ const RegisterPage = () => {
       displayName: `${formState.nombre} ${formState.apellido}`,
     };
 
-    dispatch(startCreatingUserWithEmailPassword(updatedFormState))
-    .then( async (result) => {
-
+    dispatch(startCreatingUserWithEmailPassword(updatedFormState)).then(
+      async (result) => {
         if (result.ok) {
-
           // Creando una copia de updatedFormState
           const updatedFormStateCopia = { ...updatedFormState };
 
@@ -108,19 +104,24 @@ const RegisterPage = () => {
           delete updatedFormStateCopia.displayName;
           delete updatedFormStateCopia.password;
 
-          //post BD usuario nuevo
-          try {
-            const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/users`, updatedFormStateCopia );
-            if (response.data) {
-              console.log("Usuario creado", response.data);
-              setShowMessage(true);
-              setShowConfirm(true);
+          //post BD usuario nuevo si este no existe en la BD
+          getId(formState.email)
+          .then(async (result) => {
+            if(result.error){
+              try {
+                const response = await axios.post( `${import.meta.env.VITE_API_URL}/hotel/users`, updatedFormStateCopia );
+                if (response.data) {
+                  // console.log("Usuario creado", response.data);
+                  setShowMessage(true);
+                  setShowConfirm(true);
+                }
+              } catch (error) {
+                // console.error("Error sending data to backend:", error);
+                setShowMessage(false);
+                setShowConfirm(false);
+              }
             }
-          } catch (error) {
-            console.error("Error sending data to backend:", error);
-            setShowMessage(false);
-            setShowConfirm(false);
-          }
+          });
         }
       }
     );
@@ -225,7 +226,6 @@ const RegisterPage = () => {
           </Grid>
 
           <Grid container justifyContent="space-between" alignItems="center">
-
             <Grid item>
               <Typography color="#111E26">
                 ¿Ya tienes cuenta?{" "}
@@ -246,7 +246,6 @@ const RegisterPage = () => {
                 </Link>
               </Grid>
             )}
-
           </Grid>
         </Grid>
       </form>

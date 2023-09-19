@@ -10,6 +10,7 @@ import AboutUs from "../AboutUs/AboutUs";
 import ReviewsCarrousel from "../ReviewsCarrousel/ReviewsCarrousel";
 
 import CorreoForm from "../../components/ContactForm/CorreoForm";
+import FooterComponent from "../../components/FooterComponent/FooterComponent";
 
 const Home = () => {
   const [data, setData] = useState([]);
@@ -140,7 +141,7 @@ const Home = () => {
       </div>
       <AboutUs />
       <ReviewsCarrousel />
-      <div></div>
+      <FooterComponent/>
     </div>
   );
 };

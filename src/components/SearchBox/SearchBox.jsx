@@ -49,7 +49,7 @@ setErrors(err)
   return totalError;
 };
 
-  let search = { fechaIn: "", fechaOut: "", adultos: 2, niños: 0, bebes: 0 };
+  let search = { fechaIn: "", fechaOut: "", adultos: 1, niños: 0, bebes: 0 };
 
   const [inputs, setInputs] = useState(search);
   //console.log('IN',inputs)
@@ -66,10 +66,18 @@ setErrors(err)
   const [isCheckOutCalendarOpen, setIsCheckOutCalendarOpen] = useState(false);
 
   useEffect(() => {
-    if (getLocalStorage("search")) {
-      setInputs(getLocalStorage("search"));
-      validate(getLocalStorage("search"));
-      dispatch(searchRooms(getLocalStorage("search")));
+    const searchFromLocalStorage = getLocalStorage("search");
+  
+    if (searchFromLocalStorage) {
+      const searchStart = searchFromLocalStorage.fechaIn;
+      const currentDate = new Date().toISOString().slice(0, 10);
+  
+      if (searchStart > currentDate) {
+        // La fecha del almacenamiento local es igual o mayor que la fecha actual
+        setInputs(searchFromLocalStorage);
+        validate(searchFromLocalStorage);
+        dispatch(searchRooms(searchFromLocalStorage));
+      }
     }
   }, [pathname]);
 
@@ -102,9 +110,9 @@ setErrors(err)
   }
 
   return (
-    <div className="mx-auto -mt-4 ">
+    <div className="mx-auto -mt-4">
       <form onSubmit={handleSubmit}>
-        <div className="search-form bg-Secondary p-2 rounded-md shadow-md text-center md:text-left flex flex-col md:flex-row items-center justify-center gap-2 md:gap-8 md:items-end md:justify-between  align-bottom md:p-4 dark:bg-[#b0905f]">
+        <div className="search-form bg-Secondary p-2 rounded-md shadow-md text-center md:text-left flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 lg:gap-8 md:items-end md:justify-between  align-bottom md:p-4 dark:bg-[#84550f]">
           <div className="flex flex-col">
             <label className="dark:text-white">Fecha de Ingreso:</label>
             <DatePicker

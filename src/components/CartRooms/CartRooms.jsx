@@ -3,6 +3,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 import Modal from "react-modal";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function CartRooms({
   state,
@@ -15,6 +17,12 @@ export default function CartRooms({
   decreaseQuantity,
   showBooking,
 }) {
+
+  ///si no esta logueado se envia a la pagina de login
+  const { status, photoURL } = useSelector((state) => state.auth);
+  const loginAdmin = useSelector((state) => state.auth.admin);
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(state);
   const [totalPrice, setTotalPrice] = useState(0);
   const [products, setProducts] = useState(arrayRooms);
@@ -32,6 +40,15 @@ export default function CartRooms({
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const openReserva = () => {
+if(status === "authenticated"){
+  navigate('/reserve')
+}else{
+  alert('Necesitas primero Iniciar Sesión')
+  navigate('/login')
+}
+  }
 
   useEffect(() => {
     setProducts(arrayRooms);
@@ -156,13 +173,13 @@ export default function CartRooms({
                                       <p className="text-gray-500">
                                         Cnt {product.quantity}
                                       </p>
-                                      <div className="flex">
+                                      <div className="flex gap-10">
                                         <button
                                           onClick={() =>
                                             handleIncreaseQuantity(product.id)
                                           } // Aumentar quantity
                                           type="button"
-                                          className="font-medium text-indigo-600 hover:text-indigo-500"
+                                          className="text-xl text-indigo-600 hover:text-indigo-500"
                                         >
                                           +
                                         </button>
@@ -171,7 +188,7 @@ export default function CartRooms({
                                             decreaseQuantity(product.id)
                                           } // Disminuir quantity
                                           type="button"
-                                          className="font-medium text-indigo-600 hover:text-indigo-500"
+                                          className="text-xl text-indigo-600 hover:text-indigo-500"
                                         >
                                           -
                                         </button>
@@ -203,12 +220,13 @@ export default function CartRooms({
                         Los impuestos estan incluidos.
                       </p>
                       <div className="mt-6">
-                        <NavLink
-                          to="/reserve"
+                        <button
+                          
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 w-full"
+                          onClick={openReserva}
                         >
-                          Reserver
-                        </NavLink>
+                          Reservar
+                        </button>
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>

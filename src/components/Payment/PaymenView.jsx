@@ -3,13 +3,13 @@ import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux';
 import {IconSquareRoundedXFilled} from '@tabler/icons-react'
 
-const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacidad, image }) => {
+const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacidad, image, caracteristica }) => {
   const [roomData, setRoomData] = useState({});
 
 
   return (
     <div id={id} className="bg-white mx-auto max-w-sm border border-gray-300 rounded-lg overflow-hidden">
-      <div class="text-right pr-2">
+      <div className="text-right pr-2">
       <button className="border-red right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8" onClick={close}><IconSquareRoundedXFilled /></button>  
       </div>
       
@@ -33,10 +33,12 @@ const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacida
           {descripcion}
           <span className="text-gray-600 text-sm">
             {/* Esto parece ser información adicional */}
+            
           </span>
         </div>
 
         <div className="flex  mt-2 items-center">
+          
           {/* {Array(5)
             .fill('')
             .map((_, i) => (
@@ -53,6 +55,7 @@ const PaymenView = ({ close, id, tipo_Habitacion, subTipo, descripcion, capacida
             ))} */}
           <span className="ml-2 text-gray-600 text-sm">
             {/* Esto también parece ser información adicional */}
+{caracteristica}
           </span>
         </div>
 

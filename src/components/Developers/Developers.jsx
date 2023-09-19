@@ -1,3 +1,6 @@
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
+
 const people = [
     {
       name: 'Jose Nicolas Villagra',
@@ -9,31 +12,30 @@ const people = [
       GitHub:"https://github.com/NicolasVillagra"
     },
     {
-      name: 'TU NOMBRE AQUI',
-      role: 'Front-End Developer',
-      email: 'TU EMAIL AQUI',
+      name: 'Bryan Arley Chica Gutiérrez',
+      role: 'Ingeniero Electrónico - Full Stack Web Developer',
+      email: 'Bryany8@hotmail.com - Bryany899@gmail.com',
       imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
+        '/Bryan.jpg',
+      linkedin:"https://www.linkedin.com/in/bryan-arley-chica-gutierrez/",
+      GitHub:"https://github.com/BACHICAG"
     },
     {
-      name: 'TU NOMBRE AQUI',
-      role: 'Front-End Developer',
-      email: 'TU EMAIL AQUI',
-      imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
+      name: "Matias Ezequiel Golubeff",
+      role: "Full Stack Web Developer",
+      email: "matiasgolubeff7@gmail.com ",
+      imageUrl: "/Mati.jpg",
+      linkedin: "https://www.linkedin.com/in/matias-golubeff-b89a17277/",
+      GitHub: "https://github.com/MatiasGolubeff7",
     },
     {
-      name: 'TU NOMBRE AQUI',
+      name: 'Diego Sierra',
       role: 'Front-End Developer',
-      email: 'TU EMAIL AQUI',
+      email: 'diegosierra@cityciudad.com',
       imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
+        '/Diego.jpg',
+      linkedin:"https://www.linkedin.com/in/diego-sierra-398627227/",
+      GitHub:"https://github.com/diegosierra-city"
     },
     {
       name: 'Juan Bautista María Beck',
@@ -45,7 +47,16 @@ const people = [
       GitHub:"https://github.com/JBautistaBeck"
     },
     {
-      name: 'TU NOMBRE AQUI',
+      name: 'TU NOMBRE AQUI 3',
+      role: 'Back-End Developer',
+      email: 'TU EMAIL AQUI',
+      imageUrl:
+        '/logo.jpg',
+      linkedin:"TU LINKEDIN AQUI 4",
+      GitHub:"TU GIT HUB AQUI"
+    },
+    {
+      name: 'TU NOMBRE AQUI 5',
       role: 'Back-End Developer',
       email: 'TU EMAIL AQUI',
       imageUrl:
@@ -54,22 +65,13 @@ const people = [
       GitHub:"TU GIT HUB AQUI"
     },
     {
-      name: 'TU NOMBRE AQUI',
-      role: 'Back-End Developer',
-      email: 'TU EMAIL AQUI',
+      name: 'Zubair Ali Lanuscou',
+      role: 'Full-stack Developer',
+      email: 'zubairalilanuscou@gmail.com',
       imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
-    },
-    {
-      name: 'TU NOMBRE AQUI',
-      role: 'Back-End Developer',
-      email: 'TU EMAIL AQUI',
-      imageUrl:
-        '/logo.jpg',
-      linkedin:"TU LINKEDIN AQUI",
-      GitHub:"TU GIT HUB AQUI"
+        '/zubair.jpg',
+      linkedin:"www.linkedin.com/in/zubair-lanuscou-896375275",
+      GitHub:"https://github.com/ZLanuscou"
     },
 
     // More people...
@@ -89,13 +91,14 @@ const people = [
             {people.map((person) => (
               <li key={person.name}>
                 <div className="flex items-center gap-x-6">
-                  <img className="h-40 w-36 rounded-full" src={person.imageUrl} alt="" />
+                  <img className="h-52 w-44 object-cover rounded-full" src={person.imageUrl} alt="" />
                   <div>
                     <h3 className="text-base font-semibold leading-7 tracking-tight text-gray-900">{person.name}</h3>
                     <p className="text-sm font-semibold leading-6 text-indigo-600">{person.role}</p>
                     <p className="text-sm font-semibold leading-6 text-indigo-600">{person.email}</p>
-                    <p className="text-sm font-semibold leading-6 text-indigo-600">{person.linkedin}</p>
-                    <p className="text-sm font-semibold leading-6 text-indigo-600">{person.GitHub}</p>
+                    <a href={person.linkedin} className="text-sm font-semibold leading-6 text-indigo-600"><LinkedInIcon /> Linkedin</a>
+                    <br />
+                    <a href={person.GitHub} className="text-sm font-semibold leading-6 text-indigo-600"><GitHubIcon /> GitHub</a>
                   </div>
                 </div>
               </li>

@@ -133,7 +133,7 @@ return(
   </div>
 <Card >
 <Title>Lista de usuarios</Title>
-<Table>
+<Table className='h-[70vh]'>
 <TableHead>
 <TableRow>
   <TableHeaderCell></TableHeaderCell>

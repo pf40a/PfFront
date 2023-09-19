@@ -83,7 +83,7 @@ const Reserve = ({info}) => {
         );
         const response = reserveRequest.data.data;
         const filterData = response.filter((item) => item.UsuarioId === idDb);
-        console.log(filterData);
+        // console.log(filterData);
         const dataCliente = filterData.map((item) => {
           return {
             id:item.id,
@@ -104,16 +104,16 @@ const Reserve = ({info}) => {
     fetchData();
   }, []);
 
-  console.log(state);
+  // console.log(state);
 
 
   return (
     <>
     <div className="relative">
         <div>
-          <h1 className="text-2xl md:text-3xl lg:text-4xl">Mis Reservas</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl dark:text-white">Mis Reservas</h1>
         </div>
-        <ul role="list" className="divide-y divide-gray-100">
+        <ul role="list" className="bg-white rounded-3xl divide-y divide-gray-100">
           {state.map((person) => (
             <li
               key={person.id}
@@ -129,6 +129,9 @@ const Reserve = ({info}) => {
                   <p className="text-sm font-semibold md:text-base lg:text-lg leading-6 text-gray-900">{`${person.nombre}  ${person.apellido}`}</p>
                   <p className="mt-1 text-xs md:text-sm lg:text-base leading-5 text-gray-500">
                     {person.email}
+                  </p>
+                  <p className="mt-1 text-xs md:text-sm lg:text-base leading-5 text-gray-500">
+                    ingreso: {person.ingreso}
                   </p>
                 </div>
               </div>

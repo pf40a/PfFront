@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -14,6 +15,7 @@ import { logoutFirebase } from "../../Firebase/Providers.js";
 
 const MisDatos = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { email } = useSelector((state) => state.auth);
 
@@ -125,7 +127,7 @@ const MisDatos = () => {
   // Funcion para guardar los cambios o eliminar la cuenta
   const onSubmit = async (event) => {
     event.preventDefault();
-    console.log(event.nativeEvent.submitter.name)
+    // console.log(event.nativeEvent.submitter.name)
 
     setIsDirty([false, false, false]);
     setShowEmailField(false);
@@ -171,11 +173,8 @@ const MisDatos = () => {
     const startLogout = async () => {
       await logoutFirebase();
         dispatch(logout());
+        navigate("/");
     };
-
-    setShowDelete(true);
-    setTimeout(() => { setShowDelete(false); }, 5000);
-    startLogout();
 
     try {
       const response = await axios.delete( `${import.meta.env.VITE_API_URL}/hotel/users/disable/${id}`);
@@ -206,7 +205,7 @@ const MisDatos = () => {
 
             <Grid item xs={12} sx={{ mr: 2 }}>
               <TextField
-                label={nombres || "Sin nombre"}
+                label={nombres || ""}
                 type="text"
                 placeholder="Nombre"
                 fullWidth
@@ -226,7 +225,7 @@ const MisDatos = () => {
 
             <Grid item xs={12} sx={{ mr: 2 }}>
               <TextField
-                label={apellidos || "Sin apellido"}
+                label={apellidos || ""}
                 type="text"
                 placeholder="Apellido"
                 fullWidth

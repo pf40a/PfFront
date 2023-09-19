@@ -222,7 +222,7 @@ const SearchRoom = () => {
     localStorage.setItem("rooms", JSON.stringify(updatedReserve));
   };
 
-  console.log(roomsLocal);
+  // console.log(roomsLocal);
   //---------PARA QUE NO SE AGREGUE UNA CARD REPETIDO-------------//
 
   ///Paginado - Filtros - Orden
@@ -300,7 +300,7 @@ const SearchRoom = () => {
                   leaveFrom="translate-x-0"
                   leaveTo="translate-x-full"
                 >
-                  <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
+                  <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl " >
                     <div className="flex items-center justify-between px-4">
                       <h2 className="text-lg font-medium text-gray-900 dark:text-white">
                         Filtros
@@ -316,7 +316,7 @@ const SearchRoom = () => {
                     </div>
 
                     {/* Filters */}
-                    <form className="mt-4 border-t border-gray-200">
+                    <form className="mt-4 border-t border-gray-200   z-10">
                       <h3 className="sr-only">Categories</h3>
                       <ul
                         role="list"
@@ -399,7 +399,7 @@ const SearchRoom = () => {
             <div className="flex mt-10 md:mt-20">
               <SearchBox />
             </div>
-            <div className="flex flex-col md:flex-row items-center md:items-baseline justify-between border-b border-gray-200 pb-6 pt-8 md:pt-24 ">
+            <div className="flex gap-10 flex-col md:flex-row items-center md:items-baseline justify-between border-b border-gray-200 pb-6 pt-8 md:pt-24 ">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
                 Habitaciones
               </h1>
@@ -424,8 +424,9 @@ const SearchRoom = () => {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
+                    
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute -right-14 md:right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="p-2">
                         <ul>
                           {sortOptions.map((opcion, index) => (
@@ -502,26 +503,30 @@ const SearchRoom = () => {
                     />
                   </svg>
                 </button>
-                <button
+
+                {/* <button
                   type="button"
                   className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
                 >
                   <span className="sr-only">View grid</span>
                   <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
-                </button>
-                <button
+                </button> */}
+
+
+                {/* <button
                   type="button"
                   className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
                   onClick={() => setMobileFiltersOpen(true)}
                 >
                   <span className="sr-only">Filters</span>
                   <FunnelIcon className="h-5 w-5" aria-hidden="true" />
-                </button>
+                </button> */}
+                
               </div>
             </div>
 
             {/* paginado */}
-            <div className="flex gap-10 mt-4">
+            <div className="flex space-y-4 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0 mt-4">
                 {actualPage > 1 ? (
                   <button
                     onClick={() => paginator(actualPage - 1)}
@@ -635,6 +640,7 @@ const SearchRoom = () => {
                         descripcion={selectedRoom.descripcion} // Asegúrate de pasar los detalles correctos
                         capacidad={selectedRoom.capacidad}
                         image={selectedRoom.image}
+                        caracteristica={selectedRoom.caracteristica}
                       />
                     </div>
                   )}
@@ -642,7 +648,7 @@ const SearchRoom = () => {
               </div>
 
               {/* paginado */}
-              <div className="flex gap-10 mt-4">
+              <div className="flex space-y-4 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0 mt-4 ">
                 {actualPage > 1 ? (
                   <button
                     onClick={() => paginator(actualPage - 1)}
