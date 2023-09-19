@@ -180,7 +180,7 @@ return(
     setIsOpenDetalle(true)
     setDataDetail(item)
     setDataId(item.id)
-    setTypeData('clientes')
+    setTypeData('reservas')
     }}/>
  {/* <div className='flex'>
   <span onClick={() => toggleMenuForItem(item)}>

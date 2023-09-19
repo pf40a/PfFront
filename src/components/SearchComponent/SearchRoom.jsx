@@ -640,6 +640,7 @@ const SearchRoom = () => {
                         descripcion={selectedRoom.descripcion} // Asegúrate de pasar los detalles correctos
                         capacidad={selectedRoom.capacidad}
                         image={selectedRoom.image}
+                        caracteristica={selectedRoom.caracteristica}
                       />
                     </div>
                   )}
