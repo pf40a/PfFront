@@ -27,12 +27,13 @@ const people = [
     GitHub: "https://github.com/MatiasGolubeff7",
   },
   {
-    name: "TU NOMBRE AQUI 2",
-    role: "Front-End Developer",
-    email: "TU EMAIL AQUI",
-    imageUrl: "/logo.jpg",
-    linkedin: "TU LINKEDIN AQUI",
-    GitHub: "TU GIT HUB AQUI",
+    name: 'Diego Sierra',
+      role: 'Front-End Developer',
+      email: 'diegosierra@cityciudad.com',
+      imageUrl:
+        '/Diego.jpg',
+      linkedin:"https://www.linkedin.com/in/diego-sierra-398627227/",
+      GitHub:"https://github.com/diegosierra-city"
   },
   {
     name: "Juan Bautista María Beck",
