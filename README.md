@@ -56,7 +56,7 @@ Este proyecto es una página web full stack desarrollada como proyecto final en 
 
 Este proyecto fue desarrollado utilizando las siguientes tecnologías:
 
-- **Frontend: React, Redux, HTML, CSS**
+- **Frontend: React, Redux, HTML, CSS,TailWind UI**
 - **Backend: Node.js, Express.js**
 - **Base de Datos: PostgreSQL, Sequelize ORM**
 - **Autenticación: Firebase**
