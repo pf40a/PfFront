@@ -266,12 +266,11 @@ const MisDatos = () => {
 
               <Grid item xs={12} sx={{ mt: 2 }}>
                 <TextField
-                  label={correo || "Sin Correo"}
                   type="email"
                   placeholder="example@example.com"
                   fullWidth
                   name="email"
-                  value={correo}
+                  // value=""
                   onChange={handleEmailChange}
                 />
               </Grid>
