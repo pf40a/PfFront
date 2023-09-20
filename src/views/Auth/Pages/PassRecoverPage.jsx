@@ -27,9 +27,8 @@ const PassRecoverPage = () => {
       const userId = await axios.post(
         `${import.meta.env.VITE_API_URL}/hotel/users/login`,
         { email: email }
-      );
-      const { id } = userId.data.data;
-      return id;
+      )
+      return userId.data.data;
     } catch (error) {
       return { msg: "Error obteniendo los datos del backend: ", error };
     }
@@ -44,15 +43,11 @@ const PassRecoverPage = () => {
     try {
       getId().then(async (result) => {
         if (result) {
- 
-          const response = await axios.put( `${import.meta.env.VITE_API_URL}/hotel/users/${result}`, { email: email, password: true } );
+
+          const response = await axios.put( `${import.meta.env.VITE_API_URL}/hotel/users/${result.id}`, { email: email, nombre: result.nombre, apellido: result.apellido, password: true } );
 
           if (response.data) {
             setShowMessage(true);
-            console.log(
-              "Se ha enviado un enlace al email proporcionado para cambiar la contraseña",
-              response.data
-            );
           }
         }
       });
