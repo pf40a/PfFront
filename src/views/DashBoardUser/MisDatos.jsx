@@ -271,7 +271,7 @@ const MisDatos = () => {
                   placeholder="example@example.com"
                   fullWidth
                   name="email"
-                  value={correo}
+                  value=""
                   onChange={handleEmailChange}
                 />
               </Grid>
