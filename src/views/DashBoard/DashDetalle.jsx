@@ -106,17 +106,19 @@ const handleUploadPhoto =async (e) => {
     {headers:{"Content-Type": "multipart/form-data"}}
   )
   if (response) {
-    alert('Respuesta: '+response.data)
+    
     const urlImagen = await axios.get(
       `${import.meta.env.VITE_API_URL}/hotel/imagen/` + file.name
     )
+    //console.log(urlImagen.data)
     if (urlImagen.data) {
-      console.log(urlImagen.data)
+     // console.log(urlImagen.data)
       //actualizamos la foto
       setNewData({ ...newData, image: urlImagen.data });
 //setUrl(urlImagen.data);
 //alert(urlImagen.data)
     }
+  alert('Respuesta: '+response.data)  
     }
   };
   return (
