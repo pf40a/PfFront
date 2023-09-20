@@ -52,12 +52,12 @@ const people = [
     GitHub: "https://github.com/rcosme85",
   },
   {
-    name: "TU NOMBRE AQUI 5",
-    role: "Back-End Developer",
-    email: "TU EMAIL AQUI",
-    imageUrl: "/logo.jpg",
+    name: "Juan Fernando Muñoz",
+    role: "Full-stack Developer",
+    email: "juanmunozvillamizar@gmail.com",
+    imageUrl: "/fotojuan.png",
     linkedin: "TU LINKEDIN AQUI",
-    GitHub: "TU GIT HUB AQUI",
+    GitHub: "https://github.com/JFernandoMunoz",
   },
   {
     name: "Zubair Ali Lanuscou",
