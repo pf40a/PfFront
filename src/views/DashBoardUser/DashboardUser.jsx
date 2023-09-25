@@ -1,7 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import MisDatos from "./MisDatos.jsx";
 import Reserve from "./Reserve";
@@ -10,6 +11,18 @@ import DashboardComponent from "./DashboardComponent.jsx";
 import ShowsReviews from "./ShowsReviews.jsx";
 
 const DashboardUser = () => {
+  const navigate = useNavigate();
+  ///si no esta logueado se envia a la pagina de login
+  const { status, photoURL } = useSelector((state) => state.auth);
+  const loginAdmin = useSelector((state) => state.auth.admin);
+  useEffect(() => {
+    //console.log('AdminStatus:',status,loginAdmin)
+  if (status !== "authenticated") {
+    navigate('/login');
+  }  
+  },[])
+  //
+
   const name = useSelector((state) => state.auth.displayName);
   const imageOfProfile = useSelector((state) => state.auth.photoURL);
   const [sidenav, setSidenav] = useState(true);
