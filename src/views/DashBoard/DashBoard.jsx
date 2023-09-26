@@ -20,7 +20,20 @@ import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined"
 import ReviewAdmin from './ReviewsAdmin';
+import { useNavigate } from "react-router-dom";
+
 const Sidebar = () => {
+  const navigate = useNavigate();
+  ///si no esta logueado se envia a la pagina de login
+  const { status, photoURL } = useSelector((state) => state.auth);
+  const loginAdmin = useSelector((state) => state.auth.admin);
+  useEffect(() => {
+    //console.log('AdminStatus:',status,loginAdmin)
+  if (status !== "authenticated" || !loginAdmin) {
+    navigate('/login');
+  }  
+  },[])  
+  //
 const dispatch = useDispatch()
   const [sidenav, setSidenav] = useState(true);
   const [section, setSection] = useState('dashboard');
